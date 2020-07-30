@@ -32,8 +32,8 @@ namespace TestApi.IntegrationTests.Steps
             var json = await _context.Response.Content.ReadAsStringAsync();
             _response = RequestHelper.DeserialiseSnakeCaseJsonToResponse<HealthCheckResponse>(json);
             _response.Version.Version.Should().NotBeNull();
-            _response.ErrorMessage.Should().BeNullOrWhiteSpace();
-            _response.Successful.Should().BeTrue();
+            _response.TestApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
+            _response.TestApiHealth.Successful.Should().BeTrue();
         }
 
         [Then(@"the user api should be available")]

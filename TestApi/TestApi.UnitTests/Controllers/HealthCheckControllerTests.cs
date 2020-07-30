@@ -66,8 +66,8 @@ namespace TestApi.UnitTests.Controllers
             var typedResult = (ObjectResult)result;
             typedResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
             var response = (HealthCheckResponse)typedResult.Value;
-            response.Successful.Should().BeFalse();
-            response.ErrorMessage.Should().NotBeNullOrWhiteSpace();
+            response.TestApiHealth.Successful.Should().BeFalse();
+            response.TestApiHealth.ErrorMessage.Should().NotBeNullOrWhiteSpace();
         }
 
         [Test]

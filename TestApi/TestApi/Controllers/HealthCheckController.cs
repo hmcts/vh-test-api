@@ -44,12 +44,13 @@ namespace TestApi.Controllers
                 const string username = "health";
                 var query = new GetUserByUsernameQuery(username);
                 await _queryHandler.Handle<GetUserByUsernameQuery, User>(query);
-                response.Successful = true;
+                response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)
             {
-                response.Successful = false;
-                response.ErrorMessage = ex.Message;
+                response.TestApiHealth.Successful = false;
+                response.TestApiHealth.ErrorMessage = ex.Message;
+                response.TestApiHealth.Data = ex.Data;
             }
 
             try
@@ -64,7 +65,7 @@ namespace TestApi.Controllers
                 response.UserApiHealth.Data = ex.Data;
             }
 
-            return response.Successful ? Ok(response) : StatusCode((int)HttpStatusCode.InternalServerError, response);
+            return response.TestApiHealth.Successful ? Ok(response) : StatusCode((int)HttpStatusCode.InternalServerError, response);
         }
 
         private static HealthCheckResponse.ApplicationVersion GetApplicationVersion()
