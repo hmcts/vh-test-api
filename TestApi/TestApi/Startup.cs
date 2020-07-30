@@ -51,6 +51,7 @@ namespace TestApi
 
             services.Configure<AzureAdConfiguration>(options => Configuration.Bind("AzureAd", options));
             services.Configure<ServicesConfiguration>(options => Configuration.Bind("Services", options));
+            services.Configure<UserGroupsConfiguration>(options => Configuration.Bind("UserGroups", options));
 
             services.AddCustomTypes();
 

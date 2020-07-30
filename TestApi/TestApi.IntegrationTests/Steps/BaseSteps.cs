@@ -6,7 +6,7 @@ namespace TestApi.IntegrationTests.Steps
 {
     public abstract class BaseSteps
     {
-        private HttpClient CreateClient(TestServer server, string token)
+        private static HttpClient CreateClient(TestServer server, string token)
         {
             var client = server.CreateClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");

@@ -38,8 +38,8 @@ namespace TestApi.Common.Builders
         {
             var firstname = SetFirstName();
             var lastname = SetLastName();
-            var username = SetUsername();
-            var contactEmail = SetContactEmail();
+            var username = SetUsername(firstname, lastname);
+            var contactEmail = SetContactEmail(firstname, lastname);
 
             return new CreateUserRequest()
             {
@@ -63,27 +63,32 @@ namespace TestApi.Common.Builders
 
         private string SetFirstName()
         {
-            return _userType == UserType.Judge ? $"{_appShortName} Courtroom {_numberText}" : $"{_appShortName}";
+            return $"Auto_{_appShortName}";
         }
 
         private string SetLastName()
         {
-            return _userType == UserType.Judge ? $"Building {_numberText}" : $"{_userType} {_numberText}";
+            return $"{_userType}_{_numberText}";
         }
 
-        private string SetUsername()
+        private string SetUsername(string firstname, string lastname)
         {
-            return $"Auto_{_appShortName}_{_userType}{_numberText}@{_emailStem}";
+            return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{_emailStem}".ToLowerInvariant();
         }
 
-        private string SetContactEmail()
+        private string SetContactEmail(string firstname, string lastname)
         {
-            return $"Auto_{_appShortName}_{_userType}{_numberText}@{ContactEmailStem(_emailStem)}";
+            return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{ContactEmailStem(_emailStem)}".ToLowerInvariant();
         }
 
         private static string GetApplicationShortName(Application application)
         {
             return string.Concat(application.ToString().Where(c => c >= 'A' && c <= 'Z'));
+        }
+
+        private static string ReplaceSpacesWithUnderscores(string text)
+        {
+            return text.Replace(" ", "_");
         }
 
         private static string AddZerosBeforeNumber(int number)

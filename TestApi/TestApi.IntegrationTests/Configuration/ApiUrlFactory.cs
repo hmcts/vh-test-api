@@ -31,6 +31,7 @@ namespace TestApi.IntegrationTests.Configuration
             public static string GetIteratedUserNumber(UserType userType, Application application) => $"{ApiRoot}/iterate/?userType={userType}&application={application}";
             public static string CreateUser => ApiRoot;
             public static string DeleteUser(Guid userId) => $"{ApiRoot}/?userId={userId:D}";
+            public static string CreateAADUser => $"{ApiRoot}/aad";
         }
     }
 }

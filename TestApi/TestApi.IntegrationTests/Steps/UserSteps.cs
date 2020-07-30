@@ -14,6 +14,8 @@ using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.IntegrationTests.Helpers;
+using TestApi.Services.Clients.UserApiClient;
+using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
 
 namespace TestApi.IntegrationTests.Steps
 {
@@ -23,6 +25,7 @@ namespace TestApi.IntegrationTests.Steps
         private readonly TestContext _context;
         private readonly CommonSteps _commonSteps;
         private CreateUserRequest _createUserRequest;
+        private CreateADUserRequest _createAdUserRequest;
 
         public UserSteps(TestContext context, CommonSteps commonSteps)
         {
@@ -104,6 +107,23 @@ namespace TestApi.IntegrationTests.Steps
             _context.HttpMethod = HttpMethod.Delete;
         }
 
+        [Given(@"I have a valid create AD user request")]
+        public void GivenIHaveAValidCreateAadUserRequest()
+        {
+            var userRequest = new UserBuilder(_context.Config.UsernameStem, 99)
+                .WithUserType(UserType.Individual)
+                .ForApplication(Application.TestApi)
+                .BuildRequest();
+
+            _createAdUserRequest = new ADUserBuilder(userRequest).BuildRequest();
+
+            _context.Uri = ApiUriFactory.UserEndpoints.CreateAADUser;
+            _context.HttpMethod = HttpMethod.Post;
+
+            var jsonBody = RequestHelper.SerialiseRequestToSnakeCaseJson(_createAdUserRequest);
+            _context.HttpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        }
+
         [When(@"I send the create user request twice")]
         public async Task WhenISendTheCreateUserRequestTwice()
         {
@@ -152,15 +172,15 @@ namespace TestApi.IntegrationTests.Steps
             var response = await Response.GetResponses<UserDetailsResponse>(_context.Response.Content);
             response.Should().NotBeNull();
             response.Application.Should().Be(Application.TestApi);
-            response.ContactEmail.Should().Contain(userType.ToString());
+            response.ContactEmail.Should().Contain(userType.ToString().ToLower());
             response.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromMinutes(1));
-            response.DisplayName.Should().Contain(userType == UserType.Judge ? "Courtroom" : userType.ToString());
-            response.FirstName.Should().Contain(userType == UserType.Judge ? "Courtroom" : "TA");
+            response.DisplayName.Should().Contain(userType.ToString());
+            response.FirstName.Should().Contain("TA");
             response.Id.Should().NotBeEmpty();
-            response.LastName.Should().Contain(userType == UserType.Judge ? "Building" : userType.ToString());
+            response.LastName.Should().Contain(userType.ToString());
             response.Number.Should().BeGreaterThan(0);
             response.UserType.Should().Be(userType);
-            response.Username.Should().Contain(userType.ToString());
+            response.Username.Should().Contain(userType.ToString().ToLower());
             _context.Test.UserDetailsResponse = response;
         }
 
@@ -199,6 +219,16 @@ namespace TestApi.IntegrationTests.Steps
             var response = await Response.GetResponses<IteratedUserNumberResponse>(_context.Response.Content);
             response.Should().NotBeNull();
             response.Number.Should().BeGreaterThan(0);
+        }
+
+        [Then(@"the details of the new AD user are retrieved")]
+        public async Task ThenTheDetailsOfTheNewADUserAreRetrieved()
+        {
+            var response = await Response.GetResponses<NewUserResponse>(_context.Response.Content);
+            response.Should().NotBeNull();
+            response.User_id.Should().NotBeNullOrWhiteSpace();
+            response.One_time_password.Should().NotBeNullOrWhiteSpace();
+            response.Username.Should().Be(_createAdUserRequest.Username);
         }
     }
 }

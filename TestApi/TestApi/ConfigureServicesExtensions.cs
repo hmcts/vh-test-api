@@ -20,6 +20,7 @@ using TestApi.DAL.Queries.Core;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
+using TestApi.Services.Contracts;
 using TestApi.Swagger;
 using TestApi.Telemetry;
 using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
@@ -90,6 +91,7 @@ namespace TestApi
             services.AddScoped<ICommandHandler, CommandHandler>();
 
             services.AddScoped<IAllocationService, AllocationService>();
+            services.AddScoped<IUserApiService, UserApiService>();
 
             RegisterCommandHandlers(services);
             RegisterQueryHandlers(services);

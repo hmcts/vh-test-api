@@ -12,6 +12,7 @@ namespace TestApi.IntegrationTests.Steps
     public sealed class HealthCheckSteps : BaseSteps
     {
         private readonly TestContext _context;
+        private HealthCheckResponse _response;
 
         public HealthCheckSteps(TestContext context)
         {
@@ -29,10 +30,17 @@ namespace TestApi.IntegrationTests.Steps
         public async Task ThenTheApplicationVersionShouldBeRetrieved()
         {
             var json = await _context.Response.Content.ReadAsStringAsync();
-            var response = RequestHelper.DeserialiseSnakeCaseJsonToResponse<HealthCheckResponse>(json);
-            response.Version.Version.Should().NotBeNull();
-            response.ErrorMessage.Should().BeNullOrWhiteSpace();
-            response.Successful.Should().BeTrue();
+            _response = RequestHelper.DeserialiseSnakeCaseJsonToResponse<HealthCheckResponse>(json);
+            _response.Version.Version.Should().NotBeNull();
+            _response.TestApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
+            _response.TestApiHealth.Successful.Should().BeTrue();
+        }
+
+        [Then(@"the user api should be available")]
+        public void ThenTheUserApiShouldBeAvailable()
+        {
+            _response.UserApiHealth.Successful.Should().BeTrue();
+            _response.UserApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
         }
     }
 }

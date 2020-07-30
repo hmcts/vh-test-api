@@ -11,6 +11,9 @@ using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Services.Clients.UserApiClient;
+using TestApi.Services.Contracts;
+using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
 
 namespace TestApi.DAL.Commands
 {
@@ -33,13 +36,17 @@ namespace TestApi.DAL.Commands
         private readonly ICommandHandler _commandHandler;
         private readonly ILogger<AllocationService> _logger;
         private readonly IConfiguration _config;
+        private readonly IUserApiService _userApiService;
+        private CreateUserRequest _newUserRequest;
 
-        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<AllocationService> logger, IConfiguration config)
+        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<AllocationService> logger, 
+            IConfiguration config, IUserApiService userApiService)
         {
             _commandHandler = commandHandler;
             _queryHandler = queryHandler;
             _logger = logger;
             _config = config;
+            _userApiService = userApiService;
         }
 
         public async Task<User> AllocateToService(UserType userType, Application application, int expiresInMinutes)
@@ -63,13 +70,21 @@ namespace TestApi.DAL.Commands
                 var number = await IterateUserNumber(userType, application);
                 _logger.LogDebug($"Iterated user number to {number}");
 
-                var userId = await CreateNewUser(userType, application, number);
+                var userId = await CreateNewUserInTestApi(userType, application, number);
                 _logger.LogDebug($"A new user with Id {userId} has been created");
+
+                user = await GetUserById(userId);
 
                 await CreateNewAllocation(userId);
                 _logger.LogDebug($"The new user with Id {userId} has a new allocation");
+            }
 
-                user = await GetUserById(userId);
+            if (await UserDoesNotExistInAAD(user.ContactEmail))
+            {
+                _logger.LogDebug($"The user with username {user.Username} does not already exist in AAD");
+
+                var response = await CreateUserInAAD();
+                _logger.LogDebug($"The user with username {response.Username} created in AAD");
             }
 
             await AllocateUser(user.Id, expiresInMinutes);
@@ -140,23 +155,34 @@ namespace TestApi.DAL.Commands
             return await _queryHandler.Handle<GetUserByIdQuery, User>(getUserByIdQuery);
         }
 
-        private async Task<Guid> CreateNewUser(UserType userType, Application application, int newNumber)
+        private async Task<Guid> CreateNewUserInTestApi(UserType userType, Application application, int newNumber)
         {
             var emailStem = GetEmailStem();
-            var request = new UserBuilder(emailStem, newNumber)
+            _newUserRequest = new UserBuilder(emailStem, newNumber)
                 .WithUserType(userType)
                 .ForApplication(application)
                 .BuildRequest();
 
             var createNewUserCommand = new CreateNewUserCommand
             (
-                request.Username, request.ContactEmail, request.FirstName, request.LastName,
-                request.DisplayName, request.Number, request.UserType, request.Application
+                _newUserRequest.Username, _newUserRequest.ContactEmail, _newUserRequest.FirstName, _newUserRequest.LastName,
+                _newUserRequest.DisplayName, _newUserRequest.Number, _newUserRequest.UserType, _newUserRequest.Application
             );
 
             await _commandHandler.Handle(createNewUserCommand);
 
             return createNewUserCommand.NewUserId;
+        }
+
+        private async Task<bool> UserDoesNotExistInAAD(string contactEmail)
+        {
+            return !await _userApiService.CheckUserExistsInAAD(contactEmail);
+        }
+
+        private async Task<NewUserResponse> CreateUserInAAD()
+        {
+            var user = new ADUserBuilder(_newUserRequest).BuildUser();
+            return await _userApiService.CreateNewUserInAAD(user);
         }
 
         private string GetEmailStem()

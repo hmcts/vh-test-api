@@ -77,3 +77,9 @@ Scenario: Delete User - NotFound
 	Given I have a valid delete user by user id request for a nonexistent user
 	When I send the request to the endpoint
 	Then the response should have the status NotFound and success status False
+
+#Scenario: Create new AD user - Created
+#	Given I have a valid create AD user request
+#	When I send the request to the endpoint
+#	Then the response should have the status Created and success status True
+#	And the details of the new AD user are retrieved
