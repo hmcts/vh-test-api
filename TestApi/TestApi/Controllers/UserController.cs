@@ -16,6 +16,9 @@ using TestApi.Domain.Enums;
 using TestApi.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Common.Builders;
+using TestApi.Services.Clients.UserApiClient;
+using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
 
 namespace TestApi.Controllers
 {
@@ -159,6 +162,33 @@ namespace TestApi.Controllers
             _logger.LogInformation($"Created user {response.Username} with id {response.Id}");
 
             return CreatedAtAction(nameof(GetUserDetailsByIdAsync), new { userId = response.Id }, response);
+        }
+
+        /// <summary>
+        /// Create new AAD user
+        /// </summary>
+        /// <param name="request">Details of the new user</param>
+        /// <returns>Details of the created user</returns>
+        [HttpPost("aad")]
+        [ProducesResponseType(typeof(NewUserResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateNewADUserAsync(CreateADUserRequest request)
+        {
+            _logger.LogDebug("CreateNewADUser");
+
+            var createNewAdUserCommand = new CreateNewADUserCommand
+            (
+                request.Title, request.FirstName, request.MiddleNames, request.LastName, request.DisplayName,
+                request.Username, request.ContactEmail, request.CaseRoleName, request.HearingRoleName, request.Reference,
+                request.Representee, request.OrganisationName, request.TelephoneNumber
+            );
+
+            await _commandHandler.Handle(createNewAdUserCommand);
+
+            var user = createNewAdUserCommand.Response;
+            _logger.LogDebug($"New User with username {user.Username} Created");
+
+            return CreatedAtAction(nameof(CreateNewADUserAsync), new { userId = createNewAdUserCommand.Response.User_id }, createNewAdUserCommand.Response);
         }
 
         /// <summary>

@@ -9,6 +9,7 @@ using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
+using TestApi.Services.Contracts;
 
 namespace TestApi.Controllers
 {
@@ -19,10 +20,12 @@ namespace TestApi.Controllers
     public class HealthCheckController : ControllerBase
     {
         private readonly IQueryHandler _queryHandler;
+        private readonly IUserApiService _userApiService;
 
-        public HealthCheckController(IQueryHandler queryHandler)
+        public HealthCheckController(IQueryHandler queryHandler, IUserApiService userApiService)
         {
             _queryHandler = queryHandler;
+            _userApiService = userApiService;
         }
 
         /// <summary>
@@ -47,6 +50,18 @@ namespace TestApi.Controllers
             {
                 response.Successful = false;
                 response.ErrorMessage = ex.Message;
+            }
+
+            try
+            {
+                await _userApiService.CheckHealth();
+                response.UserApiHealth.Successful = true;
+            }
+            catch (Exception ex)
+            {
+                response.UserApiHealth.Successful = false;
+                response.UserApiHealth.ErrorMessage = ex.Message;
+                response.UserApiHealth.Data = ex.Data;
             }
 
             return response.Successful ? Ok(response) : StatusCode((int)HttpStatusCode.InternalServerError, response);

@@ -12,6 +12,7 @@ using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Services.Contracts;
 
 namespace TestApi.UnitTests.Controllers
 {
@@ -19,11 +20,13 @@ namespace TestApi.UnitTests.Controllers
     {
         private HealthCheckController _controller;
         private Mock<IQueryHandler> _mockQueryHandler;
+        private Mock<IUserApiService> _mockUserApiService;
 
         [SetUp]
         public void Setup()
         {
             _mockQueryHandler = new Mock<IQueryHandler>();
+            _mockUserApiService = new Mock<IUserApiService>();
         }
 
         [Test]
@@ -40,7 +43,7 @@ namespace TestApi.UnitTests.Controllers
 
             var query = new GetUserByUsernameQuery(user.Username);
             
-            _controller = new HealthCheckController(_mockQueryHandler.Object);
+            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockUserApiService.Object);
             _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, User>(query))
                 .Returns(Task.FromResult(user));
 
@@ -54,7 +57,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("database connection failed");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object);
+            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockUserApiService.Object);
             _mockQueryHandler
                 .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
                 .ThrowsAsync(exception);
