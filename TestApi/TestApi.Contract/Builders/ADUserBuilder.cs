@@ -6,7 +6,7 @@ using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 
-namespace TestApi.Common.Builders
+namespace TestApi.Contract.Builders
 {
     public class ADUserBuilder
     {

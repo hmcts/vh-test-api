@@ -22,6 +22,15 @@ namespace TestApi.IntegrationTests.Configuration
             public static string CheckServiceHealth => $"{ApiRoot}/health";
         }
 
+        public static class HearingEndpoints
+        {
+            private const string ApiRoot = "/hearings";
+            public static string GetHearing(Guid hearingId) => $"{ApiRoot}/{hearingId:D}";
+            public static string CreateHearing => ApiRoot;
+            public static string ConfirmHearing(Guid hearingId) => $"{ApiRoot}/{hearingId:D}";
+            public static string DeleteHearing(Guid hearingId) => $"{ApiRoot}/{hearingId:D}";
+        }
+
         public static class UserEndpoints
         {
             public const string ApiRoot = "users";

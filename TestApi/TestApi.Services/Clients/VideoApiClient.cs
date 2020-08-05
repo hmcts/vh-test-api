@@ -6682,29 +6682,29 @@ namespace TestApi.Services.Clients.VideoApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"Consultation")]
         Consultation = 8,
     
-        [System.Runtime.Serialization.EnumMember(Value = @"JudgeAvailable")]
-        JudgeAvailable = 9,
-    
         [System.Runtime.Serialization.EnumMember(Value = @"MediaPermissionDenied")]
-        MediaPermissionDenied = 10,
+        MediaPermissionDenied = 9,
     
         [System.Runtime.Serialization.EnumMember(Value = @"ParticipantJoining")]
-        ParticipantJoining = 11,
+        ParticipantJoining = 10,
     
         [System.Runtime.Serialization.EnumMember(Value = @"SelfTestFailed")]
-        SelfTestFailed = 12,
+        SelfTestFailed = 11,
     
         [System.Runtime.Serialization.EnumMember(Value = @"Suspend")]
-        Suspend = 13,
+        Suspend = 12,
     
         [System.Runtime.Serialization.EnumMember(Value = @"VhoCall")]
-        VhoCall = 14,
-    
-        [System.Runtime.Serialization.EnumMember(Value = @"JudgeUnavailable")]
-        JudgeUnavailable = 15,
+        VhoCall = 13,
     
         [System.Runtime.Serialization.EnumMember(Value = @"ParticipantNotSignedIn")]
-        ParticipantNotSignedIn = 16,
+        ParticipantNotSignedIn = 14,
+    
+        [System.Runtime.Serialization.EnumMember(Value = @"Start")]
+        Start = 15,
+    
+        [System.Runtime.Serialization.EnumMember(Value = @"CountdownFinished")]
+        CountdownFinished = 16,
     
     }
     

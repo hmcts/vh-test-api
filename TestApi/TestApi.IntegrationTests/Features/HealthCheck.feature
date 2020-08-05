@@ -6,6 +6,8 @@
 Scenario: HealthCheck - OK
     Given I have a get health request
     When I send the request to the endpoint
-    Then the response should have the status ok and success status True
+    Then the response should have the status OK and success status True
     And the application version should be retrieved
+    And the bookings api should be available    
     And the user api should be available
+    And the video api should be available

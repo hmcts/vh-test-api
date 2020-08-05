@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Common.Builders;
+using TestApi.Contract.Builders;
 using TestApi.Contract.Responses;
 using TestApi.Controllers;
 using TestApi.DAL.Queries;
@@ -20,13 +20,17 @@ namespace TestApi.UnitTests.Controllers
     {
         private HealthCheckController _controller;
         private Mock<IQueryHandler> _mockQueryHandler;
+        private Mock<IBookingsApiService> _mockBookingsApiService;
         private Mock<IUserApiService> _mockUserApiService;
+        private Mock<IVideoApiService> _mockVideoApiService;
 
         [SetUp]
         public void Setup()
         {
             _mockQueryHandler = new Mock<IQueryHandler>();
+            _mockBookingsApiService = new Mock<IBookingsApiService>();
             _mockUserApiService = new Mock<IUserApiService>();
+            _mockVideoApiService = new Mock<IVideoApiService>();
         }
 
         [Test]
@@ -43,7 +47,7 @@ namespace TestApi.UnitTests.Controllers
 
             var query = new GetUserByUsernameQuery(user.Username);
             
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockUserApiService.Object);
+            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiService.Object, _mockUserApiService.Object, _mockVideoApiService.Object);
             _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, User>(query))
                 .Returns(Task.FromResult(user));
 
@@ -57,7 +61,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("database connection failed");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockUserApiService.Object);
+            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiService.Object, _mockUserApiService.Object, _mockVideoApiService.Object);
             _mockQueryHandler
                 .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
                 .ThrowsAsync(exception);

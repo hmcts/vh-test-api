@@ -20,12 +20,16 @@ namespace TestApi.Controllers
     public class HealthCheckController : ControllerBase
     {
         private readonly IQueryHandler _queryHandler;
+        private readonly IBookingsApiService _bookingsApiService;
         private readonly IUserApiService _userApiService;
+        private readonly IVideoApiService _videoApiService;
 
-        public HealthCheckController(IQueryHandler queryHandler, IUserApiService userApiService)
+        public HealthCheckController(IQueryHandler queryHandler, IBookingsApiService bookingsApiService, IUserApiService userApiService, IVideoApiService videoApiService)
         {
             _queryHandler = queryHandler;
+            _bookingsApiService = bookingsApiService;
             _userApiService = userApiService;
+            _videoApiService = videoApiService;
         }
 
         /// <summary>
@@ -55,6 +59,18 @@ namespace TestApi.Controllers
 
             try
             {
+                await _bookingsApiService.CheckHealth();
+                response.BookingsApiHealth.Successful = true;
+            }
+            catch (Exception ex)
+            {
+                response.BookingsApiHealth.Successful = false;
+                response.BookingsApiHealth.ErrorMessage = ex.Message;
+                response.BookingsApiHealth.Data = ex.Data;
+            }
+
+            try
+            {
                 await _userApiService.CheckHealth();
                 response.UserApiHealth.Successful = true;
             }
@@ -63,6 +79,18 @@ namespace TestApi.Controllers
                 response.UserApiHealth.Successful = false;
                 response.UserApiHealth.ErrorMessage = ex.Message;
                 response.UserApiHealth.Data = ex.Data;
+            }
+
+            try
+            {
+                await _videoApiService.CheckHealth();
+                response.VideoApiHealth.Successful = true;
+            }
+            catch (Exception ex)
+            {
+                response.VideoApiHealth.Successful = false;
+                response.VideoApiHealth.ErrorMessage = ex.Message;
+                response.VideoApiHealth.Data = ex.Data;
             }
 
             return response.TestApiHealth.Successful ? Ok(response) : StatusCode((int)HttpStatusCode.InternalServerError, response);

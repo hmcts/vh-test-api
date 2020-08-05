@@ -33,8 +33,6 @@ namespace TestApi.Services.Contracts
         /// <param name="adUser"></param>
         /// <returns></returns>
         Task<NewUserResponse> CreateNewUserInAAD(ADUser adUser);
-
-
     }
 
     public class UserApiService : IUserApiService
@@ -53,7 +51,6 @@ namespace TestApi.Services.Contracts
             try
             {
                 await _userApiClient.CheckServiceHealthAsync();
-                var response = await _userApiClient.GetGroupByNameAsync(_userGroups.TestAccountGroup);
             }
             catch (UserApiException e)
             {

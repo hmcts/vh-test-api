@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using TestApi.Contract.Requests;
+﻿using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Domain.Helpers;
 
-namespace TestApi.Common.Builders
+namespace TestApi.Contract.Builders
 {
     public class UserBuilder
     {
@@ -21,6 +21,48 @@ namespace TestApi.Common.Builders
             _numberText = AddZerosBeforeNumber(number);
         }
 
+        public UserBuilder AddJudge()
+        {
+            _userType = UserType.Judge;
+            return this;
+        }
+
+        public UserBuilder AddIndividual()
+        {
+            _userType = UserType.Individual;
+            return this;
+        }
+
+        public UserBuilder AddRepresentative()
+        {
+            _userType = UserType.Representative;
+            return this;
+        }
+
+        public UserBuilder AddCaseAdmin()
+        {
+            _userType = UserType.CaseAdmin;
+            return this;
+        }
+
+        public UserBuilder AddVideoHearingsOfficer()
+        {
+            _userType = UserType.VideoHearingsOfficer;
+            return this;
+        }
+
+        public UserBuilder AddObserver()
+        {
+            _userType = UserType.Observer;
+            return this;
+        }
+
+        public UserBuilder AddPanelMember()
+        {
+            _userType = UserType.PanelMember;
+            return this;
+        }
+
         public UserBuilder WithUserType(UserType userType)
         {
             _userType = userType;
@@ -30,7 +72,7 @@ namespace TestApi.Common.Builders
         public UserBuilder ForApplication(Application application)
         {
             _application = application;
-            _appShortName = GetApplicationShortName(_application);
+            _appShortName = AppShortName.FromApplication(_application);
             return this;
         }
 
@@ -79,11 +121,6 @@ namespace TestApi.Common.Builders
         private string SetContactEmail(string firstname, string lastname)
         {
             return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{ContactEmailStem(_emailStem)}".ToLowerInvariant();
-        }
-
-        private static string GetApplicationShortName(Application application)
-        {
-            return string.Concat(application.ToString().Where(c => c >= 'A' && c <= 'Z'));
         }
 
         private static string ReplaceSpacesWithUnderscores(string text)

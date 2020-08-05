@@ -16,7 +16,6 @@ using TestApi.Domain.Enums;
 using TestApi.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TestApi.Common.Builders;
 using TestApi.Services.Clients.UserApiClient;
 using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
 
