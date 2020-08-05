@@ -106,7 +106,7 @@ namespace TestApi
             app.UseSwaggerUI(c =>
             {
                 const string url = "/swagger/v1/swagger.json";
-                c.SwaggerEndpoint(url, "Video API V1");
+                c.SwaggerEndpoint(url, "Test API V1");
             });
 
             app.UseRouting();

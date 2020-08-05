@@ -81,8 +81,8 @@ namespace TestApi
             services.AddSingleton<ITelemetryInitializer, BadRequestTelemetry>();
 
             services.AddTransient<BookingsApiTokenHandler>();
-            services.AddTransient<VideoApiTokenHandler>();
             services.AddTransient<UserApiTokenHandler>();
+            services.AddTransient<VideoApiTokenHandler>();
 
             services.AddScoped<IQueryHandlerFactory, QueryHandlerFactory>();
             services.AddScoped<IQueryHandler, QueryHandler>();
@@ -91,7 +91,9 @@ namespace TestApi
             services.AddScoped<ICommandHandler, CommandHandler>();
 
             services.AddScoped<IAllocationService, AllocationService>();
+            services.AddScoped<IBookingsApiService, BookingsApiService>();
             services.AddScoped<IUserApiService, UserApiService>();
+            services.AddScoped<IVideoApiService, VideoApiService>();
 
             RegisterCommandHandlers(services);
             RegisterQueryHandlers(services);
@@ -103,13 +105,13 @@ namespace TestApi
                 .AddHttpMessageHandler<BookingsApiTokenHandler>()
                 .AddTypedClient(httpClient => BuildBookingsApiClient(httpClient, servicesConfiguration));
 
-            services.AddHttpClient<IVideoApiClient, VideoApiClient>()
-                .AddHttpMessageHandler<VideoApiTokenHandler>()
-                .AddTypedClient(httpClient => BuildVideoApiClient(httpClient, servicesConfiguration));
-
             services.AddHttpClient<IUserApiClient, UserApiClient>()
                 .AddHttpMessageHandler<UserApiTokenHandler>()
                 .AddTypedClient(httpClient => BuildUserApiClient(httpClient, servicesConfiguration));
+
+            services.AddHttpClient<IVideoApiClient, VideoApiClient>()
+                .AddHttpMessageHandler<VideoApiTokenHandler>()
+                .AddTypedClient(httpClient => BuildVideoApiClient(httpClient, servicesConfiguration));
 
             return services;
         }
@@ -161,21 +163,21 @@ namespace TestApi
         }
 
         private static IBookingsApiClient BuildBookingsApiClient(HttpClient httpClient,
-            ServicesConfiguration servicesConfiguration)
-        {
-            return new BookingsApiClient(httpClient) { BaseUrl = servicesConfiguration.BookingsApiUrl, ReadResponseAsString = true };
-        }
-
-        private static IVideoApiClient BuildVideoApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new VideoApiClient(httpClient) { BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true };
+            return new BookingsApiClient(httpClient) { BaseUrl = serviceSettings.BookingsApiUrl, ReadResponseAsString = true };
         }
 
         private static IUserApiClient BuildUserApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
             return new UserApiClient(httpClient) { BaseUrl = serviceSettings.UserApiUrl, ReadResponseAsString = true };
+        }
+
+        private static IVideoApiClient BuildVideoApiClient(HttpClient httpClient,
+            ServicesConfiguration serviceSettings)
+        {
+            return new VideoApiClient(httpClient) { BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true };
         }
     }
 }

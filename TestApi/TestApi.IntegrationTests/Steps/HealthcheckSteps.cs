@@ -36,11 +36,25 @@ namespace TestApi.IntegrationTests.Steps
             _response.TestApiHealth.Successful.Should().BeTrue();
         }
 
+        [Then(@"the bookings api should be available")]
+        public void ThenTheBookingsApiShouldBeAvailable()
+        {
+            _response.BookingsApiHealth.Successful.Should().BeTrue();
+            _response.BookingsApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
+        }
+
         [Then(@"the user api should be available")]
         public void ThenTheUserApiShouldBeAvailable()
         {
             _response.UserApiHealth.Successful.Should().BeTrue();
             _response.UserApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
+        }
+
+        [Then(@"the video api should be available")]
+        public void ThenTheVideoApiShouldBeAvailable()
+        {
+            _response.VideoApiHealth.Successful.Should().BeTrue();
+            _response.VideoApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
         }
     }
 }

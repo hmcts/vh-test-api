@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Contract.Builders;
 using TestApi.DAL;
-using TestApi.Common.Builders;
 using TestApi.DAL.Exceptions;
 using TestApi.Domain;
 using TestApi.Domain.Enums;

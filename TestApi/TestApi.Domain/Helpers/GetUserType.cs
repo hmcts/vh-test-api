@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using TestApi.DAL.Exceptions;
+﻿using System.Linq;
+using TestApi.Common.Helpers;
 using TestApi.Domain.Enums;
 
 namespace TestApi.Domain.Helpers
 {
     public static class GetUserType
     {
-        private const string BLANK = " ";
         private const string UNDERSCORE = "_";
 
         public static UserType FromUserLastName(string text)
@@ -16,19 +14,12 @@ namespace TestApi.Domain.Helpers
             text = RemoveUnderscores(text);
             text = RemoveNumbers(text);
 
-            Enum.TryParse(text, true,  out UserType userType);
-
-            if (userType == UserType.None)
-            {
-                throw new UserTypeNotFoundException(text);
-            }
-            
-            return userType;
+            return UserTypeName.FromString(text);
         }
 
         private static string RemoveWhitespace(string text)
         {
-            return text.Replace(BLANK, string.Empty).Trim();
+            return text.Trim();
         }
 
         private static string RemoveUnderscores(string text)

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Common.Builders;
+using TestApi.Contract.Builders;
 using TestApi.Domain.Enums;
 using TestApi.Mappings;
 

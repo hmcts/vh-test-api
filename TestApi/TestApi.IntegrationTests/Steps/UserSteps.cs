@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using TechTalk.SpecFlow;
-using TestApi.Common.Builders;
+using TestApi.Contract.Builders;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
