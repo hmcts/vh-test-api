@@ -10,7 +10,6 @@
         Individual = 5,
         Representative = 6,
         Observer = 7,
-        PanelMember = 8,
-        Default = 9
+        PanelMember = 8
     }
 }
