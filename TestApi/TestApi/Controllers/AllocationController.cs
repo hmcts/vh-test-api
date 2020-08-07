@@ -83,6 +83,35 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
+        /// Allocate users by user types and application
+        /// </summary>
+        /// <param name="request">Allocate users request</param>
+        /// <returns>Full details of an allocated users</returns>
+        [HttpPut("allocateUsers")]
+        [ProducesResponseType(typeof(List<UserDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
+        {
+            _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
+
+            if (request.UserTypes.Count.Equals(0))
+            {
+                return BadRequest("Must be more than 1 user type");
+            }
+
+            var responses = new List<UserDetailsResponse>();
+
+            foreach (var userType in request.UserTypes)
+            {
+                var user = await AllocateAsync(userType, request.Application);
+                _logger.LogDebug($"User '{user.Username}' successfully allocated");
+                responses.Add(UserToDetailsResponseMapper.MapToResponse(user));
+            }
+
+            return Ok(responses);
+        }
+
+        /// <summary>
         /// Allocate user by user id
         /// </summary>
         /// <param name="userId">Type of user (e.g Judge)</param>

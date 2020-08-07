@@ -3,7 +3,7 @@ using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 
-namespace TestApi.Contract.Builders
+namespace TestApi.Common.Builders
 {
     public class UserBuilder
     {
