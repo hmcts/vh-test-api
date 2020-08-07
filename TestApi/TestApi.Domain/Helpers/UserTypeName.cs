@@ -24,7 +24,6 @@ namespace TestApi.Common.Helpers
         public static UserTypeName VideoHearingsOfficer => new UserTypeName(UserType.VideoHearingsOfficer, "Video Hearings Officer");
         public static UserTypeName None => new UserTypeName(UserType.None, "None");
 
-
         public static string FromUserType(UserType userType)
         {
             foreach (var userTypeValues in Values)

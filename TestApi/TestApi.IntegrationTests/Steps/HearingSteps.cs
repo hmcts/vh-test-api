@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using TechTalk.SpecFlow;
+using TestApi.Common.Builders;
 using TestApi.Common.Helpers;
-using TestApi.Contract.Builders;
 using TestApi.Contract.Requests;
 using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Configuration;
@@ -24,7 +24,6 @@ namespace TestApi.IntegrationTests.Steps
     {
         private readonly TestContext _context;
         private readonly CommonSteps _commonSteps;
-        private CreateHearingRequest _request;
 
         public HearingSteps(TestContext context, CommonSteps commonSteps)
         {
@@ -37,8 +36,8 @@ namespace TestApi.IntegrationTests.Steps
         {
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users).BuildRequest();
-            BuildRequest(_request);
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users).BuildRequest();
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request in (.*) minutes time")]
@@ -46,11 +45,11 @@ namespace TestApi.IntegrationTests.Steps
         {
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users)
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users)
                 .ScheduledDateTime(DateTime.UtcNow.AddMinutes(minutes))
                 .BuildRequest();
 
-            BuildRequest(_request);
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request in (.*) days time")]
@@ -58,11 +57,11 @@ namespace TestApi.IntegrationTests.Steps
         {
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users)
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users)
                 .ScheduledDateTime(DateTime.UtcNow.AddDays(days))
                 .BuildRequest();
 
-            BuildRequest(_request);
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request in location")]
@@ -72,11 +71,11 @@ namespace TestApi.IntegrationTests.Steps
 
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users)
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users)
                 .HearingVenue(MANCHESTER)
                 .BuildRequest();
 
-            BuildRequest(_request);
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request with a list of participants (.*)")]
@@ -89,15 +88,15 @@ namespace TestApi.IntegrationTests.Steps
 
             BulkAddParticipants(individualsCount, representativesCount, observersCount, panelMembersCount);
 
-            _request = new HearingBuilder(_context.Test.Users).BuildRequest();
-            BuildRequest(_request);
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users).BuildRequest();
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request with specific participants")]
         public void GivenIHaveACreateHearingRequestWithSpecificParticipants()
         {
-            _request = new HearingBuilder(_context.Test.Users).BuildRequest();
-            BuildRequest(_request);
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users).BuildRequest();
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request with audio recording enabled")]
@@ -105,11 +104,11 @@ namespace TestApi.IntegrationTests.Steps
         {
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users)
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users)
                 .AudioRecordingRequired()
                 .BuildRequest();
 
-            BuildRequest(_request);
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a create hearing request with questionnaires enabled")]
@@ -117,19 +116,19 @@ namespace TestApi.IntegrationTests.Steps
         {
             BulkAddParticipants();
 
-            _request = new HearingBuilder(_context.Test.Users)
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users)
                 .QuestionnairesRequired()
                 .BuildRequest();
 
-            BuildRequest(_request);
+            BuildRequest(_context.Test.CreateHearingRequest);
         }
 
         [Given(@"I have a hearing")]
         public async Task GivenIHaveAHearing()
         {
             BulkAddParticipants();
-            _request = new HearingBuilder(_context.Test.Users).BuildRequest();
-            BuildRequest(_request);
+            _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users).BuildRequest();
+            BuildRequest(_context.Test.CreateHearingRequest);
             await _commonSteps.WhenISendTheRequestToTheEndpoint();
             _commonSteps.ThenTheResponseShouldHaveStatus(HttpStatusCode.Created, true);
             var response = await Response.GetResponses<HearingDetailsResponse>(_context.Response.Content);
@@ -150,7 +149,7 @@ namespace TestApi.IntegrationTests.Steps
             var request = new UpdateBookingStatusRequest()
             {
                 Status = UpdateBookingStatus.Created,
-                Updated_by = _request.Users.First(x => x.UserType == UserType.CaseAdmin).Username
+                Updated_by = _context.Test.Users.First(x => x.UserType == UserType.CaseAdmin).Username
             };
 
             _context.Uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(_context.Test.Hearing.Id); ;
@@ -173,11 +172,11 @@ namespace TestApi.IntegrationTests.Steps
             var response = await Response.GetResponses<HearingDetailsResponse>(_context.Response.Content);
             response.Should().NotBeNull();
 
-            var caseAdmin = _request.Users.First(x => x.UserType == UserType.CaseAdmin);
+            var caseAdmin = _context.Test.CreateHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin);
             VerifyParticipants(response.Participants);
 
             response.AdditionalProperties.Should().BeEmpty();
-            response.Audio_recording_required.Should().Be(_request.AudioRecordingRequired);
+            response.Audio_recording_required.Should().Be(_context.Test.CreateHearingRequest.AudioRecordingRequired);
             response.Cancel_reason.Should().BeNull();
             response.Case_type_name.Should().Be("Civil Money Claims");
             response.Cases.First().AdditionalProperties.Should().BeEmpty();
@@ -190,15 +189,17 @@ namespace TestApi.IntegrationTests.Steps
             response.Created_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
             response.Hearing_room_name.Should().Be("Room 1");
             response.Hearing_type_name.Should().Be("Application to Set Judgment Aside");
-            response.Hearing_venue_name.Should().Be(_request.Venue);
+            response.Hearing_venue_name.Should().Be(_context.Test.CreateHearingRequest.Venue);
             response.Id.Should().NotBeEmpty();
             response.Other_information.Should().Be("Other information");
-            response.Questionnaire_not_required.Should().Be(_request.QuestionnaireNotRequired);
-            response.Scheduled_date_time.Should().BeCloseTo(_request.ScheduledDateTime, TimeSpan.FromSeconds(30));
+            response.Questionnaire_not_required.Should().Be(_context.Test.CreateHearingRequest.QuestionnaireNotRequired);
+            response.Scheduled_date_time.Should().BeCloseTo(_context.Test.CreateHearingRequest.ScheduledDateTime, TimeSpan.FromSeconds(30));
             response.Scheduled_duration.Should().Be(60);
             response.Status.Should().Be(BookingStatus.Booked);
             response.Updated_by.Should().BeNull();
             response.Updated_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
+
+            _context.Test.Hearing = response;
         }
 
         [Then(@"the conference details should be retrieved")]
@@ -210,7 +211,7 @@ namespace TestApi.IntegrationTests.Steps
             var hearing = _context.Test.Hearing;
             VerifyParticipants(hearing.Participants);
 
-            response.Participants.Count.Should().Be(_request.Users.Count - 1);
+            response.Participants.Count.Should().Be(_context.Test.CreateHearingRequest.Users.Count - 1);
 
             response.Audio_recording_required.Should().Be(hearing.Audio_recording_required);
             response.Case_name.Should().Be(hearing.Cases.First().Name);
@@ -233,11 +234,11 @@ namespace TestApi.IntegrationTests.Steps
 
         private void VerifyParticipants(IReadOnlyCollection<ParticipantResponse> responseParticipants)
         {
-            responseParticipants.Count.Should().Be(_request.Users.Count - 1);
+            responseParticipants.Count.Should().Be(_context.Test.Users.Count - 1);
 
             foreach (var participant in responseParticipants)
             {
-                var user = _request.Users.First(x => x.Username.Equals(participant.Username));
+                var user = _context.Test.CreateHearingRequest.Users.First(x => x.Username.Equals(participant.Username));
 
                 participant.AdditionalProperties.Should().BeEmpty();
 

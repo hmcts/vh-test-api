@@ -13,6 +13,7 @@ namespace TestApi.IntegrationTests.Configuration
             public static string AllocateByUserTypeAndApplication(UserType userType, Application application) => $"{ApiRoot}/?userType={userType}&application={application}";
             public static string CreateAllocation(Guid userId) => $"{ApiRoot}/?userId={userId:D}";
             public static string DeleteAllocation(Guid userId) => $"{ApiRoot}/?userId={userId:D}";
+            public static string AllocateUsers => $"{ApiRoot}/allocateUsers";
             public static string UnallocateUsers => $"{ApiRoot}/unallocateUsers";
         }
 

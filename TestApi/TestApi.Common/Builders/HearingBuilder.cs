@@ -4,7 +4,7 @@ using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 
-namespace TestApi.Contract.Builders
+namespace TestApi.Common.Builders
 {
     public class HearingBuilder
     {

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Builders;
 using TestApi.Common.Configuration;
-using TestApi.Contract.Builders;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
