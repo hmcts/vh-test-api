@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 
@@ -27,9 +28,21 @@ namespace TestApi.DAL.Queries
 
         public async Task<Allocation> Handle(GetAllocationByUserIdQuery query)
         {
-            return await _context.Allocations
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.UserId == query.UserId);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == query.UserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException(query.UserId);
+            }
+
+            var allocation = await _context.Allocations.SingleOrDefaultAsync(x => x.User.Id == user.Id);
+
+            if (allocation == null)
+            {
+                throw new UserAllocationNotFoundException(query.UserId);
+            }
+
+            return allocation;
         }
     }
 }

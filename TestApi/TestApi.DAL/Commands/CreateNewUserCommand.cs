@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework.Constraints;
 using TestApi.DAL.Commands.Core;
+using TestApi.DAL.Exceptions;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 
@@ -43,6 +47,17 @@ namespace TestApi.DAL.Commands
 
         public async Task Handle(CreateNewUserCommand command)
         {
+
+            var userWithNumberExistsAlready = await _context.Users
+                .Where(x => x.UserType == command.UserType && x.Number == command.Number)
+                .AsNoTracking()
+                .AnyAsync();
+
+            if (userWithNumberExistsAlready)
+            {
+                throw new MatchingUserWithNumberExistsException(command.UserType, command.Number);
+            }
+
             var user = new User(
                 command.Username, 
                 command.ContactEmail, 
@@ -52,7 +67,8 @@ namespace TestApi.DAL.Commands
                 command.Number,
                 command.UserType,
                 command.Application
-                );
+            );
+
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             command.NewUserId = user.Id;

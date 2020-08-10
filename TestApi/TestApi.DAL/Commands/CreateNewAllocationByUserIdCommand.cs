@@ -37,7 +37,15 @@ namespace TestApi.DAL.Commands
                 throw new UserNotFoundException(command.UserId);
             }
 
-            var allocation = new Allocation(user);
+            var allocation = await _context.Allocations
+                .SingleOrDefaultAsync(x => x.UserId == command.UserId);
+
+            if (allocation != null)
+            {
+                throw new AllocationAlreadyExistsException(command.UserId);
+            }
+
+            allocation = new Allocation(user);
             await _context.Allocations.AddAsync(allocation);
             await _context.SaveChangesAsync();
             command.NewAllocationId = allocation.Id;

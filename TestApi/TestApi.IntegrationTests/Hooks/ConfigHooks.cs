@@ -39,6 +39,7 @@ namespace TestApi.IntegrationTests.Hooks
             RegisterDatabaseSettings(context);
             RegisterUsernameStem(context);
             RegisterTestData(context);
+            RegisterUserGroups(context);
             RegisterServer(context);
             RegisterApiSettings(context);
             GenerateBearerTokens(context, azureOptions);
@@ -81,6 +82,11 @@ namespace TestApi.IntegrationTests.Hooks
                 Users = new List<User>(),
                 UserResponses = new List<UserDetailsResponse>()
             };
+        }
+
+        private void RegisterUserGroups(TestContext context)
+        {
+            context.Config.UserGroupsConfig = Options.Create(_configRoot.GetSection("UserGroups").Get<UserGroupsConfiguration>());
         }
 
         private static void RegisterServer(TestContext context)

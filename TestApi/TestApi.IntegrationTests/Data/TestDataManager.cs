@@ -13,9 +13,9 @@ namespace TestApi.IntegrationTests.Data
     public class TestDataManager
     {
         private readonly TestContext _context;
-        private readonly DbContextOptions<TestApiDbContext> _dbContextOptions;
+        private readonly DbContextOptions _dbContextOptions;
 
-        public TestDataManager(TestContext context, DbContextOptions<TestApiDbContext> dbContextOptions)
+        public TestDataManager(TestContext context, DbContextOptions dbContextOptions)
         {
             _context = context;
             _dbContextOptions = dbContextOptions;
@@ -43,7 +43,7 @@ namespace TestApi.IntegrationTests.Data
         {
             await using var db = new TestApiDbContext(_dbContextOptions); 
             
-            var user = await db.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Id == userId);
 
             if (user == null)
             {
@@ -83,6 +83,7 @@ namespace TestApi.IntegrationTests.Data
                 .SingleOrDefaultAsync();
 
             allocation.Allocate(1);
+            db.Allocations.Update(allocation);
             await db.SaveChangesAsync();
             return allocation;
         }
@@ -117,17 +118,24 @@ namespace TestApi.IntegrationTests.Data
             }
         }
 
-        //private async Task DeleteAllocations(Guid userId)
-        //{
-        //    await using var db = new TestApiDbContext(_dbContextOptions);
+        public async Task<Allocation> GetAllocationByUserId(Guid userId)
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
 
-        //    var allocation = await db.Allocations
-        //        .Where(x => x.UserId == userId)
-        //        .AsNoTracking()
-        //        .SingleOrDefaultAsync();
+            return await db.Allocations
+                .Where(x => x.UserId == userId)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+        }
 
-        //    db.Remove(allocation);
-        //    await db.SaveChangesAsync();
-        //}
+        public async Task<User> GetUserById(Guid userId)
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
+
+            return await db.Users
+                .Where(x => x.Id == userId)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+        }
     }
 }

@@ -20,11 +20,11 @@ namespace TestApi.DAL.Commands
         }
     }
 
-    public class AllocateCommandHandler : ICommandHandler<AllocateByUserIdCommand>
+    public class AllocateByUserIdCommandHandler : ICommandHandler<AllocateByUserIdCommand>
     {
         private readonly TestApiDbContext _context;
 
-        public AllocateCommandHandler(TestApiDbContext context)
+        public AllocateByUserIdCommandHandler(TestApiDbContext context)
         {
             _context = context;
         }

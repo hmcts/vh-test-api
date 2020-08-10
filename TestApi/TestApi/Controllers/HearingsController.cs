@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using TestApi.Services.Builders;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
+using TestApi.Validations;
 
 namespace TestApi.Controllers
 {
@@ -66,6 +68,12 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug("CreateHearingAsync");
 
+            foreach (var user in request.Users.Where(user => !user.Username.IsValidEmail() || !user.ContactEmail.IsValidEmail()))
+            {
+                ModelState.AddModelError(nameof(user.Username), $"Please provide a valid {nameof(user.Username)}");
+                return BadRequest(ModelState);
+            }
+
             var bookHearingRequest = new BookHearingRequestBuilder(request).Build();
 
             try
@@ -111,7 +119,7 @@ namespace TestApi.Controllers
 
                 _logger.LogInformation($"Successfully confirmed hearing with id {hearingId}");
 
-                var response = await _videoApiService.PollForConference(hearingId);
+                var response = await _videoApiService.GetConferenceByIdPollingAsync(hearingId);
 
                 return Created(nameof(ConfirmHearingByIdAsync), response);
             }

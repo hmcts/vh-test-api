@@ -1,4 +1,5 @@
-﻿using TestApi.Common.Configuration;
+﻿using Microsoft.Extensions.Options;
+using TestApi.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Configuration
 {
@@ -8,5 +9,6 @@ namespace TestApi.IntegrationTests.Configuration
         public DbConfig DbConnection { get; set; }
         public string UsernameStem { get; set; }
         public ServicesConfiguration VhServices { get; set; }
+        public IOptions<UserGroupsConfiguration> UserGroupsConfig { get; set; }
     }
 }

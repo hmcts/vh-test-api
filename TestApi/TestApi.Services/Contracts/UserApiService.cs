@@ -15,12 +15,6 @@ namespace TestApi.Services.Contracts
     public interface IUserApiService
     {
         /// <summary>
-        /// Checks the health of the user api
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> CheckHealth();
-
-        /// <summary>
         /// Checks if a user already exists based on their contact email
         /// </summary>
         /// <param name="contactEmail"></param>
@@ -44,30 +38,6 @@ namespace TestApi.Services.Contracts
         {
             _userApiClient = userApiClient;
             _userGroups = userGroupsConfiguration.Value;
-        }
-
-        public async Task<bool> CheckHealth()
-        {
-            try
-            {
-                await _userApiClient.CheckServiceHealthAsync();
-            }
-            catch (UserApiException e)
-            {
-                if (e.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    return true;
-                }
-
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError)
-                {
-                    throw;
-                }
-
-                return false;
-            }
-
-            return true;
         }
 
         public async Task<bool> CheckUserExistsInAAD(string contactEmail)

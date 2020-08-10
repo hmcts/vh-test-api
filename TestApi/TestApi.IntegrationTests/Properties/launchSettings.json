@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TestApi.IntegrationTests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Key": "Value"
+      }
+    }
+  }
+}

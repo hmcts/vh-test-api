@@ -129,12 +129,7 @@ namespace TestApi.DAL.Commands
             {
                 var allocation = await GetAllocationByUserId(user.Id);
 
-                if (allocation.ExpiresAt == null)
-                {
-                    return user;
-                }
-
-                if (!allocation.Allocated || allocation.ExpiresAt < DateTime.UtcNow)
+                if (allocation.IsAllocated() == false)
                 {
                     return user;
                 }

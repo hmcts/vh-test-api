@@ -33,7 +33,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         //        .Setup(x => x.Handle<GetNextUserNumberByUserTypeQuery, Integer>(It.IsAny<GetNextUserNumberByUserTypeQuery>()))
         //        .ReturnsAsync(integer);
 
-        //    CommandHandlerMock.Setup(x => x.Handle(It.IsAny<AllocateByUserTypeAndApplicationCommand>()));
+        //    CommandHandlerMock.Setup(x => x.Handle(It.IsAny<AllocateByUserTypeCommand>()));
 
         //    CommandHandlerMock.Setup(x => x.Handle(It.IsAny<CreateNewAllocationByUserIdCommand>()));
 

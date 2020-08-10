@@ -1,5 +1,6 @@
 ﻿using System;
 using TestApi.Domain.Ddd;
+using TestApi.Domain.Validations;
 
 namespace TestApi.Domain
 {
@@ -25,6 +26,11 @@ namespace TestApi.Domain
 
         public void Allocate(int minutes)
         {
+            if (IsAllocated())
+            {
+                throw new DomainRuleException("Allocation", "User is already allocated");
+            }
+
             Allocated = true;
             ExpiresAt = DateTime.UtcNow.AddMinutes(minutes);
         }

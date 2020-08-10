@@ -20,74 +20,16 @@ namespace TestApi.IntegrationTests.Steps
     public class AllocationSteps : BaseSteps
     {
         private readonly TestContext _context;
-        private readonly CommonSteps _commonSteps;
 
-        public AllocationSteps(TestContext context, CommonSteps commonSteps)
+        public AllocationSteps(TestContext context)
         {
             _context = context;
-            _commonSteps = commonSteps;
         }
 
         [Given(@"I have a Allocate user by user type (.*) and application request")]
         public void GivenIHaveAAllocateUserByUserTypeAndApplicationRequest(UserType userType)
         {
             _context.Uri = ApiUriFactory.AllocationEndpoints.AllocateByUserTypeAndApplication(userType, Application.TestApi);
-            _context.HttpMethod = HttpMethod.Put;
-        }
-
-        [Given(@"I have a get allocation by user id request with a valid user id")]
-        public void GivenIHaveAGetAllocationByUserIdRequestWithAValidUserId()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.GetAllocationByUserId(_context.Test.User.Id);
-            _context.HttpMethod = HttpMethod.Get;
-        }
-
-        [Given(@"I have a get allocation by user id request with a nonexistent user id")]
-        public void GivenIHaveAGetAllocationByUserIdRequestWithANonexistentUserId()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.GetAllocationByUserId(Guid.NewGuid());
-            _context.HttpMethod = HttpMethod.Get;
-        }
-
-        [Given(@"I have a valid create allocation request for a valid user")]
-        public void GivenIHaveAValidCreateAllocationRequestForAValidUser()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.CreateAllocation(_context.Test.User.Id);
-            _context.HttpMethod = HttpMethod.Post;
-        }
-
-        [Given(@"I have a valid create allocation request for a nonexistent user")]
-        public void GivenIHaveAValidCreateAllocationRequestForANonexistentUser()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.CreateAllocation(Guid.NewGuid());
-            _context.HttpMethod = HttpMethod.Post;
-        }
-
-        [Given(@"I have a delete allocation request with a valid user id")]
-        public void GivenIHaveADeleteAllocationRequestWithAValidUserId()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.DeleteAllocation(_context.Test.User.Id);
-            _context.HttpMethod = HttpMethod.Delete;
-        }
-
-        [Given(@"I have a delete allocation request with a nonexistent user id")]
-        public void GivenIHaveADeleteAllocationRequestWithANonexistentUserId()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.DeleteAllocation(Guid.NewGuid());
-            _context.HttpMethod = HttpMethod.Delete;
-        }
-
-        [Given(@"I have an allocate by user id request for a valid user")]
-        public void GivenIHaveAnAllocateByUserIdRequestForAValidUser()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.AllocateByUserId(_context.Test.User.Id);
-            _context.HttpMethod = HttpMethod.Put;
-        }
-
-        [Given(@"I have an allocate by user id request for a nonexistent user")]
-        public void GivenIHaveAnAllocateByUserIdRequestForANonexistentUser()
-        {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.AllocateByUserId(Guid.NewGuid());
             _context.HttpMethod = HttpMethod.Put;
         }
 
@@ -128,15 +70,11 @@ namespace TestApi.IntegrationTests.Steps
         [Then(@"the user should be allocated")]
         public async Task ThenTheUserShouldBeAllocated()
         {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.GetAllocationByUserId(_context.Test.UserDetailsResponse.Id);
-            _context.HttpMethod = HttpMethod.Get;
-            await _commonSteps.WhenISendTheRequestToTheEndpoint();
-            _commonSteps.ThenTheResponseShouldHaveStatus(HttpStatusCode.OK, true);
-            var response = await Response.GetResponses<AllocationDetailsResponse>(_context.Response.Content);
-            response.Should().NotBeNull();
-            response.Allocated.Should().BeTrue();
-            response.ExpiresAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(9));
-            response.ExpiresAt.Should().BeBefore(DateTime.UtcNow.AddMinutes(10));
+            var allocation = await _context.TestDataManager.GetAllocationByUserId(_context.Test.UserDetailsResponse.Id);
+            allocation.Should().NotBeNull();
+            allocation.Allocated.Should().BeTrue();
+            allocation.ExpiresAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(9));
+            allocation.ExpiresAt.Should().BeBefore(DateTime.UtcNow.AddMinutes(10));
         }
 
         [Then(@"the response contains the allocation details")]
