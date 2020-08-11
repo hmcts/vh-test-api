@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
+using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
@@ -40,7 +42,7 @@ namespace TestApi.Controllers
         /// <param name="userType">Type of user (e.g Judge)</param>
         /// <param name="application">Application (e.g. VideoWeb)</param>
         /// <returns>Full details of an allocated user</returns>
-        [HttpPut]
+        [HttpGet]
         [ProducesResponseType(typeof(UserDetailsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AllocateUserByUserTypeAndApplicationAsync(UserType userType, Application application)
@@ -59,7 +61,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
-        [HttpPut("allocateUsers")]
+        [HttpGet("allocateUsers")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
@@ -90,12 +92,13 @@ namespace TestApi.Controllers
         /// <returns>Allocation details of the unallocated users</returns>
         [HttpPut("unallocateUsers")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UnallocateUsersByUsernameAsync(UnallocateUsersRequest request)
         {
             _logger.LogDebug($"UnallocateUsersByUsernameAsync");
 
-            var allocationIds = new List<Guid>();
+            var allocations = new List<Allocation>();
 
             foreach (var username in request.Usernames)
             {
@@ -112,16 +115,19 @@ namespace TestApi.Controllers
                     return NotFound();
                 }
 
-                allocationIds.Add(await UnallocateAsync(username));
+                var allocation = await GetAllocationByUsernameAsync(user.Username);
+
+                if (allocation == null)
+                {
+                    return BadRequest($"No allocation exists for user with username {user.Username}");
+                }
+
+                await UnallocateAsync(username);
+
+                allocations.Add(allocation);
             }
 
-            var response = new List<AllocationDetailsResponse>();
-
-            foreach (var allocationId in allocationIds)
-            {
-                var allocation = await GetAllocationByAllocationIdAsync(allocationId);
-                response.Add(AllocationToDetailsResponseMapper.MapToResponse(allocation));
-            }
+            var response = allocations.Select(AllocationToDetailsResponseMapper.MapToResponse).ToList();
 
             _logger.LogInformation($"Allocated {response.Count} user(s)");
 
@@ -133,23 +139,20 @@ namespace TestApi.Controllers
             return await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
         }
 
-        private async Task<Allocation> GetAllocationByAllocationIdAsync(Guid allocationId)
+        private async Task<Allocation> GetAllocationByUsernameAsync(string username)
         {
-            return await _queryHandler.Handle<GetAllocationByIdQuery, Allocation>(new GetAllocationByIdQuery(allocationId));
+            return await _queryHandler.Handle<GetAllocationByUsernameQuery, Allocation>(new GetAllocationByUsernameQuery(username));
         }
 
         private async Task<User> AllocateAsync(UserType userType, Application application, int expiresInMinutes = 10)
         {
-            var allocateCommand = new AllocateByUserTypeCommand(userType, application, expiresInMinutes);
-            await _commandHandler.Handle(allocateCommand);
-            return allocateCommand.User;
+            return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, User>(new GetAllocatedUserByUserTypeQuery(userType, application, expiresInMinutes));
         }
 
-        private async Task<Guid> UnallocateAsync(string username)
+        private async Task UnallocateAsync(string username)
         {
             var unallocateCommand = new UnallocateByUsernameCommand(username);
             await _commandHandler.Handle(unallocateCommand);
-            return unallocateCommand.AllocationId;
         }
     }
 }

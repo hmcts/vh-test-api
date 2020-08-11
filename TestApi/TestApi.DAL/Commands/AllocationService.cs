@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TestApi.Common.Builders;
+using TestApi.Contract.Responses;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;

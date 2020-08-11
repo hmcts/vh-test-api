@@ -32,7 +32,7 @@ namespace TestApi.IntegrationTests.Configuration
         {
             public const string ApiRoot = "users";
             public static string GetUserByUsername(string username) => $"{ApiRoot}/username/{username}";
-            public static string DeleteAADUser => $"{ApiRoot}/aad";
+            public static string DeleteAADUser(string username) => $"{ApiRoot}/aad/{username}";
         }
     }
 }

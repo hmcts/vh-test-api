@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace TestApi.IntegrationTests.Steps
         public void GivenIHaveAAllocateUserByUserTypeAndApplicationRequest(UserType userType)
         {
             _context.Uri = ApiUriFactory.AllocationEndpoints.AllocateByUserTypeAndApplication(userType, Application.TestApi);
-            _context.HttpMethod = HttpMethod.Put;
+            _context.HttpMethod = HttpMethod.Get;
         }
 
         [Given(@"I have a valid unallocate users by username request")]

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework.Constraints;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Exceptions;
 using TestApi.Domain;

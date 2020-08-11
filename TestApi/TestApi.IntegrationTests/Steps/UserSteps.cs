@@ -45,37 +45,19 @@ namespace TestApi.IntegrationTests.Steps
             _context.HttpMethod = HttpMethod.Get;
         }
 
-        [Given(@"I have a valid create AD user request")]
-        public void GivenIHaveAValidCreateAadUserRequest()
+        [Given(@"I have a valid delete AD user request")]
+        public void GivenIHaveAValidDeleteADUserRequest()
         {
-            var userRequest = new UserBuilder(_context.Config.UsernameStem, 1)
-                .WithUserType(UserType.Individual)
-                .ForApplication(Application.TestApi)
-                .BuildRequest();
-
-            _createAdUserRequest = new ADUserBuilder(userRequest).BuildRequest();
-
-            _context.Uri = ApiUriFactory.UserEndpoints.CreateAADUser;
-            _context.HttpMethod = HttpMethod.Post;
-
-            var jsonBody = RequestHelper.SerialiseRequestToSnakeCaseJson(_createAdUserRequest);
-            _context.HttpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            _context.Uri = ApiUriFactory.UserEndpoints.DeleteAADUser(_context.Test.User.ContactEmail);
+            _context.HttpMethod = HttpMethod.Delete;
         }
 
-        [When(@"I send the create user request twice")]
-        public async Task WhenISendTheCreateUserRequestTwice()
+        [Given(@"I have a delete AD user request for a nonexistent user")]
+        public void GivenIHaveADeleteADUserRequestForANonexistentUser()
         {
-            await SendCreateRequestTwice();
-            _context.Test.User = await _context.TestDataManager.SeedUser();
-            await SendCreateRequestTwice();
-        }
-
-        private async Task SendCreateRequestTwice()
-        {
-            await _commonSteps.WhenISendTheRequestToTheEndpoint();
-            _context.Response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var response = await Response.GetResponses<UserDetailsResponse>(_context.Response.Content);
-            _context.Test.UserResponses.Add(response);
+            const string EMAIL = "made_up_email@email.com";
+            _context.Uri = ApiUriFactory.UserEndpoints.DeleteAADUser(EMAIL);
+            _context.HttpMethod = HttpMethod.Delete;
         }
 
         [Then(@"the user numbers should be incremented")]
@@ -85,7 +67,6 @@ namespace TestApi.IntegrationTests.Steps
             var secondUserNumber = _context.Test.UserResponses.Last().Number;
             firstUserNumber.Should().Be(secondUserNumber - 1);
         }
-
 
         [Then(@"the response contains the new user details")]
         public async Task ThenTheResponseContainsTheNewUserDetails()
@@ -149,24 +130,6 @@ namespace TestApi.IntegrationTests.Steps
             users.Any(x => string.Equals(x.Username, _context.Test.Users.First().Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeTrue();
             users.Any(x => string.Equals(x.Username, _context.Test.Users[1].Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeTrue();
             users.Any(x => string.Equals(x.Username, _context.Test.Users.Last().Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeFalse();
-        }
-
-        [Then(@"the iterated number should be retrieved")]
-        public async Task ThenTheIteratedNumberShouldBeRetrieved()
-        {
-            var response = await Response.GetResponses<IteratedUserNumberResponse>(_context.Response.Content);
-            response.Should().NotBeNull();
-            response.Number.Should().BeGreaterThan(0);
-        }
-
-        [Then(@"the details of the new AD user are retrieved")]
-        public async Task ThenTheDetailsOfTheNewADUserAreRetrieved()
-        {
-            var response = await Response.GetResponses<NewUserResponse>(_context.Response.Content);
-            response.Should().NotBeNull();
-            response.User_id.Should().NotBeNullOrWhiteSpace();
-            response.One_time_password.Should().NotBeNullOrWhiteSpace();
-            response.Username.Should().Be(_createAdUserRequest.Username);
         }
     }
 }

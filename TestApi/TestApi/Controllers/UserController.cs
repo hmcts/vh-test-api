@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
@@ -10,7 +11,9 @@ using TestApi.Domain;
 using TestApi.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.DAL.Exceptions;
 using TestApi.Services.Clients.UserApiClient;
+using TestApi.Services.Contracts;
 
 namespace TestApi.Controllers
 {
@@ -23,12 +26,14 @@ namespace TestApi.Controllers
         private readonly IQueryHandler _queryHandler;
         private readonly ICommandHandler _commandHandler;
         private readonly ILogger<UserController> _logger;
+        private readonly IUserApiService _userApiService;
 
-        public UserController(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<UserController> logger)
+        public UserController(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<UserController> logger, IUserApiService userApiService)
         {
             _commandHandler = commandHandler;
             _queryHandler = queryHandler;
             _logger = logger;
+            _userApiService = userApiService;
         }
 
         /// <summary>
@@ -44,16 +49,16 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"GetUserDetailsByUsernameAsync {username}");
 
-            var queriedUser = await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
-
-            if (queriedUser == null)
+            try
             {
-                _logger.LogWarning($"Unable to find user with username {username}");
+                var queriedUser = await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+                var response = UserToDetailsResponseMapper.MapToResponse(queriedUser);
+                return Ok(response);
+            }
+            catch (UserNotFoundException)
+            {
                 return NotFound();
             }
-
-            var response = UserToDetailsResponseMapper.MapToResponse(queriedUser);
-            return Ok(response);
         }
 
         /// <summary>
@@ -66,15 +71,20 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteADUserAsync(string contactEmail)
         {
-            _logger.LogDebug("CreateNewADUser");
+            _logger.LogDebug("DeleteADUserAsync");
 
+            if (await _userApiService.CheckUserExistsInAAD(contactEmail))
+            {
+                await _userApiService.DeleteUserInAAD(contactEmail);
+            }
+            else
+            {
+                return NotFound(contactEmail);
+            }
 
-            await _commandHandler.Handle(createNewAdUserCommand);
-
-            var user = createNewAdUserCommand.Response;
-            _logger.LogDebug($"New User with username {user.Username} Created");
-
-            return CreatedAtAction(nameof(CreateNewADUserAsync), new { userId = createNewAdUserCommand.Response.User_id }, createNewAdUserCommand.Response);
+            _logger.LogDebug($"User with contact email {contactEmail} deleted");
+            
+            return NoContent();
         }
     }
 }

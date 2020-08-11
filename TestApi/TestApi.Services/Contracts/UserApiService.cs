@@ -27,6 +27,13 @@ namespace TestApi.Services.Contracts
         /// <param name="adUser"></param>
         /// <returns></returns>
         Task<NewUserResponse> CreateNewUserInAAD(ADUser adUser);
+
+        /// <summary>
+        /// Deletes a user by contact email
+        /// </summary>
+        /// <param name="contactEmail"></param>
+        /// <returns></returns>
+        Task DeleteUserInAAD(string contactEmail);
     }
 
     public class UserApiService : IUserApiService
@@ -85,6 +92,26 @@ namespace TestApi.Services.Contracts
             await AddUserToGroups(newUserResponse.User_id, userType);
 
             return newUserResponse;
+        }
+
+        public async Task DeleteUserInAAD(string contactEmail)
+        {
+            try
+            {
+                await _userApiClient.DeleteUserAsync(contactEmail);
+            }
+            catch (UserApiException e)
+            {
+                if (e.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    throw;
+                }
+
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError)
+                {
+                    throw;
+                }
+            }
         }
 
         private async Task AddUserToGroups(string userId, UserType userType, bool isPerformanceTestUser = false, bool isProdUser = false)

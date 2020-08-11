@@ -13,7 +13,7 @@ namespace TestApi.DAL.Queries
         public UserType UserType { get; set; }
         public Application Application { get; set; }
 
-    public GetAllUsersByUserTypeQuery(UserType userType, Application application)
+        public GetAllUsersByUserTypeQuery(UserType userType, Application application)
         {
             UserType = userType;
             Application = application;

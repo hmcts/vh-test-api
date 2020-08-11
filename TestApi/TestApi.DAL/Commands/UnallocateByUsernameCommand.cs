@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Exceptions;
@@ -9,7 +8,6 @@ namespace TestApi.DAL.Commands
     public class UnallocateByUsernameCommand : ICommand
     {
         public string Username { get; set; }
-        public Guid AllocationId { get; set; }
 
         public UnallocateByUsernameCommand(string username)
         {
@@ -44,7 +42,6 @@ namespace TestApi.DAL.Commands
 
             allocation.Unallocate();
             await _context.SaveChangesAsync();
-            command.AllocationId = allocation.Id;
         }
     }
 }

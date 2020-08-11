@@ -15,8 +15,12 @@ Scenario: Get user details by username - Not Found
 	When I send the request to the endpoint
 	Then the response should have the status NotFound and success status False
 
-#Scenario: Create new AD user - Created
-#	Given I have a valid create AD user request
-#	When I send the request to the endpoint
-#	Then the response should have the status Created and success status True
-#	And the details of the new AD user are retrieved
+Scenario: Delete AD user - NoContent
+	Given I have a valid delete AD user request
+	When I send the request to the endpoint
+	Then the response should have the status NoContent and success status True
+
+Scenario: Delete AD user - Not Found
+	Given I have a delete AD user request for a nonexistent user
+	When I send the request to the endpoint
+	Then the response should have the status NotFound and success status False
