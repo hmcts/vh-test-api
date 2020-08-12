@@ -13,7 +13,7 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class GetAllocationsByUserTypesTests : AllocationControllerTestBase
+    public class GetAllocationsByUserTypesTests : HearingsControllerTestBase
     {
         [Test]
         public async Task Should_return_allocated_users()

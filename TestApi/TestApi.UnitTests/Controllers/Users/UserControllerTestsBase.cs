@@ -11,7 +11,6 @@ namespace TestApi.UnitTests.Controllers.Users
 {
     public class UserControllerTestsBase
     {
-        protected Mock<ICommandHandler> CommandHandler;
         protected UserController Controller;
         protected Mock<IQueryHandler> QueryHandler;
         protected Mock<ILogger<UserController>> Logger;
@@ -22,11 +21,10 @@ namespace TestApi.UnitTests.Controllers.Users
         public void OneTimeSetUp()
         {
             QueryHandler = new Mock<IQueryHandler>();
-            CommandHandler = new Mock<ICommandHandler>();
             Logger = new Mock<ILogger<UserController>>();
             UserApiClient = new Mock<IUserApiClient>();
             UserApiService = new Mock<IUserApiService>();
-            Controller = new UserController(CommandHandler.Object, QueryHandler.Object, Logger.Object, UserApiService.Object);
+            Controller = new UserController(QueryHandler.Object, Logger.Object, UserApiService.Object);
         }
     }
 }

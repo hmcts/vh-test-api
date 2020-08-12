@@ -1,10 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.DAL.Commands;
-using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
@@ -12,7 +8,6 @@ using TestApi.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.DAL.Exceptions;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Contracts;
 
 namespace TestApi.Controllers
@@ -24,13 +19,11 @@ namespace TestApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IQueryHandler _queryHandler;
-        private readonly ICommandHandler _commandHandler;
         private readonly ILogger<UserController> _logger;
         private readonly IUserApiService _userApiService;
 
-        public UserController(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<UserController> logger, IUserApiService userApiService)
+        public UserController(IQueryHandler queryHandler, ILogger<UserController> logger, IUserApiService userApiService)
         {
-            _commandHandler = commandHandler;
             _queryHandler = queryHandler;
             _logger = logger;
             _userApiService = userApiService;

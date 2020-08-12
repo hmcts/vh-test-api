@@ -21,8 +21,4 @@
     <ProjectReference Include="..\TestApi\TestApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Hearings\" />
-  </ItemGroup>
-
 </Project>

@@ -23,8 +23,7 @@ namespace TestApi.Controllers
         private readonly IBookingsApiClient _bookingsApiClient;
         private readonly IVideoApiService _videoApiService;
 
-        public HearingsController(ILogger<HearingsController> logger, 
-            IBookingsApiClient bookingsApiClient, IVideoApiService videoApiService)
+        public HearingsController(ILogger<HearingsController> logger, IBookingsApiClient bookingsApiClient, IVideoApiService videoApiService)
         {
             _logger = logger;
             _bookingsApiClient = bookingsApiClient;
@@ -44,16 +43,15 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"GetHearingByIdAsync {hearingId}");
 
-            var response = await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
-
-            if (response == null)
+            try
             {
-                _logger.LogWarning($"Unable to find hearing with id {hearingId}");
-
-                return NotFound();
+                var response = await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
+                return Ok(response);
             }
-
-            return Ok(response);
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
         }
 
         /// <summary>
@@ -94,13 +92,13 @@ namespace TestApi.Controllers
         /// Confirm hearing by id
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
-        /// <param name="request">Details of the confirmation</param>
+        /// <param name="updatedBy">Username of the updater</param>
         /// <returns>Confirm a hearing</returns>
         [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingByIdAsync))]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int) HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, UpdateBookingStatusRequest request)
+        public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, string updatedBy)
         {
             _logger.LogDebug($"ConfirmHearingByIdAsync {hearingId}");
 
@@ -112,6 +110,14 @@ namespace TestApi.Controllers
             }
 
             _logger.LogDebug($"Hearing with id {hearingId} retrieved");
+
+            var request = new UpdateBookingStatusRequest()
+            {
+                AdditionalProperties = null,
+                Cancel_reason = null,
+                Status = UpdateBookingStatus.Created,
+                Updated_by = updatedBy
+            };
 
             try
             {
@@ -163,6 +169,11 @@ namespace TestApi.Controllers
             {
                 return StatusCode(e.StatusCode, e.Response);
             }
+        }
+
+        private async Task<HearingDetailsResponse> GetHearingById(Guid hearingId)
+        {
+            return await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
         }
     }
 }

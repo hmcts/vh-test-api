@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;

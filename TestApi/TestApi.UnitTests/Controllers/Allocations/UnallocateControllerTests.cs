@@ -13,7 +13,7 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class UnallocateControllerTests : AllocationControllerTestBase
+    public class UnallocateControllerTests : HearingsControllerTestBase
     {
         [Test]
         public async Task Should_unallocate_users()

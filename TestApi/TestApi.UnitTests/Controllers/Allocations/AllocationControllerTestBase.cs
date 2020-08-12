@@ -12,7 +12,7 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class AllocationControllerTestBase
+    public class HearingsControllerTestBase
     {
         protected AllocationController Controller;
         protected Mock<ICommandHandler> CommandHandler;

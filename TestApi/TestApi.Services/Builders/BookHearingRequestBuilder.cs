@@ -32,24 +32,6 @@ namespace TestApi.Services.Builders
             _randomNumber = new Random();
         }
 
-        public BookNewHearingRequest Build()
-        {
-            AddCases();
-            SetCreatedBy();
-            _request.AdditionalProperties = null;
-            _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
-            _request.Case_type_name = CASE_TYPE_NAME;
-            _request.Hearing_room_name = HEARING_ROOM_NAME;
-            _request.Hearing_type_name = HEARING_TYPE_NAME;
-            _request.Hearing_venue_name = _createHearingRequest.Venue;
-            _request.Other_information = OTHER_INFORMATION;
-            _request.Questionnaire_not_required = _createHearingRequest.QuestionnaireNotRequired;
-            _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users).Build();
-            _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
-            _request.Scheduled_duration = SCHEDULED_DURATION;
-            return _request;
-        }
-
         private void AddCases()
         {
             var caseRequest = new CaseRequest
@@ -75,6 +57,24 @@ namespace TestApi.Services.Builders
                 throw new ParticipantsException(usernames);
             }
             _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
+        }
+
+        public BookNewHearingRequest Build()
+        {
+            AddCases();
+            SetCreatedBy();
+            _request.AdditionalProperties = null;
+            _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
+            _request.Case_type_name = CASE_TYPE_NAME;
+            _request.Hearing_room_name = HEARING_ROOM_NAME;
+            _request.Hearing_type_name = HEARING_TYPE_NAME;
+            _request.Hearing_venue_name = _createHearingRequest.Venue;
+            _request.Other_information = OTHER_INFORMATION;
+            _request.Questionnaire_not_required = _createHearingRequest.QuestionnaireNotRequired;
+            _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users).Build();
+            _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
+            _request.Scheduled_duration = SCHEDULED_DURATION;
+            return _request;
         }
     }
 }

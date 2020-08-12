@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TestApi.Domain.Enums;
 
-namespace TestApi.Common.Helpers
+namespace TestApi.Domain.Helpers
 {
     public class UserTypeName
     {

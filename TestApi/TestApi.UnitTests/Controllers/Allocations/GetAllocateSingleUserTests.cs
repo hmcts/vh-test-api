@@ -10,7 +10,7 @@ using TestApi.Domain;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class GetAllocateSingleUserTests : AllocationControllerTestBase
+    public class GetAllocateSingleUserTests : HearingsControllerTestBase
     {
         [Test]
         public async Task Should_return_allocated_user()

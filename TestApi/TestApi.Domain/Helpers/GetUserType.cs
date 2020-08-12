@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using TestApi.Common.Helpers;
 using TestApi.Domain.Enums;
 
 namespace TestApi.Domain.Helpers
