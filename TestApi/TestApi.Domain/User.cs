@@ -24,6 +24,7 @@ namespace TestApi.Domain
         public User(string username, string contactEmail, string firstName, string lastName, 
             string displayName, int number, UserType userType, Application application) : this()
         {
+            Id = Guid.NewGuid();
             Username = username;
             ContactEmail = contactEmail;
             FirstName = firstName;

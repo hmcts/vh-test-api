@@ -7,29 +7,20 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Contracts;
 
-namespace TestApi.IntegrationTests.Services
+namespace TestApi.UnitTests.Services
 {
     public class UserApiServiceTests : ServicesTestBase
     {
-        private readonly IUserApiService _userApiService;
-        private readonly Mock<IUserApiClient> _apiClient;
-
-        public UserApiServiceTests()
-        {
-            _apiClient = new Mock<IUserApiClient>();
-            _userApiService = new UserApiService(_apiClient.Object, _context.Config.UserGroupsConfig);
-        }
-
         [Test]
         public async Task Should_return_true_for_existing_user_in_aad()
         {
             const string CONTACT_EMAIL = "made_up_email_address@email.com";
 
-            _apiClient.Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ReturnsAsync(It.IsAny<UserProfile>());
+            UserApiClient
+                .Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ReturnsAsync(It.IsAny<UserProfile>());
 
-            var userExists = await _userApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
+            var userExists = await UserApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
             userExists.Should().BeTrue();
         }
 
@@ -40,16 +31,18 @@ namespace TestApi.IntegrationTests.Services
             
             var ex = new UserApiException("User not found", 404, "Response", new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
 
-            _apiClient.Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ThrowsAsync(ex);
+            UserApiClient.Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ThrowsAsync(ex);
 
-            var userExists = await _userApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
+            var userExists = await UserApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
             userExists.Should().BeFalse();
         }
 
         [Test]
         public async Task Should_create_new_user_in_aad()
         {
-            var userRequest = new UserBuilder(_context.Config.UsernameStem, 1)
+            const string EMAIL_STEM = "made_up_email_stem.com";
+
+            var userRequest = new UserBuilder(EMAIL_STEM, 1)
                 .WithUserType(UserType.Individual)
                 .ForApplication(Application.TestApi)
                 .BuildRequest();
@@ -63,10 +56,10 @@ namespace TestApi.IntegrationTests.Services
                 Username = userRequest.Username
             };
 
-            _apiClient.Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(newUserResponse);
-            _apiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>())).Returns(Task.CompletedTask);
+            UserApiClient.Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(newUserResponse);
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>())).Returns(Task.CompletedTask);
 
-            var userDetails = await _userApiService.CreateNewUserInAAD(adUser);
+            var userDetails = await UserApiService.CreateNewUserInAAD(adUser);
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
             userDetails.User_id.Should().Be(newUserResponse.User_id);
             userDetails.Username.Should().Be(newUserResponse.Username);

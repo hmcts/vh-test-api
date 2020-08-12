@@ -29,7 +29,6 @@ namespace TestApi.UnitTests.Mappings
                     CreatedDate = DateTime.UtcNow,
                     DisplayName = user.DisplayName,
                     FirstName = user.FirstName,
-                    Id = Guid.NewGuid(),
                     LastName = user.LastName,
                     Number = user.Number,
                     Username = user.Username,
@@ -38,7 +37,8 @@ namespace TestApi.UnitTests.Mappings
             };
 
             var response = UserDetailsResponseToUserMapper.Map(userDetails);
-            response.First().Should().BeEquivalentTo(user, options => options.Excluding(x => x.CreatedDate));
+            response.First().Should().BeEquivalentTo(user, options =>
+                options.Excluding(x => x.CreatedDate).Excluding(x => x.Id));
         }
     }
 }
