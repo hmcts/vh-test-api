@@ -33,7 +33,7 @@ namespace TestApi.IntegrationTests.Steps
         {
             var userTypes = ConvertStringToList(usersString);
 
-            _context.Test.AllocationRequest = new AllocateUsersBuilder()
+            _context.Test.AllocationRequest = new AllocateUsersRequestBuilder()
                 .WithUserTypes(userTypes)
                 .ForApplication(Application.TestApi)
                 .Build();

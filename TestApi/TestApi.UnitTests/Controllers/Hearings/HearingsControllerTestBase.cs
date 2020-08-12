@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Common.Configuration;
 using TestApi.Contract.Requests;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
@@ -17,7 +15,6 @@ using TestApi.Services.Builders;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
-using TestApi.Services.Exceptions;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {

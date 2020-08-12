@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Common.Configuration;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
@@ -18,7 +16,6 @@ namespace TestApi.UnitTests.Controllers.Allocations
         protected Mock<ICommandHandler> CommandHandler;
         protected Mock<IQueryHandler> QueryHandler;
         protected Mock<ILogger<AllocationController>> Logger;
-        protected Mock<IOptions<ServicesConfiguration>> ServicesConfiguration;
 
         [SetUp]
         public void Setup()
@@ -29,7 +26,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             Controller = new AllocationController(CommandHandler.Object, QueryHandler.Object, Logger.Object);
         }
 
-        protected static User CreateUser(UserType userType = UserType.CaseAdmin)
+        protected static User CreateUser(UserType userType)
         {
             const string emailStem = "made_up_email_stem";
             const int number = 1;

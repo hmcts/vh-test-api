@@ -8,8 +8,6 @@ using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
 using TestApi.Services.Contracts;
 
 namespace TestApi.IntegrationTests.Services

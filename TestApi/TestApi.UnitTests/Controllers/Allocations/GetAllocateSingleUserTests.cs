@@ -7,6 +7,7 @@ using NUnit.Framework;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
+using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -15,7 +16,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [Test]
         public async Task Should_return_allocated_user()
         {
-            var user = CreateUser();
+            var user = CreateUser(UserType.CaseAdmin);
             CreateAllocation(user);
 
             QueryHandler

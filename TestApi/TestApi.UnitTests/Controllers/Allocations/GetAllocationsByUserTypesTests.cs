@@ -18,30 +18,35 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [Test]
         public async Task Should_return_allocated_users()
         {
-            const UserType FIRST_USER_TYPE = UserType.Judge;
-            const UserType SECOND_USER_TYPE = UserType.Individual;
-            const UserType THIRD_USER_TYPE = UserType.Representative;
+            const UserType JUDGE_USER_TYPE = UserType.Judge;
+            const UserType INDIVIDUAL_USER_TYPE = UserType.Individual;
+            const UserType REPRESENTATIVE_USER_TYPE = UserType.Representative;
+            const UserType CASE_ADMIN_USER_TYPE = UserType.CaseAdmin;
 
-            var firstUser = CreateUser(FIRST_USER_TYPE);
-            CreateAllocation(firstUser);
+            var judgeUser = CreateUser(JUDGE_USER_TYPE);
+            CreateAllocation(judgeUser);
 
-            var secondUser = CreateUser(SECOND_USER_TYPE);
-            CreateAllocation(secondUser);
+            var individualUser = CreateUser(INDIVIDUAL_USER_TYPE);
+            CreateAllocation(individualUser);
 
-            var thirdUser = CreateUser(THIRD_USER_TYPE);
-            CreateAllocation(thirdUser);
+            var representativeUser = CreateUser(REPRESENTATIVE_USER_TYPE);
+            CreateAllocation(representativeUser);
+
+            var caseAdminUser = CreateUser(CASE_ADMIN_USER_TYPE);
+            CreateAllocation(caseAdminUser);
 
             var request = new AllocateUsersRequest()
             {
                 Application = Application.TestApi,
-                UserTypes = new List<UserType>() { FIRST_USER_TYPE, SECOND_USER_TYPE, THIRD_USER_TYPE }
+                UserTypes = new List<UserType>() { JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE, CASE_ADMIN_USER_TYPE }
             };
 
             QueryHandler
                 .SetupSequence(x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
-                .ReturnsAsync(firstUser)
-                .ReturnsAsync(secondUser)
-                .ReturnsAsync(thirdUser);
+                .ReturnsAsync(judgeUser)
+                .ReturnsAsync(individualUser)
+                .ReturnsAsync(representativeUser)
+                .ReturnsAsync(caseAdminUser);
 
             var response = await Controller.AllocateUsersAsync(request);
             response.Should().NotBeNull();
@@ -50,16 +55,19 @@ namespace TestApi.UnitTests.Controllers.Allocations
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var userDetailsResponse = (List<UserDetailsResponse>)result.Value;
-            userDetailsResponse.Count.Should().Be(3);
+            userDetailsResponse.Count.Should().Be(4);
 
-            userDetailsResponse[0].UserType.Should().Be(FIRST_USER_TYPE);
-            userDetailsResponse[0].Should().BeEquivalentTo(firstUser);
+            userDetailsResponse[0].UserType.Should().Be(JUDGE_USER_TYPE);
+            userDetailsResponse[0].Should().BeEquivalentTo(judgeUser);
 
-            userDetailsResponse[1].UserType.Should().Be(SECOND_USER_TYPE);
-            userDetailsResponse[1].Should().BeEquivalentTo(secondUser);
+            userDetailsResponse[1].UserType.Should().Be(INDIVIDUAL_USER_TYPE);
+            userDetailsResponse[1].Should().BeEquivalentTo(individualUser);
 
-            userDetailsResponse[2].UserType.Should().Be(THIRD_USER_TYPE);
-            userDetailsResponse[2].Should().BeEquivalentTo(thirdUser);
+            userDetailsResponse[2].UserType.Should().Be(REPRESENTATIVE_USER_TYPE);
+            userDetailsResponse[2].Should().BeEquivalentTo(representativeUser);
+
+            userDetailsResponse[3].UserType.Should().Be(CASE_ADMIN_USER_TYPE);
+            userDetailsResponse[3].Should().BeEquivalentTo(caseAdminUser);
         }
     }
 }

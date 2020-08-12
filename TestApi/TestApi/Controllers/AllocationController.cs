@@ -12,6 +12,7 @@ using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Extensions;
 using TestApi.Mappings;
 using TestApi.Validations;
 
@@ -66,9 +67,11 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
 
-            if (request.UserTypes.Count.Equals(0))
+            var result = await new AllocateUsersRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
             {
-                return BadRequest("Must be more than 1 user type");
+                ModelState.AddFluentValidationErrors(result.Errors);
+                return BadRequest(ModelState);
             }
 
             var responses = new List<UserDetailsResponse>();
@@ -95,6 +98,13 @@ namespace TestApi.Controllers
         public async Task<IActionResult> UnallocateUsersByUsernameAsync(UnallocateUsersRequest request)
         {
             _logger.LogDebug($"UnallocateUsersByUsernameAsync");
+
+            var result = await new UnallocateUsersRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
+            {
+                ModelState.AddFluentValidationErrors(result.Errors);
+                return BadRequest(ModelState);
+            }
 
             var allocations = new List<Allocation>();
 
