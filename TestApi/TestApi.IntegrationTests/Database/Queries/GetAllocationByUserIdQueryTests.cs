@@ -23,7 +23,6 @@ namespace TestApi.IntegrationTests.Database.Queries
             var allocation = await _context.TestDataManager.SeedAllocation(user.Id);
 
             var allocationDetails = await _query.Handle(new GetAllocationByUserIdQuery(user.Id));
-
             allocationDetails.UserId.Should().Be(user.Id);
             allocationDetails.Username.Should().Be(user.Username);
             allocationDetails.Allocated.Should().Be(allocation.Allocated);
@@ -38,12 +37,11 @@ namespace TestApi.IntegrationTests.Database.Queries
         }
 
         [Test]
-        public async Task Should_throw_error_if_allocation_does_not_exist()
+        public async Task Should_not_throw_error_if_allocation_does_not_exist()
         {
             var user = await _context.TestDataManager.SeedUser();
-
-            Assert.ThrowsAsync<UserAllocationNotFoundException>(() => _query.Handle(
-                new GetAllocationByUserIdQuery(user.Id)));
+            var allocationDetails = await _query.Handle(new GetAllocationByUserIdQuery(user.Id));
+            allocationDetails.Should().BeNull();
         }
     }
 }

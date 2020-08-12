@@ -24,14 +24,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType, expectedUser.Application));
             users.Count.Should().Be(1);
             users.Any(x => x.DisplayName.Equals(unexpectedUser.DisplayName)).Should().BeFalse();
-            users.First().Application.Should().Be(Application.TestApi);
-            users.First().ContactEmail.Should().Be(expectedUser.ContactEmail);
-            users.First().DisplayName.Should().Be(expectedUser.DisplayName);
-            users.First().FirstName.Should().Be(expectedUser.FirstName);
-            users.First().LastName.Should().Be(expectedUser.LastName);
-            users.First().Number.Should().Be(expectedUser.Number);
-            users.First().Username.Should().Be(expectedUser.Username);
-            users.First().UserType.Should().Be(expectedUser.UserType);
+            users.First().Should().BeEquivalentTo(expectedUser);
         }
 
         [Test]

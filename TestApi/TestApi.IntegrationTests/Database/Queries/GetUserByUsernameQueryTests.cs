@@ -21,15 +21,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var user = await _context.TestDataManager.SeedUser();
             var userDetails = await _query.Handle(new GetUserByUsernameQuery(user.Username));
-            userDetails.Application.Should().Be(user.Application);
-            userDetails.ContactEmail.Should().Be(user.ContactEmail);
-            userDetails.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
-            userDetails.DisplayName.Should().Be(user.DisplayName);
-            userDetails.FirstName.Should().Be(user.FirstName);
-            userDetails.LastName.Should().Be(user.LastName);
-            userDetails.Number.Should().Be(user.Number);
-            userDetails.Username.Should().Be(user.Username);
-            userDetails.UserType.Should().Be(user.UserType);
+            userDetails.Should().BeEquivalentTo(user);
         }
 
         [Test]
