@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 
 namespace TestApi.IntegrationTests.Database.Queries
@@ -25,10 +23,11 @@ namespace TestApi.IntegrationTests.Database.Queries
         }
 
         [Test]
-        public void Should_throw_user_not_found_for_nonexistent_user_id()
+        public async Task Should_not_throw_error_if_user_not_found_for_nonexistent_user_id()
         {
-            Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUsernameQuery("Made up username")));
+            const string USERNAME = "made_up_username@email.com";
+            var userDetails = await _query.Handle(new GetUserByUsernameQuery(USERNAME));
+            userDetails.Should().BeNull();
         }
     }
 }

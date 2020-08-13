@@ -26,30 +26,29 @@ namespace TestApi.IntegrationTests.Database.Queries
         }
 
         [Test]
-        public async Task Should_throw_not_found_if_user_with_user_type_does_not_exist()
+        public async Task Should_not_throw_error_if_user_with_user_type_does_not_exist()
         {
             var user = await _context.TestDataManager.SeedUser();
-
-            Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number)));
+            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number));
+            userDetails.Should().BeNull();
         }
 
         [Test]
-        public async Task Should_throw_not_found_if_user_with_application_does_not_exist()
+        public async Task Should_not_throw_error_if_user_with_application_does_not_exist()
         {
             var user = await _context.TestDataManager.SeedUser();
 
-            Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number)));
+            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number));
+            userDetails.Should().BeNull();
         }
 
         [Test]
-        public async Task Should_throw_not_found_if_user_with_number_does_not_exist()
+        public async Task Should_not_throw_error_if_user_with_number_does_not_exist()
         {
             var user = await _context.TestDataManager.SeedUser();
 
-            Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1)));
+            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1));
+            userDetails.Should().BeNull();
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using System;
+﻿#nullable enable
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -34,18 +33,11 @@ namespace TestApi.DAL.Queries
 
         public async Task<User> Handle(GetUserByUserTypeAppAndNumberQuery query)
         {
-            var user = await _context.Users
+            return await _context.Users
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.UserType == query.UserType &&
                                            x.Application == query.Application &&
                                            x.Number == query.Number);
-
-            if (user == null)
-            {
-                throw new UserNotFoundException(query.UserType, query.Application, query.Number);
-            }
-
-            return user;
         }
     }
 }

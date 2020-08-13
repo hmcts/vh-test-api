@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿#nullable enable
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries.Core;
@@ -27,16 +28,9 @@ namespace TestApi.DAL.Queries
 
         public async Task<User> Handle(GetUserByUsernameQuery query)
         {
-            var user = await _context.Users
+            return await _context.Users
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Username.ToLower() == query.Username.ToLower());
-
-            if (user == null)
-            {
-                throw new UserNotFoundException(query.Username);
-            }
-
-            return user;
         }
     }
 }
