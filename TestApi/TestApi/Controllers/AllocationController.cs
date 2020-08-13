@@ -67,13 +67,6 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
 
-            var result = await new AllocateUsersRequestValidator().ValidateAsync(request);
-            if (!result.IsValid)
-            {
-                ModelState.AddFluentValidationErrors(result.Errors);
-                return BadRequest(ModelState);
-            }
-
             var responses = new List<UserDetailsResponse>();
 
             foreach (var userType in request.UserTypes)
@@ -99,23 +92,10 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"UnallocateUsersByUsernameAsync");
 
-            var result = await new UnallocateUsersRequestValidator().ValidateAsync(request);
-            if (!result.IsValid)
-            {
-                ModelState.AddFluentValidationErrors(result.Errors);
-                return BadRequest(ModelState);
-            }
-
             var allocations = new List<Allocation>();
 
             foreach (var username in request.Usernames)
             {
-                if (!username.IsValidEmail())
-                {
-                    ModelState.AddModelError(nameof(username), $"Please provide a valid {nameof(username)}");
-                    return BadRequest(ModelState);
-                }
-
                 var user = await GetUserByUsernameAsync(username);
 
                 if (user == null)

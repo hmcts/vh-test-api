@@ -1,5 +1,6 @@
 using System;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using TestApi.DAL;
 using TestApi.Extensions;
 using TestApi.Telemetry;
 using TestApi.ValidationMiddleware;
+using TestApi.Validations;
 
 namespace TestApi
 {
@@ -63,7 +65,10 @@ namespace TestApi
             services.AddMvc(AddMvcPolicies);
 
             services.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
+            services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
 
+            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter))).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AllocateUsersRequestValidator>());
             services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
         }
 

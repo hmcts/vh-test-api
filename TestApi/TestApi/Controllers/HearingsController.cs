@@ -66,12 +66,6 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug("CreateHearingAsync");
 
-            foreach (var user in request.Users.Where(user => !user.Username.IsValidEmail() || !user.ContactEmail.IsValidEmail()))
-            {
-                ModelState.AddModelError(nameof(user.Username), $"Please provide a valid {nameof(user.Username)}");
-                return BadRequest(ModelState);
-            }
-
             var bookHearingRequest = new BookHearingRequestBuilder(request).Build();
 
             try

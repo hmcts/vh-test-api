@@ -5,16 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using TechTalk.SpecFlow;
-using TestApi.Common.Builders;
-using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.IntegrationTests.Helpers;
-using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.IntegrationTests.Steps
 {
@@ -22,13 +18,10 @@ namespace TestApi.IntegrationTests.Steps
     public class UserSteps : BaseSteps
     {
         private readonly TestContext _context;
-        private readonly CommonSteps _commonSteps;
-        private CreateADUserRequest _createAdUserRequest;
 
-        public UserSteps(TestContext context, CommonSteps commonSteps)
+        public UserSteps(TestContext context)
         {
             _context = context;
-            _commonSteps = commonSteps;
         }
 
         [Given(@"I have a valid get user details by username request")]
