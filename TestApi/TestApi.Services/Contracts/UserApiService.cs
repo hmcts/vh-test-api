@@ -8,28 +8,27 @@ using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Exceptions;
 using TestApi.Services.Helpers;
-using CreateUserRequest = TestApi.Services.Clients.UserApiClient.CreateUserRequest;
 
 namespace TestApi.Services.Contracts
 {
     public interface IUserApiService
     {
         /// <summary>
-        /// Checks if a user already exists based on their contact email
+        ///     Checks if a user already exists based on their contact email
         /// </summary>
         /// <param name="contactEmail"></param>
         /// <returns></returns>
         Task<bool> CheckUserExistsInAAD(string contactEmail);
 
         /// <summary>
-        /// Creates a user based on the user information
+        ///     Creates a user based on the user information
         /// </summary>
         /// <param name="adUser"></param>
         /// <returns></returns>
         Task<NewUserResponse> CreateNewUserInAAD(ADUser adUser);
 
         /// <summary>
-        /// Deletes a user by contact email
+        ///     Deletes a user by contact email
         /// </summary>
         /// <param name="contactEmail"></param>
         /// <returns></returns>
@@ -55,15 +54,9 @@ namespace TestApi.Services.Contracts
             }
             catch (UserApiException e)
             {
-                if (e.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    return false;
-                }
+                if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
 
-                if (e.StatusCode == (int)HttpStatusCode.InternalServerError)
-                {
-                    throw;
-                }
+                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
             }
 
             return true;
@@ -83,9 +76,7 @@ namespace TestApi.Services.Contracts
             };
 
             if (adUser.ContactEmail != createUserRequest.Recovery_email)
-            {
                 throw new UserDetailsMismatchException(adUser.ContactEmail, createUserRequest.Recovery_email);
-            }
 
             var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
 
@@ -102,32 +93,21 @@ namespace TestApi.Services.Contracts
             }
             catch (UserApiException e)
             {
-                if (e.StatusCode == (int)HttpStatusCode.NotFound)
-                {
-                    throw;
-                }
+                if (e.StatusCode == (int) HttpStatusCode.NotFound) throw;
 
-                if (e.StatusCode == (int)HttpStatusCode.InternalServerError)
-                {
-                    throw;
-                }
+                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
             }
         }
 
-        private async Task AddUserToGroups(string userId, UserType userType, bool isPerformanceTestUser = false, bool isProdUser = false)
+        private async Task AddUserToGroups(string userId, UserType userType, bool isPerformanceTestUser = false,
+            bool isProdUser = false)
         {
             var userGroupStrategies = new UserGroups().GetStrategies();
             var groups = userGroupStrategies[userType].GetGroups(_userGroups);
 
-            if (!isProdUser)
-            {
-                groups.Add(_userGroups.TestAccountGroup);
-            }
+            if (!isProdUser) groups.Add(_userGroups.TestAccountGroup);
 
-            if (isPerformanceTestUser)
-            {
-                groups.Add(_userGroups.PerformanceTestAccountGroup);
-            }
+            if (isPerformanceTestUser) groups.Add(_userGroups.PerformanceTestAccountGroup);
 
             foreach (var group in groups)
             {

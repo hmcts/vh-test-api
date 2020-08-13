@@ -17,7 +17,6 @@ namespace TestApi.UnitTests.Controllers.Users
 {
     public class GetTestApiUserByUsername : UserControllerTestsBase
     {
-
         [Test]
         public async Task Should_retrieve_user_details()
         {
@@ -36,10 +35,10 @@ namespace TestApi.UnitTests.Controllers.Users
             var result = await Controller.GetUserDetailsByUsernameAsync(user.Username);
 
             result.Should().NotBeNull();
-            var objectResult = (OkObjectResult)result;
-            objectResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            
-            var userDetails = (UserDetailsResponse)objectResult.Value;
+            var objectResult = (OkObjectResult) result;
+            objectResult.StatusCode.Should().Be((int) HttpStatusCode.OK);
+
+            var userDetails = (UserDetailsResponse) objectResult.Value;
             userDetails.Should().BeEquivalentTo(user);
         }
 
@@ -55,8 +54,8 @@ namespace TestApi.UnitTests.Controllers.Users
             var result = await Controller.GetUserDetailsByUsernameAsync(USERNAME);
 
             result.Should().NotBeNull();
-            var objectResult = (NotFoundResult)result;
-            objectResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var objectResult = (NotFoundResult) result;
+            objectResult.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
 
         [Test]
@@ -73,8 +72,8 @@ namespace TestApi.UnitTests.Controllers.Users
             var result = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
-            var objectResult = (NoContentResult)result;
-            objectResult.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            var objectResult = (NoContentResult) result;
+            objectResult.StatusCode.Should().Be((int) HttpStatusCode.NoContent);
         }
 
         [Test]
@@ -87,9 +86,8 @@ namespace TestApi.UnitTests.Controllers.Users
             var result = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
-            var objectResult = (NotFoundObjectResult)result;
-            objectResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var objectResult = (NotFoundObjectResult) result;
+            objectResult.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
-
     }
 }

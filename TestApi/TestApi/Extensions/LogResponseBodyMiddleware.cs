@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace TestApi.Extensions
 {
     /// <summary>
-    /// Middleware to intercept the response we're sending to the client in order to use for logging
+    ///     Middleware to intercept the response we're sending to the client in order to use for logging
     /// </summary>
     public class LogResponseBodyMiddleware
     {

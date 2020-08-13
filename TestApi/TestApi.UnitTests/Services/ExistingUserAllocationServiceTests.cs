@@ -23,8 +23,8 @@ namespace TestApi.UnitTests.Services
             allocations.Count.Should().Be(NUMBER_OF_USERS);
 
             QueryHandler
-              .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
-              .ReturnsAsync(users);
+                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .ReturnsAsync(users);
 
             QueryHandler
                 .SetupSequence(x =>
@@ -68,11 +68,11 @@ namespace TestApi.UnitTests.Services
             QueryHandler
                 .SetupSequence(x =>
                     x.Handle<GetAllocationByUserIdQuery, Allocation>(It.IsAny<GetAllocationByUserIdQuery>()))
-                .ReturnsAsync((Allocation)null)
+                .ReturnsAsync((Allocation) null)
                 .ReturnsAsync(allocations[0])
-                .ReturnsAsync((Allocation)null)
+                .ReturnsAsync((Allocation) null)
                 .ReturnsAsync(allocations[1])
-                .ReturnsAsync((Allocation)null)
+                .ReturnsAsync((Allocation) null)
                 .ReturnsAsync(allocations[2]);
 
             CommandHandler
@@ -128,7 +128,7 @@ namespace TestApi.UnitTests.Services
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
-            var newUserResponse = new NewUserResponse()
+            var newUserResponse = new NewUserResponse
             {
                 One_time_password = "password",
                 User_id = "1234",

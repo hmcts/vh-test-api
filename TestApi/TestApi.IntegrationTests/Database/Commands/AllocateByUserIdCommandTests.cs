@@ -34,7 +34,8 @@ namespace TestApi.IntegrationTests.Database.Commands
             var allocationDetails = await _query.Handle(new GetAllocationByUserIdQuery(user.Id));
 
             allocationDetails.Allocated.Should().BeTrue();
-            allocationDetails.ExpiresAt.Should().BeCloseTo(DateTime.UtcNow.AddMinutes(MINUTES), TimeSpan.FromSeconds(5));
+            allocationDetails.ExpiresAt.Should()
+                .BeCloseTo(DateTime.UtcNow.AddMinutes(MINUTES), TimeSpan.FromSeconds(5));
         }
 
         [Test]

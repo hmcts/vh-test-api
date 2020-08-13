@@ -27,7 +27,8 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_return_one_if_no_applicable_users_exist()
         {
-            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi));
+            var nextNumber =
+                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi));
             nextNumber.Value.Should().Be(1);
         }
 
@@ -35,14 +36,15 @@ namespace TestApi.IntegrationTests.Database.Queries
         public async Task Should_return_one_if_users_exist_but_for_wrong_type()
         {
             await _context.TestDataManager.SeedUser();
-            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi));
+            var nextNumber =
+                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi));
             nextNumber.Value.Should().Be(1);
         }
 
         [Test]
         public async Task Should_get_next_user_number_if_multiple_users_with_same_user_type_exist()
         {
-            const UserType userType = UserType.None; 
+            const UserType userType = UserType.None;
             await _context.TestDataManager.SeedUser(userType);
             await _context.TestDataManager.SeedUser(userType);
             await _context.TestDataManager.SeedUser(userType);

@@ -11,8 +11,8 @@ namespace TestApi.UnitTests.Domain
 {
     public class AllocationDomainTests
     {
-        private User _user;
         private Allocation _allocation;
+        private User _user;
 
         [SetUp]
         public void SetUp()
@@ -90,7 +90,8 @@ namespace TestApi.UnitTests.Domain
             _allocation.Allocate(MINUTES);
             _allocation.Unallocate();
             _allocation.Allocate(SECOND_MINUTES);
-            _allocation.ExpiresAt.Should().BeCloseTo(DateTime.UtcNow.AddMinutes(SECOND_MINUTES), TimeSpan.FromSeconds(5));
+            _allocation.ExpiresAt.Should()
+                .BeCloseTo(DateTime.UtcNow.AddMinutes(SECOND_MINUTES), TimeSpan.FromSeconds(5));
         }
     }
 }

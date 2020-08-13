@@ -13,7 +13,7 @@ namespace TestApi.UnitTests.Domain
         {
             const string emailStem = "made_up_email_stem";
             const int number = 1;
-            
+
             var user = new UserBuilder(emailStem, number)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)

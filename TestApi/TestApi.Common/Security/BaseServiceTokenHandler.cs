@@ -9,13 +9,10 @@ namespace TestApi.Common.Security
 {
     public abstract class BaseServiceTokenHandler : DelegatingHandler
     {
-        private readonly ITokenProvider _tokenProvider;
-        private readonly IMemoryCache _memoryCache;
         private readonly AzureAdConfiguration _azureAdConfiguration;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ITokenProvider _tokenProvider;
         protected readonly ServicesConfiguration ServicesConfiguration;
-        
-        protected abstract string TokenCacheKey { get; }
-        protected abstract string ClientResource { get; }
 
         protected BaseServiceTokenHandler(IOptions<AzureAdConfiguration> azureAdConfiguration,
             IOptions<ServicesConfiguration> servicesConfiguration, IMemoryCache memoryCache,
@@ -27,6 +24,9 @@ namespace TestApi.Common.Security
             _tokenProvider = tokenProvider;
         }
 
+        protected abstract string TokenCacheKey { get; }
+        protected abstract string ClientResource { get; }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
@@ -34,12 +34,12 @@ namespace TestApi.Common.Security
             request.Headers.Add("Authorization", $"Bearer {token}");
             return await base.SendAsync(request, cancellationToken);
         }
-        
+
         protected string GetServiceToServiceToken()
         {
             var token = _memoryCache.Get<string>(TokenCacheKey);
             if (!string.IsNullOrEmpty(token)) return token;
-            
+
             var authenticationResult = _tokenProvider.GetAuthorisationResult(_azureAdConfiguration.ClientId,
                 _azureAdConfiguration.ClientSecret, ClientResource);
             token = authenticationResult.AccessToken;

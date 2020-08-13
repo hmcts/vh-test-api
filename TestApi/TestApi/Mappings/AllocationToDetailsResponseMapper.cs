@@ -10,7 +10,7 @@ namespace TestApi.Mappings
             return new AllocationDetailsResponse
             {
                 Id = allocation.Id,
-                UserId  = allocation.UserId,
+                UserId = allocation.UserId,
                 Username = allocation.Username,
                 Allocated = allocation.Allocated,
                 ExpiresAt = allocation.ExpiresAt

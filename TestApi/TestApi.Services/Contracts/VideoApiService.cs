@@ -16,8 +16,8 @@ namespace TestApi.Services.Contracts
 
     public class VideoApiService : IVideoApiService
     {
-        private readonly IVideoApiClient _videoApiClient;
         private readonly ILogger<VideoApiService> _logger;
+        private readonly IVideoApiClient _videoApiClient;
 
         public VideoApiService(IVideoApiClient videoApiClient, ILogger<VideoApiService> logger)
         {
@@ -36,7 +36,8 @@ namespace TestApi.Services.Contracts
                         TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                     (exception, timeSpan, context) =>
                     {
-                        _logger.LogWarning($"Encountered error '{exception.Message}' after {timeSpan.Seconds} seconds. Retrying...");
+                        _logger.LogWarning(
+                            $"Encountered error '{exception.Message}' after {timeSpan.Seconds} seconds. Retrying...");
                     });
 
             var result = await policy.Execute(() => GetConference(hearingRefId));

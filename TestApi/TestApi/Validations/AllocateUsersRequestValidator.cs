@@ -23,7 +23,8 @@ namespace TestApi.Validations
                 .Must(x => x.Contains(UserType.CaseAdmin)).WithMessage(MISSING_CASE_ADMIN_USER_ERROR_MESSAGE);
 
             RuleFor(x => x.UserTypes)
-                .Must(x => x.FindAll(u => u.Equals(UserType.Judge)).Count <= 1).WithMessage(MORE_THAN_ONE_JUDGE_ERROR_MESSAGE);
+                .Must(x => x.FindAll(u => u.Equals(UserType.Judge)).Count <= 1)
+                .WithMessage(MORE_THAN_ONE_JUDGE_ERROR_MESSAGE);
         }
     }
 }

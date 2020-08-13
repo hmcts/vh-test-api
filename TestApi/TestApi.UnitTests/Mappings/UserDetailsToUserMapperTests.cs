@@ -13,7 +13,7 @@ namespace TestApi.UnitTests.Mappings
     public class UserDetailsToUserMapperTests
     {
         [Test]
-        public void Should_map_all_properties() 
+        public void Should_map_all_properties()
         {
             var user = new UserBuilder("made_up_email_stem_for_test", 1)
                 .WithUserType(UserType.Individual)
@@ -22,7 +22,7 @@ namespace TestApi.UnitTests.Mappings
 
             var userDetails = new List<UserDetailsResponse>
             {
-                new UserDetailsResponse()
+                new UserDetailsResponse
                 {
                     Application = user.Application,
                     ContactEmail = user.ContactEmail,

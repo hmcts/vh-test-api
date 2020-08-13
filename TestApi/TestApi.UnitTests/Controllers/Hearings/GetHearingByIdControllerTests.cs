@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -24,10 +23,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.GetHearingByIdAsync(hearingDetailsResponse.Id);
             response.Should().NotBeNull();
 
-            var result = (OkObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = (OkObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
-            var hearingDetails = (HearingDetailsResponse)result.Value;
+            var hearingDetails = (HearingDetailsResponse) result.Value;
             hearingDetails.Should().NotBeNull();
             hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
         }
@@ -44,8 +43,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.GetHearingByIdAsync(nonExistentHearingId);
             response.Should().NotBeNull();
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
     }
 }

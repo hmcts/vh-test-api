@@ -27,8 +27,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.DeleteHearingByIdAsync(hearingId);
             response.Should().NotBeNull();
 
-            var result = (NoContentResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            var result = (NoContentResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.NoContent);
         }
 
         [Test]
@@ -48,8 +48,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.DeleteHearingByIdAsync(hearingId);
             response.Should().NotBeNull();
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
     }
 }

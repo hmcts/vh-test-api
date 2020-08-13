@@ -21,7 +21,8 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var expectedUser = await _context.TestDataManager.SeedUser();
             var unexpectedUser = await _context.TestDataManager.SeedUser(UserType.None);
-            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType, expectedUser.Application));
+            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType,
+                expectedUser.Application));
             users.Count.Should().Be(1);
             users.Any(x => x.DisplayName.Equals(unexpectedUser.DisplayName)).Should().BeFalse();
             users.First().Should().BeEquivalentTo(expectedUser);

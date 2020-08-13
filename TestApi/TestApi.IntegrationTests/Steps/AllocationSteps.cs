@@ -28,7 +28,8 @@ namespace TestApi.IntegrationTests.Steps
         [Given(@"I have a Allocate user by user type (.*) and application request")]
         public void GivenIHaveAAllocateUserByUserTypeAndApplicationRequest(UserType userType)
         {
-            _context.Uri = ApiUriFactory.AllocationEndpoints.AllocateByUserTypeAndApplication(userType, Application.TestApi);
+            _context.Uri =
+                ApiUriFactory.AllocationEndpoints.AllocateByUserTypeAndApplication(userType, Application.TestApi);
             _context.HttpMethod = HttpMethod.Get;
         }
 
@@ -37,7 +38,7 @@ namespace TestApi.IntegrationTests.Steps
         {
             var usernames = _context.Test.Users.Select(user => user.Username).ToList();
 
-            var request = new UnallocateUsersRequest()
+            var request = new UnallocateUsersRequest
             {
                 Usernames = usernames
             };
@@ -52,9 +53,9 @@ namespace TestApi.IntegrationTests.Steps
         [Given(@"I have a valid unallocate users by username request for a nonexistent user")]
         public void GivenIHaveAValidUnallocateUsersByUsernameRequestForANonexistentUser()
         {
-            var usernames = new List<string>(){"MadeUpUsername@email.com"};
+            var usernames = new List<string> {"MadeUpUsername@email.com"};
 
-            var request = new UnallocateUsersRequest()
+            var request = new UnallocateUsersRequest
             {
                 Usernames = usernames
             };
@@ -113,17 +114,13 @@ namespace TestApi.IntegrationTests.Steps
                 _context.Test.Allocations.Any(x => x.Id == allocationDetails.Id).Should().BeTrue();
                 _context.Test.Users.Any(x => x.Id == allocationDetails.UserId).Should().BeTrue();
                 _context.Test.Users.Any(x => x.Username == allocationDetails.Username).Should().BeTrue();
-                
+
                 allocationDetails.Allocated.Should().Be(allocated);
 
                 if (allocated)
-                {
                     allocationDetails.ExpiresAt.Should().NotBeNull();
-                }
                 else
-                {
                     allocationDetails.ExpiresAt.Should().BeNull();
-                }
             }
         }
     }

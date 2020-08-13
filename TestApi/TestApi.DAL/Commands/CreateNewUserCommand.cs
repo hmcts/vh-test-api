@@ -11,17 +11,7 @@ namespace TestApi.DAL.Commands
 {
     public class CreateNewUserCommand : ICommand
     {
-        public string Username { get; set; }
-        public string ContactEmail { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string DisplayName { get; set; }
-        public int Number { get; set; }
-        public UserType UserType { get; set; }
-        public Application Application { get; set; }
-        public Guid NewUserId { get; set; }
-
-        public CreateNewUserCommand(string username, string contactEmail, string firstName, string lastName, 
+        public CreateNewUserCommand(string username, string contactEmail, string firstName, string lastName,
             string displayName, int number, UserType userType, Application application)
         {
             Username = username;
@@ -33,6 +23,16 @@ namespace TestApi.DAL.Commands
             UserType = userType;
             Application = application;
         }
+
+        public string Username { get; set; }
+        public string ContactEmail { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string DisplayName { get; set; }
+        public int Number { get; set; }
+        public UserType UserType { get; set; }
+        public Application Application { get; set; }
+        public Guid NewUserId { get; set; }
     }
 
     public class CreateNewUserCommandHandler : ICommandHandler<CreateNewUserCommand>
@@ -46,20 +46,17 @@ namespace TestApi.DAL.Commands
 
         public async Task Handle(CreateNewUserCommand command)
         {
-
             var userWithNumberExistsAlready = await _context.Users
                 .Where(x => x.UserType == command.UserType && x.Number == command.Number)
                 .AsNoTracking()
                 .AnyAsync();
 
             if (userWithNumberExistsAlready)
-            {
                 throw new MatchingUserWithNumberExistsException(command.UserType, command.Number);
-            }
 
             var user = new User(
-                command.Username, 
-                command.ContactEmail, 
+                command.Username,
+                command.ContactEmail,
                 command.FirstName,
                 command.LastName,
                 command.DisplayName,

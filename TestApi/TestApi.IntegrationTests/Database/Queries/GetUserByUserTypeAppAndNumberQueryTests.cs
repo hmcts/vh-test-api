@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 using TestApi.Domain.Enums;
 
@@ -21,7 +19,9 @@ namespace TestApi.IntegrationTests.Database.Queries
         public async Task Should_get_user_by_user_type_application_and_number()
         {
             var user = await _context.TestDataManager.SeedUser();
-            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, user.Number));
+            var userDetails =
+                await _query.Handle(
+                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, user.Number));
             userDetails.Should().BeEquivalentTo(user);
         }
 
@@ -29,7 +29,9 @@ namespace TestApi.IntegrationTests.Database.Queries
         public async Task Should_not_throw_error_if_user_with_user_type_does_not_exist()
         {
             var user = await _context.TestDataManager.SeedUser();
-            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number));
+            var userDetails =
+                await _query.Handle(
+                    new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number));
             userDetails.Should().BeNull();
         }
 
@@ -38,7 +40,9 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var user = await _context.TestDataManager.SeedUser();
 
-            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number));
+            var userDetails =
+                await _query.Handle(
+                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number));
             userDetails.Should().BeNull();
         }
 
@@ -47,7 +51,8 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var user = await _context.TestDataManager.SeedUser();
 
-            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1));
+            var userDetails =
+                await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1));
             userDetails.Should().BeNull();
         }
     }

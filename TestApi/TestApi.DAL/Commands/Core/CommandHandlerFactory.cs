@@ -14,7 +14,7 @@ namespace TestApi.DAL.Commands.Core
         public ICommandHandler<TCommand> Create<TCommand>(TCommand command) where TCommand : ICommand
         {
             var genericType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-            return (ICommandHandler<TCommand>)_serviceProvider.GetService(genericType); 
+            return (ICommandHandler<TCommand>) _serviceProvider.GetService(genericType);
             // Service Locator is anti-pattern. Need to figure out better way of managing this
         }
     }

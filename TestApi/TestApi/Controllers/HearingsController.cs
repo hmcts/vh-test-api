@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,6 @@ using TestApi.Services.Builders;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
-using TestApi.Validations;
 
 namespace TestApi.Controllers
 {
@@ -19,11 +17,12 @@ namespace TestApi.Controllers
     [ApiController]
     public class HearingsController : ControllerBase
     {
-        private readonly ILogger<HearingsController> _logger;
         private readonly IBookingsApiClient _bookingsApiClient;
+        private readonly ILogger<HearingsController> _logger;
         private readonly IVideoApiService _videoApiService;
 
-        public HearingsController(ILogger<HearingsController> logger, IBookingsApiClient bookingsApiClient, IVideoApiService videoApiService)
+        public HearingsController(ILogger<HearingsController> logger, IBookingsApiClient bookingsApiClient,
+            IVideoApiService videoApiService)
         {
             _logger = logger;
             _bookingsApiClient = bookingsApiClient;
@@ -31,14 +30,14 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Get the details of a hearing by id
+        ///     Get the details of a hearing by id
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
         [HttpGet("{hearingId}", Name = nameof(GetHearingByIdAsync))]
-        [ProducesResponseType(typeof(HearingDetailsResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(HearingDetailsResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHearingByIdAsync(Guid hearingId)
         {
             _logger.LogDebug($"GetHearingByIdAsync {hearingId}");
@@ -55,13 +54,13 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Create a hearing
+        ///     Create a hearing
         /// </summary>
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(HearingDetailsResponse), (int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(HearingDetailsResponse), (int) HttpStatusCode.Created)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateHearingAsync(CreateHearingRequest request)
         {
             _logger.LogDebug("CreateHearingAsync");
@@ -74,7 +73,7 @@ namespace TestApi.Controllers
 
                 _logger.LogDebug($"New Hearing Created with id {response.Id}");
 
-                return CreatedAtAction(nameof(CreateHearingAsync), new { hearingId = response.Id }, response);
+                return CreatedAtAction(nameof(CreateHearingAsync), new {hearingId = response.Id}, response);
             }
             catch (BookingsApiException e)
             {
@@ -83,29 +82,26 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Confirm hearing by id
+        ///     Confirm hearing by id
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <param name="updatedBy">Username of the updater</param>
         /// <returns>Confirm a hearing</returns>
         [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingByIdAsync))]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int) HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, string updatedBy)
         {
             _logger.LogDebug($"ConfirmHearingByIdAsync {hearingId}");
 
             var existingHearing = await GetHearingByIdAsync(hearingId);
 
-            if (existingHearing == null)
-            {
-                return NotFound();
-            }
+            if (existingHearing == null) return NotFound();
 
             _logger.LogDebug($"Hearing with id {hearingId} retrieved");
 
-            var request = new UpdateBookingStatusRequest()
+            var request = new UpdateBookingStatusRequest
             {
                 AdditionalProperties = null,
                 Cancel_reason = null,
@@ -130,24 +126,21 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Delete hearing by id
+        ///     Delete hearing by id
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
         [HttpDelete("{hearingId}", Name = nameof(DeleteHearingByIdAsync))]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteHearingByIdAsync(Guid hearingId)
         {
             _logger.LogDebug($"DeleteHearingByIdAsync {hearingId}");
 
             var existingHearing = await GetHearingByIdAsync(hearingId);
 
-            if (existingHearing == null)
-            {
-                return NotFound();
-            }
+            if (existingHearing == null) return NotFound();
 
             _logger.LogDebug($"Hearing with id {hearingId} retrieved");
 

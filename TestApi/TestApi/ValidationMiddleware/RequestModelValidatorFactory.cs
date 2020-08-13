@@ -14,7 +14,7 @@ namespace TestApi.ValidationMiddleware
 
         public override IValidator CreateInstance(Type validatorType)
         {
-            var validator = (IValidator)_serviceProvider.GetService(validatorType);
+            var validator = (IValidator) _serviceProvider.GetService(validatorType);
             return validator;
         }
     }

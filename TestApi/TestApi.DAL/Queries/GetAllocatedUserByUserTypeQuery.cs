@@ -8,16 +8,17 @@ namespace TestApi.DAL.Queries
 {
     public class GetAllocatedUserByUserTypeQuery : IQuery
     {
-        public UserType UserType { get; set; }
-        public Application Application { get; set; }
-        public int ExtendedExpiryInMinutes { get; set; }
-
-        public GetAllocatedUserByUserTypeQuery(UserType userType, Application application, int extendedExpiryInMinutes = 10)
+        public GetAllocatedUserByUserTypeQuery(UserType userType, Application application,
+            int extendedExpiryInMinutes = 10)
         {
             UserType = userType;
             Application = application;
             ExtendedExpiryInMinutes = extendedExpiryInMinutes;
         }
+
+        public UserType UserType { get; set; }
+        public Application Application { get; set; }
+        public int ExtendedExpiryInMinutes { get; set; }
     }
 
     public class GetNewAllocationByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
@@ -33,7 +34,8 @@ namespace TestApi.DAL.Queries
 
         public async Task<User> Handle(GetAllocatedUserByUserTypeQuery query)
         {
-            var user = await _service.AllocateToService(query.UserType, query.Application, query.ExtendedExpiryInMinutes);
+            var user = await _service.AllocateToService(query.UserType, query.Application,
+                query.ExtendedExpiryInMinutes);
             await _context.SaveChangesAsync();
             return user;
         }

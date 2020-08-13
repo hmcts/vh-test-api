@@ -44,7 +44,7 @@ namespace TestApi.UnitTests.Middleware
 
             await ExceptionMiddleware.InvokeAsync(HttpContext);
 
-            Assert.AreEqual((int)HttpStatusCode.BadRequest, HttpContext.Response.StatusCode);
+            Assert.AreEqual((int) HttpStatusCode.BadRequest, HttpContext.Response.StatusCode);
             HttpContext.Response.ContentType.Should().Be("application/json");
         }
 
@@ -52,13 +52,13 @@ namespace TestApi.UnitTests.Middleware
         public async Task Should_return_exception_message()
         {
             RequestDelegateMock
-               .Setup(x => x.RequestDelegate(It.IsAny<HttpContext>()))
-               .Returns(Task.FromException(new Exception()));
+                .Setup(x => x.RequestDelegate(It.IsAny<HttpContext>()))
+                .Returns(Task.FromException(new Exception()));
             ExceptionMiddleware = new ExceptionMiddleware(RequestDelegateMock.Object.RequestDelegate);
 
             await ExceptionMiddleware.InvokeAsync(HttpContext);
 
-            Assert.AreEqual((int)HttpStatusCode.InternalServerError, HttpContext.Response.StatusCode);
+            Assert.AreEqual((int) HttpStatusCode.InternalServerError, HttpContext.Response.StatusCode);
             HttpContext.Response.ContentType.Should().Be("application/json");
         }
 

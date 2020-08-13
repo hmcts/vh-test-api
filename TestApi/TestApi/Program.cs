@@ -18,7 +18,8 @@ namespace TestApi
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => {
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();

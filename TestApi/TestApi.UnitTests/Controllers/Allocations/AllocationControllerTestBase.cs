@@ -12,10 +12,10 @@ namespace TestApi.UnitTests.Controllers.Allocations
 {
     public class HearingsControllerTestBase
     {
-        protected AllocationController Controller;
         protected Mock<ICommandHandler> CommandHandler;
-        protected Mock<IQueryHandler> QueryHandler;
+        protected AllocationController Controller;
         protected Mock<ILogger<AllocationController>> Logger;
+        protected Mock<IQueryHandler> QueryHandler;
 
         [SetUp]
         public void Setup()

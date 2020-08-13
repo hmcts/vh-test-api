@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestApi.DAL.Exceptions
+namespace TestApi.Domain.Exceptions
 {
     public class UserTypeNotFoundException : Exception
     {

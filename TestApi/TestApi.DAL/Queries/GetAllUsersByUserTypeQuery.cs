@@ -10,14 +10,14 @@ namespace TestApi.DAL.Queries
 {
     public class GetAllUsersByUserTypeQuery : IQuery
     {
-        public UserType UserType { get; set; }
-        public Application Application { get; set; }
-
         public GetAllUsersByUserTypeQuery(UserType userType, Application application)
         {
             UserType = userType;
             Application = application;
         }
+
+        public UserType UserType { get; set; }
+        public Application Application { get; set; }
     }
 
     public class GetAllUsersByUserTypeQueryHandler : IQueryHandler<GetAllUsersByUserTypeQuery, List<User>>

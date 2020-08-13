@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Http;
 namespace TestApi.Telemetry
 {
     /// <summary>
-    /// Adds bad request response bodies to AppInsights for better troubleshooting
+    ///     Adds bad request response bodies to AppInsights for better troubleshooting
     /// </summary>
     public class BadRequestTelemetry : ITelemetryInitializer
     {
-        readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public BadRequestTelemetry(IHttpContextAccessor httpContextAccessor)
         {
@@ -21,22 +21,13 @@ namespace TestApi.Telemetry
         {
             telemetry.Context.Cloud.RoleName = "vh-video-api";
 
-            if (!(telemetry is RequestTelemetry requestTelemetry))
-            {
-                return;
-            }
+            if (!(telemetry is RequestTelemetry requestTelemetry)) return;
 
-            if (!IsReadableBadRequest(requestTelemetry))
-            {
-                return;
-            }
+            if (!IsReadableBadRequest(requestTelemetry)) return;
 
             // Check response body
-            var responseBody = (string)_httpContextAccessor.HttpContext.Items["responseBody"];
-            if (responseBody != null)
-            {
-                requestTelemetry.Properties.Add("responseBody", responseBody);
-            }
+            var responseBody = (string) _httpContextAccessor.HttpContext.Items["responseBody"];
+            if (responseBody != null) requestTelemetry.Properties.Add("responseBody", responseBody);
         }
 
         private bool IsReadableBadRequest(RequestTelemetry telemetry)

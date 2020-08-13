@@ -30,10 +30,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
             response.Should().NotBeNull();
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
 
-            var conferenceDetails= (ConferenceDetailsResponse)result.Value;
+            var conferenceDetails = (ConferenceDetailsResponse) result.Value;
             conferenceDetails.Should().BeEquivalentTo(conferenceDetailsResponse);
         }
 
@@ -50,8 +50,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
             response.Should().NotBeNull();
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
             response.Should().NotBeNull();
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
     }
 }

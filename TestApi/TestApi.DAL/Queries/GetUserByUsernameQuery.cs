@@ -1,7 +1,6 @@
 ﻿#nullable enable
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 
@@ -9,12 +8,12 @@ namespace TestApi.DAL.Queries
 {
     public class GetUserByUsernameQuery : IQuery
     {
-        public string Username { get; set; }
-
         public GetUserByUsernameQuery(string username)
         {
             Username = username;
         }
+
+        public string Username { get; set; }
     }
 
     public class GetUserByUsernameQueryHandler : IQueryHandler<GetUserByUsernameQuery, User>

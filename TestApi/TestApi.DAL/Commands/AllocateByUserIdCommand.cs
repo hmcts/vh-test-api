@@ -9,15 +9,15 @@ namespace TestApi.DAL.Commands
 {
     public class AllocateByUserIdCommand : ICommand
     {
-        public Guid UserId { get; set; }
-        public int ExtendedExpiryInMinutes { get; set; }
-        public User User { get; set; }
-
         public AllocateByUserIdCommand(Guid userId, int extendedExpiryInMinutes = 10)
         {
             UserId = userId;
             ExtendedExpiryInMinutes = extendedExpiryInMinutes;
         }
+
+        public Guid UserId { get; set; }
+        public int ExtendedExpiryInMinutes { get; set; }
+        public User User { get; set; }
     }
 
     public class AllocateByUserIdCommandHandler : ICommandHandler<AllocateByUserIdCommand>
@@ -33,22 +33,13 @@ namespace TestApi.DAL.Commands
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == command.UserId);
 
-            if (user == null)
-            {
-                throw new UserNotFoundException(command.UserId);
-            }
+            if (user == null) throw new UserNotFoundException(command.UserId);
 
             var allocation = await _context.Allocations.SingleOrDefaultAsync(x => x.User.Id == user.Id);
 
-            if (allocation == null)
-            {
-                throw new UserAllocationNotFoundException(command.UserId);
-            }
+            if (allocation == null) throw new UserAllocationNotFoundException(command.UserId);
 
-            if (allocation.IsAllocated())
-            {
-                throw new UserUnavailableException();
-            }
+            if (allocation.IsAllocated()) throw new UserUnavailableException();
 
             allocation.Allocate(command.ExtendedExpiryInMinutes);
             await _context.SaveChangesAsync();

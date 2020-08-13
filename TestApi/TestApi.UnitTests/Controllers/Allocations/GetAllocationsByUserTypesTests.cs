@@ -35,14 +35,16 @@ namespace TestApi.UnitTests.Controllers.Allocations
             var caseAdminUser = CreateUser(CASE_ADMIN_USER_TYPE);
             CreateAllocation(caseAdminUser);
 
-            var request = new AllocateUsersRequest()
+            var request = new AllocateUsersRequest
             {
                 Application = Application.TestApi,
-                UserTypes = new List<UserType>() { JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE, CASE_ADMIN_USER_TYPE }
+                UserTypes = new List<UserType>
+                    {JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE, CASE_ADMIN_USER_TYPE}
             };
 
             QueryHandler
-                .SetupSequence(x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                .SetupSequence(x =>
+                    x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(judgeUser)
                 .ReturnsAsync(individualUser)
                 .ReturnsAsync(representativeUser)
@@ -51,10 +53,10 @@ namespace TestApi.UnitTests.Controllers.Allocations
             var response = await Controller.AllocateUsersAsync(request);
             response.Should().NotBeNull();
 
-            var result = (OkObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = (OkObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
-            var userDetailsResponse = (List<UserDetailsResponse>)result.Value;
+            var userDetailsResponse = (List<UserDetailsResponse>) result.Value;
             userDetailsResponse.Count.Should().Be(4);
 
             userDetailsResponse[0].UserType.Should().Be(JUDGE_USER_TYPE);

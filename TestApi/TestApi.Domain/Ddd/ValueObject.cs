@@ -9,18 +9,8 @@ namespace TestApi.Domain.Ddd
     // http://grabbagoft.blogspot.com/2007/06/generic-value-object-equality.html
 
     public abstract class ValueObject<T> : IEquatable<T>
-      where T : ValueObject<T>
+        where T : ValueObject<T>
     {
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            var other = obj as T;
-
-            return Equals(other);
-        }
-
         public virtual bool Equals(T other)
         {
             if (other == null)
@@ -45,12 +35,24 @@ namespace TestApi.Domain.Ddd
                         return false;
                 }
                 else if (!value1.Equals(value2))
+                {
                     return false;
+                }
             }
 
             return true;
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var other = obj as T;
+
+            return Equals(other);
+        }
+
         public override int GetHashCode()
         {
             var fields = GetFields(this);
@@ -63,7 +65,7 @@ namespace TestApi.Domain.Ddd
                 .Where(value => value != null)
                 .Aggregate(
                     startValue,
-                        (current, value) => current * multiplier + value.GetHashCode());
+                    (current, value) => current * multiplier + value.GetHashCode());
         }
 
         private static IEnumerable<FieldInfo> GetFields(object obj)
@@ -85,15 +87,9 @@ namespace TestApi.Domain.Ddd
 
         public static bool operator ==(ValueObject<T> x, ValueObject<T> y)
         {
-            if (ReferenceEquals(x, y))
-            {
-                return true;
-            }
+            if (ReferenceEquals(x, y)) return true;
 
-            if (((object)x == null) || ((object)y == null))
-            {
-                return false;
-            }
+            if ((object) x == null || (object) y == null) return false;
 
             return x.Equals(y);
         }
@@ -103,5 +99,4 @@ namespace TestApi.Domain.Ddd
             return !(x == y);
         }
     }
-
 }

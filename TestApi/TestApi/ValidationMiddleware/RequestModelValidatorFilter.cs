@@ -11,8 +11,8 @@ namespace TestApi.ValidationMiddleware
 {
     public class RequestModelValidatorFilter : IAsyncActionFilter
     {
-        private readonly IRequestModelValidatorService _requestModelValidatorService;
         private readonly ILogger<RequestModelValidatorFilter> _logger;
+        private readonly IRequestModelValidatorService _requestModelValidatorService;
 
         public RequestModelValidatorFilter(IRequestModelValidatorService requestModelValidatorService,
             ILogger<RequestModelValidatorFilter> logger)
@@ -32,12 +32,9 @@ namespace TestApi.ValidationMiddleware
                     var validationFailures = _requestModelValidatorService.Validate(property.ParameterType, value);
                     context.ModelState.AddFluentValidationErrors(validationFailures);
                 }
-                
-                if (value.Equals(GetDefaultValue(property.ParameterType)))
-                {
-                    context.ModelState.AddModelError(key, $"Please provide a valid {key}");
 
-                }
+                if (value.Equals(GetDefaultValue(property.ParameterType)))
+                    context.ModelState.AddModelError(key, $"Please provide a valid {key}");
             }
 
             if (!context.ModelState.IsValid)

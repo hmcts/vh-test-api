@@ -17,9 +17,9 @@ namespace TestApi.Services.Builders
         private const string HEARING_TYPE_NAME = "Application to Set Judgment Aside";
         private const string OTHER_INFORMATION = "Other information";
         private const int SCHEDULED_DURATION = 60;
-        private readonly BookNewHearingRequest _request;
         private readonly CreateHearingRequest _createHearingRequest;
         private readonly Random _randomNumber;
+        private readonly BookNewHearingRequest _request;
 
         public BookHearingRequestBuilder(CreateHearingRequest createHearingRequest)
         {
@@ -46,7 +46,8 @@ namespace TestApi.Services.Builders
 
         private string GenerateRandomCaseName()
         {
-            return $"{AppShortName.FromApplication(_createHearingRequest.Application)} Automated Test {GenerateRandom.Letters(_randomNumber)}";
+            return
+                $"{AppShortName.FromApplication(_createHearingRequest.Application)} Automated Test {GenerateRandom.Letters(_randomNumber)}";
         }
 
         private void SetCreatedBy()
@@ -56,6 +57,7 @@ namespace TestApi.Services.Builders
                 var usernames = _createHearingRequest.Users.Select(x => x.UserType.ToString()).ToList();
                 throw new ParticipantsException(usernames);
             }
+
             _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
         }
 

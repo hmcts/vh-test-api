@@ -42,7 +42,7 @@ namespace TestApi
                     builder
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .SetIsOriginAllowed((host) => true)
+                        .SetIsOriginAllowed(host => true)
                         .AllowCredentials();
                 }));
 
@@ -59,7 +59,8 @@ namespace TestApi
 
             RegisterAuth(services);
 
-            services.AddDbContextPool<TestApiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestApi")));
+            services.AddDbContextPool<TestApiDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("TestApi")));
 
             services.AddAuthorization(AddPolicies);
             services.AddMvc(AddMvcPolicies);
@@ -67,9 +68,10 @@ namespace TestApi
             services.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
             services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
 
-            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter))).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AllocateUsersRequestValidator>());
-            services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
+            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter)))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddFluentValidation(fv =>
+                    fv.RegisterValidatorsFromAssemblyContaining<AllocateUsersRequestValidator>());
         }
 
         private void RegisterAuth(IServiceCollection services)
@@ -84,7 +86,7 @@ namespace TestApi
                 .AddJwtBearer(options =>
                 {
                     options.Authority = $"{securitySettings.Authority}{securitySettings.TenantId}";
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ClockSkew = TimeSpan.Zero,
                         ValidateLifetime = true,
@@ -100,10 +102,7 @@ namespace TestApi
         {
             app.RunLatestMigrations();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 
@@ -120,10 +119,7 @@ namespace TestApi
 
             app.UseAuthentication();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
 
             app.UseMiddleware<LogResponseBodyMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();

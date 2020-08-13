@@ -4,7 +4,8 @@ namespace TestApi.DAL.Exceptions
 {
     public class UserUnavailableException : Exception
     {
-        public UserUnavailableException(Guid allocationId) : base($"User is already allocated. Allocation Id {allocationId}.")
+        public UserUnavailableException(Guid allocationId) : base(
+            $"User is already allocated. Allocation Id {allocationId}.")
         {
         }
 
@@ -12,7 +13,7 @@ namespace TestApi.DAL.Exceptions
         {
         }
 
-        public UserUnavailableException() : base($"User is already allocated")
+        public UserUnavailableException() : base("User is already allocated")
         {
         }
     }

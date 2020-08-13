@@ -41,14 +41,11 @@ namespace TestApi.IntegrationTests.Data
 
         public async Task<Allocation> SeedAllocation(Guid userId)
         {
-            await using var db = new TestApiDbContext(_dbContextOptions); 
-            
+            await using var db = new TestApiDbContext(_dbContextOptions);
+
             var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Id == userId);
 
-            if (user == null)
-            {
-                throw new UserNotFoundException(userId);
-            }
+            if (user == null) throw new UserNotFoundException(userId);
 
             var allocation = new Allocation(user);
             await db.Allocations.AddAsync(allocation);
@@ -65,10 +62,7 @@ namespace TestApi.IntegrationTests.Data
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (users.Count.Equals(0))
-            {
-                return 1;
-            }
+            if (users.Count.Equals(0)) return 1;
 
             return users.Select(user => user.Number).ToList().Max() + 1;
         }

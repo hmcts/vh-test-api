@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using TechTalk.SpecFlow;
@@ -120,9 +118,14 @@ namespace TestApi.IntegrationTests.Steps
             var users = await Response.GetResponses<List<UserDetailsResponse>>(_context.Response.Content);
             users.Count.Should().BeGreaterOrEqualTo(2);
             users.All(x => x.UserType == UserType.Judge && x.Application == Application.TestApi).Should().BeTrue();
-            users.Any(x => string.Equals(x.Username, _context.Test.Users.First().Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeTrue();
-            users.Any(x => string.Equals(x.Username, _context.Test.Users[1].Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeTrue();
-            users.Any(x => string.Equals(x.Username, _context.Test.Users.Last().Username, StringComparison.CurrentCultureIgnoreCase)).Should().BeFalse();
+            users.Any(x => string.Equals(x.Username, _context.Test.Users.First().Username,
+                StringComparison.CurrentCultureIgnoreCase)).Should().BeTrue();
+            users.Any(x =>
+                    string.Equals(x.Username, _context.Test.Users[1].Username,
+                        StringComparison.CurrentCultureIgnoreCase))
+                .Should().BeTrue();
+            users.Any(x => string.Equals(x.Username, _context.Test.Users.Last().Username,
+                StringComparison.CurrentCultureIgnoreCase)).Should().BeFalse();
         }
     }
 }

@@ -22,9 +22,9 @@ namespace TestApi.UnitTests.Validations
         [Test]
         public async Task Should_pass_validation()
         {
-            var request = new UnallocateUsersRequest()
+            var request = new UnallocateUsersRequest
             {
-                Usernames = new List<string>(){ USERNAME }
+                Usernames = new List<string> {USERNAME}
             };
 
             var result = await _validator.ValidateAsync(request);
@@ -35,7 +35,7 @@ namespace TestApi.UnitTests.Validations
         [Test]
         public async Task Should_return_empty_usernames_error()
         {
-            var request = new UnallocateUsersRequest()
+            var request = new UnallocateUsersRequest
             {
                 Usernames = new List<string>()
             };
@@ -44,7 +44,8 @@ namespace TestApi.UnitTests.Validations
 
             result.IsValid.Should().BeFalse();
             result.Errors.Count.Should().Be(1);
-            result.Errors.First().ErrorMessage.Should().Be(UnallocateUsersRequestValidator.EMPTY_USERNAMES_ERROR_MESSAGE);
+            result.Errors.First().ErrorMessage.Should()
+                .Be(UnallocateUsersRequestValidator.EMPTY_USERNAMES_ERROR_MESSAGE);
         }
     }
 }

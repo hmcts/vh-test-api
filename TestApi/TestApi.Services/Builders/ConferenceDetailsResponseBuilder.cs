@@ -20,8 +20,7 @@ namespace TestApi.Services.Builders
             var participants = new List<ParticipantDetailsResponse>();
 
             foreach (var participant in _hearingDetails.Participants)
-            {
-                participants.Add(new ParticipantDetailsResponse()
+                participants.Add(new ParticipantDetailsResponse
                 {
                     Case_type_group = participant.Case_role_name,
                     Current_status = ParticipantState.NotSignedIn,
@@ -35,9 +34,8 @@ namespace TestApi.Services.Builders
                     User_role = GetUserRole(participant.Last_name),
                     Username = participant.Username
                 });
-            }
 
-            var meetingRoom = new MeetingRoomResponse()
+            var meetingRoom = new MeetingRoomResponse
             {
                 Admin_uri = "url",
                 Judge_uri = "url",
@@ -46,7 +44,7 @@ namespace TestApi.Services.Builders
                 Pexip_self_test_node = "node"
             };
 
-            return new ConferenceDetailsResponse()
+            return new ConferenceDetailsResponse
             {
                 Audio_recording_required = _hearingDetails.Audio_recording_required,
                 Case_name = _hearingDetails.Cases.First().Name,

@@ -3,7 +3,7 @@
 namespace TestApi.Contract.Requests
 {
     /// <summary>
-    /// Creating a new user request
+    ///     Creating a new user request
     /// </summary>
     public class CreateUserRequest
     {

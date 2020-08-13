@@ -20,16 +20,17 @@ namespace TestApi.UnitTests.Controllers.Allocations
             CreateAllocation(user);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                .Setup(
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
             var response = await Controller.AllocateUserByUserTypeAndApplicationAsync(user.UserType, user.Application);
             response.Should().NotBeNull();
 
-            var result = (OkObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            var result = (OkObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
-            var userDetailsResponse = (UserDetailsResponse)result.Value;
+            var userDetailsResponse = (UserDetailsResponse) result.Value;
             userDetailsResponse.Should().BeEquivalentTo(user);
         }
     }

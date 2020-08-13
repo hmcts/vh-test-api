@@ -23,7 +23,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User>() { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users).BuildRequest();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
@@ -35,10 +35,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
 
-            var hearingDetails = (HearingDetailsResponse)result.Value;
+            var hearingDetails = (HearingDetailsResponse) result.Value;
             hearingDetails.Should().NotBeNull();
             hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
         }
@@ -51,7 +51,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User>() { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users).BuildRequest();
 
@@ -61,8 +61,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
         }
     }
 }

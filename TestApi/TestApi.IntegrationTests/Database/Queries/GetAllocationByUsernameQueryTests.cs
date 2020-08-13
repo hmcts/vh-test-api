@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 
 namespace TestApi.IntegrationTests.Database.Queries

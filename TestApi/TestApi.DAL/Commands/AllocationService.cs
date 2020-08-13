@@ -20,8 +20,8 @@ namespace TestApi.DAL.Commands
     public interface IAllocationService
     {
         /// <summary>
-        /// Allocate user service. This will re-use existing allocations entries before attempting to
-        /// create a new one.
+        ///     Allocate user service. This will re-use existing allocations entries before attempting to
+        ///     create a new one.
         /// </summary>
         /// <param name="userType">Type of user to allocate (e.g. Judge)</param>
         /// <param name="application">Application to assign to (e.g. VideoWeb)</param>
@@ -32,14 +32,15 @@ namespace TestApi.DAL.Commands
 
     public class AllocationService : IAllocationService
     {
-        private readonly IQueryHandler _queryHandler;
         private readonly ICommandHandler _commandHandler;
-        private readonly ILogger<AllocationService> _logger;
         private readonly IConfiguration _config;
+        private readonly ILogger<AllocationService> _logger;
+        private readonly IQueryHandler _queryHandler;
         private readonly IUserApiService _userApiService;
         private CreateUserRequest _newUserRequest;
 
-        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<AllocationService> logger, 
+        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler,
+            ILogger<AllocationService> logger,
             IConfiguration config, IUserApiService userApiService)
         {
             _commandHandler = commandHandler;
@@ -66,7 +67,8 @@ namespace TestApi.DAL.Commands
                 _logger.LogDebug($"Iterated user number to {number}");
 
                 await CreateNewUserInTestApi(userType, application, number);
-                _logger.LogDebug($"A new user with user type {userType}, application {application} and number {number} has been created");
+                _logger.LogDebug(
+                    $"A new user with user type {userType}, application {application} and number {number} has been created");
 
                 var newUser = await GetUserIdByUserTypeApplicationAndNumber(userType, application, number);
                 _logger.LogDebug($"A new user with Id {newUser.Id} has been retrieved");
@@ -132,19 +134,15 @@ namespace TestApi.DAL.Commands
 
         private async Task CreateNewAllocation(Guid userId)
         {
-            var command = new CreateNewAllocationByUserIdCommand(userId); 
+            var command = new CreateNewAllocationByUserIdCommand(userId);
             await _commandHandler.Handle(command);
         }
 
         private static Guid? GetUnallocatedUserId(IEnumerable<Allocation> allocations)
         {
             foreach (var allocation in allocations)
-            {
                 if (!allocation.IsAllocated())
-                {
                     return allocation.UserId;
-                }
-            }
 
             return null;
         }
@@ -171,14 +169,17 @@ namespace TestApi.DAL.Commands
 
             var createNewUserCommand = new CreateNewUserCommand
             (
-                _newUserRequest.Username, _newUserRequest.ContactEmail, _newUserRequest.FirstName, _newUserRequest.LastName,
-                _newUserRequest.DisplayName, _newUserRequest.Number, _newUserRequest.UserType, _newUserRequest.Application
+                _newUserRequest.Username, _newUserRequest.ContactEmail, _newUserRequest.FirstName,
+                _newUserRequest.LastName,
+                _newUserRequest.DisplayName, _newUserRequest.Number, _newUserRequest.UserType,
+                _newUserRequest.Application
             );
 
             await _commandHandler.Handle(createNewUserCommand);
         }
 
-        private async Task<User> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application, int number)
+        private async Task<User> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application,
+            int number)
         {
             var query = new GetUserByUserTypeAppAndNumberQuery(userType, application, number);
             return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, User>(query);
@@ -208,10 +209,7 @@ namespace TestApi.DAL.Commands
         {
             var emailStem = _config.GetValue<string>("UsernameStem");
 
-            if (emailStem == null)
-            {
-                throw new ConfigurationErrorsException("Email stem could not be retrieved");
-            }
+            if (emailStem == null) throw new ConfigurationErrorsException("Email stem could not be retrieved");
 
             return emailStem;
         }

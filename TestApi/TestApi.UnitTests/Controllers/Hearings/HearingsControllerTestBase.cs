@@ -20,11 +20,11 @@ namespace TestApi.UnitTests.Controllers.Hearings
 {
     public class HearingsControllerTestBase
     {
-        protected HearingsController Controller;
-        protected Mock<ICommandHandler> CommandHandler;
-        protected Mock<IQueryHandler> QueryHandler;
-        protected Mock<ILogger<HearingsController>> Logger;
         protected Mock<IBookingsApiClient> BookingsApiClient;
+        protected Mock<ICommandHandler> CommandHandler;
+        protected HearingsController Controller;
+        protected Mock<ILogger<HearingsController>> Logger;
+        protected Mock<IQueryHandler> QueryHandler;
         protected Mock<IVideoApiService> VideoApiService;
 
         [SetUp]
@@ -55,7 +55,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User>() { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
             return new HearingBuilder(users).BuildRequest();
         }
@@ -75,7 +75,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
         protected BookingsApiException GetException(string errorMessage, HttpStatusCode statusCode)
         {
-            return new BookingsApiException(errorMessage, (int)statusCode, "Response", new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+            return new BookingsApiException(errorMessage, (int) statusCode, "Response",
+                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
         }
     }
 }

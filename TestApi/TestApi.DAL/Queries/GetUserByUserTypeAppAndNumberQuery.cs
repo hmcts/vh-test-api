@@ -9,17 +9,16 @@ namespace TestApi.DAL.Queries
 {
     public class GetUserByUserTypeAppAndNumberQuery : IQuery
     {
-        public UserType UserType { get; set; }
-        public Application Application { get; set; }
-        public int Number { get; set; }
-
-
         public GetUserByUserTypeAppAndNumberQuery(UserType userType, Application application, int number)
         {
             UserType = userType;
             Application = application;
             Number = number;
         }
+
+        public UserType UserType { get; set; }
+        public Application Application { get; set; }
+        public int Number { get; set; }
     }
 
     public class GetUserByUserTypeAppAndNumberQueryHandler : IQueryHandler<GetUserByUserTypeAppAndNumberQuery, User>

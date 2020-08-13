@@ -18,9 +18,9 @@ namespace TestApi.Services.Builders
 
         public HearingDetailsResponse Build()
         {
-            var cases = new List<CaseResponse>()
+            var cases = new List<CaseResponse>
             {
-                new CaseResponse()
+                new CaseResponse
                 {
                     AdditionalProperties = null,
                     Is_lead_case = _request.Cases.First().Is_lead_case,
@@ -32,7 +32,7 @@ namespace TestApi.Services.Builders
             var participants = (from participant in _request.Participants
                 let userType = GetUserType.FromUserLastName(participant.Last_name)
                 let userRoleName = UserTypeName.FromUserType(userType)
-                select new ParticipantResponse()
+                select new ParticipantResponse
                 {
                     AdditionalProperties = null,
                     Case_role_name = participant.Case_role_name,
@@ -52,7 +52,7 @@ namespace TestApi.Services.Builders
                     Username = participant.Username
                 }).ToList();
 
-            return new HearingDetailsResponse()
+            return new HearingDetailsResponse
             {
                 AdditionalProperties = null,
                 Audio_recording_required = _request.Audio_recording_required,

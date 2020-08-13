@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using TechTalk.SpecFlow;
-using TestApi.DAL;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.Contract.Responses;
+using TestApi.DAL;
 using TestApi.Domain;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.IntegrationTests.Data;
@@ -55,12 +55,14 @@ namespace TestApi.IntegrationTests.Hooks
 
         private void RegisterHearingServices(TestContext context)
         {
-            context.Config.VhServices = Options.Create(_configRoot.GetSection("Services").Get<ServicesConfiguration>()).Value;
+            context.Config.VhServices =
+                Options.Create(_configRoot.GetSection("Services").Get<ServicesConfiguration>()).Value;
         }
 
         private void RegisterDatabaseSettings(TestContext context)
         {
-            context.Config.DbConnection = Options.Create(_configRoot.GetSection("ConnectionStrings").Get<DbConfig>()).Value;
+            context.Config.DbConnection =
+                Options.Create(_configRoot.GetSection("ConnectionStrings").Get<DbConfig>()).Value;
             ConfigurationManager.VerifyConfigValuesSet(context.Config.DbConnection);
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<TestApiDbContext>();
             dbContextOptionsBuilder.EnableSensitiveDataLogging();
@@ -86,7 +88,8 @@ namespace TestApi.IntegrationTests.Hooks
 
         private void RegisterUserGroups(TestContext context)
         {
-            context.Config.UserGroupsConfig = Options.Create(_configRoot.GetSection("UserGroups").Get<UserGroupsConfiguration>());
+            context.Config.UserGroupsConfig =
+                Options.Create(_configRoot.GetSection("UserGroups").Get<UserGroupsConfiguration>());
         }
 
         private static void RegisterServer(TestContext context)

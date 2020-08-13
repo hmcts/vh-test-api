@@ -9,7 +9,7 @@ namespace TestApi.Mappings
     {
         public static List<User> Map(List<UserDetailsResponse> users)
         {
-            return users.Select(user => new User()
+            return users.Select(user => new User
                 {
                     Application = user.Application,
                     ContactEmail = user.ContactEmail,

@@ -28,8 +28,9 @@ namespace TestApi.UnitTests.Services
         public async Task Should_return_false_for_nonexistent_user_in_aad()
         {
             const string CONTACT_EMAIL = "made_up_email_address@email.com";
-            
-            var ex = new UserApiException("User not found", 404, "Response", new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+
+            var ex = new UserApiException("User not found", 404, "Response",
+                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
 
             UserApiClient.Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ThrowsAsync(ex);
 
@@ -49,7 +50,7 @@ namespace TestApi.UnitTests.Services
 
             var adUser = new ADUserBuilder(userRequest).BuildUser();
 
-            var newUserResponse = new NewUserResponse()
+            var newUserResponse = new NewUserResponse
             {
                 One_time_password = "password",
                 User_id = "1234",
@@ -57,7 +58,8 @@ namespace TestApi.UnitTests.Services
             };
 
             UserApiClient.Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(newUserResponse);
-            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>())).Returns(Task.CompletedTask);
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
 
             var userDetails = await UserApiService.CreateNewUserInAAD(adUser);
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);

@@ -10,7 +10,7 @@ namespace TestApi.DAL.Mappings
         {
             builder.ToTable(nameof(Allocation));
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => new { x.UserId }).IsUnique();
+            builder.HasIndex(x => new {x.UserId}).IsUnique();
             builder.Property(x => x.Username);
             builder.Property(x => x.ExpiresAt);
             builder.Property(x => x.Allocated);

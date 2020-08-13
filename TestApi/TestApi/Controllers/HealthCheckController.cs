@@ -21,12 +21,13 @@ namespace TestApi.Controllers
     [ApiController]
     public class HealthCheckController : ControllerBase
     {
-        private readonly IQueryHandler _queryHandler;
         private readonly IBookingsApiClient _bookingsApiClient;
+        private readonly IQueryHandler _queryHandler;
         private readonly IUserApiClient _userApiClient;
         private readonly IVideoApiClient _videoApiClient;
 
-        public HealthCheckController(IQueryHandler queryHandler, IBookingsApiClient bookingsApiClient, IUserApiClient userApiClient, IVideoApiClient videoApiClient)
+        public HealthCheckController(IQueryHandler queryHandler, IBookingsApiClient bookingsApiClient,
+            IUserApiClient userApiClient, IVideoApiClient videoApiClient)
         {
             _queryHandler = queryHandler;
             _bookingsApiClient = bookingsApiClient;
@@ -35,13 +36,13 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Check Service Health
+        ///     Check Service Health
         /// </summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health")]
         [SwaggerOperation(OperationId = "CheckServiceHealth")]
-        [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(HealthCheckResponse), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(HealthCheckResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HealthCheckResponse), (int) HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> HealthAsync()
         {
             var response = new HealthCheckResponse {Version = GetApplicationVersion()};
@@ -95,8 +96,10 @@ namespace TestApi.Controllers
                 response.VideoApiHealth.Data = ex.Data;
             }
 
-            return response.TestApiHealth.Successful && response.BookingsApiHealth.Successful && response.UserApiHealth.Successful && response.VideoApiHealth.Successful
-                ? Ok(response) : StatusCode((int)HttpStatusCode.InternalServerError, response);
+            return response.TestApiHealth.Successful && response.BookingsApiHealth.Successful &&
+                   response.UserApiHealth.Successful && response.VideoApiHealth.Successful
+                ? Ok(response)
+                : StatusCode((int) HttpStatusCode.InternalServerError, response);
         }
 
         private static HealthCheckResponse.ApplicationVersion GetApplicationVersion()
@@ -110,7 +113,7 @@ namespace TestApi.Controllers
 
         private static string GetExecutingAssemblyAttribute<T>(Func<T, string> value) where T : Attribute
         {
-            var attribute = (T)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
+            var attribute = (T) Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(T));
             return value.Invoke(attribute);
         }
     }

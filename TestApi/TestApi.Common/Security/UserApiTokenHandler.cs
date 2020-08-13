@@ -12,7 +12,7 @@ namespace TestApi.Common.Security
             tokenProvider)
         {
         }
-        
+
         protected override string TokenCacheKey => "UserApiServiceToken";
         protected override string ClientResource => ServicesConfiguration.UserApiResourceId;
     }

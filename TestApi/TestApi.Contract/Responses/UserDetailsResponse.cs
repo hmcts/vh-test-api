@@ -4,56 +4,57 @@ using TestApi.Domain.Enums;
 namespace TestApi.Contract.Responses
 {
     /// <summary>
-    /// GetUserDetailsResponse
+    ///     GetUserDetailsResponse
     /// </summary>
     public class UserDetailsResponse
     {
         /// <summary>
-        /// Id
+        ///     Id
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Username
+        ///     Username
         /// </summary>
         public string Username { get; set; }
 
         /// <summary>
-        /// ContactEmail
+        ///     ContactEmail
         /// </summary>
         public string ContactEmail { get; set; }
+
         /// <summary>
-        /// First Name
+        ///     First Name
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Last Name
+        ///     Last Name
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// Display Name
+        ///     Display Name
         /// </summary>
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Number
+        ///     Number
         /// </summary>
         public int Number { get; set; }
 
         /// <summary>
-        /// UserType
+        ///     UserType
         /// </summary>
         public UserType UserType { get; set; }
 
         /// <summary>
-        /// Application
+        ///     Application
         /// </summary>
         public Application Application { get; set; }
 
         /// <summary>
-        /// CreatedDate
+        ///     CreatedDate
         /// </summary>
         public DateTime CreatedDate { get; set; }
     }

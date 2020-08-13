@@ -1,5 +1,4 @@
-﻿
-namespace TestApi.DAL.Commands.Core
+﻿namespace TestApi.DAL.Commands.Core
 {
     public interface ICommandHandlerFactory
     {
