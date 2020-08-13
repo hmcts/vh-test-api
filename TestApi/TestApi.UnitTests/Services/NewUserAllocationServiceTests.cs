@@ -37,8 +37,8 @@ namespace TestApi.UnitTests.Services
             var user = CreateNewUser(UserType.Individual, NUMBER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeApplicationAndNumberQuery, User>(
-                    It.IsAny<GetUserByUserTypeApplicationAndNumberQuery>()))
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                    It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
             var allocation = CreateAllocation(user);
@@ -100,8 +100,8 @@ namespace TestApi.UnitTests.Services
             var user = CreateNewUser(USER_TYPE, number);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeApplicationAndNumberQuery, User>(
-                    It.IsAny<GetUserByUserTypeApplicationAndNumberQuery>()))
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                    It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
             var allocation = CreateAllocation(user);
@@ -151,8 +151,8 @@ namespace TestApi.UnitTests.Services
             var user = CreateNewUser(UserType.Individual, NUMBER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeApplicationAndNumberQuery, User>(
-                    It.IsAny<GetUserByUserTypeApplicationAndNumberQuery>()))
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                    It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
             var allocation = CreateAllocation(user);

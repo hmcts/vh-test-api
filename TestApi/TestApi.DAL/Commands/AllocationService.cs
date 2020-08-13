@@ -139,7 +139,7 @@ namespace TestApi.DAL.Commands
         {
             foreach (var allocation in allocations)
             {
-                if (allocation.IsAllocated() == false)
+                if (!allocation.IsAllocated())
                 {
                     return allocation.UserId;
                 }
@@ -179,8 +179,8 @@ namespace TestApi.DAL.Commands
 
         private async Task<User> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application, int number)
         {
-            var getUserIdByUserTypeApplicationAndNumberQuery = new GetUserByUserTypeApplicationAndNumberQuery(userType, application, number);
-            return await _queryHandler.Handle<GetUserByUserTypeApplicationAndNumberQuery, User>(getUserIdByUserTypeApplicationAndNumberQuery);
+            var getUserIdByUserTypeApplicationAndNumberQuery = new GetUserByUserTypeAppAndNumberQuery(userType, application, number);
+            return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, User>(getUserIdByUserTypeApplicationAndNumberQuery);
         }
 
         private async Task<bool> UserDoesNotExistInAAD(string contactEmail)

@@ -8,14 +8,14 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.DAL.Queries
 {
-    public class GetUserByUserTypeApplicationAndNumberQuery : IQuery
+    public class GetUserByUserTypeAppAndNumberQuery : IQuery
     {
         public UserType UserType { get; set; }
         public Application Application { get; set; }
         public int Number { get; set; }
 
 
-        public GetUserByUserTypeApplicationAndNumberQuery(UserType userType, Application application, int number)
+        public GetUserByUserTypeAppAndNumberQuery(UserType userType, Application application, int number)
         {
             UserType = userType;
             Application = application;
@@ -23,16 +23,16 @@ namespace TestApi.DAL.Queries
         }
     }
 
-    public class GetUserByUserTypeApplicationAndNumberQueryHandler : IQueryHandler<GetUserByUserTypeApplicationAndNumberQuery, User>
+    public class GetUserByUserTypeAppAndNumberQueryHandler : IQueryHandler<GetUserByUserTypeAppAndNumberQuery, User>
     {
         private readonly TestApiDbContext _context;
 
-        public GetUserByUserTypeApplicationAndNumberQueryHandler(TestApiDbContext context)
+        public GetUserByUserTypeAppAndNumberQueryHandler(TestApiDbContext context)
         {
             _context = context;
         }
 
-        public async Task<User> Handle(GetUserByUserTypeApplicationAndNumberQuery query)
+        public async Task<User> Handle(GetUserByUserTypeAppAndNumberQuery query)
         {
             var user = await _context.Users
                 .AsNoTracking()

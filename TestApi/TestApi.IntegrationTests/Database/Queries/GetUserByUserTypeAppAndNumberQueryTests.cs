@@ -8,20 +8,20 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.IntegrationTests.Database.Queries
 {
-    public class GetUserByUserTypeApplicationAndNumberQueryTests : DatabaseTestsBase
+    public class GetUserByUserTypeAppAndNumberQueryTests : DatabaseTestsBase
     {
-        private readonly GetUserByUserTypeApplicationAndNumberQueryHandler _query;
+        private readonly GetUserByUserTypeAppAndNumberQueryHandler _query;
 
-        public GetUserByUserTypeApplicationAndNumberQueryTests()
+        public GetUserByUserTypeAppAndNumberQueryTests()
         {
-            _query = new GetUserByUserTypeApplicationAndNumberQueryHandler(_dbContext);
+            _query = new GetUserByUserTypeAppAndNumberQueryHandler(_dbContext);
         }
 
         [Test]
         public async Task Should_get_user_by_user_type_application_and_number()
         {
             var user = await _context.TestDataManager.SeedUser();
-            var userDetails = await _query.Handle(new GetUserByUserTypeApplicationAndNumberQuery(user.UserType, user.Application, user.Number));
+            var userDetails = await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, user.Number));
             userDetails.Should().BeEquivalentTo(user);
         }
 
@@ -31,7 +31,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await _context.TestDataManager.SeedUser();
 
             Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeApplicationAndNumberQuery(UserType.None, user.Application, user.Number)));
+                new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number)));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await _context.TestDataManager.SeedUser();
 
             Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeApplicationAndNumberQuery(user.UserType, Application.None, user.Number)));
+                new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number)));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await _context.TestDataManager.SeedUser();
 
             Assert.ThrowsAsync<UserNotFoundException>(() => _query.Handle(
-                new GetUserByUserTypeApplicationAndNumberQuery(user.UserType, user.Application, -1)));
+                new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1)));
         }
     }
 }
