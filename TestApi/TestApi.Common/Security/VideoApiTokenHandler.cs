@@ -12,7 +12,7 @@ namespace TestApi.Common.Security
             tokenProvider)
         {
         }
-        
+
         protected override string TokenCacheKey => "VideoApiServiceToken";
         protected override string ClientResource => ServicesConfiguration.VideoApiResourceId;
     }

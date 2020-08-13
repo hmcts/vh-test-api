@@ -9,11 +9,11 @@ namespace TestApi.Services.Helpers
         List<string> GetGroups(UserGroupsConfiguration configuration);
     }
 
-    public class UserGroups 
+    public class UserGroups
     {
         public Dictionary<UserType, IUserGroupsStrategy> GetStrategies()
         {
-            return new Dictionary<UserType, IUserGroupsStrategy>()
+            return new Dictionary<UserType, IUserGroupsStrategy>
             {
                 {UserType.Judge, new JudgeGroupsStrategy()},
                 {UserType.Individual, new IndividualGroupsStrategy()},

@@ -9,14 +9,14 @@ namespace TestApi.DAL.Queries
 {
     public class GetNextUserNumberByUserTypeQuery : IQuery
     {
-        public UserType UserType { get; set; }
-        public Application Application { get; set; }
-
         public GetNextUserNumberByUserTypeQuery(UserType userType, Application application)
         {
             UserType = userType;
             Application = application;
         }
+
+        public UserType UserType { get; set; }
+        public Application Application { get; set; }
     }
 
     public class GetNextUserNumberByUserTypeQueryHandler : IQueryHandler<GetNextUserNumberByUserTypeQuery, Integer>
@@ -35,10 +35,7 @@ namespace TestApi.DAL.Queries
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (users.Count.Equals(0))
-            {
-                return 1;
-            }
+            if (users.Count.Equals(0)) return 1;
 
             return users.Select(user => user.Number).ToList().Max() + 1;
         }

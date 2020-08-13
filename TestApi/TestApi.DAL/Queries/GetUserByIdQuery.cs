@@ -8,12 +8,12 @@ namespace TestApi.DAL.Queries
 {
     public class GetUserByIdQuery : IQuery
     {
-        public Guid Id { get; set; }
-
         public GetUserByIdQuery(Guid id)
         {
             Id = id;
         }
+
+        public Guid Id { get; set; }
     }
 
     public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, User>

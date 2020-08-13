@@ -12,7 +12,7 @@ namespace TestApi.Common.Security
             tokenProvider)
         {
         }
-        
+
         protected override string TokenCacheKey => "BookingsApiServiceToken";
         protected override string ClientResource => ServicesConfiguration.BookingsApiResourceId;
     }

@@ -9,13 +9,13 @@ namespace TestApi.DAL.Commands
 {
     public class CreateNewAllocationByUserIdCommand : ICommand
     {
-        public Guid UserId { get; set; }
-        public Guid NewAllocationId { get; set; }
-
         public CreateNewAllocationByUserIdCommand(Guid userId)
         {
             UserId = userId;
         }
+
+        public Guid UserId { get; set; }
+        public Guid NewAllocationId { get; set; }
     }
 
     public class CreateNewAllocationCommandHandler : ICommandHandler<CreateNewAllocationByUserIdCommand>
@@ -32,12 +32,14 @@ namespace TestApi.DAL.Commands
             var user = await _context.Users
                 .SingleOrDefaultAsync(x => x.Id == command.UserId);
 
-            if (user == null)
-            {
-                throw new UserNotFoundException(command.UserId);
-            }
+            if (user == null) throw new UserNotFoundException(command.UserId);
 
-            var allocation = new Allocation(user);
+            var allocation = await _context.Allocations
+                .SingleOrDefaultAsync(x => x.UserId == command.UserId);
+
+            if (allocation != null) throw new AllocationAlreadyExistsException(command.UserId);
+
+            allocation = new Allocation(user);
             await _context.Allocations.AddAsync(allocation);
             await _context.SaveChangesAsync();
             command.NewAllocationId = allocation.Id;

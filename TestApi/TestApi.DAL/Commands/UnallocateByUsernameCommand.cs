@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Exceptions;
@@ -8,13 +7,12 @@ namespace TestApi.DAL.Commands
 {
     public class UnallocateByUsernameCommand : ICommand
     {
-        public string Username { get; set; }
-        public Guid AllocationId { get; set; }
-
         public UnallocateByUsernameCommand(string username)
         {
             Username = username;
         }
+
+        public string Username { get; set; }
     }
 
     public class UnallocateUserCommandHandler : ICommandHandler<UnallocateByUsernameCommand>
@@ -28,23 +26,17 @@ namespace TestApi.DAL.Commands
 
         public async Task Handle(UnallocateByUsernameCommand command)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username.ToLower() == command.Username.ToLower());
+            var user = await _context.Users.SingleOrDefaultAsync(
+                x => x.Username.ToLower() == command.Username.ToLower());
 
-            if (user == null)
-            {
-                throw new UserNotFoundException(command.Username);
-            }
+            if (user == null) throw new UserNotFoundException(command.Username);
 
             var allocation = await _context.Allocations.SingleOrDefaultAsync(x => x.User.Id == user.Id);
 
-            if (allocation == null)
-            {
-                throw new UserAllocationNotFoundException(command.Username);
-            }
+            if (allocation == null) throw new UserAllocationNotFoundException(command.Username);
 
             allocation.Unallocate();
             await _context.SaveChangesAsync();
-            command.AllocationId = allocation.Id;
         }
     }
 }

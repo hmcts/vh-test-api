@@ -8,11 +8,11 @@ namespace TestApi.Common.Builders
     public class UserBuilder
     {
         private readonly string _emailStem;
-        private readonly string _numberText;
-        private string _appShortName;
         private readonly int _number;
-        private UserType _userType;
+        private readonly string _numberText;
         private Application _application;
+        private string _appShortName;
+        private UserType _userType;
 
         public UserBuilder(string emailStem, int number)
         {
@@ -83,7 +83,7 @@ namespace TestApi.Common.Builders
             var username = SetUsername(firstname, lastname);
             var contactEmail = SetContactEmail(firstname, lastname);
 
-            return new CreateUserRequest()
+            return new CreateUserRequest
             {
                 Username = username,
                 ContactEmail = contactEmail,
@@ -115,12 +115,15 @@ namespace TestApi.Common.Builders
 
         private string SetUsername(string firstname, string lastname)
         {
-            return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{_emailStem}".ToLowerInvariant();
+            return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{_emailStem}"
+                .ToLowerInvariant();
         }
 
         private string SetContactEmail(string firstname, string lastname)
         {
-            return $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{ContactEmailStem(_emailStem)}".ToLowerInvariant();
+            return
+                $"{ReplaceSpacesWithUnderscores(firstname)}.{ReplaceSpacesWithUnderscores(lastname)}@{ContactEmailStem(_emailStem)}"
+                    .ToLowerInvariant();
         }
 
         private static string ReplaceSpacesWithUnderscores(string text)

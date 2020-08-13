@@ -17,9 +17,9 @@ namespace TestApi.Services.Builders
         private const string HEARING_TYPE_NAME = "Application to Set Judgment Aside";
         private const string OTHER_INFORMATION = "Other information";
         private const int SCHEDULED_DURATION = 60;
-        private readonly BookNewHearingRequest _request;
         private readonly CreateHearingRequest _createHearingRequest;
         private readonly Random _randomNumber;
+        private readonly BookNewHearingRequest _request;
 
         public BookHearingRequestBuilder(CreateHearingRequest createHearingRequest)
         {
@@ -30,6 +30,35 @@ namespace TestApi.Services.Builders
             };
             _createHearingRequest = createHearingRequest;
             _randomNumber = new Random();
+        }
+
+        private void AddCases()
+        {
+            var caseRequest = new CaseRequest
+            {
+                Name = GenerateRandomCaseName(),
+                Number = GenerateRandom.CaseNumber(_randomNumber),
+                AdditionalProperties = null,
+                Is_lead_case = false
+            };
+            _request.Cases.Add(caseRequest);
+        }
+
+        private string GenerateRandomCaseName()
+        {
+            return
+                $"{AppShortName.FromApplication(_createHearingRequest.Application)} Automated Test {GenerateRandom.Letters(_randomNumber)}";
+        }
+
+        private void SetCreatedBy()
+        {
+            if (_createHearingRequest.Users.All(x => x.UserType != UserType.CaseAdmin))
+            {
+                var usernames = _createHearingRequest.Users.Select(x => x.UserType.ToString()).ToList();
+                throw new ParticipantsException(usernames);
+            }
+
+            _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
         }
 
         public BookNewHearingRequest Build()
@@ -48,33 +77,6 @@ namespace TestApi.Services.Builders
             _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
             _request.Scheduled_duration = SCHEDULED_DURATION;
             return _request;
-        }
-
-        private void AddCases()
-        {
-            var caseRequest = new CaseRequest
-            {
-                Name = GenerateRandomCaseName(),
-                Number = GenerateRandom.CaseNumber(_randomNumber),
-                AdditionalProperties = null,
-                Is_lead_case = false
-            };
-            _request.Cases.Add(caseRequest);
-        }
-
-        private string GenerateRandomCaseName()
-        {
-            return $"{AppShortName.FromApplication(_createHearingRequest.Application)} Automated Test {GenerateRandom.Letters(_randomNumber)}";
-        }
-
-        private void SetCreatedBy()
-        {
-            if (_createHearingRequest.Users.All(x => x.UserType != UserType.CaseAdmin))
-            {
-                var usernames = _createHearingRequest.Users.Select(x => x.UserType.ToString()).ToList();
-                throw new ParticipantsException(usernames);
-            }
-            _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
         }
     }
 }

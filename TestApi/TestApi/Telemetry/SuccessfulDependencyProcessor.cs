@@ -7,23 +7,22 @@ namespace TestApi.Telemetry
 {
     public class SuccessfulDependencyProcessor : ITelemetryProcessor
     {
-        private ITelemetryProcessor Next { get; set; }
         public SuccessfulDependencyProcessor(ITelemetryProcessor next)
         {
-            this.Next = next;
+            Next = next;
         }
+
+        private ITelemetryProcessor Next { get; }
 
         public void Process(ITelemetry item)
         {
             var dependency = item as DependencyTelemetry;
 
             if (dependency?.ResultCode.Equals("404", StringComparison.OrdinalIgnoreCase) == true)
-            {
                 // To filter out external 404 errors.
                 return;
-            }
 
-            this.Next.Process(item);
+            Next.Process(item);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +8,9 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using TestApi.Common.Builders;
-using TestApi.Common.Helpers;
-using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
+using TestApi.Domain.Helpers;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.IntegrationTests.Helpers;
 using TestApi.Mappings;
@@ -23,12 +21,10 @@ namespace TestApi.IntegrationTests.Steps
     public class AllocationHearingsSteps : BaseSteps
     {
         private readonly TestContext _context;
-        private readonly CommonSteps _commonSteps;
 
-        public AllocationHearingsSteps(TestContext context, CommonSteps commonSteps)
+        public AllocationHearingsSteps(TestContext context)
         {
             _context = context;
-            _commonSteps = commonSteps;
         }
 
         [Given(@"I have the following list of users (.*)")]
@@ -36,7 +32,7 @@ namespace TestApi.IntegrationTests.Steps
         {
             var userTypes = ConvertStringToList(usersString);
 
-            _context.Test.AllocationRequest = new AllocateUsersBuilder()
+            _context.Test.AllocationRequest = new AllocateUsersRequestBuilder()
                 .WithUserTypes(userTypes)
                 .ForApplication(Application.TestApi)
                 .Build();
@@ -54,7 +50,7 @@ namespace TestApi.IntegrationTests.Steps
         [Given(@"I have a create hearing request for the previously allocated users")]
         public void GivenIHaveACreateHearingRequestForThePreviouslyAllocatedUsers()
         {
-            _context.Test.Users = UserDetailsResponseToUserMapper.Map(_context.Test.UserResponses, Application.TestApi);
+            _context.Test.Users = UserDetailsResponseToUserMapper.Map(_context.Test.UserResponses);
             _context.Test.CreateHearingRequest = new HearingBuilder(_context.Test.Users).BuildRequest();
             _context.Uri = ApiUriFactory.HearingEndpoints.CreateHearing;
             _context.HttpMethod = HttpMethod.Post;
@@ -92,15 +88,11 @@ namespace TestApi.IntegrationTests.Steps
         {
             foreach (var user in _context.Test.UserResponses)
             {
-                _context.Uri = ApiUriFactory.AllocationEndpoints.GetAllocationByUserId(user.Id);
-                _context.HttpMethod = HttpMethod.Get;
-                await _commonSteps.WhenISendTheRequestToTheEndpoint();
-                _commonSteps.ThenTheResponseShouldHaveStatus(HttpStatusCode.OK, true);
-                var response = await Response.GetResponses<AllocationDetailsResponse>(_context.Response.Content);
-                response.Should().NotBeNull();
-                response.Allocated.Should().BeTrue();
-                response.ExpiresAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(9));
-                response.ExpiresAt.Should().BeBefore(DateTime.UtcNow.AddMinutes(10));
+                var allocation = await _context.TestDataManager.GetAllocationByUserId(user.Id);
+                allocation.Should().NotBeNull();
+                allocation.Allocated.Should().BeTrue();
+                allocation.ExpiresAt.Should().BeAfter(DateTime.UtcNow.AddMinutes(9));
+                allocation.ExpiresAt.Should().BeBefore(DateTime.UtcNow.AddMinutes(10));
             }
         }
 

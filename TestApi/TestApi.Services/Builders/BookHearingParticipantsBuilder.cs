@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Faker;
 using FluentAssertions;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -14,9 +15,9 @@ namespace TestApi.Services.Builders
         private const string FIRST_INDV_HEARING_ROLE_NAME = "Claimant LIP";
         private const string SECOND_INDV_HEARING_ROLE_NAME = "Defendant LIP";
         private const string REPRESENTATIVE_HEARING_ROLE_NAME = "Representative";
+        private readonly List<ParticipantRequest> _participants;
 
         private readonly List<User> _users;
-        private readonly List<ParticipantRequest> _participants;
 
         public BookHearingParticipantsBuilder(List<User> users)
         {
@@ -36,17 +37,15 @@ namespace TestApi.Services.Builders
 
             foreach (var user in _users)
             {
-                if (user.UserType == UserType.CaseAdmin)
-                {
-                    continue;
-                }
+                if (user.UserType == UserType.CaseAdmin) continue;
 
                 var request = new ParticipantRequest();
 
                 if (user.UserType == UserType.Individual)
                 {
                     request.Case_role_name = indIndex == 0 ? FIRST_CASE_ROLE_NAME : SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = indIndex == 0 ? FIRST_INDV_HEARING_ROLE_NAME : SECOND_INDV_HEARING_ROLE_NAME;
+                    request.Hearing_role_name =
+                        indIndex == 0 ? FIRST_INDV_HEARING_ROLE_NAME : SECOND_INDV_HEARING_ROLE_NAME;
                     indIndex++;
                 }
 
@@ -54,7 +53,7 @@ namespace TestApi.Services.Builders
                 {
                     request.Case_role_name = repIndex == 0 ? FIRST_CASE_ROLE_NAME : SECOND_CASE_ROLE_NAME;
                     request.Hearing_role_name = REPRESENTATIVE_HEARING_ROLE_NAME;
-                    request.Organisation_name = Faker.Company.Name();
+                    request.Organisation_name = Company.Name();
                     request.Reference = "Reference";
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
@@ -72,7 +71,7 @@ namespace TestApi.Services.Builders
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
                 request.Middle_names = string.Empty;
-                request.Telephone_number = $"+44(0)7{Faker.RandomNumber.Next(900000000, 999999999)}";
+                request.Telephone_number = $"+44(0)7{RandomNumber.Next(900000000, 999999999)}";
                 request.Title = "Mrs";
                 request.Username = user.Username;
 
@@ -93,7 +92,8 @@ namespace TestApi.Services.Builders
 
         private static string AddSpacesToUserType(UserType userType)
         {
-            return string.Concat(userType.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+            return string.Concat(userType.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString()))
+                .TrimStart(' ');
         }
     }
 }

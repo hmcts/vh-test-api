@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.DAL.Commands;
@@ -39,8 +38,8 @@ namespace TestApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test API", Version = "v1" });
-                c.AddFluentValidationRules();
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
+                //c.AddFluentValidationRules();
                 c.IncludeXmlComments(xmlPath);
                 c.IncludeXmlComments(contractsXmlPath);
                 c.EnableAnnotations();
@@ -165,19 +164,20 @@ namespace TestApi
         private static IBookingsApiClient BuildBookingsApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new BookingsApiClient(httpClient) { BaseUrl = serviceSettings.BookingsApiUrl, ReadResponseAsString = true };
+            return new BookingsApiClient(httpClient)
+                {BaseUrl = serviceSettings.BookingsApiUrl, ReadResponseAsString = true};
         }
 
         private static IUserApiClient BuildUserApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new UserApiClient(httpClient) { BaseUrl = serviceSettings.UserApiUrl, ReadResponseAsString = true };
+            return new UserApiClient(httpClient) {BaseUrl = serviceSettings.UserApiUrl, ReadResponseAsString = true};
         }
 
         private static IVideoApiClient BuildVideoApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new VideoApiClient(httpClient) { BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true };
+            return new VideoApiClient(httpClient) {BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true};
         }
     }
 }

@@ -7,12 +7,12 @@ namespace TestApi.DAL.Queries
 {
     public class GetAllocationByUsernameQuery : IQuery
     {
-        public string Username { get; set; }
-
         public GetAllocationByUsernameQuery(string username)
         {
             Username = username;
         }
+
+        public string Username { get; set; }
     }
 
     public class GetAllocationByUsernameQueryHandler : IQueryHandler<GetAllocationByUsernameQuery, Allocation>

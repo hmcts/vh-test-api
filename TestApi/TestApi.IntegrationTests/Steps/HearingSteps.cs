@@ -9,9 +9,9 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 using TestApi.Common.Builders;
-using TestApi.Common.Helpers;
 using TestApi.Contract.Requests;
 using TestApi.Domain.Enums;
+using TestApi.Domain.Helpers;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.IntegrationTests.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
@@ -22,8 +22,8 @@ namespace TestApi.IntegrationTests.Steps
     [Binding]
     public class HearingSteps : BaseSteps
     {
-        private readonly TestContext _context;
         private readonly CommonSteps _commonSteps;
+        private readonly TestContext _context;
 
         public HearingSteps(TestContext context, CommonSteps commonSteps)
         {
@@ -146,13 +146,14 @@ namespace TestApi.IntegrationTests.Steps
         [Given(@"I have a confirm hearing request")]
         public void GivenIHaveAConfirmHearingRequest()
         {
-            var request = new UpdateBookingStatusRequest()
+            var request = new UpdateBookingStatusRequest
             {
                 Status = UpdateBookingStatus.Created,
                 Updated_by = _context.Test.Users.First(x => x.UserType == UserType.CaseAdmin).Username
             };
 
-            _context.Uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(_context.Test.Hearing.Id); ;
+            _context.Uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(_context.Test.Hearing.Id);
+            ;
             _context.HttpMethod = HttpMethod.Patch;
 
             var jsonBody = RequestHelper.SerialiseRequestToSnakeCaseJson(request);
@@ -192,8 +193,10 @@ namespace TestApi.IntegrationTests.Steps
             response.Hearing_venue_name.Should().Be(_context.Test.CreateHearingRequest.Venue);
             response.Id.Should().NotBeEmpty();
             response.Other_information.Should().Be("Other information");
-            response.Questionnaire_not_required.Should().Be(_context.Test.CreateHearingRequest.QuestionnaireNotRequired);
-            response.Scheduled_date_time.Should().BeCloseTo(_context.Test.CreateHearingRequest.ScheduledDateTime, TimeSpan.FromSeconds(30));
+            response.Questionnaire_not_required.Should()
+                .Be(_context.Test.CreateHearingRequest.QuestionnaireNotRequired);
+            response.Scheduled_date_time.Should().BeCloseTo(_context.Test.CreateHearingRequest.ScheduledDateTime,
+                TimeSpan.FromSeconds(30));
             response.Scheduled_duration.Should().Be(60);
             response.Status.Should().Be(BookingStatus.Booked);
             response.Updated_by.Should().BeNull();
@@ -279,7 +282,7 @@ namespace TestApi.IntegrationTests.Steps
                 participant.Title.Should().Be("Mrs");
                 participant.Username.Should().Be(user.Username);
 
-                var expectedUserRole = (user.UserType == UserType.Observer || user.UserType == UserType.PanelMember)
+                var expectedUserRole = user.UserType == UserType.Observer || user.UserType == UserType.PanelMember
                     ? UserTypeName.FromUserType(UserType.Individual)
                     : UserTypeName.FromUserType(user.UserType);
                 participant.User_role_name.Should().Be(expectedUserRole);
@@ -291,7 +294,8 @@ namespace TestApi.IntegrationTests.Steps
             return text.Split(", ").Count(x => x.Contains(UserTypeName.FromUserType(userType)));
         }
 
-        private void BulkAddParticipants(int individuals = 2, int representatives = 2, int observers = 0, int panelMembers = 0)
+        private void BulkAddParticipants(int individuals = 2, int representatives = 2, int observers = 0,
+            int panelMembers = 0)
         {
             AddUsers(1, UserType.Judge);
             AddUsers(individuals, UserType.Individual);

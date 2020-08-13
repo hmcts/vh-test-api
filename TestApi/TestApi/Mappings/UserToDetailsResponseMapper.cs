@@ -10,11 +10,11 @@ namespace TestApi.Mappings
             return new UserDetailsResponse
             {
                 Id = user.Id,
-                Username = user.Username, 
+                Username = user.Username,
                 ContactEmail = user.ContactEmail,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                DisplayName = user.DisplayName, 
+                DisplayName = user.DisplayName,
                 Number = user.Number,
                 UserType = user.UserType,
                 Application = user.Application,

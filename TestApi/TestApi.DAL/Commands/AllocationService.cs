@@ -20,8 +20,8 @@ namespace TestApi.DAL.Commands
     public interface IAllocationService
     {
         /// <summary>
-        /// Allocate user service. This will re-use existing allocations entries before attempting to
-        /// create a new one.
+        ///     Allocate user service. This will re-use existing allocations entries before attempting to
+        ///     create a new one.
         /// </summary>
         /// <param name="userType">Type of user to allocate (e.g. Judge)</param>
         /// <param name="application">Application to assign to (e.g. VideoWeb)</param>
@@ -32,14 +32,15 @@ namespace TestApi.DAL.Commands
 
     public class AllocationService : IAllocationService
     {
-        private readonly IQueryHandler _queryHandler;
         private readonly ICommandHandler _commandHandler;
-        private readonly ILogger<AllocationService> _logger;
         private readonly IConfiguration _config;
+        private readonly ILogger<AllocationService> _logger;
+        private readonly IQueryHandler _queryHandler;
         private readonly IUserApiService _userApiService;
         private CreateUserRequest _newUserRequest;
 
-        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler, ILogger<AllocationService> logger, 
+        public AllocationService(ICommandHandler commandHandler, IQueryHandler queryHandler,
+            ILogger<AllocationService> logger,
             IConfiguration config, IUserApiService userApiService)
         {
             _commandHandler = commandHandler;
@@ -54,36 +55,37 @@ namespace TestApi.DAL.Commands
             var users = await GetAllUsersByUserTypeAndApplication(userType, application);
             _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}' and application '{application}'");
 
-            await CreateAllocationsForUsersIfRequired(users);
+            var allocations = await CreateAllocationsForUsersIfRequired(users);
 
-            if (users.Count > 0)
-            {
-                _logger.LogDebug($"All {users.Count} users now have allocations");
-            }
+            var userId = GetUnallocatedUserId(allocations);
 
-            var user = await GetUnallocatedUser(users);
-
-            if (user == null)
+            if (userId == null)
             {
                 _logger.LogDebug($"All {users.Count} users were already allocated");
 
                 var number = await IterateUserNumber(userType, application);
                 _logger.LogDebug($"Iterated user number to {number}");
 
-                var userId = await CreateNewUserInTestApi(userType, application, number);
-                _logger.LogDebug($"A new user with Id {userId} has been created");
+                await CreateNewUserInTestApi(userType, application, number);
+                _logger.LogDebug(
+                    $"A new user with user type {userType}, application {application} and number {number} has been created");
 
-                user = await GetUserById(userId);
+                var newUser = await GetUserIdByUserTypeApplicationAndNumber(userType, application, number);
+                _logger.LogDebug($"A new user with Id {newUser.Id} has been retrieved");
 
-                await CreateNewAllocation(userId);
-                _logger.LogDebug($"The new user with Id {userId} has a new allocation");
+                await CreateNewAllocation(newUser.Id);
+                _logger.LogDebug($"The new user with Id {newUser.Id} has a new allocation");
+
+                userId = newUser.Id;
             }
+
+            var user = await GetUserById(userId.Value);
 
             if (await UserDoesNotExistInAAD(user.ContactEmail))
             {
                 _logger.LogDebug($"The user with username {user.Username} does not already exist in AAD");
 
-                var response = await CreateUserInAAD();
+                var response = await CreateUserInAAD(user);
                 _logger.LogDebug($"The user with username {response.Username} created in AAD");
             }
 
@@ -95,58 +97,60 @@ namespace TestApi.DAL.Commands
 
         private async Task<List<User>> GetAllUsersByUserTypeAndApplication(UserType userType, Application application)
         {
-            var getAllUsersByUserTypeQuery = new GetAllUsersByUserTypeQuery(userType, application);
-            return await _queryHandler.Handle<GetAllUsersByUserTypeQuery, List<User>>(getAllUsersByUserTypeQuery);
+            var query = new GetAllUsersByUserTypeQuery(userType, application);
+            return await _queryHandler.Handle<GetAllUsersByUserTypeQuery, List<User>>(query);
         }
 
-        private async Task CreateAllocationsForUsersIfRequired(IEnumerable<User> users)
+        private async Task<List<Allocation>> CreateAllocationsForUsersIfRequired(IReadOnlyCollection<User> users)
         {
+            var allocations = new List<Allocation>();
+
             foreach (var user in users)
             {
                 var allocation = await GetAllocationByUserId(user.Id);
 
-                if (allocation != null) continue;
-                await CreateNewAllocation(user.Id);
-                _logger.LogDebug($"The user with Id {user.Id} has a new allocation");
+                if (allocation != null)
+                {
+                    allocations.Add(allocation);
+                }
+                else
+                {
+                    await CreateNewAllocation(user.Id);
+                    allocations.Add(await GetAllocationByUserId(user.Id));
+                    _logger.LogDebug($"The user with Id {user.Id} has a new allocation");
+                }
             }
+
+            _logger.LogDebug($"All {users.Count} users now have allocations");
+
+            return allocations;
         }
 
         private async Task<Allocation> GetAllocationByUserId(Guid userId)
         {
-            var getAllocationByUserIdQuery = new GetAllocationByUserIdQuery(userId);
-            return await _queryHandler.Handle<GetAllocationByUserIdQuery, Allocation>(getAllocationByUserIdQuery);
+            var query = new GetAllocationByUserIdQuery(userId);
+            return await _queryHandler.Handle<GetAllocationByUserIdQuery, Allocation>(query);
         }
 
         private async Task CreateNewAllocation(Guid userId)
         {
-            var createNewAllocationCommand = new CreateNewAllocationByUserIdCommand(userId); 
-            await _commandHandler.Handle(createNewAllocationCommand);
+            var command = new CreateNewAllocationByUserIdCommand(userId);
+            await _commandHandler.Handle(command);
         }
 
-        private async Task<User> GetUnallocatedUser(IEnumerable<User> users)
+        private static Guid? GetUnallocatedUserId(IEnumerable<Allocation> allocations)
         {
-            foreach (var user in users)
-            {
-                var allocation = await GetAllocationByUserId(user.Id);
-
-                if (allocation.ExpiresAt == null)
-                {
-                    return user;
-                }
-
-                if (!allocation.Allocated || allocation.ExpiresAt < DateTime.UtcNow)
-                {
-                    return user;
-                }
-            }
+            foreach (var allocation in allocations)
+                if (!allocation.IsAllocated())
+                    return allocation.UserId;
 
             return null;
         }
 
         private async Task<int> IterateUserNumber(UserType userType, Application application)
         {
-            var getHighestNumberQuery = new GetNextUserNumberByUserTypeQuery(userType, application);
-            return await _queryHandler.Handle<GetNextUserNumberByUserTypeQuery, Integer>(getHighestNumberQuery);
+            var query = new GetNextUserNumberByUserTypeQuery(userType, application);
+            return await _queryHandler.Handle<GetNextUserNumberByUserTypeQuery, Integer>(query);
         }
 
         private async Task<User> GetUserById(Guid userId)
@@ -155,7 +159,7 @@ namespace TestApi.DAL.Commands
             return await _queryHandler.Handle<GetUserByIdQuery, User>(getUserByIdQuery);
         }
 
-        private async Task<Guid> CreateNewUserInTestApi(UserType userType, Application application, int newNumber)
+        private async Task CreateNewUserInTestApi(UserType userType, Application application, int newNumber)
         {
             var emailStem = GetEmailStem();
             _newUserRequest = new UserBuilder(emailStem, newNumber)
@@ -165,13 +169,20 @@ namespace TestApi.DAL.Commands
 
             var createNewUserCommand = new CreateNewUserCommand
             (
-                _newUserRequest.Username, _newUserRequest.ContactEmail, _newUserRequest.FirstName, _newUserRequest.LastName,
-                _newUserRequest.DisplayName, _newUserRequest.Number, _newUserRequest.UserType, _newUserRequest.Application
+                _newUserRequest.Username, _newUserRequest.ContactEmail, _newUserRequest.FirstName,
+                _newUserRequest.LastName,
+                _newUserRequest.DisplayName, _newUserRequest.Number, _newUserRequest.UserType,
+                _newUserRequest.Application
             );
 
             await _commandHandler.Handle(createNewUserCommand);
+        }
 
-            return createNewUserCommand.NewUserId;
+        private async Task<User> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application,
+            int number)
+        {
+            var query = new GetUserByUserTypeAppAndNumberQuery(userType, application, number);
+            return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, User>(query);
         }
 
         private async Task<bool> UserDoesNotExistInAAD(string contactEmail)
@@ -179,20 +190,26 @@ namespace TestApi.DAL.Commands
             return !await _userApiService.CheckUserExistsInAAD(contactEmail);
         }
 
-        private async Task<NewUserResponse> CreateUserInAAD()
+        private async Task<NewUserResponse> CreateUserInAAD(User user)
         {
-            var user = new ADUserBuilder(_newUserRequest).BuildUser();
-            return await _userApiService.CreateNewUserInAAD(user);
+            if (_newUserRequest == null)
+            {
+                var emailStem = GetEmailStem();
+                _newUserRequest = new UserBuilder(emailStem, user.Number)
+                    .WithUserType(user.UserType)
+                    .ForApplication(user.Application)
+                    .BuildRequest();
+            }
+
+            var adUser = new ADUserBuilder(_newUserRequest).BuildUser();
+            return await _userApiService.CreateNewUserInAAD(adUser);
         }
 
         private string GetEmailStem()
         {
             var emailStem = _config.GetValue<string>("UsernameStem");
 
-            if (emailStem == null)
-            {
-                throw new ConfigurationErrorsException("Email stem could not be retrieved");
-            }
+            if (emailStem == null) throw new ConfigurationErrorsException("Email stem could not be retrieved");
 
             return emailStem;
         }

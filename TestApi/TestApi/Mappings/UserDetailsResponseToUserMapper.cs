@@ -1,21 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TestApi.Contract.Responses;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
 
 namespace TestApi.Mappings
 {
     public static class UserDetailsResponseToUserMapper
     {
-        public static List<User> Map(List<UserDetailsResponse> users, Application application)
+        public static List<User> Map(List<UserDetailsResponse> users)
         {
-            var userList = new List<User>();
-
-            foreach (var user in users)
-            {
-                var newUser = new User()
+            return users.Select(user => new User
                 {
-                    Application = application,
+                    Application = user.Application,
                     ContactEmail = user.ContactEmail,
                     CreatedDate = user.CreatedDate,
                     DisplayName = user.DisplayName,
@@ -24,11 +20,8 @@ namespace TestApi.Mappings
                     Number = user.Number,
                     Username = user.Username,
                     UserType = user.UserType
-                };
-                userList.Add(newUser);
-            }
-
-            return userList;
+                })
+                .ToList();
         }
     }
 }

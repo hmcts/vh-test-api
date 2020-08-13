@@ -1,16 +1,11 @@
 ﻿using System;
 using TestApi.Domain.Ddd;
+using TestApi.Domain.Validations;
 
 namespace TestApi.Domain
 {
     public class Allocation : Entity<Guid>
     {
-        public Guid UserId { get; set; }
-        public string Username { get; set; }
-        public User User { get; set; }
-        public DateTime? ExpiresAt { get; set; }
-        public bool Allocated { get; set; }
-
         protected Allocation()
         {
             ExpiresAt = null;
@@ -23,18 +18,23 @@ namespace TestApi.Domain
             Username = user.Username;
         }
 
+        public Guid UserId { get; set; }
+        public string Username { get; set; }
+        public User User { get; set; }
+        public DateTime? ExpiresAt { get; set; }
+        public bool Allocated { get; set; }
+
         public void Allocate(int minutes)
         {
+            if (IsAllocated()) throw new DomainRuleException("Allocation", "User is already allocated");
+
             Allocated = true;
             ExpiresAt = DateTime.UtcNow.AddMinutes(minutes);
         }
 
         public bool IsAllocated()
         {
-            if (ExpiresAt == null)
-            {
-                return false;
-            }
+            if (ExpiresAt == null) return false;
 
             return Allocated && DateTime.UtcNow < ExpiresAt;
         }

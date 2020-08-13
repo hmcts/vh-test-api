@@ -6,14 +6,14 @@ namespace TestApi.Domain.Helpers
 {
     public class AppShortName
     {
-        public Application Application { get; set; }
-        public string ShortName { get; set; }
-
         public AppShortName(Application application, string shortName)
         {
             Application = application;
             ShortName = shortName;
         }
+
+        public Application Application { get; set; }
+        public string ShortName { get; set; }
 
         public static AppShortName AdminWeb => new AppShortName(Application.AdminWeb, "AW");
         public static AppShortName BookingsApi => new AppShortName(Application.BookingsApi, "BA");
@@ -23,19 +23,6 @@ namespace TestApi.Domain.Helpers
         public static AppShortName VideoApi => new AppShortName(Application.VideoApi, "VA");
         public static AppShortName VideoWeb => new AppShortName(Application.VideoWeb, "VW");
         public static AppShortName None => new AppShortName(Application.None, "NA");
-
-        public static string FromApplication(Application application)
-        {
-            foreach (var app in Values)
-            {
-                if (application.Equals(app.Application))
-                {
-                    return app.ShortName;
-                }
-            }
-
-            throw new ArgumentOutOfRangeException($"No application found with name '{application}'");
-        }
 
         private static IEnumerable<AppShortName> Values
         {
@@ -50,6 +37,15 @@ namespace TestApi.Domain.Helpers
                 yield return VideoWeb;
                 yield return None;
             }
+        }
+
+        public static string FromApplication(Application application)
+        {
+            foreach (var app in Values)
+                if (application.Equals(app.Application))
+                    return app.ShortName;
+
+            throw new ArgumentOutOfRangeException($"No application found with name '{application}'");
         }
     }
 }

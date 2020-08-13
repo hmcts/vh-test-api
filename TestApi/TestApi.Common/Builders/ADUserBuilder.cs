@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AcceptanceTests.Common.Model.Case;
 using AcceptanceTests.Common.Model.Hearing;
+using Faker;
 using FluentAssertions;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
@@ -10,8 +11,8 @@ namespace TestApi.Common.Builders
 {
     public class ADUserBuilder
     {
-        private readonly CreateUserRequest _userDetails;
         private readonly CreateADUserRequest _request;
+        private readonly CreateUserRequest _userDetails;
 
         public ADUserBuilder(CreateUserRequest userDetails)
         {
@@ -38,9 +39,11 @@ namespace TestApi.Common.Builders
         public ADUser BuildUser()
         {
             var request = BuildRequest();
-            return new ADUser(request.Title, request.FirstName, request.MiddleNames, request.LastName, request.DisplayName,
-                request.Username, request.ContactEmail, request.CaseRoleName, request.HearingRoleName, request.Reference,
-            request.Representee, request.OrganisationName, request.TelephoneNumber);
+            return new ADUser(request.Title, request.FirstName, request.MiddleNames, request.LastName,
+                request.DisplayName,
+                request.Username, request.ContactEmail, request.CaseRoleName, request.HearingRoleName,
+                request.Reference,
+                request.Representee, request.OrganisationName, request.TelephoneNumber);
         }
 
         private void AddDefaultArguments()
@@ -56,24 +59,25 @@ namespace TestApi.Common.Builders
             {
                 _request.CaseRoleName = CaseRole.Claimant.ToString();
                 _request.HearingRoleName = HearingRole.ClaimantLip.ToString();
-                _request.Reference = Faker.RandomNumber.Next(1, 100).ToString();
+                _request.Reference = RandomNumber.Next(1, 100).ToString();
             }
 
             if (_userDetails.UserType == UserType.Representative)
             {
                 _request.CaseRoleName = CaseRole.Claimant.ToString();
                 _request.HearingRoleName = HearingRole.Representative.ToString();
-                _request.OrganisationName = Faker.Company.Name();
+                _request.OrganisationName = Company.Name();
                 _request.Representee = "Individual";
             }
 
             _request.Title = "Mrs";
-            _request.TelephoneNumber = Faker.Phone.Number();
+            _request.TelephoneNumber = Phone.Number();
         }
 
         private static string ConvertUserTypeToHearingRoleName(UserType userType)
         {
-            return string.Concat(userType.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+            return string.Concat(userType.ToString().Select(x => char.IsUpper(x) ? " " + x : x.ToString()))
+                .TrimStart(' ');
         }
 
         private void ValidateArguments()
@@ -81,10 +85,7 @@ namespace TestApi.Common.Builders
             _request.CaseRoleName.Should().NotBeNullOrWhiteSpace();
             _request.HearingRoleName.Should().NotBeNullOrWhiteSpace();
 
-            if (_userDetails.UserType == UserType.Representative)
-            {
-                _request.Representee.Should().NotBeNullOrWhiteSpace();
-            }
+            if (_userDetails.UserType == UserType.Representative) _request.Representee.Should().NotBeNullOrWhiteSpace();
 
             _request.Title.Should().NotBeNullOrWhiteSpace();
             _request.FirstName.Should().NotBeNullOrWhiteSpace();

@@ -3,32 +3,32 @@
 namespace TestApi.Contract.Responses
 {
     /// <summary>
-    /// Allocate a user request model
+    ///     Allocate a user request model
     /// </summary>
     public class AllocationDetailsResponse
     {
         /// <summary>
-        /// Id
+        ///     Id
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// User Id 
+        ///     User Id
         /// </summary>
         public Guid UserId { get; set; }
 
         /// <summary>
-        /// Username
+        ///     Username
         /// </summary>
         public string Username { get; set; }
 
         /// <summary>
-        /// ExpiresAt
+        ///     ExpiresAt
         /// </summary>
         public DateTime? ExpiresAt { get; set; }
 
         /// <summary>
-        /// Allocated
+        ///     Allocated
         /// </summary>
         public bool Allocated { get; set; }
     }

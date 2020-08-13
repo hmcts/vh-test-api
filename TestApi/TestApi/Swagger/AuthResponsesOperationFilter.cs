@@ -16,7 +16,7 @@ namespace TestApi.Swagger
                 .Any(filter => filter is IAllowAnonymousFilter);
 
             if (!isAuthorized || allowAnonymous) return;
-            operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+            operation.Responses.Add("401", new OpenApiResponse {Description = "Unauthorized"});
         }
     }
 }

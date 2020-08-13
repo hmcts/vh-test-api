@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace TestApi.Extensions
 {
     /// <summary>
-    /// The application logger class send telemetry to Application Insights.
+    ///     The application logger class send telemetry to Application Insights.
     /// </summary>
     public static class ApplicationLogger
     {
@@ -24,30 +24,26 @@ namespace TestApi.Extensions
 
         public static void Trace(string traceCategory, string eventTitle, string information)
         {
-            var telemetryTrace = new TraceTelemetry(traceCategory, severityLevel: SeverityLevel.Information);
+            var telemetryTrace = new TraceTelemetry(traceCategory, SeverityLevel.Information);
             telemetryTrace.Properties.Add("Information", information);
             telemetryTrace.Properties.Add("Event", eventTitle);
             TelemetryClient.TrackTrace(telemetryTrace);
         }
 
-        public static void TraceWithProperties(string traceCategory, string eventTitle, string user, IDictionary<string, string> properties)
+        public static void TraceWithProperties(string traceCategory, string eventTitle, string user,
+            IDictionary<string, string> properties)
         {
-            var telemetryTrace = new TraceTelemetry(traceCategory.ToString(), severityLevel: SeverityLevel.Information);
+            var telemetryTrace = new TraceTelemetry(traceCategory, SeverityLevel.Information);
 
             telemetryTrace.Properties.Add("Event", eventTitle);
 
             telemetryTrace.Properties.Add("User", user);
 
             if (properties != null)
-            {
                 foreach (var (key, value) in properties)
-                {
                     telemetryTrace.Properties.Add(key, value);
-                }
-            }
 
             TelemetryClient.TrackTrace(telemetryTrace);
-
         }
 
         public static void TraceWithProperties(string traceCategory, string eventTitle, string user)
@@ -55,18 +51,18 @@ namespace TestApi.Extensions
             TraceWithProperties(traceCategory, eventTitle, user, null);
         }
 
-        public static void TraceWithObject(string traceCategory, string eventTitle, string user, object valueToSerialized)
+        public static void TraceWithObject(string traceCategory, string eventTitle, string user,
+            object valueToSerialized)
         {
-            var telemetryTrace = new TraceTelemetry(traceCategory.ToString(), severityLevel: SeverityLevel.Information);
+            var telemetryTrace = new TraceTelemetry(traceCategory, SeverityLevel.Information);
 
             telemetryTrace.Properties.Add("Event", eventTitle);
 
             telemetryTrace.Properties.Add("User", user);
 
             if (valueToSerialized != null)
-            {
-                telemetryTrace.Properties.Add(valueToSerialized.GetType().Name, JsonConvert.SerializeObject(valueToSerialized, Formatting.None));
-            }
+                telemetryTrace.Properties.Add(valueToSerialized.GetType().Name,
+                    JsonConvert.SerializeObject(valueToSerialized, Formatting.None));
 
             TelemetryClient.TrackTrace(telemetryTrace);
         }
@@ -76,29 +72,20 @@ namespace TestApi.Extensions
             TraceWithObject(traceCategory, eventTitle, user, null);
         }
 
-        public static void TraceException(string traceCategory, string eventTitle, Exception exception, IPrincipal user, IDictionary<string, string> properties)
+        public static void TraceException(string traceCategory, string eventTitle, Exception exception, IPrincipal user,
+            IDictionary<string, string> properties)
         {
-            if (exception == null)
-            {
-                throw new ArgumentNullException(nameof(exception));
-            }
+            if (exception == null) throw new ArgumentNullException(nameof(exception));
 
             var telemetryException = new ExceptionTelemetry(exception);
 
             telemetryException.Properties.Add("Event", traceCategory + " " + eventTitle);
 
-            if (user?.Identity != null)
-            {
-                telemetryException.Properties.Add("User", user.Identity.Name);
-            }
+            if (user?.Identity != null) telemetryException.Properties.Add("User", user.Identity.Name);
 
             if (properties != null)
-            {
                 foreach (var (key, value) in properties)
-                {
                     telemetryException.Properties.Add(key, value);
-                }
-            }
 
             TelemetryClient.TrackException(telemetryException);
         }
@@ -113,17 +100,14 @@ namespace TestApi.Extensions
             var telemetryEvent = new EventTelemetry(eventTitle);
 
             if (properties != null)
-            {
                 foreach (var (key, value) in properties)
-                {
                     telemetryEvent.Properties.Add(key, value);
-                }
-            }
 
             TelemetryClient.TrackEvent(telemetryEvent);
         }
 
-        public static void TraceRequest(string operationName, DateTimeOffset startTime, TimeSpan duration, string responseCode, bool success)
+        public static void TraceRequest(string operationName, DateTimeOffset startTime, TimeSpan duration,
+            string responseCode, bool success)
         {
             var telemetryOperation = new RequestTelemetry(operationName, startTime, duration, responseCode, success);
             TelemetryClient.TrackRequest(telemetryOperation);

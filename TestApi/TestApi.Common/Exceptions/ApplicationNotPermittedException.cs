@@ -5,7 +5,8 @@ namespace TestApi.Common.Exceptions
 {
     public class ApplicationNotPermittedException : Exception
     {
-        public ApplicationNotPermittedException(Application application) : base($"Application type: {application} not permitted")
+        public ApplicationNotPermittedException(Application application) : base(
+            $"Application type: {application} not permitted")
         {
         }
     }

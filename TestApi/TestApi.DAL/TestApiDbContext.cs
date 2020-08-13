@@ -8,16 +8,18 @@ namespace TestApi.DAL
 {
     public class TestApiDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Allocation> Allocations { get; set; }
-
         public TestApiDbContext(DbContextOptions options) : base(options)
         {
         }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Allocation> Allocations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var applyGenericMethods = typeof(ModelBuilder).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+            var applyGenericMethods =
+                typeof(ModelBuilder).GetMethods(BindingFlags.Instance | BindingFlags.Public |
+                                                BindingFlags.FlattenHierarchy);
             var applyGenericApplyConfigurationMethods = applyGenericMethods.Where(m =>
                 m.IsGenericMethod && m.Name.Equals("ApplyConfiguration", StringComparison.OrdinalIgnoreCase));
             var applyGenericMethod = applyGenericApplyConfigurationMethods.FirstOrDefault(m =>
@@ -25,19 +27,17 @@ namespace TestApi.DAL
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
                 .Where(c => c.IsClass && !c.IsAbstract && !c.ContainsGenericParameters))
+            foreach (var iFace in type.GetInterfaces())
             {
-                foreach (var iFace in type.GetInterfaces())
+                if (!iFace.IsConstructedGenericType ||
+                    iFace.GetGenericTypeDefinition() != typeof(IEntityTypeConfiguration<>)) continue;
+                if (applyGenericMethod != null)
                 {
-                    if (!iFace.IsConstructedGenericType ||
-                        iFace.GetGenericTypeDefinition() != typeof(IEntityTypeConfiguration<>)) continue;
-                    if (applyGenericMethod != null)
-                    {
-                        var applyConcreteMethod = applyGenericMethod.MakeGenericMethod(iFace.GenericTypeArguments[0]);
-                        applyConcreteMethod.Invoke(modelBuilder, new[] { Activator.CreateInstance(type) });
-                    }
-
-                    break;
+                    var applyConcreteMethod = applyGenericMethod.MakeGenericMethod(iFace.GenericTypeArguments[0]);
+                    applyConcreteMethod.Invoke(modelBuilder, new[] {Activator.CreateInstance(type)});
                 }
+
+                break;
             }
         }
 
@@ -49,10 +49,7 @@ namespace TestApi.DAL
             {
                 var updatedDateProperty =
                     entry.Properties.AsQueryable().FirstOrDefault(x => x.Metadata.Name == "UpdatedDate");
-                if (updatedDateProperty != null)
-                {
-                    updatedDateProperty.CurrentValue = DateTime.UtcNow;
-                }
+                if (updatedDateProperty != null) updatedDateProperty.CurrentValue = DateTime.UtcNow;
             }
 
             return base.SaveChanges();
