@@ -44,6 +44,17 @@ namespace TestApi.IntegrationTests.Controllers
             }
         }
 
+        public static void UsersDetailsResponse(List<UserDetailsResponse> responses, List<User> users)
+        {
+            responses.Count.Should().Be(users.Count);
+            foreach (var user in users)
+            {
+                var response = responses.First(x => x.Username.Equals(user.Username));
+                response.Should().NotBeNull();
+                response.Should().BeEquivalentTo(user);
+            }
+        }
+
         public static void HearingDetailsResponse(HearingDetailsResponse response, CreateHearingRequest request)
         {
             response.AdditionalProperties.Count.Should().Be(0);
@@ -110,7 +121,6 @@ namespace TestApi.IntegrationTests.Controllers
             response.Hearing_id.Should().Be(hearing.Id);
             response.Hearing_venue_name.Should().Be(hearing.Hearing_venue_name);
             response.Id.Should().NotBeEmpty();
-            response.Meeting_room.Should().NotBeNull();
             response.Scheduled_date_time.Should().Be(hearing.Scheduled_date_time);
             response.Scheduled_duration.Should().Be(hearing.Scheduled_duration);
             response.Started_date_time.Should().BeNull();

@@ -57,7 +57,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
-                .ThrowsAsync(GetException("Hearing not created", HttpStatusCode.BadRequest));
+                .ThrowsAsync(GetBookingsApiException("Hearing not created", HttpStatusCode.BadRequest));
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 

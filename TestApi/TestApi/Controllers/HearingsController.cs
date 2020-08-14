@@ -19,13 +19,15 @@ namespace TestApi.Controllers
     {
         private readonly IBookingsApiClient _bookingsApiClient;
         private readonly ILogger<HearingsController> _logger;
+        private readonly IBookingsApiService _bookingsApiService;
         private readonly IVideoApiService _videoApiService;
 
         public HearingsController(ILogger<HearingsController> logger, IBookingsApiClient bookingsApiClient,
-            IVideoApiService videoApiService)
+            IBookingsApiService bookingsApiService, IVideoApiService videoApiService)
         {
             _logger = logger;
             _bookingsApiClient = bookingsApiClient;
+            _bookingsApiService = bookingsApiService;
             _videoApiService = videoApiService;
         }
 
@@ -95,23 +97,34 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"ConfirmHearingByIdAsync {hearingId}");
 
-            var existingHearing = await GetHearingByIdAsync(hearingId);
-
-            if (existingHearing == null) return NotFound();
+            try
+            {
+                await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
 
             _logger.LogDebug($"Hearing with id {hearingId} retrieved");
 
             try
             {
-                await _bookingsApiClient.UpdateBookingStatusAsync(hearingId, request);
-
-                _logger.LogInformation($"Successfully confirmed hearing with id {hearingId}");
-
-                var response = await _videoApiService.GetConferenceByIdPollingAsync(hearingId);
-
-                return Created(nameof(ConfirmHearingByIdAsync), response);
+                await _bookingsApiService.UpdateBookingStatusPollingAsync(hearingId, request);
             }
             catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+
+            _logger.LogInformation($"Successfully confirmed hearing with id {hearingId}");
+
+            try
+            {
+                var response = await _videoApiService.GetConferenceByIdPollingAsync(hearingId);
+                return Created(nameof(ConfirmHearingByIdAsync), response);
+            }
+            catch (VideoApiException e)
             {
                 return StatusCode(e.StatusCode, e.Response);
             }

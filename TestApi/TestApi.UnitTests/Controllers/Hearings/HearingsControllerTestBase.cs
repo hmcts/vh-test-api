@@ -20,11 +20,12 @@ namespace TestApi.UnitTests.Controllers.Hearings
 {
     public class HearingsControllerTestBase
     {
-        protected Mock<IBookingsApiClient> BookingsApiClient;
         protected Mock<ICommandHandler> CommandHandler;
         protected HearingsController Controller;
         protected Mock<ILogger<HearingsController>> Logger;
         protected Mock<IQueryHandler> QueryHandler;
+        protected Mock<IBookingsApiClient> BookingsApiClient;
+        protected Mock<IBookingsApiService> BookingsApiService;
         protected Mock<IVideoApiService> VideoApiService;
 
         [SetUp]
@@ -34,8 +35,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
             CommandHandler = new Mock<ICommandHandler>();
             Logger = new Mock<ILogger<HearingsController>>();
             BookingsApiClient = new Mock<IBookingsApiClient>();
+            BookingsApiService = new Mock<IBookingsApiService>();
             VideoApiService = new Mock<IVideoApiService>();
-            Controller = new HearingsController(Logger.Object, BookingsApiClient.Object, VideoApiService.Object);
+            Controller = new HearingsController(Logger.Object, BookingsApiClient.Object, BookingsApiService.Object, VideoApiService.Object);
         }
 
         protected static User CreateUser(UserType userType)
@@ -73,9 +75,15 @@ namespace TestApi.UnitTests.Controllers.Hearings
             return new ConferenceDetailsResponseBuilder(response).Build();
         }
 
-        protected BookingsApiException GetException(string errorMessage, HttpStatusCode statusCode)
+        protected BookingsApiException GetBookingsApiException(string errorMessage, HttpStatusCode statusCode)
         {
             return new BookingsApiException(errorMessage, (int) statusCode, "Response",
+                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+        }
+
+        protected VideoApiException GetVideoApiException(string errorMessage, HttpStatusCode statusCode)
+        {
+            return new VideoApiException(errorMessage, (int)statusCode, "Response",
                 new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
         }
     }

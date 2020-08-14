@@ -48,8 +48,6 @@ namespace TestApi.UnitTests.Services
                 .ForApplication(Application.TestApi)
                 .BuildRequest();
 
-            var adUser = new ADUserBuilder(userRequest).BuildUser();
-
             var newUserResponse = new NewUserResponse
             {
                 One_time_password = "password",
@@ -61,7 +59,7 @@ namespace TestApi.UnitTests.Services
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
 
-            var userDetails = await UserApiService.CreateNewUserInAAD(adUser);
+            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail);
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
             userDetails.User_id.Should().Be(newUserResponse.User_id);
             userDetails.Username.Should().Be(newUserResponse.Username);

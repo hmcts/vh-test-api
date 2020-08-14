@@ -57,8 +57,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
             };
 
             BookingsApiClient
-                .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
-                .Throws(GetException("Hearing not found", HttpStatusCode.NotFound));
+                .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
+                .Throws(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();
@@ -79,13 +79,13 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 Updated_by = "updated_by@email.com"
             };
 
-            BookingsApiClient
-                .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
+            BookingsApiService
+                .Setup(x => x.UpdateBookingStatusPollingAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
                 .Returns(Task.CompletedTask);
 
             VideoApiService
                 .Setup(x => x.GetConferenceByIdPollingAsync(It.IsAny<Guid>()))
-                .Throws(GetException("Conference not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(GetVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();

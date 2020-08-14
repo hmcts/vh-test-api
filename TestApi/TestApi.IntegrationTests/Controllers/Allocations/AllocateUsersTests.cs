@@ -6,6 +6,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
+using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Configuration;
 
@@ -28,6 +29,72 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             };
 
             var request = new AllocateUsersRequest() {Application = APPLICATION, UserTypes = userTypes};
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
+
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<List<UserDetailsResponse>>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UsersDetailsResponse(response, userTypes);
+        }
+
+        [Test]
+        public async Task Should_allocate_multiple_users_unallocated_users_exist()
+        {
+            const Application APPLICATION = Application.TestApi;
+
+            var judgeUser = await Context.Data.SeedUser();
+            var individualUser = await Context.Data.SeedUser(UserType.Individual);
+            var representativeUser = await Context.Data.SeedUser(UserType.Representative);
+            var caseAdminUser = await Context.Data.SeedUser(UserType.CaseAdmin);
+            var users = new List<User>(){ judgeUser, individualUser, representativeUser, caseAdminUser};
+
+            var userTypes = new List<UserType>()
+            {
+                judgeUser.UserType, individualUser.UserType, representativeUser.UserType, caseAdminUser.UserType
+            };
+
+            var request = new AllocateUsersRequest() { Application = APPLICATION, UserTypes = userTypes };
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
+
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<List<UserDetailsResponse>>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UsersDetailsResponse(response, users);
+        }
+
+        [Test]
+        public async Task Should_allocate_multiple_users_allocated_users_exist()
+        {
+            const Application APPLICATION = Application.TestApi;
+
+            var judgeUser = await Context.Data.SeedUser();
+            await Context.Data.SeedAllocation(judgeUser.Id);
+            await Context.Data.AllocateUser(judgeUser.Id);
+
+            var individualUser = await Context.Data.SeedUser(UserType.Individual);
+            await Context.Data.SeedAllocation(individualUser.Id);
+            await Context.Data.AllocateUser(individualUser.Id);
+
+            var representativeUser = await Context.Data.SeedUser(UserType.Representative);
+            await Context.Data.SeedAllocation(representativeUser.Id);
+            await Context.Data.AllocateUser(representativeUser.Id);
+
+            var caseAdminUser = await Context.Data.SeedUser(UserType.CaseAdmin);
+            await Context.Data.SeedAllocation(caseAdminUser.Id);
+            await Context.Data.AllocateUser(caseAdminUser.Id);
+
+            var userTypes = new List<UserType>()
+            {
+                judgeUser.UserType, individualUser.UserType, representativeUser.UserType, caseAdminUser.UserType
+            };
+
+            var request = new AllocateUsersRequest() { Application = APPLICATION, UserTypes = userTypes };
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

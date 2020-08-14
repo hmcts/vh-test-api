@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
 using TestApi.Services.Clients.VideoApiClient;
-using TestApi.Services.Exceptions;
 
 namespace TestApi.Services.Contracts
 {
@@ -27,27 +26,25 @@ namespace TestApi.Services.Contracts
 
         public async Task<ConferenceDetailsResponse> GetConferenceByIdPollingAsync(Guid hearingRefId)
         {
-            // 5 retries ^2 will execute after 2 seconds, then 4, 8, 16 then finally 32 (62 seconds total)
-            const int RETRIES = 5;
+            // 4 retries ^2 will execute after 2 seconds, then 4, 8, then finally 16 (30 seconds in total)
+            const int RETRIES = 4;
 
             var policy = Policy
-                .Handle<ConferenceNotCreatedException>()
-                .WaitAndRetry(RETRIES, retryAttempt =>
-                        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                    (exception, timeSpan, context) =>
-                    {
-                        _logger.LogWarning(
-                            $"Encountered error '{exception.Message}' after {timeSpan.Seconds} seconds. Retrying...");
-                    });
+                .Handle<VideoApiException>()
+                .Or<Exception>()
+                .WaitAndRetryAsync(RETRIES, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            try
+            {
+                var result = await policy.ExecuteAsync(() => _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId));
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Encountered error '{e.Message}' after {RETRIES^2} seconds.");
+                throw;
+            }
 
-            var result = await policy.Execute(() => GetConference(hearingRefId));
-
-            return result;
-        }
-
-        private async Task<ConferenceDetailsResponse> GetConference(Guid hearingRefId)
-        {
-            return await _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId);
         }
     }
 }
