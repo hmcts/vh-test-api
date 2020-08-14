@@ -7,7 +7,6 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Contract.Responses;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -15,7 +14,7 @@ using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
-    public class GetTestApiUserByUsername : UserControllerTestsBase
+    public class GetTestApiUserByUsernameTests : UserControllerTestsBase
     {
         [Test]
         public async Task Should_retrieve_user_details()
@@ -49,7 +48,7 @@ namespace TestApi.UnitTests.Controllers.Users
 
             QueryHandler
                 .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
-                .ThrowsAsync(new UserNotFoundException(USERNAME));
+                .ReturnsAsync((User)null);
 
             var result = await Controller.GetUserDetailsByUsernameAsync(USERNAME);
 

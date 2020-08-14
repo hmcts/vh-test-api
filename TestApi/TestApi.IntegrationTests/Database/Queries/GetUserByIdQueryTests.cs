@@ -12,13 +12,13 @@ namespace TestApi.IntegrationTests.Database.Queries
 
         public GetUserByIdQueryTests()
         {
-            _query = new GetUserByIdQueryHandler(_dbContext);
+            _query = new GetUserByIdQueryHandler(DbContext);
         }
 
         [Test]
         public async Task Should_get_user_by_id()
         {
-            var user = await _context.TestDataManager.SeedUser();
+            var user = await Context.Data.SeedUser();
             var userDetails = await _query.Handle(new GetUserByIdQuery(user.Id));
             userDetails.Should().BeEquivalentTo(user);
         }

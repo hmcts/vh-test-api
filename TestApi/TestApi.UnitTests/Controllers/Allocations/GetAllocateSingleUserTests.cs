@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.AllocateUserByUserTypeAndApplicationAsync(user.UserType, user.Application);
+            var response = await Controller.AllocateSingleUserAsync(user.UserType, user.Application);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;

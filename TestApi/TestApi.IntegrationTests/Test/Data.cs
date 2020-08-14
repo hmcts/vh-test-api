@@ -8,14 +8,14 @@ using TestApi.DAL.Exceptions;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 
-namespace TestApi.IntegrationTests.Data
+namespace TestApi.IntegrationTests.Test
 {
-    public class TestDataManager
+    public class Data
     {
         private readonly TestContext _context;
         private readonly DbContextOptions _dbContextOptions;
 
-        public TestDataManager(TestContext context, DbContextOptions dbContextOptions)
+        public Data(TestContext context, DbContextOptions dbContextOptions)
         {
             _context = context;
             _dbContextOptions = dbContextOptions;

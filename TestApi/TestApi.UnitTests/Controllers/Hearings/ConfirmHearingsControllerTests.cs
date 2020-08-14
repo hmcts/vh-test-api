@@ -16,8 +16,15 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_confirm_hearing()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = "updated_by@email.com";
             var conferenceDetailsResponse = GetConferenceDetailsResponse();
+
+            var request = new UpdateBookingStatusRequest()
+            {
+                AdditionalProperties = null,
+                Cancel_reason = null,
+                Status = UpdateBookingStatus.Created,
+                Updated_by = "updated_by@email.com"
+            };
 
             BookingsApiClient
                 .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
@@ -27,7 +34,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetConferenceByIdPollingAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
+            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -41,13 +48,19 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_for_non_existent_hearing_id()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = "updated_by@email.com";
+            var request = new UpdateBookingStatusRequest()
+            {
+                AdditionalProperties = null,
+                Cancel_reason = null,
+                Status = UpdateBookingStatus.Created,
+                Updated_by = "updated_by@email.com"
+            };
 
             BookingsApiClient
                 .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
                 .Throws(GetException("Hearing not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
+            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -58,7 +71,13 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_if_conference_not_created()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = "updated_by@email.com";
+            var request = new UpdateBookingStatusRequest()
+            {
+                AdditionalProperties = null,
+                Cancel_reason = null,
+                Status = UpdateBookingStatus.Created,
+                Updated_by = "updated_by@email.com"
+            };
 
             BookingsApiClient
                 .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
@@ -68,7 +87,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetConferenceByIdPollingAsync(It.IsAny<Guid>()))
                 .Throws(GetException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, UPDATED_BY);
+            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
