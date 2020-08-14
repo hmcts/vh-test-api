@@ -16,17 +16,16 @@ namespace TestApi.IntegrationTests.Controllers
     {
         public static void UserDetailsResponse(UserDetailsResponse response, UserType userType)
         {
-            var userTypeName = UserTypeName.FromUserType(userType);
             response.Application.Should().Be(Application.TestApi);
-            response.ContactEmail.Should().Contain(userTypeName.ToLowerInvariant());
+            response.ContactEmail.Should().Contain(userType.ToString().ToLowerInvariant());
             response.CreatedDate.Should().NotBe(DateTime.MinValue);
-            response.DisplayName.Should().Contain(userTypeName);
+            response.DisplayName.Should().Contain(userType.ToString());
             response.FirstName.Should().NotBeNullOrWhiteSpace();
             response.Id.Should().NotBeEmpty();
-            response.LastName.Should().Contain(userTypeName);
+            response.LastName.Should().Contain(userType.ToString());
             response.Number.Should().BeGreaterThan(0);
             response.UserType.Should().Be(userType);
-            response.Username.Should().Contain(userTypeName.ToLowerInvariant());
+            response.Username.Should().Contain(userType.ToString().ToLowerInvariant());
         }
 
         public static void UserDetailsResponse(UserDetailsResponse response, User user)
