@@ -13,7 +13,7 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class UnallocateControllerTests : HearingsControllerTestBase
+    public class UnallocateUsersControllerTests : HearingsControllerTestBase
     {
         [Test]
         public async Task Should_unallocate_users()
@@ -24,12 +24,15 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             var firstUser = CreateUser(FIRST_USER_TYPE);
             var firstAllocation = CreateAllocation(firstUser);
+            var firstUnallocation = Unallocate(firstAllocation);
 
             var secondUser = CreateUser(SECOND_USER_TYPE);
             var secondAllocation = CreateAllocation(secondUser);
+            var secondUnallocation = Unallocate(secondAllocation);
 
             var thirdUser = CreateUser(THIRD_USER_TYPE);
             var thirdAllocation = CreateAllocation(thirdUser);
+            var thirdUnallocation = Unallocate(thirdAllocation);
 
             var request = new UnallocateUsersRequest
             {
@@ -46,8 +49,11 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .SetupSequence(x =>
                     x.Handle<GetAllocationByUsernameQuery, Allocation>(It.IsAny<GetAllocationByUsernameQuery>()))
                 .ReturnsAsync(firstAllocation)
+                .ReturnsAsync(firstUnallocation)
                 .ReturnsAsync(secondAllocation)
-                .ReturnsAsync(thirdAllocation);
+                .ReturnsAsync(secondUnallocation)
+                .ReturnsAsync(thirdAllocation)
+                .ReturnsAsync(thirdUnallocation);
 
             var response = await Controller.UnallocateUsersByUsernameAsync(request);
             response.Should().NotBeNull();

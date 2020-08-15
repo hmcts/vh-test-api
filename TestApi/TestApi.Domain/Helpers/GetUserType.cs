@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TestApi.Domain.Enums;
 
 namespace TestApi.Domain.Helpers
@@ -12,7 +13,7 @@ namespace TestApi.Domain.Helpers
             text = RemoveWhitespace(text);
             text = RemoveUnderscores(text);
             text = RemoveNumbers(text);
-
+            text = AddSpacesBetweenCapitalLetters(text);
             return UserTypeName.FromString(text);
         }
 
@@ -29,6 +30,11 @@ namespace TestApi.Domain.Helpers
         private static string RemoveNumbers(string text)
         {
             return new string(text.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
+        }
+
+        private static string AddSpacesBetweenCapitalLetters(string text)
+        {
+            return string.Concat(text.Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
         }
     }
 }

@@ -29,10 +29,8 @@ namespace TestApi.IntegrationTests.Test
         public TestContext RegisterSecrets()
         {
             var azureOptions = RegisterAzureSecrets();
-            RegisterHearingServices();
             RegisterDatabaseSettings();
             RegisterUsernameStem();
-            RegisterUserGroups();
             RegisterServer();
             GenerateBearerTokens(azureOptions);
             return _context;
@@ -44,12 +42,6 @@ namespace TestApi.IntegrationTests.Test
             _context.Config.AzureAdConfiguration = azureOptions.Value;
             ConfigurationManager.VerifyConfigValuesSet(_context.Config.AzureAdConfiguration);
             return azureOptions;
-        }
-
-        private void RegisterHearingServices()
-        {
-            _context.Config.VhServices =
-                Options.Create(_configRoot.GetSection("Services").Get<ServicesConfiguration>()).Value;
         }
 
         private void RegisterDatabaseSettings()
@@ -69,16 +61,9 @@ namespace TestApi.IntegrationTests.Test
             _context.Config.UsernameStem = _configRoot.GetValue<string>("UsernameStem");
         }
 
-        private void RegisterUserGroups()
-        {
-            _context.Config.UserGroupsConfig =
-                Options.Create(_configRoot.GetSection("UserGroups").Get<UserGroupsConfiguration>());
-        }
-
         private void RegisterServer()
         {
             var webHostBuilder = WebHost.CreateDefaultBuilder()
-                .UseKestrel(c => c.AddServerHeader = false)
                 .UseEnvironment("Development")
                 .UseStartup<Startup>();
             _context.Server = new TestServer(webHostBuilder);

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Common.Builders;
-using TestApi.Contract.Requests;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Configuration;
 using TestApi.Services.Clients.BookingsApiClient;
 

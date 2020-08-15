@@ -56,12 +56,22 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
                 .ForApplication(Application.TestApi)
                 .BuildUser();
 
+            var observer = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddObserver()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var panelMember = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddPanelMember()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
                 .BuildUser();
 
-            return new List<User>() { judge, individual, representative, caseAdmin };
+            return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
         }
 
         [TearDown]

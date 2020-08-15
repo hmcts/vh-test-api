@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
 using TestApi.Common.Data;
-using TestApi.Common.Exceptions;
 using TestApi.Contract.Requests;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
@@ -48,12 +47,6 @@ namespace TestApi.Services.Builders
 
         private void SetCreatedBy()
         {
-            if (_createHearingRequest.Users.All(x => x.UserType != UserType.CaseAdmin))
-            {
-                var usernames = _createHearingRequest.Users.Select(x => x.UserType.ToString()).ToList();
-                throw new ParticipantsException(usernames);
-            }
-
             _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
         }
 

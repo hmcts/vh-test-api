@@ -52,11 +52,6 @@ namespace TestApi.IntegrationTests.Configuration
             {
                 return $"{ApiRoot}/username/{username}";
             }
-
-            public static string DeleteAADUser(string username)
-            {
-                return $"{ApiRoot}/aad/{username}";
-            }
         }
     }
 }

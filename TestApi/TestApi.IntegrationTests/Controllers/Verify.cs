@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Microsoft.ApplicationInsights.AspNetCore.TelemetryInitializers;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
@@ -89,7 +90,7 @@ namespace TestApi.IntegrationTests.Controllers
         {
             foreach (var participant in participants)
             {
-                var user = users.First(x => UserTypeName.FromUserType(x.UserType).Equals(participant.User_role_name));
+                var user = users.First(x => x.LastName.Equals(participant.Last_name));
                 participant.AdditionalProperties.Should().BeEmpty();
                 participant.Case_role_name.Should().NotBeNullOrWhiteSpace();
                 participant.Contact_email.Should().Be(user.ContactEmail);
@@ -156,6 +157,18 @@ namespace TestApi.IntegrationTests.Controllers
                 conferenceParticipant.Organisation.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Reference.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Representee.Should().NotBeNullOrWhiteSpace();
+            }
+        }
+
+        public static void AllocationDetailsResponse(List<AllocationDetailsResponse> allocations, List<string> usernames)
+        {
+            foreach (var allocation in allocations)
+            {
+                allocation.Allocated.Should().BeFalse();
+                allocation.ExpiresAt.Should().BeNull();
+                allocation.Id.Should().NotBeEmpty();
+                allocation.UserId.Should().NotBeEmpty();
+                usernames.Any(x => x.Equals(allocation.Username)).Should().BeTrue();
             }
         }
     }

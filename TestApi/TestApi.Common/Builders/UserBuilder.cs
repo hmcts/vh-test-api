@@ -45,12 +45,6 @@ namespace TestApi.Common.Builders
             return this;
         }
 
-        public UserBuilder AddVideoHearingsOfficer()
-        {
-            _userType = UserType.VideoHearingsOfficer;
-            return this;
-        }
-
         public UserBuilder AddObserver()
         {
             _userType = UserType.Observer;

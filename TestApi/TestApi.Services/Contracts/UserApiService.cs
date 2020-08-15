@@ -2,11 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TestApi.Common.Configuration;
-using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Exceptions;
 using TestApi.Services.Helpers;
 
 namespace TestApi.Services.Contracts
@@ -74,9 +72,6 @@ namespace TestApi.Services.Contracts
                 Last_name = lastName.Replace(BLANK, string.Empty),
                 Recovery_email = contactEmail
             };
-
-            if (contactEmail != createUserRequest.Recovery_email)
-                throw new UserDetailsMismatchException(contactEmail, createUserRequest.Recovery_email);
 
             var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
 

@@ -11,26 +11,37 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
 {
     public class AllocateSingleUserTests : ControllerTestsBase
     {
-        [Test]
-        public async Task Should_allocate_single_user_no_users_exist()
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        public async Task Should_allocate_single_user_no_users_exist(UserType userType)
         {
-            const UserType USER_TYPE = UserType.Individual;
             const Application APPLICATION = Application.TestApi;
 
-            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(USER_TYPE, APPLICATION);
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(userType, APPLICATION);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
 
             response.Should().NotBeNull();
-            Verify.UserDetailsResponse(response, USER_TYPE);
+            Verify.UserDetailsResponse(response, userType);
         }
 
-        [Test]
-        public async Task Should_allocate_single_user_one_unallocated_user_exists()
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        public async Task Should_allocate_single_user_one_unallocated_user_exists(UserType userType)
         {
-            var user = await Context.Data.SeedUser(UserType.Individual);
+            var user = await Context.Data.SeedUser(userType);
             await Context.Data.SeedAllocation(user.Id);
 
             var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(user.UserType, user.Application);
@@ -43,11 +54,16 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             Verify.UserDetailsResponse(response, user);
         }
 
-        [Test]
-        public async Task Should_allocate_single_user_one_allocated_user_exists()
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        public async Task Should_allocate_single_user_one_allocated_user_exists(UserType userType)
         {
-            const UserType USER_TYPE = UserType.Individual;
-            var user = await Context.Data.SeedUser(USER_TYPE);
+            var user = await Context.Data.SeedUser(userType);
             await Context.Data.SeedAllocation(user.Id);
             await Context.Data.AllocateUser(user.Id);
 
@@ -59,7 +75,30 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
 
             response.Should().NotBeNull();
             response.Should().NotBeEquivalentTo(user);
-            Verify.UserDetailsResponse(response, USER_TYPE);
+            Verify.UserDetailsResponse(response, userType);
+        }
+
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        public async Task Should_allocate_single_user_allocated_user_expired(UserType userType)
+        {
+            var user = await Context.Data.SeedUser(userType);
+            await Context.Data.SeedAllocation(user.Id);
+            await Context.Data.AllocateUser(user.Id, -11);
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(user.UserType, user.Application);
+            await SendGetRequest(uri);
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UserDetailsResponse(response, user);
         }
     }
 }

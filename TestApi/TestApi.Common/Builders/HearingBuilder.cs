@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -8,7 +9,6 @@ namespace TestApi.Common.Builders
 {
     public class HearingBuilder
     {
-        private const string DEFAULT_VENUE_NAME = "Birmingham Civil and Family Justice Centre";
         private readonly CreateHearingRequest _request;
 
         public HearingBuilder(List<User> users)
@@ -16,11 +16,11 @@ namespace TestApi.Common.Builders
             _request = new CreateHearingRequest
             {
                 Application = Application.TestApi,
-                AudioRecordingRequired = false,
-                QuestionnaireNotRequired = true,
+                AudioRecordingRequired = DefaultData.AUDIO_RECORDING_REQUIRED,
+                QuestionnaireNotRequired = DefaultData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow,
                 Users = users,
-                Venue = DEFAULT_VENUE_NAME
+                Venue = DefaultData.VENUE_NAME
             };
         }
 

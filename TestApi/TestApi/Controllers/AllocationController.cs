@@ -108,6 +108,8 @@ namespace TestApi.Controllers
 
                 await UnallocateAsync(username);
 
+                allocation = await GetAllocationByUsernameAsync(user.Username);
+
                 allocations.Add(allocation);
             }
 

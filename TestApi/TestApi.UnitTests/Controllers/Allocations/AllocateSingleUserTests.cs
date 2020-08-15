@@ -11,12 +11,18 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
-    public class GetAllocateSingleUserTests : HearingsControllerTestBase
+    public class AllocateSingleUserTests : HearingsControllerTestBase
     {
-        [Test]
-        public async Task Should_return_allocated_user()
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        public async Task Should_return_allocated_user(UserType userType)
         {
-            var user = CreateUser(UserType.CaseAdmin);
+            var user = CreateUser(userType);
             CreateAllocation(user);
 
             QueryHandler

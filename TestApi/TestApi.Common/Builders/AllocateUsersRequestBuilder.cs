@@ -46,12 +46,6 @@ namespace TestApi.Common.Builders
             return this;
         }
 
-        public AllocateUsersRequestBuilder WithUserTypes(List<UserType> userTypes)
-        {
-            _request.UserTypes = userTypes;
-            return this;
-        }
-
         public AllocateUsersRequestBuilder ForApplication(Application application)
         {
             _request.Application = application;

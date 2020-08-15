@@ -15,6 +15,6 @@ namespace TestApi.Domain.Validations
             ValidationFailures.Add(new ValidationFailure(name, message));
         }
 
-        public ValidationFailures ValidationFailures { get; protected set; } = new ValidationFailures();
+        public ValidationFailures ValidationFailures { get; } = new ValidationFailures();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions.Types;
 using Microsoft.EntityFrameworkCore;
 using TestApi.Common.Builders;
 using TestApi.DAL;
@@ -44,9 +45,6 @@ namespace TestApi.IntegrationTests.Test
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Id == userId);
-
-            if (user == null) throw new UserNotFoundException(userId);
-
             var allocation = new Allocation(user);
             await db.Allocations.AddAsync(allocation);
             await db.SaveChangesAsync();
@@ -67,7 +65,7 @@ namespace TestApi.IntegrationTests.Test
             return users.Select(user => user.Number).ToList().Max() + 1;
         }
 
-        public async Task<Allocation> AllocateUser(Guid userId)
+        public async Task<Allocation> AllocateUser(Guid userId, int expiresInMinutes = 1)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
@@ -76,22 +74,8 @@ namespace TestApi.IntegrationTests.Test
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
 
-            allocation.Allocate(1);
+            allocation.Allocate(expiresInMinutes);
             db.Allocations.Update(allocation);
-            await db.SaveChangesAsync();
-            return allocation;
-        }
-
-        public async Task<Allocation> UnallocateUser(Guid userId)
-        {
-            await using var db = new TestApiDbContext(_dbContextOptions);
-
-            var allocation = await db.Allocations
-                .Where(x => x.UserId == userId)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-
-            allocation.Unallocate();
             await db.SaveChangesAsync();
             return allocation;
         }

@@ -3,18 +3,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
-using TestApi.Contract.Requests;
-using TestApi.Services.Builders;
 using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.Services.Contracts
 {
     public interface IBookingsApiService
     {
-        /// <summary>Get the hearing details</summary>
-        /// <returns>Details of the hearing</returns>
-        Task<HearingDetailsResponse> GetHearingByIdPollingAsync(Guid hearingId);
-
         Task UpdateBookingStatusPollingAsync(Guid hearingId, UpdateBookingStatusRequest request);
     }
 
@@ -36,20 +30,6 @@ namespace TestApi.Services.Contracts
                 .Handle<BookingsApiException>()
                 .Or<Exception>()
                 .WaitAndRetryAsync(RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-        }
-
-        public async Task<HearingDetailsResponse> GetHearingByIdPollingAsync(Guid hearingId)
-        {
-            try
-            {
-                var result = await _retryPolicy.ExecuteAsync(() => _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId));
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Encountered error '{e.Message}' after {RETRIES ^ 2} seconds.");
-                throw;
-            }
         }
 
         public async Task UpdateBookingStatusPollingAsync(Guid hearingId, UpdateBookingStatusRequest request)

@@ -69,14 +69,6 @@ namespace TestApi.IntegrationTests.Controllers
             Json = await Response.Content.ReadAsStringAsync();
         }
 
-        protected async Task SendPutRequest(string uri, string request)
-        {
-            var content = new StringContent(request, Encoding.UTF8, "application/json");
-            using var client = CreateNewClient();
-            Response = await client.PutAsync(new Uri(_server.BaseAddress, uri), content);
-            Json = await Response.Content.ReadAsStringAsync();
-        }
-
         protected async Task SendDeleteRequest(string uri)
         {
             using var client = CreateNewClient();

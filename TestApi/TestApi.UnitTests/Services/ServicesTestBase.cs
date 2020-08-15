@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Configuration;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
@@ -50,14 +51,14 @@ namespace TestApi.UnitTests.Services
         {
             var groups = new UserGroupsConfiguration
             {
-                JudgeGroups = new List<string> {"Group1", "Group2"},
-                IndividualGroups = new List<string> {"Group1", "Group2"},
-                RepresentativeGroups = new List<string> {"Group1", "Group2"},
-                VideoHearingsOfficerGroups = new List<string> {"Group1", "Group2"},
-                CaseAdminGroups = new List<string> {"Group1", "Group2"},
-                KinlyGroups = new List<string> {"Group1", "Group2"},
-                TestAccountGroup = "Group1",
-                PerformanceTestAccountGroup = "Group1"
+                JudgeGroups = new List<string> { DefaultData.FAKE_JUDGE_GROUP_1, DefaultData.FAKE_JUDGE_GROUP_2 },
+                IndividualGroups = new List<string> { DefaultData.FAKE_INDIVIDUAL_GROUP_1, DefaultData.FAKE_INDIVIDUAL_GROUP_2 },
+                RepresentativeGroups = new List<string> { DefaultData.FAKE_REPRESENTATIVE_GROUP_1, DefaultData.FAKE_REPRESENTATIVE_GROUP_2 },
+                VideoHearingsOfficerGroups = new List<string> { DefaultData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_1, DefaultData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_2 },
+                CaseAdminGroups = new List<string> { DefaultData.FAKE_CASE_ADMIN_GROUP_1, DefaultData.FAKE_CASE_ADMIN_GROUP_2 },
+                KinlyGroups = new List<string> { DefaultData.FAKE_PEXIP_GROUP_1, DefaultData.FAKE_PEXIP_GROUP_2 },
+                TestAccountGroup = DefaultData.FAKE_TEST_GROUP,
+                PerformanceTestAccountGroup = DefaultData.FAKE_PERFORMANCE_TEST_GROUP
             };
 
             GroupsConfig
