@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using TestApi.Common.Data;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 
@@ -17,10 +17,7 @@ namespace TestApi.Services.Builders
 
         public ConferenceDetailsResponse Build()
         {
-            var participants = new List<ParticipantDetailsResponse>();
-
-            foreach (var participant in _hearingDetails.Participants)
-                participants.Add(new ParticipantDetailsResponse
+            var participants = _hearingDetails.Participants.Select(participant => new ParticipantDetailsResponse
                 {
                     Case_type_group = participant.Case_role_name,
                     Current_status = ParticipantState.NotSignedIn,
@@ -33,15 +30,16 @@ namespace TestApi.Services.Builders
                     Representee = participant.Representee,
                     User_role = GetUserRole(participant.Last_name),
                     Username = participant.Username
-                });
+                })
+                .ToList();
 
             var meetingRoom = new MeetingRoomResponse
             {
-                Admin_uri = "url",
-                Judge_uri = "url",
-                Participant_uri = "url",
-                Pexip_node = "node",
-                Pexip_self_test_node = "node"
+                Admin_uri = DefaultData.MEETING_ROOM_ADMIN_URL,
+                Judge_uri = DefaultData.MEETING_ROOM_JUDGE_URL,
+                Participant_uri = DefaultData.MEETING_ROOM_PARTICIPANT_URL,
+                Pexip_node = DefaultData.MEETING_ROOM_PEXIP_NODE,
+                Pexip_self_test_node = DefaultData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
             };
 
             return new ConferenceDetailsResponse
