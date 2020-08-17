@@ -162,10 +162,5 @@ namespace TestApi.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
-
-        private async Task<HearingDetailsResponse> GetHearingById(Guid hearingId)
-        {
-            return await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
-        }
     }
 }
