@@ -43,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
-                .ThrowsAsync(GetException("Hearing not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.DeleteHearingByIdAsync(hearingId);
             response.Should().NotBeNull();

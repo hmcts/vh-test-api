@@ -43,10 +43,10 @@ namespace TestApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateUserByUserTypeAndApplicationAsync(UserType userType,
+        public async Task<IActionResult> AllocateSingleUserAsync(UserType userType,
             Application application)
         {
-            _logger.LogDebug($"AllocateUserByUserTypeAndApplicationAsync {userType} {application}");
+            _logger.LogDebug($"AllocateSingleUserAsync {userType} {application}");
 
             var user = await AllocateAsync(userType, application);
             _logger.LogDebug($"User '{user.Username}' successfully allocated");
@@ -60,7 +60,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
-        [HttpGet("allocateUsers")]
+        [HttpPatch("allocateUsers")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
@@ -85,7 +85,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
-        [HttpPut("unallocateUsers")]
+        [HttpPatch("unallocateUsers")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -107,6 +107,8 @@ namespace TestApi.Controllers
                     return BadRequest($"No allocation exists for user with username {user.Username}");
 
                 await UnallocateAsync(username);
+
+                allocation = await GetAllocationByUsernameAsync(user.Username);
 
                 allocations.Add(allocation);
             }

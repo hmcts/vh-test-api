@@ -25,8 +25,6 @@ namespace TestApi.Domain.Helpers
         public static UserTypeName VideoHearingsOfficer =>
             new UserTypeName(UserType.VideoHearingsOfficer, "Video Hearings Officer");
 
-        public static UserTypeName None => new UserTypeName(UserType.None, "None");
-
         private static IEnumerable<UserTypeName> Values
         {
             get
@@ -38,7 +36,6 @@ namespace TestApi.Domain.Helpers
                 yield return PanelMember;
                 yield return CaseAdmin;
                 yield return VideoHearingsOfficer;
-                yield return None;
             }
         }
 

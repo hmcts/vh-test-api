@@ -15,15 +15,15 @@ namespace TestApi.IntegrationTests.Database.Commands
 
         public AllocateByUserIdCommandTests()
         {
-            _commandHandler = new AllocateByUserIdCommandHandler(_dbContext);
-            _query = new GetAllocationByUserIdQueryHandler(_dbContext);
+            _commandHandler = new AllocateByUserIdCommandHandler(DbContext);
+            _query = new GetAllocationByUserIdQueryHandler(DbContext);
         }
 
         [Test]
         public async Task Should_allocate_by_user_id()
         {
-            var user = await _context.TestDataManager.SeedUser();
-            await _context.TestDataManager.SeedAllocation(user.Id);
+            var user = await Context.Data.SeedUser();
+            await Context.Data.SeedAllocation(user.Id);
             const int MINUTES = 2;
 
             var command = new AllocateByUserIdCommand(user.Id, MINUTES);
@@ -48,7 +48,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_throw_error_if_allocation_does_not_exist()
         {
-            var user = await _context.TestDataManager.SeedUser();
+            var user = await Context.Data.SeedUser();
 
             Assert.ThrowsAsync<UserAllocationNotFoundException>(() => _commandHandler.Handle(
                 new AllocateByUserIdCommand(user.Id)));
@@ -57,9 +57,9 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_throw_error_if_user_already_allocated()
         {
-            var user = await _context.TestDataManager.SeedUser();
-            await _context.TestDataManager.SeedAllocation(user.Id);
-            await _context.TestDataManager.AllocateUser(user.Id);
+            var user = await Context.Data.SeedUser();
+            await Context.Data.SeedAllocation(user.Id);
+            await Context.Data.AllocateUser(user.Id);
 
             Assert.ThrowsAsync<UserUnavailableException>(() => _commandHandler.Handle(
                 new AllocateByUserIdCommand(user.Id)));

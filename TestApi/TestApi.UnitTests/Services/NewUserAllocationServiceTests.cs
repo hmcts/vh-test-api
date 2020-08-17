@@ -177,7 +177,7 @@ namespace TestApi.UnitTests.Services
             };
 
             MockUserApiService
-                .Setup(x => x.CreateNewUserInAAD(It.IsAny<ADUser>()))
+                .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(newUserResponse);
 
             CommandHandler

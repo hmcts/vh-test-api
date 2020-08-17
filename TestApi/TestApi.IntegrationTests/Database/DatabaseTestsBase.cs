@@ -1,28 +1,32 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using TestApi.DAL;
-using TestApi.IntegrationTests.Hooks;
+using TestApi.IntegrationTests.Test;
+using TestContext = TestApi.IntegrationTests.Test.TestContext;
 
 namespace TestApi.IntegrationTests.Database
 {
     public class DatabaseTestsBase
     {
-        protected readonly TestContext _context;
-        protected readonly TestApiDbContext _dbContext;
+        protected TestContext Context;
+        protected readonly TestApiDbContext DbContext;
 
         protected DatabaseTestsBase()
         {
-            _context = new TestContext();
-            var configHooks = new ConfigHooks(_context);
-            configHooks.RegisterSecrets(_context);
-            _dbContext = new TestApiDbContext(_context.DbContextOptions);
+            Context = new Setup().RegisterSecrets();
+            DbContext = new TestApiDbContext(Context.DbContextOptions);
         }
 
         [TearDown]
-        protected async Task TearDown()
+        public async Task AfterEveryTest()
         {
-            await RemoveData.RemoveDataCreatedDuringTest(_context);
-            RemoveData.RemoveServer(_context);
+            await Context.Data.DeleteUsers();
+        }
+
+        [OneTimeTearDown]
+        public void AfterTestRun()
+        {
+            Context.Server.Dispose();
         }
     }
 }

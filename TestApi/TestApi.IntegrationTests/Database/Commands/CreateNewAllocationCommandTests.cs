@@ -13,20 +13,20 @@ namespace TestApi.IntegrationTests.Database.Commands
 
         public CreateNewAllocationCommandTests()
         {
-            _commandHandler = new CreateNewAllocationCommandHandler(_dbContext);
+            _commandHandler = new CreateNewAllocationCommandHandler(DbContext);
         }
 
         [Test]
         public async Task Should_create_new_allocation()
         {
-            var user = await _context.TestDataManager.SeedUser();
+            var user = await Context.Data.SeedUser();
 
             var command = new CreateNewAllocationByUserIdCommand(user.Id);
             await _commandHandler.Handle(command);
 
             command.NewAllocationId.Should().NotBeEmpty();
 
-            var allocation = await _context.TestDataManager.GetAllocationByUserId(user.Id);
+            var allocation = await Context.Data.GetAllocationByUserId(user.Id);
             allocation.Allocated.Should().BeFalse();
             allocation.ExpiresAt.Should().BeNull();
             allocation.UserId.Should().Be(user.Id);
@@ -43,8 +43,8 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_not_create_allocation_if_exists()
         {
-            var user = await _context.TestDataManager.SeedUser();
-            await _context.TestDataManager.SeedAllocation(user.Id);
+            var user = await Context.Data.SeedUser();
+            await Context.Data.SeedAllocation(user.Id);
 
             Assert.ThrowsAsync<AllocationAlreadyExistsException>(() => _commandHandler.Handle(
                 new CreateNewAllocationByUserIdCommand(user.Id)));

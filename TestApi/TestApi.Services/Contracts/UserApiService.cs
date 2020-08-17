@@ -2,11 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TestApi.Common.Configuration;
-using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Exceptions;
 using TestApi.Services.Helpers;
 
 namespace TestApi.Services.Contracts
@@ -16,21 +14,23 @@ namespace TestApi.Services.Contracts
         /// <summary>
         ///     Checks if a user already exists based on their contact email
         /// </summary>
-        /// <param name="contactEmail"></param>
+        /// <param name="contactEmail">Contact email of the user</param>
         /// <returns></returns>
         Task<bool> CheckUserExistsInAAD(string contactEmail);
 
         /// <summary>
         ///     Creates a user based on the user information
         /// </summary>
-        /// <param name="adUser"></param>
+        /// <param name="firstName">First name of the user</param>
+        /// <param name="lastName">Last name of the user</param>
+        /// <param name="contactEmail">Contact email of the user</param>
         /// <returns></returns>
-        Task<NewUserResponse> CreateNewUserInAAD(ADUser adUser);
+        Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail);
 
         /// <summary>
         ///     Deletes a user by contact email
         /// </summary>
-        /// <param name="contactEmail"></param>
+        /// <param name="contactEmail">Contact email of the user</param>
         /// <returns></returns>
         Task DeleteUserInAAD(string contactEmail);
     }
@@ -62,23 +62,20 @@ namespace TestApi.Services.Contracts
             return true;
         }
 
-        public async Task<NewUserResponse> CreateNewUserInAAD(ADUser adUser)
+        public async Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail)
         {
-            var userType = GetUserType.FromUserLastName(adUser.LastName);
-
             const string BLANK = " ";
 
             var createUserRequest = new CreateUserRequest
             {
-                First_name = adUser.FirstName.Replace(BLANK, string.Empty),
-                Last_name = adUser.LastName.Replace(BLANK, string.Empty),
-                Recovery_email = adUser.ContactEmail
+                First_name = firstName.Replace(BLANK, string.Empty),
+                Last_name = lastName.Replace(BLANK, string.Empty),
+                Recovery_email = contactEmail
             };
 
-            if (adUser.ContactEmail != createUserRequest.Recovery_email)
-                throw new UserDetailsMismatchException(adUser.ContactEmail, createUserRequest.Recovery_email);
-
             var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
+
+            var userType = GetUserType.FromUserLastName(lastName);
 
             await AddUserToGroups(newUserResponse.User_id, userType);
 

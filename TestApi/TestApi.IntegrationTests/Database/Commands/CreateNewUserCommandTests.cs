@@ -15,7 +15,7 @@ namespace TestApi.IntegrationTests.Database.Commands
 
         public CreateNewUserCommandTests()
         {
-            _commandHandler = new CreateNewUserCommandHandler(_dbContext);
+            _commandHandler = new CreateNewUserCommandHandler(DbContext);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace TestApi.IntegrationTests.Database.Commands
 
             var userId = command.NewUserId;
 
-            var user = await _context.TestDataManager.GetUserById(userId);
+            var user = await Context.Data.GetUserById(userId);
 
             user.Application.Should().Be(request.Application);
             user.ContactEmail.Should().Be(request.ContactEmail);
@@ -57,7 +57,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         {
             const string EMAIL_STEM = "made_up_email_stem_for_test";
 
-            var firstUser = await _context.TestDataManager.SeedUser();
+            var firstUser = await Context.Data.SeedUser();
 
             var request = new UserBuilder(EMAIL_STEM, firstUser.Number)
                 .WithUserType(firstUser.UserType)

@@ -2,6 +2,7 @@
 using System.Linq;
 using Faker;
 using FluentAssertions;
+using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
@@ -10,11 +11,6 @@ namespace TestApi.Services.Builders
 {
     public class BookHearingParticipantsBuilder
     {
-        private const string FIRST_CASE_ROLE_NAME = "Claimant";
-        private const string SECOND_CASE_ROLE_NAME = "Defendant";
-        private const string FIRST_INDV_HEARING_ROLE_NAME = "Claimant LIP";
-        private const string SECOND_INDV_HEARING_ROLE_NAME = "Defendant LIP";
-        private const string REPRESENTATIVE_HEARING_ROLE_NAME = "Representative";
         private readonly List<ParticipantRequest> _participants;
 
         private readonly List<User> _users;
@@ -43,18 +39,18 @@ namespace TestApi.Services.Builders
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_role_name = indIndex == 0 ? FIRST_CASE_ROLE_NAME : SECOND_CASE_ROLE_NAME;
+                    request.Case_role_name = indIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
                     request.Hearing_role_name =
-                        indIndex == 0 ? FIRST_INDV_HEARING_ROLE_NAME : SECOND_INDV_HEARING_ROLE_NAME;
+                        indIndex == 0 ? DefaultData.FIRST_INDV_HEARING_ROLE_NAME : DefaultData.SECOND_INDV_HEARING_ROLE_NAME;
                     indIndex++;
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_role_name = repIndex == 0 ? FIRST_CASE_ROLE_NAME : SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = REPRESENTATIVE_HEARING_ROLE_NAME;
+                    request.Case_role_name = repIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
+                    request.Hearing_role_name = DefaultData.REPRESENTATIVE_HEARING_ROLE_NAME;
                     request.Organisation_name = Company.Name();
-                    request.Reference = "Reference";
+                    request.Reference = DefaultData.REFERENCE;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
                 }
@@ -70,9 +66,9 @@ namespace TestApi.Services.Builders
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
-                request.Middle_names = string.Empty;
-                request.Telephone_number = $"+44(0)7{RandomNumber.Next(900000000, 999999999)}";
-                request.Title = "Mrs";
+                request.Middle_names = DefaultData.MIDDLE_NAME;
+                request.Telephone_number = DefaultData.TELEPHONE_NUMBER;
+                request.Title = DefaultData.TITLE;
                 request.Username = user.Username;
 
                 _participants.Add(request);

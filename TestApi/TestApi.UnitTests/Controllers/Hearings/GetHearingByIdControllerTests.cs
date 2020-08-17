@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(nonExistentHearingId))
-                .ThrowsAsync(GetException("Hearing not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.GetHearingByIdAsync(nonExistentHearingId);
             response.Should().NotBeNull();

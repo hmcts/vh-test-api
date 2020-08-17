@@ -43,17 +43,15 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"GetUserDetailsByUsernameAsync {username}");
 
-            try
-            {
-                var queriedUser =
-                    await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
-                var response = UserToDetailsResponseMapper.MapToResponse(queriedUser);
-                return Ok(response);
-            }
-            catch (UserNotFoundException)
+            var user = await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+
+            if (user == null)
             {
                 return NotFound();
             }
+
+            var response = UserToDetailsResponseMapper.MapToResponse(user);
+            return Ok(response);
         }
 
         /// <summary>

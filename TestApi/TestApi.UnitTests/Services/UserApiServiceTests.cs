@@ -38,17 +38,21 @@ namespace TestApi.UnitTests.Services
             userExists.Should().BeFalse();
         }
 
-        [Test]
-        public async Task Should_create_new_user_in_aad()
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        public async Task Should_create_new_user_in_aad(UserType userType)
         {
             const string EMAIL_STEM = "made_up_email_stem.com";
 
             var userRequest = new UserBuilder(EMAIL_STEM, 1)
-                .WithUserType(UserType.Individual)
+                .WithUserType(userType)
                 .ForApplication(Application.TestApi)
                 .BuildRequest();
-
-            var adUser = new ADUserBuilder(userRequest).BuildUser();
 
             var newUserResponse = new NewUserResponse
             {
@@ -61,7 +65,7 @@ namespace TestApi.UnitTests.Services
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
 
-            var userDetails = await UserApiService.CreateNewUserInAAD(adUser);
+            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail);
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
             userDetails.User_id.Should().Be(newUserResponse.User_id);
             userDetails.Username.Should().Be(newUserResponse.Username);

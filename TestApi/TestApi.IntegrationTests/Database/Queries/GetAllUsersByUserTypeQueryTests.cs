@@ -13,14 +13,14 @@ namespace TestApi.IntegrationTests.Database.Queries
 
         public GetAllUsersByUserTypeQueryTests()
         {
-            _query = new GetAllUsersByUserTypeQueryHandler(_dbContext);
+            _query = new GetAllUsersByUserTypeQueryHandler(DbContext);
         }
 
         [Test]
         public async Task Should_get_only_users_with_user_type()
         {
-            var expectedUser = await _context.TestDataManager.SeedUser();
-            var unexpectedUser = await _context.TestDataManager.SeedUser(UserType.None);
+            var expectedUser = await Context.Data.SeedUser();
+            var unexpectedUser = await Context.Data.SeedUser(UserType.None);
             var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType,
                 expectedUser.Application));
             users.Count.Should().Be(1);

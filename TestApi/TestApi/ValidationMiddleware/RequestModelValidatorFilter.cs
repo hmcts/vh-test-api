@@ -30,7 +30,10 @@ namespace TestApi.ValidationMiddleware
                 if (property.BindingInfo?.BindingSource == BindingSource.Body)
                 {
                     var validationFailures = _requestModelValidatorService.Validate(property.ParameterType, value);
-                    context.ModelState.AddFluentValidationErrors(validationFailures);
+                    if (validationFailures != null)
+                    {
+                        context.ModelState.AddFluentValidationErrors(validationFailures);
+                    }
                 }
 
                 if (value.Equals(GetDefaultValue(property.ParameterType)))

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -16,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
     public class CreateHearingControllerTests : HearingsControllerTestBase
     {
         [Test]
-        public async Task Should_return_hearing()
+        public async Task Should_create_hearing()
         {
             var firstUser = CreateUser(UserType.Judge);
             var secondUser = CreateUser(UserType.Individual);
@@ -57,12 +58,136 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
-                .ThrowsAsync(GetException("Hearing not created", HttpStatusCode.BadRequest));
+                .ThrowsAsync(GetBookingsApiException("Hearing not created", HttpStatusCode.BadRequest));
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_audio_recording()
+        {
+            var firstUser = CreateUser(UserType.Judge);
+            var secondUser = CreateUser(UserType.Individual);
+            var thirdUser = CreateUser(UserType.Representative);
+            var fourthUser = CreateUser(UserType.CaseAdmin);
+
+            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+
+            var createHearingRequest = new HearingBuilder(users)
+                .AudioRecordingRequired()
+                .BuildRequest();
+
+            var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
+            var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
+
+            BookingsApiClient
+                .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            var response = await Controller.CreateHearingAsync(createHearingRequest);
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+
+            var hearingDetails = (HearingDetailsResponse)result.Value;
+            hearingDetails.Should().NotBeNull();
+            hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_questionnaire_required()
+        {
+            var firstUser = CreateUser(UserType.Judge);
+            var secondUser = CreateUser(UserType.Individual);
+            var thirdUser = CreateUser(UserType.Representative);
+            var fourthUser = CreateUser(UserType.CaseAdmin);
+
+            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+
+            var createHearingRequest = new HearingBuilder(users)
+                .QuestionnairesRequired()
+                .BuildRequest();
+
+            var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
+            var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
+
+            BookingsApiClient
+                .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            var response = await Controller.CreateHearingAsync(createHearingRequest);
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+
+            var hearingDetails = (HearingDetailsResponse)result.Value;
+            hearingDetails.Should().NotBeNull();
+            hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_specific_venue()
+        {
+            var firstUser = CreateUser(UserType.Judge);
+            var secondUser = CreateUser(UserType.Individual);
+            var thirdUser = CreateUser(UserType.Representative);
+            var fourthUser = CreateUser(UserType.CaseAdmin);
+
+            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+
+            var createHearingRequest = new HearingBuilder(users)
+                .HearingVenue("Manchester Civil and Family Justice Centre")
+                .BuildRequest();
+
+            var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
+            var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
+
+            BookingsApiClient
+                .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            var response = await Controller.CreateHearingAsync(createHearingRequest);
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+
+            var hearingDetails = (HearingDetailsResponse)result.Value;
+            hearingDetails.Should().NotBeNull();
+            hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_specified_data_time()
+        {
+            var firstUser = CreateUser(UserType.Judge);
+            var secondUser = CreateUser(UserType.Individual);
+            var thirdUser = CreateUser(UserType.Representative);
+            var fourthUser = CreateUser(UserType.CaseAdmin);
+
+            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+
+            var createHearingRequest = new HearingBuilder(users)
+                .ScheduledDateTime(DateTime.UtcNow.AddMinutes(1))
+                .BuildRequest();
+
+            var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
+            var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
+
+            BookingsApiClient
+                .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            var response = await Controller.CreateHearingAsync(createHearingRequest);
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+
+            var hearingDetails = (HearingDetailsResponse)result.Value;
+            hearingDetails.Should().NotBeNull();
+            hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
         }
     }
 }

@@ -121,7 +121,6 @@ namespace TestApi
 
             app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
 
-            app.UseMiddleware<LogResponseBodyMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();
         }
 

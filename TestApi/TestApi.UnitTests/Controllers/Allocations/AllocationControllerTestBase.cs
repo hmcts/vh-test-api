@@ -40,5 +40,11 @@ namespace TestApi.UnitTests.Controllers.Allocations
         {
             return new Allocation(user);
         }
+
+        protected static Allocation Unallocate(Allocation allocation)
+        {
+            allocation.Unallocate();
+            return allocation;
+        }
     }
 }

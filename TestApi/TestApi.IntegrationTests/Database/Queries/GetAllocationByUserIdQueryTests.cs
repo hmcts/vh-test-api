@@ -13,14 +13,14 @@ namespace TestApi.IntegrationTests.Database.Queries
 
         public GetAllocationByUserIdQueryTests()
         {
-            _query = new GetAllocationByUserIdQueryHandler(_dbContext);
+            _query = new GetAllocationByUserIdQueryHandler(DbContext);
         }
 
         [Test]
         public async Task Should_get_allocation_details_by_user_id()
         {
-            var user = await _context.TestDataManager.SeedUser();
-            var allocation = await _context.TestDataManager.SeedAllocation(user.Id);
+            var user = await Context.Data.SeedUser();
+            var allocation = await Context.Data.SeedAllocation(user.Id);
 
             var allocationDetails = await _query.Handle(new GetAllocationByUserIdQuery(user.Id));
             allocationDetails.UserId.Should().Be(user.Id);
@@ -39,7 +39,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_not_throw_error_if_allocation_does_not_exist()
         {
-            var user = await _context.TestDataManager.SeedUser();
+            var user = await Context.Data.SeedUser();
             var allocationDetails = await _query.Handle(new GetAllocationByUserIdQuery(user.Id));
             allocationDetails.Should().BeNull();
         }

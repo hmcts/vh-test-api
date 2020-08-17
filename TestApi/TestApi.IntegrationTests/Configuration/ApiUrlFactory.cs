@@ -11,7 +11,7 @@ namespace TestApi.IntegrationTests.Configuration
             public static string AllocateUsers => $"{ApiRoot}/allocateUsers";
             public static string UnallocateUsers => $"{ApiRoot}/unallocateUsers";
 
-            public static string AllocateByUserTypeAndApplication(UserType userType, Application application)
+            public static string AllocateSingleUser(UserType userType, Application application)
             {
                 return $"{ApiRoot}/?userType={userType}&application={application}";
             }
@@ -51,11 +51,6 @@ namespace TestApi.IntegrationTests.Configuration
             public static string GetUserByUsername(string username)
             {
                 return $"{ApiRoot}/username/{username}";
-            }
-
-            public static string DeleteAADUser(string username)
-            {
-                return $"{ApiRoot}/aad/{username}";
             }
         }
     }
