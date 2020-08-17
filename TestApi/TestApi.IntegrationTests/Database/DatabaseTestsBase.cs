@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using TestApi.DAL;
-using TestApi.IntegrationTests.Controllers;
 using TestApi.IntegrationTests.Test;
 using TestContext = TestApi.IntegrationTests.Test.TestContext;
 

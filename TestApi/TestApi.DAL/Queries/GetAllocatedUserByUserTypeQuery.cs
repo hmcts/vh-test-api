@@ -21,12 +21,12 @@ namespace TestApi.DAL.Queries
         public int ExtendedExpiryInMinutes { get; set; }
     }
 
-    public class GetNewAllocationByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
+    public class GetAllocatedUserByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
     {
         private readonly TestApiDbContext _context;
         private readonly IAllocationService _service;
 
-        public GetNewAllocationByUserTypeQueryHandler(TestApiDbContext context, IAllocationService service)
+        public GetAllocatedUserByUserTypeQueryHandler(TestApiDbContext context, IAllocationService service)
         {
             _context = context;
             _service = service;
