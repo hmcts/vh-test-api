@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using TestApi.DAL;
-using TestApi.IntegrationTests.Configuration;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Test
 {

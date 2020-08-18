@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.ApplicationInsights.AspNetCore.TelemetryInitializers;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 
-namespace TestApi.IntegrationTests.Controllers
+namespace TestApi.Tests.Common
 {
     public static class Verify
     {
@@ -170,6 +168,31 @@ namespace TestApi.IntegrationTests.Controllers
                 allocation.UserId.Should().NotBeEmpty();
                 usernames.Any(x => x.Equals(allocation.Username)).Should().BeTrue();
             }
+        }
+
+        public static void UpdatedHearing(HearingDetailsResponse hearingDetails, UpdateHearingRequest request)
+        {
+            hearingDetails.Should().BeEquivalentTo(request);
+        }
+
+        public static void UpdatedConference(ConferenceDetailsResponse conferenceDetails, UpdateHearingRequest request)
+        {
+            conferenceDetails.Should().BeEquivalentTo(request, options => options
+                .Excluding(x => x.AdditionalProperties)
+                .Excluding(x => x.Cases)
+                .Excluding(x => x.Hearing_room_name)
+                .Excluding(x => x.Other_information)
+                .Excluding(x => x.Questionnaire_not_required)
+                .Excluding(x => x.Updated_by)
+            );
+
+            conferenceDetails.Case_name.Should().Be(request.Cases.First().Name);
+            conferenceDetails.Case_number.Should().Be(request.Cases.First().Number);
+        }
+
+        public static void ParticipantDetails(ParticipantDetailsResponse participant, AddParticipantsToHearingRequest request)
+        {
+            participant.Should().BeEquivalentTo(request.Participants.First());
         }
     }
 }

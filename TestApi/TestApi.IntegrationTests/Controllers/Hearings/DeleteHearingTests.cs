@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using TestApi.IntegrationTests.Configuration;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
 {

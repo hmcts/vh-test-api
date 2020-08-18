@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
+using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
+using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
@@ -24,6 +26,35 @@ namespace TestApi.Services.Builders
                 Participants = new List<ParticipantRequest>()
             };
             _createHearingRequest = createHearingRequest;
+            _randomNumber = new Random();
+        }
+
+        public BookHearingRequestBuilder(string usernameStem)
+        {
+            _request = new BookNewHearingRequest
+            {
+                Cases = new List<CaseRequest>(),
+                Participants = new List<ParticipantRequest>()
+            };
+
+            var users = new List<User>()
+            {
+                new UserBuilder(usernameStem, 1).AddJudge().ForApplication(Application.QueueSubscriber).BuildUser(),
+                new UserBuilder(usernameStem, 1).AddIndividual().ForApplication(Application.QueueSubscriber).BuildUser(),
+                new UserBuilder(usernameStem, 1).AddRepresentative().ForApplication(Application.QueueSubscriber).BuildUser(),
+                new UserBuilder(usernameStem, 1).AddCaseAdmin().ForApplication(Application.QueueSubscriber).BuildUser(),
+            };
+
+            _createHearingRequest = new CreateHearingRequest()
+            {
+                Application = Application.TestApi,
+                AudioRecordingRequired = DefaultData.AUDIO_RECORDING_REQUIRED,
+                QuestionnaireNotRequired = DefaultData.QUESTIONNAIRE_NOT_REQUIRED,
+                ScheduledDateTime = DateTime.UtcNow.AddMinutes(35),
+                Users = users,
+                Venue = DefaultData.VENUE_NAME
+            };
+            
             _randomNumber = new Random();
         }
 

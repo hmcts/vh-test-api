@@ -9,8 +9,8 @@ using TestApi.Common.Builders;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.IntegrationTests.Configuration;
 using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
 {

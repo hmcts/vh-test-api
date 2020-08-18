@@ -5,7 +5,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
-using TestApi.IntegrationTests.Configuration;
+using TestApi.Tests.Common;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Allocations
 {

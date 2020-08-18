@@ -4,6 +4,7 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Tests.Common;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
 {

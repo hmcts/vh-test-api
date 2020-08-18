@@ -4,7 +4,7 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Contract.Responses;
-using TestApi.IntegrationTests.Configuration;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Health
 {

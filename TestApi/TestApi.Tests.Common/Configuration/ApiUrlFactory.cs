@@ -1,7 +1,7 @@
 ﻿using System;
 using TestApi.Domain.Enums;
 
-namespace TestApi.IntegrationTests.Configuration
+namespace TestApi.Tests.Common.Configuration
 {
     public static class ApiUriFactory
     {
