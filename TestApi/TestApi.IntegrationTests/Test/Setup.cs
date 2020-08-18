@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.DAL;
-using TestApi.IntegrationTests.Configuration;
+using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Test
 {

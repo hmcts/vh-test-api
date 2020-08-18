@@ -121,7 +121,7 @@ namespace TestApi.Controllers
 
             try
             {
-                var response = await _videoApiService.GetConferenceByIdPollingAsync(hearingId);
+                var response = await _videoApiService.GetConferenceByHearingIdPollingAsync(hearingId);
                 return Created(nameof(ConfirmHearingByIdAsync), response);
             }
             catch (VideoApiException e)

@@ -10,7 +10,7 @@ namespace TestApi.Services.Contracts
     {
         /// <summary>Polls for the conference and retrieves the conference details</summary>
         /// <returns>Conference details</returns>
-        Task<ConferenceDetailsResponse> GetConferenceByIdPollingAsync(Guid hearingRefId);
+        Task<ConferenceDetailsResponse> GetConferenceByHearingIdPollingAsync(Guid hearingRefId);
     }
 
     public class VideoApiService : IVideoApiService
@@ -24,7 +24,7 @@ namespace TestApi.Services.Contracts
             _logger = logger;
         }
 
-        public async Task<ConferenceDetailsResponse> GetConferenceByIdPollingAsync(Guid hearingRefId)
+        public async Task<ConferenceDetailsResponse> GetConferenceByHearingIdPollingAsync(Guid hearingRefId)
         {
             // 4 retries ^2 will execute after 2 seconds, then 4, 8, then finally 16 (30 seconds in total)
             const int RETRIES = 4;
@@ -44,7 +44,6 @@ namespace TestApi.Services.Contracts
                 _logger.LogError($"Encountered error '{e.Message}' after {RETRIES^2} seconds.");
                 throw;
             }
-
         }
     }
 }

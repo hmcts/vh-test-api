@@ -2,7 +2,9 @@
 {
     public static class DefaultData
     {
+        public static string CREATED_BY(string usernameStem) => $"automation_test@{usernameStem}";
         public static bool AUDIO_RECORDING_REQUIRED = false;
+        public static string CANCELLATION_REASON = "Cancellation reason";
         public const string CASE_NAME_PREFIX = "Automated Test";
         public const string CASE_TYPE_NAME = "Civil Money Claims";
         public const string HEARING_ROOM_NAME = "Room 1";
@@ -15,7 +17,9 @@
         public const int SCHEDULED_DURATION = 60;
         public const string TELEPHONE_NUMBER = "+44(0)71234567891";
         public const string TITLE = "Mrs";
+        public const string UPDATED_TEXT = "UPDATED";
         public const string VENUE_NAME = "Birmingham Civil and Family Justice Centre";
+        public const string ALTERNATIVE_VENUE_NAME = "Manchester Civil and Family Justice Centre";
         public const string FIRST_CASE_ROLE_NAME = "Claimant";
         public const string SECOND_CASE_ROLE_NAME = "Defendant";
         public const string FIRST_INDV_HEARING_ROLE_NAME = "Claimant LIP";

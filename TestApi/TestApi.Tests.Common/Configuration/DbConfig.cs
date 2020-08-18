@@ -1,4 +1,4 @@
-﻿namespace TestApi.IntegrationTests.Configuration
+﻿namespace TestApi.Tests.Common.Configuration
 {
     public class DbConfig
     {

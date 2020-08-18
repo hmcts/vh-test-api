@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20200723143036_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200723164144_Initial.cs" />
     <Compile Remove="Migrations\20200723164144_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200817155121_QueueSubcriber.cs" />
+    <Compile Remove="Migrations\20200817155121_QueueSubcriber.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions.Types;
 using Microsoft.EntityFrameworkCore;
 using TestApi.Common.Builders;
 using TestApi.DAL;
-using TestApi.DAL.Exceptions;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 

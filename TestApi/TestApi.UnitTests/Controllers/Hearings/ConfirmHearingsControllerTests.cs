@@ -31,7 +31,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Returns(Task.CompletedTask);
 
             VideoApiService
-                .Setup(x => x.GetConferenceByIdPollingAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
@@ -84,7 +84,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Returns(Task.CompletedTask);
 
             VideoApiService
-                .Setup(x => x.GetConferenceByIdPollingAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(GetVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);

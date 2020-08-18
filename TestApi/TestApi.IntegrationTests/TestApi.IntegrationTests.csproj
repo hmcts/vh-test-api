@@ -19,15 +19,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SpecFlow" Version="3.3.74" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.3.74" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.3.74" />
     <PackageReference Include="VH.AcceptanceTests.Common" Version="1.0.253" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TestApi.Common\TestApi.Common.csproj" />
     <ProjectReference Include="..\TestApi.DAL\TestApi.DAL.csproj" />
+    <ProjectReference Include="..\TestApi.Tests.Common\TestApi.Tests.Common.csproj" />
     <ProjectReference Include="..\TestApi\TestApi.csproj" />
   </ItemGroup>
 
