@@ -8,13 +8,13 @@ using NUnit.Framework;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
-    public class DeleteHearingControllerTests : HearingsControllerTestBase
+    public class DeleteHearingControllerTests : HearingsControllerTestsBase
     {
         [Test]
         public async Task Should_delete_hearing()
         {
             var hearingId = Guid.NewGuid();
-            var hearingDetailsResponse = GetHearingDetailsResponse();
+            var hearingDetailsResponse = CreateHearingDetailsResponse();
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
@@ -35,7 +35,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_return_not_found_for_non_existent_hearing_id()
         {
             var hearingId = Guid.NewGuid();
-            var hearingDetailsResponse = GetHearingDetailsResponse();
+            var hearingDetailsResponse = CreateHearingDetailsResponse();
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
@@ -43,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
-                .ThrowsAsync(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.DeleteHearingByIdAsync(hearingId);
             response.Should().NotBeNull();

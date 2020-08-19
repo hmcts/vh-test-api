@@ -4,7 +4,7 @@ using System.Linq;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
 
-namespace TestApi.Services.Builders
+namespace TestApi.Services.Builders.Responses
 {
     public class HearingDetailsResponseBuilder
     {
@@ -14,7 +14,6 @@ namespace TestApi.Services.Builders
         {
             _request = request;
         }
-
 
         public HearingDetailsResponse Build()
         {

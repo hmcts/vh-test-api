@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.Contract.Requests;
 using TestApi.Services.Builders;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
@@ -47,6 +49,30 @@ namespace TestApi.Controllers
             try
             {
                 var response = await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
+                return Ok(response);
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///    Get list of all hearings for a given username
+        /// </summary>
+        /// <param name="username">Username of the participant</param>
+        /// <returns>Full details of a hearing</returns>
+        [HttpGet("{username}", Name = nameof(GetHearingsByUsernameAsync))]
+        [ProducesResponseType(typeof(List<HearingDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetHearingsByUsernameAsync(string username)
+        {
+            _logger.LogDebug($"GetHearingsByUsernameAsync {username}");
+
+            try
+            {
+                var response = await _bookingsApiClient.GetHearingsByUsernameAsync(username);
                 return Ok(response);
             }
             catch (BookingsApiException e)

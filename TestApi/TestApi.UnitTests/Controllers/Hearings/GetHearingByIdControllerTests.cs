@@ -9,12 +9,12 @@ using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
-    public class GetHearingByIdControllerTests : HearingsControllerTestBase
+    public class GetHearingByIdControllerTests : HearingsControllerTestsBase
     {
         [Test]
         public async Task Should_return_hearing()
         {
-            var hearingDetailsResponse = GetHearingDetailsResponse();
+            var hearingDetailsResponse = CreateHearingDetailsResponse();
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(hearingDetailsResponse.Id))
@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(nonExistentHearingId))
-                .ThrowsAsync(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.GetHearingByIdAsync(nonExistentHearingId);
             response.Should().NotBeNull();

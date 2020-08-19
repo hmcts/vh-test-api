@@ -4,13 +4,13 @@ using TestApi.Common.Data;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 
-namespace TestApi.Services.Builders
+namespace TestApi.Services.Builders.Responses
 {
-    public class ConferenceDetailsResponseBuilder
+    public class ConferenceDetailsFromHearingResponseBuilder
     {
         private readonly HearingDetailsResponse _hearingDetails;
 
-        public ConferenceDetailsResponseBuilder(HearingDetailsResponse hearingDetails)
+        public ConferenceDetailsFromHearingResponseBuilder(HearingDetailsResponse hearingDetails)
         {
             _hearingDetails = hearingDetails;
         }
@@ -61,7 +61,7 @@ namespace TestApi.Services.Builders
             };
         }
 
-        private UserRole GetUserRole(string lastName)
+        private static UserRole GetUserRole(string lastName)
         {
             lastName = RemoveUnderscores(lastName);
             lastName = RemoveNumbers(lastName);

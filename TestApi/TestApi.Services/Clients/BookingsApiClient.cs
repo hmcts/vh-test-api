@@ -3818,6 +3818,33 @@ namespace TestApi.Services.Clients.BookingsApiClient
     
     }
     
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.23.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class EndpointResponse 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("display_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Display_name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("sip", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Sip { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("pin", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Pin { get; set; }
+    
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+    
+    }
+    
     /// <summary>Detailed information of a hearing</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.23.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class HearingDetailsResponse 
@@ -3900,6 +3927,10 @@ namespace TestApi.Services.Clients.BookingsApiClient
         /// <summary>Gets or sets the hearing cancel reason</summary>
         [Newtonsoft.Json.JsonProperty("cancel_reason", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Cancel_reason { get; set; }
+    
+        /// <summary>Gets the endpoints for a hearing</summary>
+        [Newtonsoft.Json.JsonProperty("endpoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<EndpointResponse> Endpoints { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     
@@ -4034,6 +4065,24 @@ namespace TestApi.Services.Clients.BookingsApiClient
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.23.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class EndpointRequest 
+    {
+        [Newtonsoft.Json.JsonProperty("display_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Display_name { get; set; }
+    
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.23.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class BookNewHearingRequest 
     {
         /// <summary>The date and time for a hearing</summary>
@@ -4083,6 +4132,9 @@ namespace TestApi.Services.Clients.BookingsApiClient
         /// <summary>Gets or sets the audio recording required flag, value true  is indicated that recording is required, otherwise false</summary>
         [Newtonsoft.Json.JsonProperty("audio_recording_required", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool Audio_recording_required { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("endpoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<EndpointRequest> Endpoints { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     
