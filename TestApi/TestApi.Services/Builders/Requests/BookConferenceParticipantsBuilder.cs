@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Faker;
 using FluentAssertions;
 using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Services.Clients.VideoApiClient;
 
-namespace TestApi.Services.Builders
+namespace TestApi.Services.Builders.Requests
 {
-    public class BookHearingParticipantsBuilder
+    public class BookConferenceParticipantsBuilder
     {
         private readonly List<ParticipantRequest> _participants;
 
         private readonly List<User> _users;
 
-        public BookHearingParticipantsBuilder(List<User> users)
+        public BookConferenceParticipantsBuilder(List<User> users)
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
@@ -39,36 +39,30 @@ namespace TestApi.Services.Builders
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_role_name = indIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name =
-                        indIndex == 0 ? DefaultData.FIRST_INDV_HEARING_ROLE_NAME : DefaultData.SECOND_INDV_HEARING_ROLE_NAME;
+                    request.Case_type_group = indIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
                     indIndex++;
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_role_name = repIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = DefaultData.REPRESENTATIVE_HEARING_ROLE_NAME;
-                    request.Organisation_name = Company.Name();
-                    request.Reference = DefaultData.REFERENCE;
+                    request.Case_type_group = repIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
                 }
 
                 if (user.UserType != UserType.Individual && user.UserType != UserType.Representative)
                 {
-                    request.Case_role_name = AddSpacesToUserType(user.UserType);
-                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                    request.Case_type_group = AddSpacesToUserType(user.UserType);
                 }
 
-                request.AdditionalProperties = null;
                 request.Contact_email = user.ContactEmail;
+                request.Contact_telephone = DefaultData.TELEPHONE_NUMBER;
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
-                request.Middle_names = DefaultData.MIDDLE_NAME;
-                request.Telephone_number = DefaultData.TELEPHONE_NUMBER;
-                request.Title = DefaultData.TITLE;
+                request.Name = $"{DefaultData.TITLE} {user.FirstName} {user.LastName}";
+                request.Participant_ref_id = Guid.NewGuid();
+                request.User_role = GetUserRoleFromUserType(user.UserType);
                 request.Username = user.Username;
 
                 _participants.Add(request);
@@ -84,6 +78,16 @@ namespace TestApi.Services.Builders
             totalIndividuals.Should().BeGreaterThan(0);
             totalRepresentatives.Should().BeGreaterThan(0);
             totalIndividuals.Should().Be(totalRepresentatives);
+        }
+
+        private static UserRole GetUserRoleFromUserType(UserType userType)
+        {
+            if (userType == UserType.Observer || userType == UserType.PanelMember)
+            {
+                return UserRole.Individual;
+            }
+
+            return (UserRole) Enum.Parse(typeof(UserRole), userType.ToString(), true);
         }
 
         private static string AddSpacesToUserType(UserType userType)

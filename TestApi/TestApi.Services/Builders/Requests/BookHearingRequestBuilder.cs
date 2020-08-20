@@ -10,7 +10,7 @@ using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
 
-namespace TestApi.Services.Builders
+namespace TestApi.Services.Builders.Requests
 {
     public class BookHearingRequestBuilder
     {

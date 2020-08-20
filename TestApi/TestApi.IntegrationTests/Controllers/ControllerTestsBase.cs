@@ -36,7 +36,7 @@ namespace TestApi.IntegrationTests.Controllers
         [OneTimeTearDown]
         public void AfterTestRun()
         {
-            _server.Dispose();
+            _server?.Dispose();
         }
 
         private HttpClient CreateNewClient()

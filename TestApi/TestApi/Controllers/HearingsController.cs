@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.Contract.Requests;
-using TestApi.Services.Builders;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
@@ -17,17 +18,19 @@ namespace TestApi.Controllers
     [ApiController]
     public class HearingsController : ControllerBase
     {
-        private readonly IBookingsApiClient _bookingsApiClient;
         private readonly ILogger<HearingsController> _logger;
+        private readonly IBookingsApiClient _bookingsApiClient;
         private readonly IBookingsApiService _bookingsApiService;
+        private readonly IVideoApiClient _videoApiClient;
         private readonly IVideoApiService _videoApiService;
 
         public HearingsController(ILogger<HearingsController> logger, IBookingsApiClient bookingsApiClient,
-            IBookingsApiService bookingsApiService, IVideoApiService videoApiService)
+            IBookingsApiService bookingsApiService, IVideoApiClient videoApiClient, IVideoApiService videoApiService)
         {
             _logger = logger;
             _bookingsApiClient = bookingsApiClient;
             _bookingsApiService = bookingsApiService;
+            _videoApiClient = videoApiClient;
             _videoApiService = videoApiService;
         }
 
@@ -47,6 +50,30 @@ namespace TestApi.Controllers
             try
             {
                 var response = await _bookingsApiClient.GetHearingDetailsByIdAsync(hearingId);
+                return Ok(response);
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///    Get list of all hearings for a given username
+        /// </summary>
+        /// <param name="username">Username of the participant</param>
+        /// <returns>Full details of a hearing</returns>
+        [HttpGet("username/{username}", Name = nameof(GetHearingsByUsernameAsync))]
+        [ProducesResponseType(typeof(List<HearingDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetHearingsByUsernameAsync(string username)
+        {
+            _logger.LogDebug($"GetHearingsByUsernameAsync {username}");
+
+            try
+            {
+                var response = await _bookingsApiClient.GetHearingsByUsernameAsync(username);
                 return Ok(response);
             }
             catch (BookingsApiException e)
@@ -154,13 +181,26 @@ namespace TestApi.Controllers
                 await _bookingsApiClient.RemoveHearingAsync(hearingId);
 
                 _logger.LogInformation($"Successfully deleted hearing with id {hearingId}");
-
-                return NoContent();
             }
             catch (BookingsApiException e)
             {
                 return StatusCode(e.StatusCode, e.Response);
             }
+
+            try
+            {
+                await _videoApiClient.DeleteAudioApplicationAsync(hearingId);
+
+                _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingId}");
+            }
+            catch (VideoApiException e)
+            {
+                if (e.StatusCode != (int) HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
+
+                _logger.LogInformation($"No audio application found to delete with hearing id {hearingId}");
+            }
+
+            return NoContent();
         }
     }
 }

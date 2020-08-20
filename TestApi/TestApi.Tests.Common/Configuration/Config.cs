@@ -8,5 +8,6 @@ namespace TestApi.Tests.Common.Configuration
         public DbConfig DbConnection { get; set; }
         public ServicesConfiguration Services { get; set; }
         public string UsernameStem { get; set; }
+        public WowzaConfiguration Wowza { get; set; }
     }
 }

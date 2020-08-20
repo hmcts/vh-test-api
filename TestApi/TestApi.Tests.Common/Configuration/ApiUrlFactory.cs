@@ -17,6 +17,20 @@ namespace TestApi.Tests.Common.Configuration
             }
         }
 
+        public static class ConferenceEndpoints
+        {
+            public const string ApiRoot = "/conferences";
+            public static string GetConferenceById(Guid conferenceId) => $"{ApiRoot}/{conferenceId:D}";
+            public static string GetConferenceByHearingRefId(Guid hearingRefId) => $"{ApiRoot}/hearings/{hearingRefId:D}";
+            public static string CreateConference => ApiRoot;
+            public static string DeleteConference(Guid hearingRefId, Guid conferenceId) => $"{ApiRoot}/{hearingRefId:D}/{conferenceId:D}";
+            public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge?username={username}";
+            public static string GetConferencesForVho => $"{ApiRoot}/today/vho";
+            public static string GetAudioRecordingLinkByHearingId(Guid hearingId) => $"{ApiRoot}/audio/{hearingId:D}";
+            public static string GetTasksByConferenceId(Guid conferenceId) => $"{ApiRoot}/Tasks/{conferenceId:D}";
+            public static string CreateVideoEvent => $"{ApiRoot}/events";
+        }
+
         public static class HealthCheckEndpoints
         {
             private const string ApiRoot = "/healthCheck";
@@ -31,6 +45,11 @@ namespace TestApi.Tests.Common.Configuration
             public static string GetHearing(Guid hearingId)
             {
                 return $"{ApiRoot}/{hearingId:D}";
+            }
+
+            public static string GetHearingsByUsername(string username)
+            {
+                return $"{ApiRoot}/username/{username}";
             }
 
             public static string ConfirmHearing(Guid hearingId)

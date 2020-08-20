@@ -11,6 +11,7 @@ namespace TestApi.IntegrationTests.Controllers.Health
     public class HealthcheckTests : ControllerTestsBase
     {
         [Test]
+        [Category("Health")]
         public async Task Should_return_OK()
         {
             var uri = ApiUriFactory.HealthCheckEndpoints.CheckServiceHealth;

@@ -32,6 +32,7 @@ namespace TestApi.IntegrationTests.Test
             RegisterDatabaseSettings();
             RegisterUsernameStem();
             RegisterServer();
+            RegisterWowzaSettings();
             GenerateBearerTokens(azureOptions);
             return _context;
         }
@@ -67,6 +68,15 @@ namespace TestApi.IntegrationTests.Test
                 .UseEnvironment("Development")
                 .UseStartup<Startup>();
             _context.Server = new TestServer(webHostBuilder);
+        }
+
+        private void RegisterWowzaSettings()
+        {
+            _context.Config.Wowza = Options.Create(_configRoot.GetSection("WowzaConfiguration").Get<WowzaConfiguration>()).Value;
+            _context.Config.Wowza.StorageAccountKey.Should().NotBeNullOrEmpty();
+            _context.Config.Wowza.StorageAccountName.Should().NotBeNullOrEmpty();
+            _context.Config.Wowza.StorageContainerName.Should().NotBeNullOrEmpty();
+            ConfigurationManager.VerifyConfigValuesSet(_context.Config.Wowza);
         }
 
         private void GenerateBearerTokens(IOptions<AzureAdConfiguration> azureOptions)

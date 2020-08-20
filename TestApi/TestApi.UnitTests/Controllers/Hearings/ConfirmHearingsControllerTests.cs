@@ -10,13 +10,13 @@ using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
-    public class ConfirmHearingsControllerTests : HearingsControllerTestBase
+    public class ConfirmHearingsControllerTests : HearingsControllerTestsBase
     {
         [Test]
         public async Task Should_confirm_hearing()
         {
             var hearingId = Guid.NewGuid();
-            var conferenceDetailsResponse = GetConferenceDetailsResponse();
+            var conferenceDetailsResponse = CreateConferenceDetailsResponse();
 
             var request = new UpdateBookingStatusRequest()
             {
@@ -58,7 +58,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
-                .Throws(GetBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
+                .Throws(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();
@@ -85,7 +85,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             VideoApiService
                 .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
-                .ThrowsAsync(GetVideoApiException("Conference not found", HttpStatusCode.NotFound));
+                .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
             var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
             response.Should().NotBeNull();

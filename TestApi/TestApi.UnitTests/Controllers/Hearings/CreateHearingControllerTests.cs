@@ -10,11 +10,13 @@ using TestApi.Common.Builders;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Builders;
+using TestApi.Services.Builders.Requests;
+using TestApi.Services.Builders.Responses;
 using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
-    public class CreateHearingControllerTests : HearingsControllerTestBase
+    public class CreateHearingControllerTests : HearingsControllerTestsBase
     {
         [Test]
         public async Task Should_create_hearing()
@@ -58,7 +60,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
-                .ThrowsAsync(GetBookingsApiException("Hearing not created", HttpStatusCode.BadRequest));
+                .ThrowsAsync(CreateBookingsApiException("Hearing not created", HttpStatusCode.BadRequest));
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
