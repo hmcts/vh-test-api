@@ -24,6 +24,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
                 .Returns(Task.CompletedTask);
 
+            VideoApiClient
+                .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
+                .Returns(Task.CompletedTask);
+                
             var response = await Controller.DeleteHearingByIdAsync(hearingId);
             response.Should().NotBeNull();
 

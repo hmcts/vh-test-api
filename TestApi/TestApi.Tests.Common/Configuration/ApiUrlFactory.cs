@@ -23,9 +23,10 @@ namespace TestApi.Tests.Common.Configuration
             public static string GetConferenceById(Guid conferenceId) => $"{ApiRoot}/{conferenceId:D}";
             public static string GetConferenceByHearingRefId(Guid hearingRefId) => $"{ApiRoot}/hearings/{hearingRefId:D}";
             public static string CreateConference => ApiRoot;
-            public static string DeleteConference(Guid conferenceId) => $"{ApiRoot}/{conferenceId:D}";
-            public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge/{username}";
-            public static string GetConferencesForVho(string[] usernames) => $"{ApiRoot}/today/vho?usernames={usernames}";
+            public static string DeleteConference(Guid hearingRefId, Guid conferenceId) => $"{ApiRoot}/{hearingRefId:D}/{conferenceId:D}";
+            public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge?username={username}";
+            //public static string GetConferencesForVho(string usernames) => $"{ApiRoot}/today/vho?usernames={usernames}";
+            public static string GetConferencesForVho => $"{ApiRoot}/today/vho";
         }
 
         public static class HealthCheckEndpoints
@@ -46,7 +47,7 @@ namespace TestApi.Tests.Common.Configuration
 
             public static string GetHearingsByUsername(string username)
             {
-                return $"{ApiRoot}/{username}";
+                return $"{ApiRoot}/username/{username}";
             }
 
             public static string ConfirmHearing(Guid hearingId)

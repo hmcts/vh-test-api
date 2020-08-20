@@ -99,25 +99,40 @@ namespace TestApi.Controllers
         /// <summary>
         ///     Delete a conference by conference id
         /// </summary>
+        /// <param name="hearingRefId">Hearing Ref Id of the conference</param>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete("{hearingRefId}/{conferenceId}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteConferenceAsync(Guid conferenceId)
+        public async Task<IActionResult> DeleteConferenceAsync(Guid hearingRefId, Guid conferenceId)
         {
             _logger.LogDebug($"DeleteConferenceAsync {conferenceId}");
 
             try
             {
                 await _videoApiClient.RemoveConferenceAsync(conferenceId);
-                return NoContent();
             }
             catch (VideoApiException e)
             {
                 return StatusCode(e.StatusCode, e.Response);
             }
+
+            try
+            {
+                await _videoApiClient.DeleteAudioApplicationAsync(hearingRefId);
+
+                _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingRefId}");
+            }
+            catch (VideoApiException e)
+            {
+                if (e.StatusCode != (int)HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
+
+                _logger.LogInformation($"No audio application found to delete with hearing id {hearingRefId}");
+            }
+
+            return NoContent();
         }
 
         /// <summary>
@@ -147,19 +162,18 @@ namespace TestApi.Controllers
         /// <summary>
         ///     Get conferences for today VHO
         /// </summary>
-        /// <param name="usernames">Usernames of the participants</param>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/vho", Name = nameof(GetConferencesForTodayVhoAsync))]
         [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetConferencesForTodayVhoAsync(string[] usernames)
+        public async Task<IActionResult> GetConferencesForTodayVhoAsync()
         {
-            _logger.LogDebug($"GetConferencesForTodayVhoAsync {usernames}");
+            _logger.LogDebug($"GetConferencesForTodayVhoAsync");
 
             try
             {
-                var response = await _videoApiClient.GetConferencesTodayForAdminAsync(usernames);
+                var response = await _videoApiClient.GetConferencesTodayForAdminAsync(new List<string>());
                 return Ok(response);
             }
             catch (VideoApiException e)

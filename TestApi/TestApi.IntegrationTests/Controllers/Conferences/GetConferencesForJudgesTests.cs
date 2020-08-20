@@ -31,12 +31,16 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         }
 
         [Test]
-        public async Task Should_return_not_found_for_non_existent_username()
+        public async Task Should_return_empty_list_for_non_existent_username()
         {
             const string USERNAME = "made_up_username@email.com";
             var uri = ApiUriFactory.ConferenceEndpoints.GetConferencesForJudge(USERNAME);
             await SendGetRequest(uri);
-            VerifyResponse(HttpStatusCode.NotFound, false);
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<List<ConferenceForJudgeResponse>>(Json);
+            response.Should().NotBeNull();
+            response.Count.Should().Be(0);
         }
     }
 }

@@ -8,7 +8,6 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Services.Builders;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
@@ -76,20 +75,20 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         }
 
         [TearDown]
-        public async Task RemoveHearingData()
+        public async Task RemoveConferenceData()
         {
             foreach (var conference in ConferencesToDelete)
             {
-                await DeleteConference(conference.Id);
+                await DeleteConference(conference.Hearing_id, conference.Id);
                 VerifyResponse(HttpStatusCode.NoContent, true);
             }
 
             ConferencesToDelete.Clear();
         }
 
-        protected async Task DeleteConference(Guid conferenceId)
+        protected async Task DeleteConference(Guid hearingRefId, Guid conferenceId)
         {
-            var uri = ApiUriFactory.ConferenceEndpoints.DeleteConference(conferenceId);
+            var uri = ApiUriFactory.ConferenceEndpoints.DeleteConference(hearingRefId, conferenceId);
             await SendDeleteRequest(uri);
         }
     }

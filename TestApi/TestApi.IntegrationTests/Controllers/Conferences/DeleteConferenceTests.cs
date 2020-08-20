@@ -14,7 +14,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
 
-            await DeleteConference(conference.Id);
+            await DeleteConference(conference.Hearing_id, conference.Id);
 
             VerifyResponse(HttpStatusCode.NoContent, true);
             ConferencesToDelete.Remove(conference);
@@ -23,8 +23,8 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         [Test]
         public async Task Should_return_not_found_for_non_existent_conference_id()
         {
-            var uri = ApiUriFactory.ConferenceEndpoints.DeleteConference(Guid.NewGuid());
-            await SendGetRequest(uri);
+            var uri = ApiUriFactory.ConferenceEndpoints.DeleteConference(Guid.NewGuid(), Guid.NewGuid());
+            await SendDeleteRequest(uri);
             VerifyResponse(HttpStatusCode.NotFound, false);
         }
     }

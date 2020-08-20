@@ -5,6 +5,7 @@ using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
 using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Contracts;
 
 namespace TestApi.UnitTests.Controllers.Hearings
@@ -17,6 +18,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         protected Mock<IQueryHandler> QueryHandler;
         protected Mock<IBookingsApiClient> BookingsApiClient;
         protected Mock<IBookingsApiService> BookingsApiService;
+        protected Mock<IVideoApiClient> VideoApiClient;
         protected Mock<IVideoApiService> VideoApiService;
 
         [SetUp]
@@ -27,8 +29,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
             Logger = new Mock<ILogger<HearingsController>>();
             BookingsApiClient = new Mock<IBookingsApiClient>();
             BookingsApiService = new Mock<IBookingsApiService>();
+            VideoApiClient = new Mock<IVideoApiClient>();
             VideoApiService = new Mock<IVideoApiService>();
-            Controller = new HearingsController(Logger.Object, BookingsApiClient.Object, BookingsApiService.Object, VideoApiService.Object);
+            Controller = new HearingsController(Logger.Object, BookingsApiClient.Object, BookingsApiService.Object, VideoApiClient.Object, VideoApiService.Object);
         }
     }
 }

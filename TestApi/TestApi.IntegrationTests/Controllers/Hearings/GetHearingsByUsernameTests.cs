@@ -18,8 +18,9 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var request = CreateHearingRequest();
             var hearingResponse = await CreateHearing(request);
+            var participant = hearingResponse.Participants.First();
 
-            var uri = ApiUriFactory.HearingEndpoints.GetHearingsByUsername(hearingResponse.Participants.First().Username);
+            var uri = ApiUriFactory.HearingEndpoints.GetHearingsByUsername(participant.Username);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);

@@ -131,7 +131,7 @@ namespace TestApi.Tests.Common
 
         public static void ConferenceDetailsResponse(ConferenceDetailsResponse response, BookNewConferenceRequest request)
         {
-            response.Should().BeEquivalentTo(request);
+            response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
         private static void VerifyConferenceParticipants(IReadOnlyCollection<ParticipantDetailsResponse> hearingParticipants,
@@ -202,14 +202,16 @@ namespace TestApi.Tests.Common
 
         public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)
         {
+            response.Count.Should().BeGreaterThan(0);
             var conference = response.First(x => x.Case_name.Equals(request.Case_name));
-            conference.Should().BeEquivalentTo(request);
+            conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
         public static void ConferencesForVhoResponses(List<ConferenceForAdminResponse> response, BookNewConferenceRequest request)
         {
+            response.Count.Should().BeGreaterThan(0);
             var conference = response.First(x => x.Hearing_ref_id.Equals(request.Hearing_ref_id));
-            conference.Should().BeEquivalentTo(request);
+            conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
     }
 }
