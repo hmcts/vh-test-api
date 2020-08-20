@@ -214,5 +214,10 @@ namespace TestApi.Tests.Common
             var conference = response.First(x => x.Hearing_ref_id.Equals(request.Hearing_ref_id));
             conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
+
+        public static void Tasks(TaskResponse response, ConferenceEventRequest request)
+        {
+            response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
+        }
     }
 }

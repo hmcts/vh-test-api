@@ -26,6 +26,9 @@ namespace TestApi.Tests.Common.Configuration
             public static string DeleteConference(Guid hearingRefId, Guid conferenceId) => $"{ApiRoot}/{hearingRefId:D}/{conferenceId:D}";
             public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge?username={username}";
             public static string GetConferencesForVho => $"{ApiRoot}/today/vho";
+            public static string GetAudioRecordingLinkByHearingId(Guid hearingId) => $"{ApiRoot}/audio/{hearingId:D}";
+            public static string GetTasksByConferenceId(Guid conferenceId) => $"{ApiRoot}/Tasks/{conferenceId:D}";
+            public static string CreateVideoEvent => $"{ApiRoot}/events";
         }
 
         public static class HealthCheckEndpoints

@@ -19,6 +19,7 @@
         public const string TITLE = "Mrs";
         public const string UPDATED_TEXT = "UPDATED";
         public const string VENUE_NAME = "Birmingham Civil and Family Justice Centre";
+        public const string VIDEO_EVENT_REASON = "Automated test";
         public const string ALTERNATIVE_VENUE_NAME = "Manchester Civil and Family Justice Centre";
         public const string FIRST_CASE_ROLE_NAME = "Claimant";
         public const string SECOND_CASE_ROLE_NAME = "Defendant";

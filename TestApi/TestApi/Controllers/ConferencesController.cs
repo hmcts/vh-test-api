@@ -181,5 +181,76 @@ namespace TestApi.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
+
+        /// <summary>
+        ///     Get audio recording link
+        /// </summary>
+        /// <param name="hearingId">Hearing Id of the conference</param>
+        /// <returns>A list of task details for a conference</returns>
+        [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinkByHearingIdAsync))]
+        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAudioRecordingLinkByHearingIdAsync(Guid hearingId)
+        {
+            _logger.LogDebug($"GetAudioRecordingLinkByHearingIdAsync {hearingId}");
+
+            try
+            {
+                var response = await _videoApiClient.GetAudioRecordingLinkAsync(hearingId);
+                return Ok(response);
+            }
+            catch (VideoApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///     Get tasks for a conference
+        /// </summary>
+        /// <param name="conferenceId">Conference Id of the conference</param>
+        /// <returns>A list of task details for a conference</returns>
+        [HttpGet("tasks/{conferenceId}", Name = nameof(GetTasksByConferenceIdAsync))]
+        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetTasksByConferenceIdAsync(Guid conferenceId)
+        {
+            _logger.LogDebug($"GetTasksByConferenceIdAsync {conferenceId}");
+
+            try
+            {
+                var response = await _videoApiClient.GetTasksForConferenceAsync(conferenceId);
+                return Ok(response);
+            }
+            catch (VideoApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///     Create video event
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("events", Name = nameof(CreateVideoEventAsync))]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateVideoEventAsync(ConferenceEventRequest request)
+        {
+            _logger.LogDebug($"CreateVideoEventAsync");
+
+            try
+            {
+                await _videoApiClient.RaiseVideoEventAsync(request);
+                return NoContent();
+            }
+            catch (VideoApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
     }
 }
