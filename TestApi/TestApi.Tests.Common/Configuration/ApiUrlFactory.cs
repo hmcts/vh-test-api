@@ -25,7 +25,6 @@ namespace TestApi.Tests.Common.Configuration
             public static string CreateConference => ApiRoot;
             public static string DeleteConference(Guid hearingRefId, Guid conferenceId) => $"{ApiRoot}/{hearingRefId:D}/{conferenceId:D}";
             public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge?username={username}";
-            //public static string GetConferencesForVho(string usernames) => $"{ApiRoot}/today/vho?usernames={usernames}";
             public static string GetConferencesForVho => $"{ApiRoot}/today/vho";
         }
 

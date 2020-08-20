@@ -12,6 +12,7 @@ using Polly;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Domain.Enums;
+using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
@@ -37,10 +38,11 @@ namespace TestApi.BQSTests.Subscriber
                 {
                     new ParticipantRequest()
                     {
-                        Case_role_name = user.UserType.ToString(),
+                        Case_role_name = UserTypeName.FromUserType(user.UserType),
+                        Contact_email = user.ContactEmail,
                         Display_name = user.DisplayName,
                         First_name = user.FirstName,
-                        Hearing_role_name = user.UserType.ToString(),
+                        Hearing_role_name = UserTypeName.FromUserType(user.UserType),
                         Middle_names = DefaultData.MIDDLE_NAME,
                         Last_name = user.LastName,
                         Telephone_number = DefaultData.TELEPHONE_NUMBER,
@@ -110,7 +112,7 @@ namespace TestApi.BQSTests.Subscriber
             };
 
             await SendPutRequest(uri, RequestHelper.Serialise(request));
-            VerifyResponse(HttpStatusCode.NoContent, true);
+            VerifyResponse(HttpStatusCode.OK, true);
 
             var conferenceDetails = await PollForConferenceParticipantUpdated(Hearing.Id, DefaultData.UPDATED_TEXT);
             var updatedParticipant = conferenceDetails.Participants.First(x => x.Username.Equals(participant.Username));

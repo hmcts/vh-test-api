@@ -197,7 +197,8 @@ namespace TestApi.Tests.Common
 
         public static void ParticipantDetails(ParticipantDetailsResponse participant, AddParticipantsToHearingRequest request)
         {
-            participant.Should().BeEquivalentTo(request.Participants.First());
+            participant.Should().BeEquivalentTo(request.Participants.First(), 
+                options => options.ExcludingMissingMembers().Excluding(x => x.Representee));
         }
 
         public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)

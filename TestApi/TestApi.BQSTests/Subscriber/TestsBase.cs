@@ -10,7 +10,6 @@ using NUnit.Framework;
 using Polly;
 using TestApi.BQSTests.Test;
 using TestApi.Common.Data;
-using TestApi.Services.Builders;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;

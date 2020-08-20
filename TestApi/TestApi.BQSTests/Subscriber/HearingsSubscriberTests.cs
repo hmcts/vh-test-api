@@ -118,12 +118,14 @@ namespace TestApi.BQSTests.Subscriber
         public async Task Should_delete_conference_when_hearing_cancelled()
         {
             var uri = BookingsApiUriFactory.HearingsEndpoints.UpdateHearingStatus(Hearing.Id);
+            const string UPDATED_BY = "updated_by_user@email.com";
 
             var request = new UpdateBookingStatusRequest()
             {
+                AdditionalProperties = new Dictionary<string, object>(),
                 Cancel_reason = DefaultData.CANCELLATION_REASON,
                 Status = UpdateBookingStatus.Cancelled,
-                Updated_by = Hearing.Updated_by
+                Updated_by = UPDATED_BY
             };
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
