@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Mappings;
 
@@ -42,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferencesTodayForJudgeByUsernameAsync(It.IsAny<string>()))
                 .ThrowsAsync(CreateVideoApiException("Judge does not exist", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetConferencesForTodayJudgeAsync("made_up_email@email.com");
+            var response = await Controller.GetConferencesForTodayJudgeAsync(DefaultData.NON_EXISTENT_USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

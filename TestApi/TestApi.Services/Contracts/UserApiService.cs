@@ -11,25 +11,19 @@ namespace TestApi.Services.Contracts
 {
     public interface IUserApiService
     {
-        /// <summary>
-        ///     Checks if a user already exists based on their contact email
-        /// </summary>
+        /// <summary>Checks if a user already exists based on their contact email</summary>
         /// <param name="contactEmail">Contact email of the user</param>
-        /// <returns></returns>
+        /// <returns>True if the user exists in AAD</returns>
         Task<bool> CheckUserExistsInAAD(string contactEmail);
 
-        /// <summary>
-        ///     Creates a user based on the user information
-        /// </summary>
+        /// <summary>Creates a user based on the user information</summary>
         /// <param name="firstName">First name of the user</param>
         /// <param name="lastName">Last name of the user</param>
         /// <param name="contactEmail">Contact email of the user</param>
-        /// <returns></returns>
+        /// <returns>New user details</returns>
         Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail);
 
-        /// <summary>
-        ///     Deletes a user by contact email
-        /// </summary>
+        /// <summary>Deletes a user by contact email</summary>
         /// <param name="contactEmail">Contact email of the user</param>
         /// <returns></returns>
         Task DeleteUserInAAD(string contactEmail);

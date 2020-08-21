@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
@@ -43,7 +44,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public void Should_throw_error_if_username_does_not_exist()
         {
-            const string USERNAME = "made_up_username@email.com";
+            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
 
             Assert.ThrowsAsync<UserNotFoundException>(() => _commandHandler.Handle(
                 new UnallocateByUsernameCommand(USERNAME)));

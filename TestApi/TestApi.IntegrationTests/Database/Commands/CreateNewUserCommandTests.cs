@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Exceptions;
 using TestApi.Domain.Enums;
@@ -21,7 +22,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_create_test_api_user()
         {
-            const string EMAIL_STEM = "made_up_email_stem_for_test";
+            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
 
             var request = new UserBuilder(EMAIL_STEM, NUMBER)
@@ -55,7 +56,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_not_create_test_api_user_if_matching_number_exists()
         {
-            const string EMAIL_STEM = "made_up_email_stem_for_test";
+            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
 
             var firstUser = await Context.Data.SeedUser();
 

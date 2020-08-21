@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -16,7 +17,7 @@ namespace TestApi.UnitTests.Controllers
     {
         protected static User CreateUser(UserType userType)
         {
-            const string emailStem = "made_up_email_stem";
+            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
             const int number = 1;
             return new UserBuilder(emailStem, number)
                 .WithUserType(userType)

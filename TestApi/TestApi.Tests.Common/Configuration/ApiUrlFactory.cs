@@ -61,6 +61,16 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/{hearingId:D}";
             }
+
+            public static string UpdateSuitabilityAnswers(Guid hearingId, Guid participantId)
+            {
+                return $"{ApiRoot}/{hearingId}/participants/{participantId}/suitability-answers";
+            }
+
+            public static string GetSuitabilityAnswers(string username)
+            {
+                return $"{ApiRoot}/suitabilityAnswers/{username}";
+            }
         }
 
         public static class UserEndpoints
@@ -71,6 +81,12 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/username/{username}";
             }
+        }
+
+        public static class UtilityEndpoints
+        {
+            public const string ApiRoot = "utilities";
+            public static string DeleteHearings => $"{ApiRoot}/removeTestData";
         }
     }
 }

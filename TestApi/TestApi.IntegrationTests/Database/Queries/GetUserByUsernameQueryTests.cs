@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Queries;
 
 namespace TestApi.IntegrationTests.Database.Queries
@@ -25,7 +26,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_not_throw_error_if_user_not_found_for_nonexistent_user_id()
         {
-            const string USERNAME = "made_up_username@email.com";
+            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
             var userDetails = await _query.Handle(new GetUserByUsernameQuery(USERNAME));
             userDetails.Should().BeNull();
         }
