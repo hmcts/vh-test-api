@@ -8,9 +8,9 @@ namespace TestApi.Validations
         private const string REQUIRED_TEXT = "TEST";
         public const string EMPTY_REQUEST_ERROR_MESSAGE = "You must supply one partial case name or number text";
         public const string HEARING_CASE_NAME_MUST_CONTAIN_TEST_ERROR_MESSAGE =
-            "THe supplied hearing case name must contain the name 'test'";
+            "The supplied hearing case name must contain the name 'test'";
         public const string HEARING_CASE_NUMBER_MUST_CONTAIN_TEST_ERROR_MESSAGE =
-            "THe supplied hearing case number must contain the name 'test'";
+            "The supplied hearing case number must contain the name 'test'";
 
         public DeleteTestHearingDataRequestValidator()
         {
