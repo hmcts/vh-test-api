@@ -202,5 +202,57 @@ namespace TestApi.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Updates suitability answers for the participant
+        /// </summary>
+        /// <param name="hearingId">Id of hearing</param>
+        /// <param name="participantId">Id of participant</param>
+        /// <param name="answers">A list of suitability answers to update</param>
+        /// <returns>Http status</returns>
+        [HttpPut("{hearingId}/participants/{participantId}/suitability-answers")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> UpdateSuitabilityAnswersAsync(Guid hearingId, Guid participantId, [FromBody] List<SuitabilityAnswersRequest> answers)
+        {
+            _logger.LogDebug("UpdateSuitabilityAnswersAsync");
+
+            try
+            {
+                await _bookingsApiClient.UpdateSuitabilityAnswersAsync(hearingId, participantId, answers);
+
+                return NoContent();
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        /// Get suitability answers for the person
+        /// </summary>
+        /// <param name="username">Username of the person</param>
+        /// <returns>List of suitability answer responses</returns>
+        [HttpGet("suitabilityAnswers/{username}")]
+        [ProducesResponseType(typeof(List<PersonSuitabilityAnswerResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetSuitabilityAnswersAsync(string username)
+        {
+            _logger.LogDebug("GetSuitabilityAnswersAsync");
+
+            try
+            {
+                var response = await _bookingsApiClient.GetPersonSuitabilityAnswersAsync(username);
+
+                return Ok(response);
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
     }
 }

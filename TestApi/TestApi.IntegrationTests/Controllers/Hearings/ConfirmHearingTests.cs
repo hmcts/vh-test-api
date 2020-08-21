@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
@@ -43,7 +44,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_return_not_found_for_non_existent_hearing_id()
         {
-            const string CASE_ADMIN_USERNAME = "made_up_email@email.com";
+            const string CASE_ADMIN_USERNAME = DefaultData.NON_EXISTENT_USERNAME;
 
             var request = new UpdateBookingStatusRequest()
             {

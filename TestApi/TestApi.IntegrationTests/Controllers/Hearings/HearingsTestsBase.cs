@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml;
 using AcceptanceTests.Common.Api.Helpers;
+using AcceptanceTests.Common.Data.Questions;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
@@ -22,6 +24,12 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var users = CreateDefaultUsers();
             return new HearingBuilder(users).BuildRequest();
+        }
+
+        protected CreateHearingRequest CreateHearingRequestWithQuestionnaireEnabled()
+        {
+            var users = CreateDefaultUsers();
+            return new HearingBuilder(users).QuestionnairesRequired().BuildRequest();
         }
 
         protected async Task<HearingDetailsResponse> CreateHearing(CreateHearingRequest request)
@@ -72,6 +80,25 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
                 .BuildUser();
 
             return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
+        }
+
+        protected List<SuitabilityAnswersRequest> CreateAnswersRequest()
+        {
+            return new List<SuitabilityAnswersRequest>()
+            {
+                new SuitabilityAnswersRequest()
+                {
+                    Key = IndividualQuestionKeys.AboutYouQuestion,
+                    Extended_answer = null,
+                    Answer = "Yes"
+                }
+            };
+        }
+
+        protected async Task CreateSuitabilityAnswers(List<SuitabilityAnswersRequest> request, Guid hearingId, Guid participantId)
+        {
+            var uri = ApiUriFactory.HearingEndpoints.UpdateSuitabilityAnswers(hearingId, participantId);
+            await SendPutRequest(uri, RequestHelper.Serialise(request));
         }
 
         [TearDown]

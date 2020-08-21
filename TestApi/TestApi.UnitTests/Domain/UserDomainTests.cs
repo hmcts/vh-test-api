@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.Domain.Enums;
 
 namespace TestApi.UnitTests.Domain
@@ -11,7 +12,7 @@ namespace TestApi.UnitTests.Domain
         [Test]
         public void Should_set_created_date()
         {
-            const string emailStem = "made_up_email_stem";
+            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
             const int number = 1;
 
             var user = new UserBuilder(emailStem, number)

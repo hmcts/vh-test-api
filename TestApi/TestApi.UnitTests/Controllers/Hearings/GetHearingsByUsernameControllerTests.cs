@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
@@ -37,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         [Test]
         public async Task Should_return_empty_list_for_non_existent_username()
         {
-            const string USERNAME = "made_up_username@email.com";
+            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
 
             BookingsApiClient
                 .Setup(x => x.GetHearingsByUsernameAsync(It.IsAny<string>()))

@@ -70,12 +70,12 @@ namespace TestApi.UnitTests.Services
         {
             Configuration
                 .Setup(x => x.GetSection("UsernameStem").Value)
-                .Returns("made_up_email_stem.com");
+                .Returns(DefaultData.FAKE_EMAIL_STEM);
         }
 
         protected User CreateNewUser(UserType userType, int number)
         {
-            const string EMAIL_STEM = "made_up_email_stem.com";
+            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
             return new UserBuilder(EMAIL_STEM, number)
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)

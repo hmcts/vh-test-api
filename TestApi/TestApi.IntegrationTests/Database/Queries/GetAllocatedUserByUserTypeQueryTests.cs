@@ -3,6 +3,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain.Enums;
@@ -25,7 +26,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             const UserType USER_TYPE = UserType.Individual;
             const Application APPLICATION = Application.TestApi;
-            const string USERNAME_STEM = "made_up_email_stem.com";
+            const string USERNAME_STEM = DefaultData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
             const int MINUTES = 1;
 

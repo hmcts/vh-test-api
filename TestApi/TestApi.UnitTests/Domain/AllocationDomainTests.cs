@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Validations;
@@ -17,7 +18,7 @@ namespace TestApi.UnitTests.Domain
         [SetUp]
         public void SetUp()
         {
-            const string EMAIL_STEM = "made_up_email_stem";
+            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
 
             _user = new UserBuilder(EMAIL_STEM, NUMBER)

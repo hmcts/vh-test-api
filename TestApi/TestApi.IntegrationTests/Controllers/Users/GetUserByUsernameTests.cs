@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.Contract.Responses;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
@@ -29,7 +30,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         [Test]
         public async Task Should_return_not_found_for_non_existent_username()
         {
-            const string USERNAME = "made_up_username@email.com";
+            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
 
             var uri = ApiUriFactory.UserEndpoints.GetUserByUsername(USERNAME);
             await SendGetRequest(uri);

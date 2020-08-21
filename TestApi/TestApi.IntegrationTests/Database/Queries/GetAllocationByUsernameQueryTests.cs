@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Queries;
 
 namespace TestApi.IntegrationTests.Database.Queries
@@ -27,7 +28,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_not_throw_error_for_nonexistent_username()
         {
-            const string USERNAME = "made_up_username@email.com";
+            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
             var allocationDetails = await _query.Handle(new GetAllocationByUsernameQuery(USERNAME));
             allocationDetails.Should().BeNull();
         }

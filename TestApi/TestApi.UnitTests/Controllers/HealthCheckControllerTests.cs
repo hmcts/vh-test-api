@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.Controllers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
@@ -38,7 +39,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_ok_result_when_database_is_connected()
         {
-            const string emailStem = "made_up_email_stem_for_test";
+            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
             const int userNumber = 1;
             const Application application = Application.TestApi;
 
