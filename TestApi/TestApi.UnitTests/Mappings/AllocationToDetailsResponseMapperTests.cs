@@ -21,7 +21,7 @@ namespace TestApi.UnitTests.Mappings
             var allocation = new Allocation(user);
 
             var response = AllocationToDetailsResponseMapper.MapToResponse(allocation);
-            response.Should().BeEquivalentTo(allocation, options => options.Excluding(x => x.User));
+            response.Should().BeEquivalentTo(allocation);
         }
     }
 }
