@@ -100,7 +100,7 @@ namespace TestApi.BQSTests.Subscriber
             CreateNewVideoApiClient(Context.Tokens.VideoApiBearerToken);
 
             var policy = Policy
-                .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.NotFound)
+                .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.OK)
                 .WaitAndRetryAsync(RETRIES, retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             try
