@@ -21,7 +21,7 @@ namespace TestApi.Services.Contracts
         /// <param name="firstName">First name of the user</param>
         /// <param name="lastName">Last name of the user</param>
         /// <param name="contactEmail">Contact email of the user</param>
-        /// <param name="isProdUser">CWill the user be required for prod</param>
+        /// <param name="isProdUser">Is the user required for prod</param>
         /// <returns>New user details</returns>
         Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail, bool isProdUser);
 
