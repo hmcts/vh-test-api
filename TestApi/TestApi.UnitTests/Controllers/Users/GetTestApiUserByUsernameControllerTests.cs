@@ -15,7 +15,7 @@ using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
-    public class GetTestApiUserByUsernameTests : UserControllerTestsBase
+    public class GetTestApiUserByUsernameControllerTests : UserControllerTestsBase
     {
         [Test]
         public async Task Should_retrieve_user_details()

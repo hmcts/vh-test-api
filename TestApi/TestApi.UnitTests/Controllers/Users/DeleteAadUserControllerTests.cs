@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
-    public class DeleteAadUserTests : UserControllerTestsBase
+    public class DeleteAadUserControllerTests : UserControllerTestsBase
     {
         [Test]
         public async Task Should_delete_hearing()
