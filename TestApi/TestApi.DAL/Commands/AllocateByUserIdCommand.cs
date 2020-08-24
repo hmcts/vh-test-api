@@ -35,7 +35,7 @@ namespace TestApi.DAL.Commands
 
             if (user == null) throw new UserNotFoundException(command.UserId);
 
-            var allocation = await _context.Allocations.SingleOrDefaultAsync(x => x.User.Id == user.Id);
+            var allocation = await _context.Allocations.SingleOrDefaultAsync(x => x.UserId == user.Id);
 
             if (allocation == null) throw new UserAllocationNotFoundException(command.UserId);
 

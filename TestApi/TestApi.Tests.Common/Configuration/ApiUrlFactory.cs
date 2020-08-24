@@ -81,6 +81,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/username/{username}";
             }
+
+            public static string GetUserExistsInAd(string contactEmail)
+            {
+                return $"{ApiRoot}/aad/{contactEmail}";
+            }
         }
 
         public static class UtilityEndpoints

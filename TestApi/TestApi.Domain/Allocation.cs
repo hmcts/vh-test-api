@@ -20,7 +20,6 @@ namespace TestApi.Domain
 
         public Guid UserId { get; set; }
         public string Username { get; set; }
-        public User User { get; set; }
         public DateTime? ExpiresAt { get; set; }
         public bool Allocated { get; set; }
 

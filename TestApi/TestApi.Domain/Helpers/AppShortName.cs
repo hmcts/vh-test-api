@@ -23,7 +23,6 @@ namespace TestApi.Domain.Helpers
         public static AppShortName VideoApi => new AppShortName(Application.VideoApi, "VA");
         public static AppShortName VideoWeb => new AppShortName(Application.VideoWeb, "VW");
         public static AppShortName QueueSubscriber => new AppShortName(Application.QueueSubscriber, "BQS");
-        public static AppShortName None => new AppShortName(Application.None, "NA");
 
         private static IEnumerable<AppShortName> Values
         {
@@ -37,7 +36,6 @@ namespace TestApi.Domain.Helpers
                 yield return VideoApi;
                 yield return VideoWeb;
                 yield return QueueSubscriber;
-                yield return None;
             }
         }
 

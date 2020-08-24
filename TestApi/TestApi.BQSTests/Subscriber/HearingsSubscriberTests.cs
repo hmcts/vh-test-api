@@ -67,7 +67,7 @@ namespace TestApi.BQSTests.Subscriber
 
             var policy = Policy
                 .HandleResult<HttpResponseMessage>(message => !message.IsSuccessStatusCode)
-                .OrResult(message => message.Content.ReadAsStringAsync().Result.Contains(DefaultData.UPDATED_TEXT))
+                .OrResult(message => !message.Content.ReadAsStringAsync().Result.Contains(DefaultData.UPDATED_TEXT))
                 .WaitAndRetryAsync(RETRIES, retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             try
@@ -100,7 +100,7 @@ namespace TestApi.BQSTests.Subscriber
             CreateNewVideoApiClient(Context.Tokens.VideoApiBearerToken);
 
             var policy = Policy
-                .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.NotFound)
+                .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.OK)
                 .WaitAndRetryAsync(RETRIES, retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             try

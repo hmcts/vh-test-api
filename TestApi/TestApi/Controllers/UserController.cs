@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Mappings;
 using TestApi.Services.Contracts;
+using Utf8Json.Formatters;
 
 namespace TestApi.Controllers
 {
@@ -55,11 +57,34 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
+        ///     Check if user exists in AAD by contact email
+        /// </summary>
+        /// <param name="contactEmail">Contact email of the user (case insensitive)</param>
+        /// <returns>True if user exists, false if not</returns>
+        [HttpGet("aad/{contactEmail}")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetUserExistsInAdAsync(string contactEmail)
+        {
+            _logger.LogDebug($"GetUserExistsInAdAsync {contactEmail}");
+
+            var exists = await _userApiService.CheckUserExistsInAAD(contactEmail);
+
+            if (exists)
+            {
+                return Ok(true);
+            }
+
+            return NotFound(false);
+        }
+
+        /// <summary>
         ///     Delete AAD user
         /// </summary>
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
-        [HttpDelete("aad")]
+        [HttpDelete("aad/{contactEmail}")]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteADUserAsync(string contactEmail)

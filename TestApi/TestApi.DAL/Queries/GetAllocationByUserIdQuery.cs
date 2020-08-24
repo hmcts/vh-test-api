@@ -32,7 +32,7 @@ namespace TestApi.DAL.Queries
 
             if (user == null) throw new UserNotFoundException(query.UserId);
 
-            return await _context.Allocations.SingleOrDefaultAsync(x => x.User.Id == user.Id);
+            return await _context.Allocations.SingleOrDefaultAsync(x => x.UserId == user.Id);
         }
     }
 }

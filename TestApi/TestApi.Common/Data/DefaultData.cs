@@ -45,6 +45,7 @@
         public const string FAKE_PEXIP_GROUP_2 = "Pexip group 2";
         public const string FAKE_TEST_GROUP= "Test group 1";
         public const string FAKE_PERFORMANCE_TEST_GROUP = "Performance test group 1";
+        public const string EXISTING_CONTACT_EMAIL = "made_up_username@email.com";
         public const string NON_EXISTENT_CONTACT_EMAIL = "made_up_email@email.com";
         public const string NON_EXISTENT_USERNAME = "made_up_username@email.com";
         public const string FAKE_EMAIL_STEM = "made_up_email_stem_for_test";
