@@ -51,14 +51,14 @@ namespace TestApi.UnitTests.Services
         {
             var groups = new UserGroupsConfiguration
             {
-                JudgeGroups = new List<string> { DefaultData.FAKE_JUDGE_GROUP_1, DefaultData.FAKE_JUDGE_GROUP_2 },
-                IndividualGroups = new List<string> { DefaultData.FAKE_INDIVIDUAL_GROUP_1, DefaultData.FAKE_INDIVIDUAL_GROUP_2 },
-                RepresentativeGroups = new List<string> { DefaultData.FAKE_REPRESENTATIVE_GROUP_1, DefaultData.FAKE_REPRESENTATIVE_GROUP_2 },
-                VideoHearingsOfficerGroups = new List<string> { DefaultData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_1, DefaultData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_2 },
-                CaseAdminGroups = new List<string> { DefaultData.FAKE_CASE_ADMIN_GROUP_1, DefaultData.FAKE_CASE_ADMIN_GROUP_2 },
-                KinlyGroups = new List<string> { DefaultData.FAKE_PEXIP_GROUP_1, DefaultData.FAKE_PEXIP_GROUP_2 },
-                TestAccountGroup = DefaultData.FAKE_TEST_GROUP,
-                PerformanceTestAccountGroup = DefaultData.FAKE_PERFORMANCE_TEST_GROUP
+                JudgeGroups = new List<string> { GroupData.FAKE_JUDGE_GROUP_1, GroupData.FAKE_JUDGE_GROUP_2 },
+                IndividualGroups = new List<string> { GroupData.FAKE_INDIVIDUAL_GROUP_1, GroupData.FAKE_INDIVIDUAL_GROUP_2 },
+                RepresentativeGroups = new List<string> { GroupData.FAKE_REPRESENTATIVE_GROUP_1, GroupData.FAKE_REPRESENTATIVE_GROUP_2 },
+                VideoHearingsOfficerGroups = new List<string> { GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_1, GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_2 },
+                CaseAdminGroups = new List<string> { GroupData.FAKE_CASE_ADMIN_GROUP_1, GroupData.FAKE_CASE_ADMIN_GROUP_2 },
+                KinlyGroups = new List<string> { GroupData.FAKE_PEXIP_GROUP_1, GroupData.FAKE_PEXIP_GROUP_2 },
+                TestAccountGroup = GroupData.FAKE_TEST_GROUP,
+                PerformanceTestAccountGroup = GroupData.FAKE_PERFORMANCE_TEST_GROUP
             };
 
             GroupsConfig
@@ -70,15 +70,26 @@ namespace TestApi.UnitTests.Services
         {
             Configuration
                 .Setup(x => x.GetSection("UsernameStem").Value)
-                .Returns(DefaultData.FAKE_EMAIL_STEM);
+                .Returns(EmailData.FAKE_EMAIL_STEM);
         }
 
-        protected User CreateNewUser(UserType userType, int number)
+        protected User CreateNewUser(UserType userType, int number, bool isProdUser = false)
         {
-            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
             return new UserBuilder(EMAIL_STEM, number)
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)
+                .IsProdUser(isProdUser)
+                .BuildUser();
+        }
+
+        protected User CreateNewUser(TestType testType, int number)
+        {
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+            return new UserBuilder(EMAIL_STEM, number)
+                .WithUserType(UserType.Individual)
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
         }
 
@@ -87,11 +98,11 @@ namespace TestApi.UnitTests.Services
             return new Allocation(user);
         }
 
-        protected List<User> CreateListOfUsers(UserType userType, int size)
+        protected List<User> CreateListOfUsers(UserType userType, int size, bool isProdUser = false)
         {
             var users = new List<User>();
 
-            for (var i = 1; i <= size; i++) users.Add(CreateNewUser(userType, i));
+            for (var i = 1; i <= size; i++) users.Add(CreateNewUser(userType, i, isProdUser));
 
             return users;
         }

@@ -127,7 +127,7 @@ namespace TestApi.BQSTests.Subscriber
             var confirmRequest = new UpdateBookingStatusRequest()
             {
                 Status = UpdateBookingStatus.Created,
-                Updated_by = DefaultData.CREATED_BY(Context.Config.UsernameStem)
+                Updated_by = HearingData.CREATED_BY(Context.Config.UsernameStem)
             };
 
             var updateUri = BookingsApiUriFactory.HearingsEndpoints.UpdateHearingStatus(Hearing.Id);

@@ -22,7 +22,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_create_test_api_user()
         {
-            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
 
             var request = new UserBuilder(EMAIL_STEM, NUMBER)
@@ -32,8 +32,8 @@ namespace TestApi.IntegrationTests.Database.Commands
 
             var command = new CreateNewUserCommand
             (
-                request.Username, request.ContactEmail, request.FirstName, request.LastName,
-                request.DisplayName, request.Number, request.UserType, request.Application
+                request.Username, request.ContactEmail, request.FirstName, request.LastName, request.DisplayName, 
+                request.Number, request.TestType, request.UserType, request.Application, request.IsProdUser
             );
 
             await _commandHandler.Handle(command);
@@ -56,7 +56,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public async Task Should_not_create_test_api_user_if_matching_number_exists()
         {
-            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
 
             var firstUser = await Context.Data.SeedUser();
 
@@ -67,8 +67,8 @@ namespace TestApi.IntegrationTests.Database.Commands
 
             var command = new CreateNewUserCommand
             (
-                request.Username, request.ContactEmail, request.FirstName, request.LastName,
-                request.DisplayName, request.Number, request.UserType, request.Application
+                request.Username, request.ContactEmail, request.FirstName, request.LastName, request.DisplayName, 
+                request.Number, request.TestType, request.UserType, request.Application, request.IsProdUser
             );
 
             Assert.ThrowsAsync<MatchingUserWithNumberExistsException>(() => _commandHandler.Handle(command));

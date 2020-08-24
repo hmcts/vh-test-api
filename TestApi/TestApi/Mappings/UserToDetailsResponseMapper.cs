@@ -16,8 +16,10 @@ namespace TestApi.Mappings
                 LastName = user.LastName,
                 DisplayName = user.DisplayName,
                 Number = user.Number,
+                TestType = user.TestType,
                 UserType = user.UserType,
                 Application = user.Application,
+                IsProdUser = user.IsProdUser,
                 CreatedDate = user.CreatedDate
             };
         }

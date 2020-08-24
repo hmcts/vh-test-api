@@ -43,10 +43,10 @@ namespace TestApi.BQSTests.Subscriber
                         Display_name = user.DisplayName,
                         First_name = user.FirstName,
                         Hearing_role_name = UserTypeName.FromUserType(user.UserType),
-                        Middle_names = DefaultData.MIDDLE_NAME,
+                        Middle_names = UserData.MIDDLE_NAME,
                         Last_name = user.LastName,
-                        Telephone_number = DefaultData.TELEPHONE_NUMBER,
-                        Title = DefaultData.TITLE,
+                        Telephone_number = UserData.TELEPHONE_NUMBER,
+                        Title = UserData.TITLE,
                         Username = user.Username
                     }
                 }
@@ -103,18 +103,18 @@ namespace TestApi.BQSTests.Subscriber
 
             var request = new Services.Clients.BookingsApiClient.UpdateParticipantRequest()
             {
-                Display_name = $"{participant.Display_name} {DefaultData.UPDATED_TEXT}",
-                Organisation_name = $"{participant.Organisation} {DefaultData.UPDATED_TEXT}",
-                Reference = $"{participant.Reference} {DefaultData.UPDATED_TEXT}",
-                Representee = $"{participant.Representee} {DefaultData.UPDATED_TEXT}",
+                Display_name = $"{participant.Display_name} {HearingData.UPDATED_TEXT}",
+                Organisation_name = $"{participant.Organisation} {HearingData.UPDATED_TEXT}",
+                Reference = $"{participant.Reference} {HearingData.UPDATED_TEXT}",
+                Representee = $"{participant.Representee} {HearingData.UPDATED_TEXT}",
                 Telephone_number = Faker.Phone.Number(),
-                Title = $"{participant.Title} {DefaultData.UPDATED_TEXT}"
+                Title = $"{participant.Title} {HearingData.UPDATED_TEXT}"
             };
 
             await SendPutRequest(uri, RequestHelper.Serialise(request));
             VerifyResponse(HttpStatusCode.OK, true);
 
-            var conferenceDetails = await PollForConferenceParticipantUpdated(Hearing.Id, DefaultData.UPDATED_TEXT);
+            var conferenceDetails = await PollForConferenceParticipantUpdated(Hearing.Id, HearingData.UPDATED_TEXT);
             var updatedParticipant = conferenceDetails.Participants.First(x => x.Username.Equals(participant.Username));
             updatedParticipant.Display_name.Should().Be(request.Display_name);
             updatedParticipant.Representee.Should().Be(request.Representee);

@@ -20,6 +20,9 @@ namespace TestApi.Contract.Requests
         /// <summary>Hearing scheduled date and time</summary>
         public DateTime ScheduledDateTime { get; set; }
 
+        /// <summary>Automation, Manual or Performance</summary>
+        public TestType TestType { get; set; }
+
         /// <summary>List of users to include as participants</summary>
         public List<User> Users { get; set; }
 

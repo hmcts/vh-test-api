@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         [Test]
         public async Task Should_get_suitability_answers()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             var answersResponse = new List<PersonSuitabilityAnswerResponse>()
             {
@@ -58,7 +58,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         [Test]
         public async Task Should_return_empty_list_for_a_non_existent_username()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             BookingsApiClient
                 .Setup(x => x.GetPersonSuitabilityAnswersAsync(It.IsAny<string>()))

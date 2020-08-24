@@ -63,9 +63,9 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             var allocationDetailsResponses = (List<AllocationDetailsResponse>) result.Value;
             allocationDetailsResponses.Count.Should().Be(3);
-            allocationDetailsResponses[0].Should().BeEquivalentTo(firstAllocation);
-            allocationDetailsResponses[1].Should().BeEquivalentTo(secondAllocation);
-            allocationDetailsResponses[2].Should().BeEquivalentTo(thirdAllocation);
+            allocationDetailsResponses[0].Should().BeEquivalentTo(firstAllocation, options => options.Excluding(x => x.User));
+            allocationDetailsResponses[1].Should().BeEquivalentTo(secondAllocation, options => options.Excluding(x => x.User));
+            allocationDetailsResponses[2].Should().BeEquivalentTo(thirdAllocation, options => options.Excluding(x => x.User));
         }
 
         [Test]

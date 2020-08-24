@@ -8,8 +8,8 @@ namespace TestApi.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                "User",
-                table => new
+                name: "User",
+                columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Username = table.Column<string>(nullable: true),
@@ -18,15 +18,20 @@ namespace TestApi.DAL.Migrations
                     LastName = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
                     Number = table.Column<int>(nullable: false),
+                    TestType = table.Column<int>(nullable: false),
                     UserType = table.Column<int>(nullable: false),
                     Application = table.Column<int>(nullable: false),
+                    IsProdUser = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => { table.PrimaryKey("PK_User", x => x.Id); });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
-                "Allocation",
-                table => new
+                name: "Allocation",
+                columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
@@ -38,30 +43,37 @@ namespace TestApi.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Allocation", x => x.Id);
                     table.ForeignKey(
-                        "FK_Allocation_User_UserId",
-                        x => x.UserId,
-                        "User",
-                        "Id",
+                        name: "FK_Allocation_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                "IX_Allocation_UserId",
-                "Allocation",
-                "UserId",
+                name: "IX_Allocation_UserId",
+                table: "Allocation",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                "IX_User_ContactEmail",
-                "User",
-                "ContactEmail",
+                name: "IX_Allocation_Username",
+                table: "Allocation",
+                column: "Username",
+                unique: true,
+                filter: "[Username] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_ContactEmail",
+                table: "User",
+                column: "ContactEmail",
                 unique: true,
                 filter: "[ContactEmail] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                "IX_User_Username",
-                "User",
-                "Username",
+                name: "IX_User_Username",
+                table: "User",
+                column: "Username",
                 unique: true,
                 filter: "[Username] IS NOT NULL");
         }
@@ -69,10 +81,10 @@ namespace TestApi.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                "Allocation");
+                name: "Allocation");
 
             migrationBuilder.DropTable(
-                "User");
+                name: "User");
         }
     }
 }

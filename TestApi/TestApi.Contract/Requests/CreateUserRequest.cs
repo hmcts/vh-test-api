@@ -38,6 +38,11 @@ namespace TestApi.Contract.Requests
         public int Number { get; set; }
 
         /// <summary>
+        ///     TestType
+        /// </summary>
+        public TestType TestType { get; set; }
+
+        /// <summary>
         ///     UserType
         /// </summary>
         public UserType UserType { get; set; }
@@ -46,5 +51,10 @@ namespace TestApi.Contract.Requests
         ///     Application
         /// </summary>
         public Application Application { get; set; }
+
+        /// <summary>
+        ///     Is this a prod user
+        /// </summary>
+        public bool IsProdUser { get; set; }
     }
 }

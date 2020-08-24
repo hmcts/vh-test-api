@@ -39,13 +39,13 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_type_group = indIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
+                    request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                     indIndex++;
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_type_group = repIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
+                    request.Case_type_group = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
                 }
@@ -56,11 +56,11 @@ namespace TestApi.Services.Builders.Requests
                 }
 
                 request.Contact_email = user.ContactEmail;
-                request.Contact_telephone = DefaultData.TELEPHONE_NUMBER;
+                request.Contact_telephone = UserData.TELEPHONE_NUMBER;
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
-                request.Name = $"{DefaultData.TITLE} {user.FirstName} {user.LastName}";
+                request.Name = $"{UserData.TITLE} {user.FirstName} {user.LastName}";
                 request.Participant_ref_id = Guid.NewGuid();
                 request.User_role = GetUserRoleFromUserType(user.UserType);
                 request.Username = user.Username;

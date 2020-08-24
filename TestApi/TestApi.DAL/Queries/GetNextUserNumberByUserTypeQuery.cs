@@ -9,14 +9,16 @@ namespace TestApi.DAL.Queries
 {
     public class GetNextUserNumberByUserTypeQuery : IQuery
     {
-        public GetNextUserNumberByUserTypeQuery(UserType userType, Application application)
+        public GetNextUserNumberByUserTypeQuery(UserType userType, Application application, bool isProdUser)
         {
             UserType = userType;
             Application = application;
+            IsProdUser = isProdUser;
         }
 
         public UserType UserType { get; set; }
         public Application Application { get; set; }
+        public bool IsProdUser { get; set; }
     }
 
     public class GetNextUserNumberByUserTypeQueryHandler : IQueryHandler<GetNextUserNumberByUserTypeQuery, Integer>
@@ -31,7 +33,7 @@ namespace TestApi.DAL.Queries
         public async Task<Integer> Handle(GetNextUserNumberByUserTypeQuery query)
         {
             var users = await _context.Users
-                .Where(x => x.UserType == query.UserType && x.Application == query.Application)
+                .Where(x => x.UserType == query.UserType && x.Application == query.Application && x.IsProdUser == query.IsProdUser)
                 .AsNoTracking()
                 .ToListAsync();
 

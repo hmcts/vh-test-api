@@ -16,7 +16,7 @@ namespace TestApi.UnitTests.Services
         [Test]
         public async Task Should_return_true_for_existing_user_in_aad()
         {
-            const string CONTACT_EMAIL = DefaultData.NON_EXISTENT_CONTACT_EMAIL;
+            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 
             UserApiClient
                 .Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ReturnsAsync(It.IsAny<UserProfile>());
@@ -28,7 +28,7 @@ namespace TestApi.UnitTests.Services
         [Test]
         public async Task Should_return_false_for_nonexistent_user_in_aad()
         {
-            const string CONTACT_EMAIL = DefaultData.NON_EXISTENT_CONTACT_EMAIL;
+            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 
             var ex = new UserApiException("User not found", 404, "Response",
                 new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
@@ -48,7 +48,7 @@ namespace TestApi.UnitTests.Services
         [TestCase(UserType.PanelMember)]
         public async Task Should_create_new_user_in_aad(UserType userType)
         {
-            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
 
             var userRequest = new UserBuilder(EMAIL_STEM, 1)
                 .WithUserType(userType)
@@ -66,7 +66,64 @@ namespace TestApi.UnitTests.Services
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
 
-            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail);
+            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail, userRequest.IsProdUser);
+            userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
+            userDetails.User_id.Should().Be(newUserResponse.User_id);
+            userDetails.Username.Should().Be(newUserResponse.Username);
+        }
+
+        [Test]
+        public async Task Should_add_prod_groups_to_prod_user()
+        {
+            const bool IS_PROD_USER = UserData.IS_PROD_USER;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var userRequest = new UserBuilder(EMAIL_STEM, 1)
+                .WithUserType(UserType.Judge)
+                .ForApplication(Application.TestApi)
+                .IsProdUser(IS_PROD_USER)
+                .BuildRequest();
+
+            var newUserResponse = new NewUserResponse
+            {
+                One_time_password = "password",
+                User_id = "1234",
+                Username = userRequest.Username
+            };
+
+            UserApiClient.Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(newUserResponse);
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
+
+            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail, userRequest.IsProdUser);
+            userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
+            userDetails.User_id.Should().Be(newUserResponse.User_id);
+            userDetails.Username.Should().Be(newUserResponse.Username);
+        }
+
+        [Test]
+        public async Task Should_add_performance_test_groups_to_performance_test_user()
+        {
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var userRequest = new UserBuilder(EMAIL_STEM, 1)
+                .WithUserType(UserType.Judge)
+                .ForApplication(Application.TestApi)
+                .ForTestType(TestType.Performance)
+                .BuildRequest();
+
+            var newUserResponse = new NewUserResponse
+            {
+                One_time_password = "password",
+                User_id = "1234",
+                Username = userRequest.Username
+            };
+
+            UserApiClient.Setup(x => x.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(newUserResponse);
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
+
+            var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail, userRequest.IsProdUser);
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
             userDetails.User_id.Should().Be(newUserResponse.User_id);
             userDetails.Username.Should().Be(newUserResponse.Username);

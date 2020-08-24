@@ -20,10 +20,10 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
     {
         protected readonly List<ConferenceDetailsResponse> ConferencesToDelete = new List<ConferenceDetailsResponse>();
 
-        protected BookNewConferenceRequest CreateConferenceRequest()
+        protected BookNewConferenceRequest CreateConferenceRequest(TestType testType = TestType.Automated)
         {
-            var users = CreateDefaultUsers();
-            return new BookConferenceRequestBuilder(users).BuildRequest();
+            var users = CreateDefaultUsers(testType);
+            return new BookConferenceRequestBuilder(users, testType).BuildRequest();
         }
 
         protected async Task<ConferenceDetailsResponse> CreateConference(BookNewConferenceRequest request)
@@ -41,36 +41,42 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return response;
         }
 
-        private List<User> CreateDefaultUsers()
+        private List<User> CreateDefaultUsers(TestType testType)
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var observer = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddObserver()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var panelMember = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddPanelMember()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
@@ -88,7 +94,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 Event_id = EVENT_TYPE_ID.ToString(),
                 Event_type = EVENT_TYPE,
                 Participant_id = participant.Id.ToString(),
-                Reason = DefaultData.VIDEO_EVENT_REASON,
+                Reason = HearingData.VIDEO_EVENT_REASON,
                 Time_stamp_utc = DateTime.UtcNow,
                 Transfer_from = null,
                 Transfer_to = null

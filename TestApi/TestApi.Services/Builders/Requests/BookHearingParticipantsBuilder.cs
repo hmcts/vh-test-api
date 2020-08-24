@@ -39,18 +39,18 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_role_name = indIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
+                    request.Case_role_name = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                     request.Hearing_role_name =
-                        indIndex == 0 ? DefaultData.FIRST_INDV_HEARING_ROLE_NAME : DefaultData.SECOND_INDV_HEARING_ROLE_NAME;
+                        indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
                     indIndex++;
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_role_name = repIndex == 0 ? DefaultData.FIRST_CASE_ROLE_NAME : DefaultData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = DefaultData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                    request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                    request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
                     request.Organisation_name = Company.Name();
-                    request.Reference = DefaultData.REFERENCE;
+                    request.Reference = UserData.REFERENCE;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
                 }
@@ -66,9 +66,9 @@ namespace TestApi.Services.Builders.Requests
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
-                request.Middle_names = DefaultData.MIDDLE_NAME;
-                request.Telephone_number = DefaultData.TELEPHONE_NUMBER;
-                request.Title = DefaultData.TITLE;
+                request.Middle_names = UserData.MIDDLE_NAME;
+                request.Telephone_number = UserData.TELEPHONE_NUMBER;
+                request.Title = UserData.TITLE;
                 request.Username = user.Username;
 
                 _participants.Add(request);

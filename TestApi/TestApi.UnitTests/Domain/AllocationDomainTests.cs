@@ -18,7 +18,7 @@ namespace TestApi.UnitTests.Domain
         [SetUp]
         public void SetUp()
         {
-            const string EMAIL_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
 
             _user = new UserBuilder(EMAIL_STEM, NUMBER)

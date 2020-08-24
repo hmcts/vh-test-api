@@ -48,11 +48,11 @@ namespace TestApi.Services.Builders.Requests
             _createHearingRequest = new CreateHearingRequest()
             {
                 Application = Application.TestApi,
-                AudioRecordingRequired = DefaultData.AUDIO_RECORDING_REQUIRED,
-                QuestionnaireNotRequired = DefaultData.QUESTIONNAIRE_NOT_REQUIRED,
+                AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
+                QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow.AddMinutes(35),
                 Users = users,
-                Venue = DefaultData.VENUE_NAME
+                Venue = HearingData.VENUE_NAME
             };
             
             _randomNumber = new Random();
@@ -65,7 +65,7 @@ namespace TestApi.Services.Builders.Requests
                 Name = GenerateRandomCaseName(),
                 Number = GenerateRandom.CaseNumber(_randomNumber),
                 AdditionalProperties = null,
-                Is_lead_case = DefaultData.IS_LEAD_CASE
+                Is_lead_case = HearingData.IS_LEAD_CASE
             };
             _request.Cases.Add(caseRequest);
         }
@@ -73,7 +73,17 @@ namespace TestApi.Services.Builders.Requests
         private string GenerateRandomCaseName()
         {
             return
-                $"{AppShortName.FromApplication(_createHearingRequest.Application)} {DefaultData.CASE_NAME_PREFIX} {GenerateRandom.Letters(_randomNumber)}";
+                $"{AppShortName.FromApplication(_createHearingRequest.Application)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
+        }
+
+        private string GetCaseNamePrefix()
+        {
+            return _createHearingRequest.TestType switch
+            {
+                TestType.Manual => HearingData.MANUAL_CASE_NAME_PREFIX,
+                TestType.Performance => HearingData.PERFORMANCE_CASE_NAME_PREFIX,
+                _ => HearingData.AUTOMATED_CASE_NAME_PREFIX
+            };
         }
 
         private void SetCreatedBy()
@@ -87,15 +97,15 @@ namespace TestApi.Services.Builders.Requests
             SetCreatedBy();
             _request.AdditionalProperties = null;
             _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
-            _request.Case_type_name = DefaultData.CASE_TYPE_NAME;
-            _request.Hearing_room_name = DefaultData.HEARING_ROOM_NAME;
-            _request.Hearing_type_name = DefaultData.HEARING_TYPE_NAME;
+            _request.Case_type_name = HearingData.CASE_TYPE_NAME;
+            _request.Hearing_room_name = HearingData.HEARING_ROOM_NAME;
+            _request.Hearing_type_name = HearingData.HEARING_TYPE_NAME;
             _request.Hearing_venue_name = _createHearingRequest.Venue;
-            _request.Other_information = DefaultData.OTHER_INFORMATION;
+            _request.Other_information = HearingData.OTHER_INFORMATION;
             _request.Questionnaire_not_required = _createHearingRequest.QuestionnaireNotRequired;
             _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users).Build();
             _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
-            _request.Scheduled_duration = DefaultData.SCHEDULED_DURATION;
+            _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
             return _request;
         }
     }

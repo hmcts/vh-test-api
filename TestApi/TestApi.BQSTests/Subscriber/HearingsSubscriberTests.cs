@@ -29,8 +29,8 @@ namespace TestApi.BQSTests.Subscriber
                 {
                     AdditionalProperties = Hearing.Cases.First().AdditionalProperties,
                     Is_lead_case = Hearing.Cases.First().Is_lead_case,
-                    Name = $"{Hearing.Cases.First().Name} {DefaultData.UPDATED_TEXT}",
-                    Number = $"{Hearing.Cases.First().Number} {DefaultData.UPDATED_TEXT}"
+                    Name = $"{Hearing.Cases.First().Name} {HearingData.UPDATED_TEXT}",
+                    Number = $"{Hearing.Cases.First().Number} {HearingData.UPDATED_TEXT}"
                 }
             };
 
@@ -39,9 +39,9 @@ namespace TestApi.BQSTests.Subscriber
                 AdditionalProperties = Hearing.AdditionalProperties,
                 Audio_recording_required = !Hearing.Audio_recording_required,
                 Cases = caseRequests,
-                Hearing_room_name = $"{Hearing.Hearing_room_name} {DefaultData.UPDATED_TEXT}",
-                Hearing_venue_name = Hearing.Hearing_venue_name.Equals(DefaultData.VENUE_NAME) ? DefaultData.ALTERNATIVE_VENUE_NAME : DefaultData.VENUE_NAME,
-                Other_information = $"{Hearing.Other_information} {DefaultData.UPDATED_TEXT}",
+                Hearing_room_name = $"{Hearing.Hearing_room_name} {HearingData.UPDATED_TEXT}",
+                Hearing_venue_name = Hearing.Hearing_venue_name.Equals(HearingData.VENUE_NAME) ? HearingData.VENUE_NAME_ALTERNATIVE : HearingData.VENUE_NAME,
+                Other_information = $"{Hearing.Other_information} {HearingData.UPDATED_TEXT}",
                 Questionnaire_not_required = !Hearing.Questionnaire_not_required,
                 Scheduled_date_time = Hearing.Scheduled_date_time.AddMinutes(10),
                 Scheduled_duration = Hearing.Scheduled_duration / 2,
@@ -67,7 +67,7 @@ namespace TestApi.BQSTests.Subscriber
 
             var policy = Policy
                 .HandleResult<HttpResponseMessage>(message => !message.IsSuccessStatusCode)
-                .OrResult(message => !message.Content.ReadAsStringAsync().Result.Contains(DefaultData.UPDATED_TEXT))
+                .OrResult(message => !message.Content.ReadAsStringAsync().Result.Contains(HearingData.UPDATED_TEXT))
                 .WaitAndRetryAsync(RETRIES, retryAttempt =>
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             try
@@ -123,7 +123,7 @@ namespace TestApi.BQSTests.Subscriber
             var request = new UpdateBookingStatusRequest()
             {
                 AdditionalProperties = new Dictionary<string, object>(),
-                Cancel_reason = DefaultData.CANCELLATION_REASON,
+                Cancel_reason = HearingData.CANCELLATION_REASON,
                 Status = UpdateBookingStatus.Cancelled,
                 Updated_by = UPDATED_BY
             };

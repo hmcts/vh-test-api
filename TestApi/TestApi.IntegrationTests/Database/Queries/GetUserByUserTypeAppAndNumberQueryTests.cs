@@ -21,7 +21,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await Context.Data.SeedUser();
             var userDetails =
                 await _query.Handle(
-                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, user.Number));
+                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, user.Number, user.IsProdUser));
             userDetails.Should().BeEquivalentTo(user);
         }
 
@@ -31,7 +31,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await Context.Data.SeedUser();
             var userDetails =
                 await _query.Handle(
-                    new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number));
+                    new GetUserByUserTypeAppAndNumberQuery(UserType.None, user.Application, user.Number, user.IsProdUser));
             userDetails.Should().BeNull();
         }
 
@@ -42,7 +42,7 @@ namespace TestApi.IntegrationTests.Database.Queries
 
             var userDetails =
                 await _query.Handle(
-                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number));
+                    new GetUserByUserTypeAppAndNumberQuery(user.UserType, Application.None, user.Number, user.IsProdUser));
             userDetails.Should().BeNull();
         }
 
@@ -52,7 +52,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = await Context.Data.SeedUser();
 
             var userDetails =
-                await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1));
+                await _query.Handle(new GetUserByUserTypeAppAndNumberQuery(user.UserType, user.Application, -1, user.IsProdUser));
             userDetails.Should().BeNull();
         }
     }

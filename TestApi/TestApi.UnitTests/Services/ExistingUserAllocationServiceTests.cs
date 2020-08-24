@@ -49,7 +49,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
 
@@ -95,7 +95,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
 
@@ -136,7 +136,7 @@ namespace TestApi.UnitTests.Services
             };
 
             MockUserApiService
-                .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(newUserResponse);
 
             CommandHandler
@@ -145,7 +145,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
     }

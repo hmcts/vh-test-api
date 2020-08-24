@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TestApi.Contract.Requests;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
@@ -8,17 +9,20 @@ namespace TestApi.DAL.Queries
 {
     public class GetAllocatedUserByUserTypeQuery : IQuery
     {
-        public GetAllocatedUserByUserTypeQuery(UserType userType, Application application,
-            int extendedExpiryInMinutes = 10)
+        public GetAllocatedUserByUserTypeQuery(AllocateUserRequest request)
         {
-            UserType = userType;
-            Application = application;
-            ExtendedExpiryInMinutes = extendedExpiryInMinutes;
+            Application = request.Application;
+            ExpiryInMinutes = request.ExpiryInMinutes;
+            IsProdUser = request.IsProdUser;
+            TestType = request.TestType;
+            UserType = request.UserType;
         }
 
-        public UserType UserType { get; set; }
         public Application Application { get; set; }
-        public int ExtendedExpiryInMinutes { get; set; }
+        public int ExpiryInMinutes { get; set; }
+        public bool IsProdUser { get; set; }
+        public TestType TestType { get; set; }
+        public UserType UserType { get; set; }
     }
 
     public class GetAllocatedUserByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
@@ -35,7 +39,7 @@ namespace TestApi.DAL.Queries
         public async Task<User> Handle(GetAllocatedUserByUserTypeQuery query)
         {
             var user = await _service.AllocateToService(query.UserType, query.Application,
-                query.ExtendedExpiryInMinutes);
+                query.TestType, query.IsProdUser, query.ExpiryInMinutes);
             await _context.SaveChangesAsync();
             return user;
         }

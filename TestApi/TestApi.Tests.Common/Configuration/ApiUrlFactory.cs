@@ -1,5 +1,4 @@
 ﻿using System;
-using TestApi.Domain.Enums;
 
 namespace TestApi.Tests.Common.Configuration
 {
@@ -8,13 +7,9 @@ namespace TestApi.Tests.Common.Configuration
         public static class AllocationEndpoints
         {
             public const string ApiRoot = "allocations";
+            public static string AllocateSingleUser => $"{ApiRoot}/allocateUser";
             public static string AllocateUsers => $"{ApiRoot}/allocateUsers";
             public static string UnallocateUsers => $"{ApiRoot}/unallocateUsers";
-
-            public static string AllocateSingleUser(UserType userType, Application application)
-            {
-                return $"{ApiRoot}/?userType={userType}&application={application}";
-            }
         }
 
         public static class ConferenceEndpoints

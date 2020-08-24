@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Builders;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain;
@@ -32,7 +33,11 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
                 JUDGE_USER, INDIVIDUAL_USER, REPRESENTATIVE_USER, OBSERVER_USER, PANEL_MEMBER_USER, CASE_ADMIN_USER
             };
 
-            var request = new AllocateUsersRequest() {Application = APPLICATION, UserTypes = userTypes};
+            var request = new AllocateUsersRequestBuilder()
+                .WithUserTypes(userTypes)
+                .ForApplication(APPLICATION)
+                .Build();
+
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -60,7 +65,11 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
                 judgeUser.UserType, individualUser.UserType, representativeUser.UserType, caseAdminUser.UserType
             };
 
-            var request = new AllocateUsersRequest() { Application = APPLICATION, UserTypes = userTypes };
+            var request = new AllocateUsersRequestBuilder()
+                .WithUserTypes(userTypes)
+                .ForApplication(APPLICATION)
+                .Build();
+            
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -98,7 +107,11 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
                 judgeUser.UserType, individualUser.UserType, representativeUser.UserType, caseAdminUser.UserType
             };
 
-            var request = new AllocateUsersRequest() { Application = APPLICATION, UserTypes = userTypes };
+            var request = new AllocateUsersRequestBuilder()
+                .WithUserTypes(userTypes)
+                .ForApplication(APPLICATION)
+                .Build();
+
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

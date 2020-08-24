@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Domain.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common;
 
@@ -10,10 +11,12 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
 {
     public class CreateHearingTests : HearingsTestsBase
     {
-        [Test]
-        public async Task Should_create_hearing()
+        [TestCase(TestType.Automated)]
+        [TestCase(TestType.Manual)]
+        [TestCase(TestType.Performance)]
+        public async Task Should_create_hearing(TestType testType)
         {
-            var request = CreateHearingRequest();
+            var request = CreateHearingRequest(testType);
             await CreateHearing(request);
 
             VerifyResponse(HttpStatusCode.Created, true);

@@ -39,7 +39,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_ok_result_when_database_is_connected()
         {
-            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
+            const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int userNumber = 1;
             const Application application = Application.TestApi;
 

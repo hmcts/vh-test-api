@@ -26,20 +26,21 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             const UserType USER_TYPE = UserType.Individual;
             const Application APPLICATION = Application.TestApi;
-            const string USERNAME_STEM = DefaultData.FAKE_EMAIL_STEM;
+            const string USERNAME_STEM = EmailData.FAKE_EMAIL_STEM;
             const int NUMBER = 1;
-            const int MINUTES = 1;
 
             var user = new UserBuilder(USERNAME_STEM, NUMBER)
                 .WithUserType(USER_TYPE)
                 .ForApplication(APPLICATION)
                 .BuildUser();
 
+            var allocationRequest = new AllocateUserRequestBuilder().WithUserType(USER_TYPE).Build();
+
             _allocationService
-                .Setup(x => x.AllocateToService(It.IsAny<UserType>(), It.IsAny<Application>(), It.IsAny<int>()))
+                .Setup(x => x.AllocateToService(It.IsAny<UserType>(), It.IsAny<Application>(), It.IsAny<TestType>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(user));
 
-            var userDetails = await _query.Handle(new GetAllocatedUserByUserTypeQuery(USER_TYPE, APPLICATION, MINUTES));
+            var userDetails = await _query.Handle(new GetAllocatedUserByUserTypeQuery(allocationRequest));
             userDetails.Should().NotBeNull();
             userDetails.Should().BeEquivalentTo(user);
         }

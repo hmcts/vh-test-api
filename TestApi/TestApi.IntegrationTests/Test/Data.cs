@@ -20,17 +20,39 @@ namespace TestApi.IntegrationTests.Test
             _dbContextOptions = dbContextOptions;
         }
 
-        public async Task<User> SeedUser(UserType userType = UserType.Judge)
+        public async Task<User> SeedUser(UserType userType = UserType.Judge, bool isProdUser = false)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             const Application application = Application.TestApi;
 
-            var number = await IterateUserNumber(userType, application);
+            var number = await IterateUserNumber(userType, application, isProdUser);
 
             var user = new UserBuilder(_context.Config.UsernameStem, number)
                 .WithUserType(userType)
                 .ForApplication(application)
+                .IsProdUser(isProdUser)
+                .BuildUser();
+
+            await db.Users.AddAsync(user);
+            await db.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<User> SeedUser(TestType testType)
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
+
+            const UserType USER_TYPE = UserType.Judge;
+            const Application APPLICATION = Application.TestApi;
+            const bool IS_PROD_USER = false;
+
+            var number = await IterateUserNumber(USER_TYPE, APPLICATION, IS_PROD_USER);
+
+            var user = new UserBuilder(_context.Config.UsernameStem, number)
+                .WithUserType(USER_TYPE)
+                .ForApplication(APPLICATION)
+                .ForTestType(testType)
                 .BuildUser();
 
             await db.Users.AddAsync(user);
@@ -49,12 +71,12 @@ namespace TestApi.IntegrationTests.Test
             return allocation;
         }
 
-        public async Task<int> IterateUserNumber(UserType userType, Application application)
+        public async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             var users = await db.Users
-                .Where(x => x.UserType == userType && x.Application == application)
+                .Where(x => x.UserType == userType && x.Application == application && x.IsProdUser == isProdUser)
                 .AsNoTracking()
                 .ToListAsync();
 

@@ -16,11 +16,12 @@ namespace TestApi.Common.Builders
             _request = new CreateHearingRequest
             {
                 Application = Application.TestApi,
-                AudioRecordingRequired = DefaultData.AUDIO_RECORDING_REQUIRED,
-                QuestionnaireNotRequired = DefaultData.QUESTIONNAIRE_NOT_REQUIRED,
+                AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
+                QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow,
+                TestType = TestType.Automated,
                 Users = users,
-                Venue = DefaultData.VENUE_NAME
+                Venue = HearingData.VENUE_NAME
             };
         }
 
@@ -45,6 +46,12 @@ namespace TestApi.Common.Builders
         public HearingBuilder ScheduledDateTime(DateTime dateTime)
         {
             _request.ScheduledDateTime = dateTime;
+            return this;
+        }
+
+        public HearingBuilder TypeOfTest(TestType testType)
+        {
+            _request.TestType = testType;
             return this;
         }
 

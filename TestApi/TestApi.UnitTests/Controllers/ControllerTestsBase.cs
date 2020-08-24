@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers
     {
         protected static User CreateUser(UserType userType)
         {
-            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
+            const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int number = 1;
             return new UserBuilder(emailStem, number)
                 .WithUserType(userType)
