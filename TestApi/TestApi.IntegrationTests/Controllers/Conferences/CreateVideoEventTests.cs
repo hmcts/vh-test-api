@@ -40,7 +40,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 Event_id = EVENT_TYPE_ID.ToString(),
                 Event_type = EVENT_TYPE,
                 Participant_id = participant.Id.ToString(),
-                Reason = DefaultData.VIDEO_EVENT_REASON,
+                Reason = HearingData.VIDEO_EVENT_REASON,
                 Time_stamp_utc = DateTime.UtcNow,
                 Transfer_from = null,
                 Transfer_to = null

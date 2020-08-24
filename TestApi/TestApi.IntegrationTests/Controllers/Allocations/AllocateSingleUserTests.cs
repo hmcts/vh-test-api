@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
 using TestApi.Tests.Common;
@@ -21,10 +23,10 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.VideoHearingsOfficer)]
         public async Task Should_allocate_single_user_no_users_exist(UserType userType)
         {
-            const Application APPLICATION = Application.TestApi;
+            var request = new AllocateUserRequestBuilder().WithUserType(userType).Build();
 
-            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(userType, APPLICATION);
-            await SendGetRequest(uri);
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
@@ -45,8 +47,13 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             var user = await Context.Data.SeedUser(userType);
             await Context.Data.SeedAllocation(user.Id);
 
-            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(user.UserType, user.Application);
-            await SendGetRequest(uri);
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForApplication(user.Application)
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
@@ -68,8 +75,13 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             await Context.Data.SeedAllocation(user.Id);
             await Context.Data.AllocateUser(user.Id);
 
-            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(user.UserType, user.Application);
-            await SendGetRequest(uri);
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForApplication(user.Application)
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
@@ -92,8 +104,60 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             await Context.Data.SeedAllocation(user.Id);
             await Context.Data.AllocateUser(user.Id, -11);
 
-            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser(user.UserType, user.Application);
-            await SendGetRequest(uri);
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForApplication(user.Application)
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UserDetailsResponse(response, user);
+        }
+
+        [Test]
+        public async Task Should_allocate_prod_user()
+        {
+            const bool IS_PROD_USER = UserData.IS_PROD_USER;
+            var user = await Context.Data.SeedUser(UserType.Judge, IS_PROD_USER);
+            await Context.Data.SeedAllocation(user.Id);
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForApplication(user.Application)
+                .IsProdUser()
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UserDetailsResponse(response, user);
+        }
+
+        [TestCase(TestType.Automated)]
+        [TestCase(TestType.Manual)]
+        [TestCase(TestType.Performance)]
+        public async Task Should_allocate_user_with_specified_test_type(TestType testType)
+        {
+            var user = await Context.Data.SeedUser(testType);
+            await Context.Data.SeedAllocation(user.Id);
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForApplication(user.Application)
+                .ForTestType(testType)
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);

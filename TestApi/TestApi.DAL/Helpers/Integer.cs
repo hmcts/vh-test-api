@@ -2,10 +2,6 @@
 {
     public class Integer
     {
-        public Integer()
-        {
-        }
-
         public Integer(int value)
         {
             Value = value;

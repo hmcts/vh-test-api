@@ -11,8 +11,8 @@ namespace TestApi.Domain
             CreatedDate = DateTime.UtcNow;
         }
 
-        public User(string username, string contactEmail, string firstName, string lastName,
-            string displayName, int number, UserType userType, Application application) : this()
+        public User(string username, string contactEmail, string firstName, string lastName, string displayName, 
+            int number, TestType testType, UserType userType, Application application, bool isProdUser) : this()
         {
             Id = Guid.NewGuid();
             Username = username;
@@ -21,8 +21,10 @@ namespace TestApi.Domain
             LastName = lastName;
             DisplayName = displayName;
             Number = number;
+            TestType = testType;
             UserType = userType;
             Application = application;
+            IsProdUser = isProdUser;
         }
 
         public string Username { get; set; }
@@ -31,8 +33,10 @@ namespace TestApi.Domain
         public string LastName { get; set; }
         public string DisplayName { get; set; }
         public int Number { get; set; }
+        public TestType TestType { get; set; }
         public UserType UserType { get; set; }
         public Application Application { get; set; }
+        public bool IsProdUser { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

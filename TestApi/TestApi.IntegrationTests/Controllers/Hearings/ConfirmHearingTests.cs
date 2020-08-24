@@ -44,7 +44,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_return_not_found_for_non_existent_hearing_id()
         {
-            const string CASE_ADMIN_USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string CASE_ADMIN_USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             var request = new UpdateBookingStatusRequest()
             {

@@ -30,7 +30,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         [Test]
         public async Task Should_return_not_found_for_non_existent_username()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             var uri = ApiUriFactory.UserEndpoints.GetUserByUsername(USERNAME);
             await SendGetRequest(uri);

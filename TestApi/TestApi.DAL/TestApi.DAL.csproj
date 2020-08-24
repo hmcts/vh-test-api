@@ -23,8 +23,14 @@
     <Compile Remove="Migrations\20200723143036_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200723164144_Initial.cs" />
     <Compile Remove="Migrations\20200723164144_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200726092640_Initial.cs" />
+    <Compile Remove="Migrations\20200726092640_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200817155121_QueueSubcriber.cs" />
     <Compile Remove="Migrations\20200817155121_QueueSubcriber.Designer.cs" />
+    <Compile Remove="Migrations\20200824132238_Initial.cs" />
+    <Compile Remove="Migrations\20200824132238_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200824132943_Initial.cs" />
+    <Compile Remove="Migrations\20200824132943_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

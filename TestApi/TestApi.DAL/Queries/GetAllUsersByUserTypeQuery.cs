@@ -10,14 +10,16 @@ namespace TestApi.DAL.Queries
 {
     public class GetAllUsersByUserTypeQuery : IQuery
     {
-        public GetAllUsersByUserTypeQuery(UserType userType, Application application)
+        public GetAllUsersByUserTypeQuery(UserType userType, Application application, bool isProdUser)
         {
             UserType = userType;
             Application = application;
+            IsProdUser = isProdUser;
         }
 
         public UserType UserType { get; set; }
         public Application Application { get; set; }
+        public bool IsProdUser { get; set; }
     }
 
     public class GetAllUsersByUserTypeQueryHandler : IQueryHandler<GetAllUsersByUserTypeQuery, List<User>>
@@ -32,7 +34,7 @@ namespace TestApi.DAL.Queries
         public async Task<List<User>> Handle(GetAllUsersByUserTypeQuery query)
         {
             return await _context.Users
-                .Where(x => x.UserType == query.UserType && x.Application == query.Application)
+                .Where(x => x.UserType == query.UserType && x.Application == query.Application && x.IsProdUser == query.IsProdUser)
                 .AsNoTracking()
                 .ToListAsync();
         }

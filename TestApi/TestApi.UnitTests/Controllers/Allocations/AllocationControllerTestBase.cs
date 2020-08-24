@@ -27,13 +27,25 @@ namespace TestApi.UnitTests.Controllers.Allocations
             Controller = new AllocationController(CommandHandler.Object, QueryHandler.Object, Logger.Object);
         }
 
-        protected static User CreateUser(UserType userType)
+        protected static User CreateUser(UserType userType, bool isProdUser = false)
         {
-            const string emailStem = DefaultData.FAKE_EMAIL_STEM;
+            const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int number = 1;
             return new UserBuilder(emailStem, number)
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)
+                .IsProdUser(isProdUser)
+                .BuildUser();
+        }
+
+        protected static User CreateUser(TestType testType)
+        {
+            const string emailStem = EmailData.FAKE_EMAIL_STEM;
+            const int number = 1;
+            return new UserBuilder(emailStem, number)
+                .WithUserType(UserType.Judge)
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
         }
 

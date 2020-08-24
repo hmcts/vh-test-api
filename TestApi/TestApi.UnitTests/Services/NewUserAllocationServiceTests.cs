@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;
@@ -61,7 +62,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
 
@@ -124,7 +125,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
 
@@ -177,7 +178,7 @@ namespace TestApi.UnitTests.Services
             };
 
             MockUserApiService
-                .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(newUserResponse);
 
             CommandHandler
@@ -186,7 +187,112 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
+            allocatedUser.Should().BeEquivalentTo(user);
+        }
+
+        [TestCase(TestType.Automated)]
+        [TestCase(TestType.Manual)]
+        [TestCase(TestType.Performance)]
+        public async Task Should_allocate_new_user_for_test_type(TestType testType)
+        {
+            var users = new List<User>();
+
+            QueryHandler
+                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .ReturnsAsync(users);
+
+            const int NUMBER = 1;
+
+            QueryHandler
+                .Setup(x =>
+                    x.Handle<GetNextUserNumberByUserTypeQuery, Integer>(It.IsAny<GetNextUserNumberByUserTypeQuery>()))
+                .ReturnsAsync(new Integer(NUMBER));
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<CreateNewUserCommand>()))
+                .Returns(Task.CompletedTask);
+
+            var user = CreateNewUser(testType, NUMBER);
+
+            QueryHandler
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                    It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
+                .ReturnsAsync(user);
+
+            var allocation = CreateAllocation(user);
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<CreateNewAllocationByUserIdCommand>()))
+                .Returns(Task.FromResult(allocation));
+
+            QueryHandler
+                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .ReturnsAsync(user);
+
+            MockUserApiService
+                .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
+                .ReturnsAsync(true);
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
+                .Returns(Task.CompletedTask);
+
+            const int MINUTES = 1;
+
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
+            allocatedUser.Should().BeEquivalentTo(user);
+        }
+
+        [Test]
+        public async Task Should_allocate_new_prod_user()
+        {
+            const bool IS_PROD_USER = UserData.IS_PROD_USER;
+            var users = new List<User>();
+
+            QueryHandler
+                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .ReturnsAsync(users);
+
+            const int NUMBER = 1;
+
+            QueryHandler
+                .Setup(x =>
+                    x.Handle<GetNextUserNumberByUserTypeQuery, Integer>(It.IsAny<GetNextUserNumberByUserTypeQuery>()))
+                .ReturnsAsync(new Integer(NUMBER));
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<CreateNewUserCommand>()))
+                .Returns(Task.CompletedTask);
+
+            var user = CreateNewUser(UserType.Individual, NUMBER, IS_PROD_USER);
+
+            QueryHandler
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                    It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
+                .ReturnsAsync(user);
+
+            var allocation = CreateAllocation(user);
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<CreateNewAllocationByUserIdCommand>()))
+                .Returns(Task.FromResult(allocation));
+
+            QueryHandler
+                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .ReturnsAsync(user);
+
+            MockUserApiService
+                .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
+                .ReturnsAsync(true);
+
+            CommandHandler
+                .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
+                .Returns(Task.CompletedTask);
+
+            const int MINUTES = 1;
+
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
             allocatedUser.Should().BeEquivalentTo(user);
         }
     }

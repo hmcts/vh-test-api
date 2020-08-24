@@ -44,7 +44,7 @@ namespace TestApi.IntegrationTests.Database.Commands
         [Test]
         public void Should_throw_error_if_username_does_not_exist()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             Assert.ThrowsAsync<UserNotFoundException>(() => _commandHandler.Handle(
                 new UnallocateByUsernameCommand(USERNAME)));

@@ -27,7 +27,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         [Test]
         public async Task Should_return_false_not_found_for_non_existent_contact_email()
         {
-            const string CONTACT_EMAIL = DefaultData.NON_EXISTENT_CONTACT_EMAIL;
+            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 
             var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(CONTACT_EMAIL);
             await SendGetRequest(uri);

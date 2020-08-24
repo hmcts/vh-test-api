@@ -54,6 +54,16 @@ namespace TestApi.Contract.Responses
         public Application Application { get; set; }
 
         /// <summary>
+        ///     Type of test
+        /// </summary>
+        public TestType TestType { get; set; }
+
+        /// <summary>
+        ///     Is a prod user
+        /// </summary>
+        public bool IsProdUser { get; set; }
+
+        /// <summary>
         ///     CreatedDate
         /// </summary>
         public DateTime CreatedDate { get; set; }

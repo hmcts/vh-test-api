@@ -22,7 +22,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var expectedUser = await Context.Data.SeedUser();
             var unexpectedUser = await Context.Data.SeedUser(UserType.None);
             var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType,
-                expectedUser.Application));
+                expectedUser.Application, expectedUser.IsProdUser));
             users.Count.Should().Be(1);
             users.Any(x => x.DisplayName.Equals(unexpectedUser.DisplayName)).Should().BeFalse();
             users.First().Should().BeEquivalentTo(expectedUser);
@@ -31,7 +31,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_return_empty_list_for_no_suitable_users()
         {
-            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(UserType.None, Application.TestApi));
+            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(UserType.None, Application.TestApi, false));
             users.Count.Should().Be(0);
         }
     }

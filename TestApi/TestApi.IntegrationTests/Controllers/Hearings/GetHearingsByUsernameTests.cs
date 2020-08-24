@@ -35,7 +35,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_return_empty_list_for_non_existent_username()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             var uri = ApiUriFactory.HearingEndpoints.GetHearingsByUsername(USERNAME);
             await SendGetRequest(uri);

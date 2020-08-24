@@ -16,8 +16,10 @@ namespace TestApi.DAL.Mappings
             builder.Property(x => x.LastName);
             builder.Property(x => x.DisplayName);
             builder.Property(x => x.Number);
+            builder.Property(x => x.TestType);
             builder.Property(x => x.UserType);
             builder.Property(x => x.Application);
+            builder.Property(x => x.IsProdUser);
             builder.Property(x => x.CreatedDate);
         }
     }

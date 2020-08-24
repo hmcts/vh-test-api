@@ -18,6 +18,7 @@ namespace TestApi.Domain
             Username = user.Username;
         }
 
+        public virtual User User { get; set; }
         public Guid UserId { get; set; }
         public string Username { get; set; }
         public DateTime? ExpiresAt { get; set; }

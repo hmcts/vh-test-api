@@ -28,7 +28,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_not_throw_error_for_nonexistent_username()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
             var allocationDetails = await _query.Handle(new GetAllocationByUsernameQuery(USERNAME));
             allocationDetails.Should().BeNull();
         }

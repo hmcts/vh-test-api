@@ -13,7 +13,7 @@ namespace TestApi.UnitTests.Controllers.Users
         [Test]
         public async Task Should_get_existing_user_and_return_true()
         {
-            const string CONTACT_EMAIL = DefaultData.EXISTING_CONTACT_EMAIL;
+            const string CONTACT_EMAIL = EmailData.EXISTING_CONTACT_EMAIL;
 
             UserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
@@ -32,7 +32,7 @@ namespace TestApi.UnitTests.Controllers.Users
         [Test]
         public async Task Should_return_false_not_found_for_non_existent_ser()
         {
-            const string CONTACT_EMAIL = DefaultData.NON_EXISTENT_CONTACT_EMAIL;
+            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 
             UserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))

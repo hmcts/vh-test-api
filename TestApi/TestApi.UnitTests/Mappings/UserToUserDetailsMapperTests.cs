@@ -12,7 +12,7 @@ namespace TestApi.UnitTests.Mappings
         [Test]
         public void Should_map_all_properties()
         {
-            var user = new UserBuilder(DefaultData.FAKE_EMAIL_STEM, 1)
+            var user = new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1)
                 .WithUserType(UserType.Individual)
                 .ForApplication(Application.TestApi)
                 .BuildUser();

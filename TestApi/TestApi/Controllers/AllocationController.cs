@@ -11,7 +11,6 @@ using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
 using TestApi.Mappings;
 
 namespace TestApi.Controllers
@@ -35,20 +34,18 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        ///     Allocate single user by user type and application
+        ///     Allocate single user
         /// </summary>
-        /// <param name="userType">Type of user (e.g Judge)</param>
-        /// <param name="application">Application (e.g. VideoWeb)</param>
+        /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
-        [HttpGet]
+        [HttpPatch("allocateUser")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateSingleUserAsync(UserType userType,
-            Application application)
+        public async Task<IActionResult> AllocateSingleUserAsync(AllocateUserRequest request)
         {
-            _logger.LogDebug($"AllocateSingleUserAsync {userType} {application}");
+            _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
 
-            var user = await AllocateAsync(userType, application);
+            var user = await AllocateAsync(request);
             _logger.LogDebug($"User '{user.Username}' successfully allocated");
 
             var response = UserToDetailsResponseMapper.MapToResponse(user);
@@ -56,7 +53,7 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        ///     Allocate users by user types and application
+        ///     Allocate multiple users
         /// </summary>
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
@@ -72,7 +69,16 @@ namespace TestApi.Controllers
 
             foreach (var userType in request.UserTypes)
             {
-                var user = await AllocateAsync(userType, request.Application);
+                var allocateRequest = new AllocateUserRequest()
+                {
+                    Application = request.Application,
+                    ExpiryInMinutes = request.ExpiryInMinutes,
+                    IsProdUser = request.IsProdUser,
+                    TestType = request.TestType,
+                    UserType = userType
+                };
+
+                var user = await AllocateAsync(allocateRequest);
                 _logger.LogDebug($"User '{user.Username}' successfully allocated");
                 responses.Add(UserToDetailsResponseMapper.MapToResponse(user));
             }
@@ -131,10 +137,10 @@ namespace TestApi.Controllers
                 new GetAllocationByUsernameQuery(username));
         }
 
-        private async Task<User> AllocateAsync(UserType userType, Application application, int expiresInMinutes = 10)
+        private async Task<User> AllocateAsync(AllocateUserRequest request)
         {
             return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, User>(
-                new GetAllocatedUserByUserTypeQuery(userType, application, expiresInMinutes));
+                new GetAllocatedUserByUserTypeQuery(request));
         }
 
         private async Task UnallocateAsync(string username)

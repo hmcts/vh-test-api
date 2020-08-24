@@ -11,8 +11,8 @@ namespace TestApi.DAL.Commands
 {
     public class CreateNewUserCommand : ICommand
     {
-        public CreateNewUserCommand(string username, string contactEmail, string firstName, string lastName,
-            string displayName, int number, UserType userType, Application application)
+        public CreateNewUserCommand(string username, string contactEmail, string firstName, string lastName, string displayName, 
+            int number, TestType testType, UserType userType, Application application, bool isProdUser)
         {
             Username = username;
             ContactEmail = contactEmail;
@@ -20,8 +20,10 @@ namespace TestApi.DAL.Commands
             LastName = lastName;
             DisplayName = displayName;
             Number = number;
+            TestType = testType;
             UserType = userType;
             Application = application;
+            IsProdUser = isProdUser;
         }
 
         public string Username { get; set; }
@@ -30,8 +32,10 @@ namespace TestApi.DAL.Commands
         public string LastName { get; set; }
         public string DisplayName { get; set; }
         public int Number { get; set; }
+        public TestType TestType { get; set; }
         public UserType UserType { get; set; }
         public Application Application { get; set; }
+        public bool IsProdUser { get; set; }
         public Guid NewUserId { get; set; }
     }
 
@@ -61,8 +65,10 @@ namespace TestApi.DAL.Commands
                 command.LastName,
                 command.DisplayName,
                 command.Number,
+                command.TestType,
                 command.UserType,
-                command.Application
+                command.Application,
+                command.IsProdUser
             );
 
             await _context.Users.AddAsync(user);

@@ -15,7 +15,13 @@ namespace TestApi.Common.Builders
 
         public AllocateUsersRequestBuilder()
         {
-            _request = new AllocateUsersRequest();
+            _request = new AllocateUsersRequest {ExpiryInMinutes = 1};
+        }
+
+        public AllocateUsersRequestBuilder WithUserTypes(List<UserType> userTypes)
+        {
+            _request.UserTypes = userTypes;
+            return this;
         }
 
         public AllocateUsersRequestBuilder WithDefaultTypes()
@@ -49,6 +55,12 @@ namespace TestApi.Common.Builders
         public AllocateUsersRequestBuilder ForApplication(Application application)
         {
             _request.Application = application;
+            return this;
+        }
+
+        public AllocateUsersRequestBuilder WithExpiryInMinutes(int expiryInMinutes)
+        {
+            _request.ExpiryInMinutes = expiryInMinutes;
             return this;
         }
 

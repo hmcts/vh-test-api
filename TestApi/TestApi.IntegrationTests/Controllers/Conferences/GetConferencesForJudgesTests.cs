@@ -34,7 +34,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         [Test]
         public async Task Should_return_empty_list_for_non_existent_username()
         {
-            const string USERNAME = DefaultData.NON_EXISTENT_USERNAME;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
             var uri = ApiUriFactory.ConferenceEndpoints.GetConferencesForJudge(USERNAME);
             await SendGetRequest(uri);
 

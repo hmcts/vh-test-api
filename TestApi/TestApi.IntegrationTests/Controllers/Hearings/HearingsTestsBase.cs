@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using System.Xml;
 using AcceptanceTests.Common.Api.Helpers;
 using AcceptanceTests.Common.Data.Questions;
 using FluentAssertions;
@@ -20,15 +19,15 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
     {
         protected readonly List<HearingDetailsResponse> HearingsToDelete = new List<HearingDetailsResponse>();
 
-        protected CreateHearingRequest CreateHearingRequest()
+        protected CreateHearingRequest CreateHearingRequest(TestType testType = TestType.Automated)
         {
-            var users = CreateDefaultUsers();
-            return new HearingBuilder(users).BuildRequest();
+            var users = CreateDefaultUsers(testType);
+            return new HearingBuilder(users).TypeOfTest(testType).BuildRequest();
         }
 
         protected CreateHearingRequest CreateHearingRequestWithQuestionnaireEnabled()
         {
-            var users = CreateDefaultUsers();
+            var users = CreateDefaultUsers(TestType.Automated);
             return new HearingBuilder(users).QuestionnairesRequired().BuildRequest();
         }
 
@@ -47,36 +46,42 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return response;
         }
 
-        private List<User> CreateDefaultUsers()
+        private List<User> CreateDefaultUsers(TestType testType)
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var observer = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddObserver()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var panelMember = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddPanelMember()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
+                .ForTestType(testType)
                 .BuildUser();
 
             return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };

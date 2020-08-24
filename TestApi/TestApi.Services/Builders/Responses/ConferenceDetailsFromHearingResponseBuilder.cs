@@ -35,11 +35,11 @@ namespace TestApi.Services.Builders.Responses
 
             var meetingRoom = new MeetingRoomResponse
             {
-                Admin_uri = DefaultData.MEETING_ROOM_ADMIN_URL,
-                Judge_uri = DefaultData.MEETING_ROOM_JUDGE_URL,
-                Participant_uri = DefaultData.MEETING_ROOM_PARTICIPANT_URL,
-                Pexip_node = DefaultData.MEETING_ROOM_PEXIP_NODE,
-                Pexip_self_test_node = DefaultData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
+                Admin_uri = MeetingRoomData.MEETING_ROOM_ADMIN_URL,
+                Judge_uri = MeetingRoomData.MEETING_ROOM_JUDGE_URL,
+                Participant_uri = MeetingRoomData.MEETING_ROOM_PARTICIPANT_URL,
+                Pexip_node = MeetingRoomData.MEETING_ROOM_PEXIP_NODE,
+                Pexip_self_test_node = MeetingRoomData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
             };
 
             return new ConferenceDetailsResponse
