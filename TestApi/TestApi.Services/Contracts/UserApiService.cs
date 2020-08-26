@@ -66,7 +66,8 @@ namespace TestApi.Services.Contracts
             {
                 First_name = firstName.Replace(BLANK, string.Empty),
                 Last_name = lastName.Replace(BLANK, string.Empty),
-                Recovery_email = contactEmail
+                Recovery_email = contactEmail,
+                Is_test_user = true
             };
 
             var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
