@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:TestApi",
+      "suggestion": "true",
+      "ignored": "true"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "suggestion": "true",
+      "ignored": "true"
+    }
+  }
+}

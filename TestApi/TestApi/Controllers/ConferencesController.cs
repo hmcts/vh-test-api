@@ -233,6 +233,7 @@ namespace TestApi.Controllers
         /// <summary>
         ///     Create video event
         /// </summary>
+        /// <param name="request">Conference event request</param>
         /// <returns></returns>
         [HttpPost("events", Name = nameof(CreateVideoEventAsync))]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
@@ -245,6 +246,56 @@ namespace TestApi.Controllers
             try
             {
                 await _videoApiClient.RaiseVideoEventAsync(request);
+                return NoContent();
+            }
+            catch (VideoApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///     Get the test call result for a participant
+        /// </summary>
+        /// <param name="conferenceId">Conference Id of the conference</param>
+        /// <param name="participantId">Participant Id of the participant</param>
+        /// <returns>Self test score</returns>
+        [HttpGet("{conferenceId}/participants/{participantId}/score", Name = nameof(GetSelfTestScoreAsync))]
+        [ProducesResponseType(typeof(TestCallScoreResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetSelfTestScoreAsync(Guid conferenceId, Guid participantId)
+        {
+            _logger.LogDebug($"GetSelfTestScoreAsync {conferenceId} {participantId}");
+
+            try
+            {
+                var response = await _videoApiClient.GetTestCallResultForParticipantAsync(conferenceId, participantId);
+                return Ok(response);
+            }
+            catch (VideoApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///     Delete a participant
+        /// </summary>
+        /// <param name="conferenceId">Conference Id of the conference</param>
+        /// <param name="participantId">Participant Id of the participant</param>
+        /// <returns></returns>/returns>
+        [HttpDelete("{conferenceId}/participants/{participantId}", Name = nameof(DeleteParticipantAsync))]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> DeleteParticipantAsync(Guid conferenceId, Guid participantId)
+        {
+            _logger.LogDebug($"DeleteParticipantAsync {conferenceId} {participantId}");
+
+            try
+            {
+                await _videoApiClient.RemoveParticipantFromConferenceAsync(conferenceId, participantId);
                 return NoContent();
             }
             catch (VideoApiException e)

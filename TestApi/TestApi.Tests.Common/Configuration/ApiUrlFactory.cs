@@ -20,10 +20,12 @@ namespace TestApi.Tests.Common.Configuration
             public static string CreateConference => ApiRoot;
             public static string DeleteConference(Guid hearingRefId, Guid conferenceId) => $"{ApiRoot}/{hearingRefId:D}/{conferenceId:D}";
             public static string GetConferencesForJudge(string username) => $"{ApiRoot}/today/judge?username={username}";
-            public static string GetConferencesForVho => $"{ApiRoot}/today/vho";
+            public static string GetConferencesForVho = $"{ApiRoot}/today/vho";
             public static string GetAudioRecordingLinkByHearingId(Guid hearingId) => $"{ApiRoot}/audio/{hearingId:D}";
             public static string GetTasksByConferenceId(Guid conferenceId) => $"{ApiRoot}/Tasks/{conferenceId:D}";
             public static string CreateVideoEvent => $"{ApiRoot}/events";
+            public static string GetSelfTestScore(Guid conferenceId, Guid participantId) => $"{ApiRoot}/{conferenceId}/participants/{participantId}/score";
+            public static string DeleteParticipant(Guid conferenceId, Guid participantId) => $"{ApiRoot}/{conferenceId}/participants/{participantId}";
         }
 
         public static class HealthCheckEndpoints

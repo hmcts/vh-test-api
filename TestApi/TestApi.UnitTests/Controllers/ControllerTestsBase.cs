@@ -34,7 +34,7 @@ namespace TestApi.UnitTests.Controllers
 
             var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
 
-            return new HearingBuilder(users).BuildRequest();
+            return new HearingBuilder(users).Build();
         }
 
         protected HearingDetailsResponse CreateHearingDetailsResponse()

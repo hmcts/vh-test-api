@@ -51,7 +51,7 @@ namespace TestApi.DAL.Commands
         public async Task Handle(CreateNewUserCommand command)
         {
             var userWithNumberExistsAlready = await _context.Users
-                .Where(x => x.UserType == command.UserType && x.Number == command.Number)
+                .Where(x => x.UserType == command.UserType && x.Application == command.Application && x.Number == command.Number)
                 .AsNoTracking()
                 .AnyAsync();
 
