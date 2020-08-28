@@ -4462,7 +4462,7 @@ namespace TestApi.Services.Clients.BookingsApiClient
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.24.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class EndpointyResponse 
+    public partial class EndpointResponse 
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid Id { get; set; }
@@ -4573,7 +4573,7 @@ namespace TestApi.Services.Clients.BookingsApiClient
     
         /// <summary>Gets the endpoints for a hearing</summary>
         [Newtonsoft.Json.JsonProperty("endpoints", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<EndpointyResponse> Endpoints { get; set; }
+        public System.Collections.Generic.List<EndpointResponse> Endpoints { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     
