@@ -22,13 +22,13 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         protected CreateHearingRequest CreateHearingRequest(TestType testType = TestType.Automated)
         {
             var users = CreateDefaultUsers(testType);
-            return new HearingBuilder(users).TypeOfTest(testType).BuildRequest();
+            return new HearingBuilder(users).TypeOfTest(testType).Build();
         }
 
         protected CreateHearingRequest CreateHearingRequestWithQuestionnaireEnabled()
         {
             var users = CreateDefaultUsers(TestType.Automated);
-            return new HearingBuilder(users).QuestionnairesRequired().BuildRequest();
+            return new HearingBuilder(users).QuestionnairesRequired().Build();
         }
 
         protected async Task<HearingDetailsResponse> CreateHearing(CreateHearingRequest request)

@@ -33,7 +33,7 @@ namespace TestApi.Services.Builders.Requests
 
             foreach (var user in _users)
             {
-                if (user.UserType == UserType.CaseAdmin) continue;
+                if (user.UserType == UserType.CaseAdmin || user.UserType == UserType.VideoHearingsOfficer) continue;
 
                 var request = new ParticipantRequest();
 

@@ -55,7 +55,7 @@ namespace TestApi.Common.Builders
             return this;
         }
 
-        public CreateHearingRequest BuildRequest()
+        public CreateHearingRequest Build()
         {
             return _request;
         }

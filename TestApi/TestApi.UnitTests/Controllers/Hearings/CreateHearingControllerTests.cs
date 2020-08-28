@@ -27,7 +27,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
-            var createHearingRequest = new HearingBuilder(users).BuildRequest();
+            var createHearingRequest = new HearingBuilder(users).Build();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
 
@@ -55,7 +55,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
-            var createHearingRequest = new HearingBuilder(users).BuildRequest();
+            var createHearingRequest = new HearingBuilder(users).Build();
 
             BookingsApiClient
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
@@ -79,7 +79,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var createHearingRequest = new HearingBuilder(users)
                 .AudioRecordingRequired()
-                .BuildRequest();
+                .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
@@ -110,7 +110,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var createHearingRequest = new HearingBuilder(users)
                 .QuestionnairesRequired()
-                .BuildRequest();
+                .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
@@ -141,7 +141,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var createHearingRequest = new HearingBuilder(users)
                 .HearingVenue("Manchester Civil and Family Justice Centre")
-                .BuildRequest();
+                .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
@@ -172,7 +172,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var createHearingRequest = new HearingBuilder(users)
                 .ScheduledDateTime(DateTime.UtcNow.AddMinutes(1))
-                .BuildRequest();
+                .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
@@ -205,7 +205,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var createHearingRequest = new HearingBuilder(users)
                 .TypeOfTest(testType)
-                .BuildRequest();
+                .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
             var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();

@@ -5,7 +5,6 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.Domain;
 using TestApi.Domain.Enums;

@@ -104,7 +104,7 @@ namespace TestApi.Services.Contracts
             var userGroupStrategies = new UserGroups().GetStrategies();
             var groups = userGroupStrategies[userType].GetGroups(_userGroups);
 
-            if (!isProdUser) groups.Add(_userGroups.TestAccountGroup);
+            if (!isProdUser && userType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
 
             if (isPerformanceTestUser) groups.Add(_userGroups.PerformanceTestAccountGroup);
 
