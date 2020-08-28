@@ -20,10 +20,23 @@ namespace TestApi.UnitTests.Validations
         }
 
         [Test]
-        public async Task Should_pass_validation()
+        public async Task Should_pass_validation_with_case_admin()
         {
             var request = new AllocateUsersRequestBuilder()
                 .WithDefaultTypes()
+                .ForApplication(Application.TestApi)
+                .Build();
+
+            var result = await _validator.ValidateAsync(request);
+
+            result.IsValid.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Should_pass_validation_with_one_vho()
+        {
+            var request = new AllocateUsersRequestBuilder()
+                .WithVideoHearingsOfficer()
                 .ForApplication(Application.TestApi)
                 .Build();
 
@@ -64,7 +77,7 @@ namespace TestApi.UnitTests.Validations
         }
 
         [Test]
-        public async Task Should_return_missing_case_admin_error()
+        public async Task Should_return_missing_admin_users()
         {
             var request = new AllocateUsersRequestBuilder()
                 .WithoutCaseAdmin()
@@ -76,7 +89,7 @@ namespace TestApi.UnitTests.Validations
             result.IsValid.Should().BeFalse();
             result.Errors.Count.Should().Be(1);
             result.Errors.First().ErrorMessage.Should()
-                .Be(AllocateUsersRequestValidator.MISSING_CASE_ADMIN_USER_ERROR_MESSAGE);
+                .Be(AllocateUsersRequestValidator.MISSING_ADMIN_USERS_ERROR_MESSAGE);
         }
 
         [Test]
