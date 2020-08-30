@@ -1,31 +1,147 @@
-# Set variables once
-variables:
-  solutionType: DotNetCore # angularDotNetCore, dotNetCore, angular
-  apiDirectory: "TestApi/TestApi"
-  sonarCloudExtraProperties: |
-    sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)\Coverage\coverage.opencover.xml
-    sonar.coverage.exclusions=**/TestApi/Program.cs, **/TestApi/Startup.cs, **/TestApi/Extensions/**, **/TestApi/Swagger/**, **/TestApi/ConfigureServicesExtensions.cs, **/Testing.Common/**, **/TestApi.Common/**, **/TestApi.DAL/Mappings/**, **/TestApi.DAL/SeedData/**, **/TestApi.DAL/TestApiDbContext.cs, **/TestApi.DAL/**/DesignTimeHearingsContextFactory.cs, TestApi.DAL/Migrations/**, **/TestApi.Domain/Ddd/**, **/TestApi.DAL/Commands/Core/**, **/TestApi.DAL/Queries/Core/**, **/Testing.Common/**, **/TestApi.DAL/Migrations/*, **/TestApi.DAL/Migrations/**, **/Migrations/*
-    sonar.cpd.exclusions="**/Program.cs, **/Startup.cs, TestApi.DAL/Mappings/**, **/TestApi.DAL/Migrations/**, TestApi.DAL/Migrations/**, TestApi.DAL/Migrations/*, TestApi.DAL/Migrations/*.cs, Migrations/**, **/Migrations/*, **Migrations**, SeedData/**, DesignTimeHearingsContextFactory.cs, Ddd/**, Testing.Common/**, TestApi/ConfigureServicesExtensions.cs, TestApi/Extensions/**, TestApi/Swagger/**, TestApi.Common/**"
-  coverletCoverageExclusions: "[*]TestApi.Common.*,[*]Testing.Common.*,[TestApi.DAL]TestApi.DAL.TestApiDbContext,[*]TestApi.DAL.Mappings,[*]TestApi.DAL.SeedData.*,[*]TestApi.DAL.Exceptions.*,[*]TestApi.DAL.Mappings.*,[*]TestApi.DAL.Commands.Core.*,[*]TestApi.DAL.Queries.Core.*,[*]TestApi.Domain.Ddd.*,[TestApi.DAL]TestApi.DAL.DesignTimeHearingsContextFactory,[TestApi]TestApi.ConfigureServicesExtensions,[*]TestApi.Extensions.*,[*]TestApi.Swagger.*,[TestApi]TestApi.Program,[TestApi]TestApi.Startup,[*]TestApi.DAL.Migrations.*"
-  integrationTestsAppSettingsTransform: '
-    "AzureAd/ClientId":"$(vh-admin-web-appid)",
-    "AzureAd/ClientSecret":"$(vh-admin-web-key)",
-    "AzureAd/TenantId":"$(tenantid)",
-    "UsernameStem":"$(username-stem)",
-    "Services/TestApiResourceId":"$(vh-TestApi-api-identifieruris)"
-    '
-  dalWorkingDirectory: "TestApiAPI/TestApi.DAL"
-  keyVaultName: vhcoreinfrahtdev # Used to get secrets for integration tests
-  secretsFilter: "vh-admin-web-appid,vh-admin-web-key,tenantid,vh-TestApi-api-identifieruris" # filters out secrets returned from key vault
+parameters:
+- name: PackageApp
+  displayName: Package App
+  type: boolean
+  default: true
 
-# GitHub Repo that conatins build templates. Reference https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=vsts#using-other-repositories
-resources:
-  repositories:
-    - repository: azureDevOpsTemplates
-      type: github
-      name: hmcts/azure-devops-templates
-      ref: refs/heads/master # ref name to use, defaults to 'refs/heads/master'
-      endpoint: hmcts
+- name: PackageACTests
+  displayName: Package Acceptance Tests
+  type: boolean
+  default: false
+
+- name: RunUnitTests
+  displayName: Run Unit Tests
+  type: boolean
+  default: true
+
+- name: RunIntegTests
+  displayName: Run Integration Tests
+  type: boolean
+  default: true
+
+- name: RunSonarCloudTests
+  displayName: Run Sonar Cloud Analysis
+  type: boolean
+  default: true
+
+- name: RunMutationTests
+  displayName: Run Mutation Tests
+  type: boolean
+  default: false
+
+- name: RunACTests
+  displayName: Run Acceptance Tests
+  type: boolean
+  default: false
+
+- name: testSettings
+  type: object
+  default:
+  - name: ApplicationInsights:InstrumentationKey
+    value: vh-core-infra-AppInsightsKey
+  - name: AzureAd:ClientId
+    value: vh-test-api-appid
+    secret: true
+  - name: AzureAd:ClientSecret
+    value: vh-test-api-key
+    secret: true
+  - name: AzureAd:TenantId
+    value: tenantid
+    secret: true
+  - name: AzureAd:ValidAudience
+    value: vh-test-api-identifieruris
+    secret: true
+  - name: ConnectionStrings:TestApi
+    value: TestApiDb-connection-str
+    secret: true
+  - name: IsLive
+    value: false
+
+  - name: TestDefaultPassword
+    value: $(TestDefaultPassword)
+  - name: UsernameStem
+    value: $(UsernameStem)
+  - name: UserGroups:JudgeGroups
+    value: $(UserGroups:JudgeGroups)
+  - name: UserGroups:IndividualGroups
+    value: $(UserGroups:IndividualGroups)
+  - name: UserGroups:RepresentativeGroups
+    value: $(UserGroups:RepresentativeGroups)
+  - name: UserGroups:VideoHearingsOfficerGroups
+    value: $(UserGroups:VideoHearingsOfficerGroups)
+  - name: UserGroups:CaseAdminGroups
+    value: $(UserGroups:CaseAdminGroups)
+  - name: UserGroups:KinlyGroups
+    value: $(UserGroups:KinlyGroups)
+  - name: UserGroups:TestAccountGroup
+    value: $(UserGroups:TestAccountGroup)
+  - name: UserGroups:PerformanceTestAccountGroup
+    value: $(UserGroups:PerformanceTestAccountGroup)
+
+  # WowzaConfiguration
+  - name: WowzaConfiguration:StorageAccountName
+    value: $(wowza_storageAccountName)
+  - name: WowzaConfiguration:StorageAccountKey
+    value: $(wowza_storageAccountKey)
+  - name: WowzaConfiguration:StorageContainerName
+    value: $(wowza_storageContainerName)
+
+- name: appSettings
+  type: object
+  default:
+  - name: ApplicationInsights:InstrumentationKey
+    value: vh-core-infra-AppInsightsKey
+  - name: AzureAd:ClientId
+    value: vh-test-api-appid
+    secret: true
+  - name: AzureAd:ClientSecret
+    value: vh-test-api-key
+    secret: true
+  - name: AzureAd:TenantId
+    value: tenantid
+    secret: true
+  - name: AzureAd:ValidAudience
+    value: vh-test-api-identifieruris
+    secret: true
+  - name: ConnectionStrings:TestApi
+    value: TestApiDb-connection-str
+    secret: true
+  - name: IsLive
+    value: false
+
+  - name: TestDefaultPassword
+    value: $(TestDefaultPassword)
+  - name: UsernameStem
+    value: $(UsernameStem)
+  - name: UserGroups:JudgeGroups
+    value: $(UserGroups:JudgeGroups)
+  - name: UserGroups:IndividualGroups
+    value: $(UserGroups:IndividualGroups)
+  - name: UserGroups:RepresentativeGroups
+    value: $(UserGroups:RepresentativeGroups)
+  - name: UserGroups:VideoHearingsOfficerGroups
+    value: $(UserGroups:VideoHearingsOfficerGroups)
+  - name: UserGroups:CaseAdminGroups
+    value: $(UserGroups:CaseAdminGroups)
+  - name: UserGroups:KinlyGroups
+    value: $(UserGroups:KinlyGroups)
+  - name: UserGroups:TestAccountGroup
+    value: $(UserGroups:TestAccountGroup)
+  - name: UserGroups:PerformanceTestAccountGroup
+    value: $(UserGroups:PerformanceTestAccountGroup)
+
+  # WowzaConfiguration
+  - name: WowzaConfiguration:StorageAccountName
+    value: $(wowza_storageAccountName)
+  - name: WowzaConfiguration:StorageAccountKey
+    value: $(wowza_storageAccountKey)
+  - name: WowzaConfiguration:StorageContainerName
+    value: $(wowza_storageContainerName)
+
+variables:
+  - group: vh-domains-and-urls
+  - group: vh-apps-settings-generic
+  - group: vh-wowza-dev
 
 trigger:
   branches:
@@ -33,22 +149,78 @@ trigger:
     - master
     - release/*
     - hotfix/*
+
 pr:
-  - master
+  branches:
+    include:
+    - master
 
-jobs:
-  - template: jobs/efMigration.yml@azureDevOpsTemplates # Template reference
-    parameters:
-      dbProjectPath: $(Build.SourcesDirectory)/TestApiAPI/TestApi.DAL/TestApi.DAL.csproj
-      pool: Azure-VSTS-VS2017
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: hmcts/azure-devops-templates
+      ref: refs/heads/master
+      endpoint: hmcts (1)
+  containers:
+  - container: dotnetsdk
+    image: sspublicsbox.azurecr.io/vh/dotnet:3.1.102
+    endpoint: sspublicsbox
+  - container: dotnetsdk-cipipeline
+    image: sspublicsbox.azurecr.io/vh/dotnet-cipipeline:3.1.102
+    endpoint: sspublicsbox
 
-  - template: jobs/angularDotNetCore.yml@azureDevOpsTemplates # Template reference
-    parameters:
-      sonarCloudExtraProperties: $(sonarCloudExtraProperties)
-      integrationTestsAppSettingsTransform: $(integrationTestsAppSettingsTransform)
-      coverletCoverageExclusions: $(coverletCoverageExclusions)
-      apiDirectory: $(apiDirectory)
-      dalWorkingDirectory: $(dalWorkingDirectory)
-      keyVaultName: $(keyVaultName)
-      secretsFilter: $(secretsFilter)
-      dotNetCoreVersion: '3.1.100'
+extends:
+  template: stages\dotnet-package.yml@templates
+  parameters:
+    coreProjectPath: TestApi/TestApi
+    PackageApp: ${{ parameters.PackageApp }}
+    PackageAcceptanceTests: ${{ parameters.PackageACTests }}
+    Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
+    testParameters:
+      coreProjectPath: TestApi/TestApi
+      unitTestProjectPath: TestApi/TestApi.UnitTests
+      integTestProjectPath: TestApi/TestApi.IntegrationTests
+      secrets_KeyVault: $(pr_Secret_KeyVault)
+      secrets_Subscription: $(pr_Secret_Subscription)
+      RunUnitTests: ${{ parameters.RunUnitTests }}
+      RunIntegrationTests: ${{ parameters.RunIntegTests }}
+      RunSonarCloud: ${{ parameters.RunSonarCloudTests }}
+      RunStryker: ${{ parameters.RunMutationTests }}
+      IntegrationTestSettings:
+        - ${{ each setting in parameters.testSettings }}:
+          - name: ${{ setting.name }}
+            value: ${{ setting.value }}
+            secret: ${{ setting.secret }}
+      variables:
+        - group: vh-test-api-tests
+      coverletCoverageExclusions:
+        - "[TestApi.*Tests?]*"
+        - "[TestApi.API]Startup"
+        - "[TestApi.Common]*"
+        - "[Testing.Common]*"
+      sonarCloud_ExtraProperties: |
+        sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
+        sonar.coverage.exclusions="**/TestApi/Swagger/**, **/Program.cs, **/Startup.cs, **/Testing.Common/**, **/TestApi.Common/**, **/TestApi.IntegrationTests/**, **/TestApi.UnitTests/**, **/TestApi/Helper/**, **/TestApi/ConfigureServicesExtensions.cs, **/TestApi/Extensions/**"
+        sonar.cpd.exclusions="**/Program.cs, **/Startup.cs, **/Testing.Common/**, **/TestApi/Swagger/**"
+      StrykerBreak: 75
+    ACTest: ${{ parameters.RunACTests }}
+    releaseParameters:
+      environment: Preview
+
+      subscription: $(pr_Subscription)
+      secrets_KeyVault: $(pr_Secret_KeyVault)
+      secrets_Subscription: $(pr_Secret_Subscription)
+      devOpsResource: vh_test_api
+      appName: vh-test-api-$(environment)
+      resourceGroup: vh-test-api-$(environment)
+      variables:
+        - group: vh-test-api
+      appSettings: ${{ parameters.appSettings }}
+      acceptanceTestSettings:
+        - name: Services:TestApiUrl
+          value: $(test_api_url_staging)
+        - ${{ each setting in parameters.testSettings }}:
+          - name: ${{ setting.name }}
+            value: ${{ setting.value }}
+            secret: ${{ setting.secret }}
