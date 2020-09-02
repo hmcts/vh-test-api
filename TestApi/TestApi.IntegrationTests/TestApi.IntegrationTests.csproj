@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <ProjectGuid>13932B12-993E-400D-ADD9-73ABF7F80CF6</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

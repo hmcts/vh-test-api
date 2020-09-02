@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <ProjectGuid>53AD42B3-211E-46EC-B22E-D80733FA6989</ProjectGuid>
   </PropertyGroup>
 
   <PropertyGroup>
