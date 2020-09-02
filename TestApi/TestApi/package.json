@@ -1,0 +1,22 @@
+{
+  "name": "vh-test-api",
+  "version": "1.0.0",
+  "description": "Api for manageing test data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hmcts/vh-test-api.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Nicholas Poxon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hmcts/vh-test-api/issues"
+  },
+  "homepage": "https://github.com/hmcts/vh-test-api#readme"
+}
