@@ -193,7 +193,7 @@ extends:
             value: ${{ setting.value }}
             secret: ${{ setting.secret }}
       variables:
-        - group: vh-test-api-tests
+        - group: vh-test-api
       coverletCoverageExclusions:
         - "[TestApi.*Tests?]*"
         - "[TestApi.API]Startup"
