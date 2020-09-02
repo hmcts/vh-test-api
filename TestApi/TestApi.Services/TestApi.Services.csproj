@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,10 +10,6 @@
     <ProjectReference Include="..\TestApi.Contract\TestApi.Contract.csproj" />
     <ProjectReference Include="..\TestApi.Domain\TestApi.Domain.csproj" />
     <ProjectReference Include="..\TestApi.Services.Generator\TestApi.Services.Generator.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Clients\" />
   </ItemGroup>
 
   <ItemGroup>
