@@ -10,7 +10,6 @@ using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Mappings;
 using TestApi.Services.Contracts;
-using Utf8Json.Formatters;
 
 namespace TestApi.Controllers
 {

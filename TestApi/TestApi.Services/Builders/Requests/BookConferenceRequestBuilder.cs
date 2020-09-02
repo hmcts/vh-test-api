@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
 using TestApi.Common.Data;
 using TestApi.Domain;
