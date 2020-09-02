@@ -16,17 +16,17 @@ using HealthCheckResponse = TestApi.Contract.Responses.HealthCheckResponse;
 namespace TestApi.Controllers
 {
     [Produces("application/json")]
-    [Route("HealthCheck")]
+    [Route("Health")]
     [AllowAnonymous]
     [ApiController]
-    public class HealthCheckController : ControllerBase
+    public class HealthController : ControllerBase
     {
         private readonly IBookingsApiClient _bookingsApiClient;
         private readonly IQueryHandler _queryHandler;
         private readonly IUserApiClient _userApiClient;
         private readonly IVideoApiClient _videoApiClient;
 
-        public HealthCheckController(IQueryHandler queryHandler, IBookingsApiClient bookingsApiClient,
+        public HealthController(IQueryHandler queryHandler, IBookingsApiClient bookingsApiClient,
             IUserApiClient userApiClient, IVideoApiClient videoApiClient)
         {
             _queryHandler = queryHandler;

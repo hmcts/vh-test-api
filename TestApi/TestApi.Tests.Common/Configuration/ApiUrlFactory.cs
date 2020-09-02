@@ -30,7 +30,7 @@ namespace TestApi.Tests.Common.Configuration
 
         public static class HealthCheckEndpoints
         {
-            private const string ApiRoot = "/healthCheck";
+            private const string ApiRoot = "/health";
             public static string CheckServiceHealth => $"{ApiRoot}/health";
         }
 

@@ -8,7 +8,7 @@ using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Health
 {
-    public class HealthcheckTests : ControllerTestsBase
+    public class HealthTests : ControllerTestsBase
     {
         [Test]
         [Category("Health")]

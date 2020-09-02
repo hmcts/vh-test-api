@@ -19,9 +19,9 @@ using HealthCheckResponse = TestApi.Contract.Responses.HealthCheckResponse;
 
 namespace TestApi.UnitTests.Controllers
 {
-    public class HealthCheckControllerTests
+    public class HealthControllerTests
     {
-        private HealthCheckController _controller;
+        private HealthController _controller;
         private Mock<IBookingsApiClient> _mockBookingsApiClient;
         private Mock<IQueryHandler> _mockQueryHandler;
         private Mock<IUserApiClient> _mockUserApiClient;
@@ -50,7 +50,7 @@ namespace TestApi.UnitTests.Controllers
 
             var query = new GetUserByUsernameQuery(user.Username);
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
             _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, User>(query))
                 .Returns(Task.FromResult(user));
@@ -65,7 +65,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("database connection failed");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
             _mockQueryHandler
                 .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
@@ -126,7 +126,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("BQS error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockBookingsApiClient
@@ -146,7 +146,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("AAD error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockUserApiClient
@@ -166,7 +166,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("kinly api error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockVideoApiClient

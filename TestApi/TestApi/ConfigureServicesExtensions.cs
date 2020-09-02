@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.DAL.Commands;
@@ -39,10 +40,11 @@ namespace TestApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
-                //c.AddFluentValidationRules();
+                c.AddFluentValidationRules();
                 c.IncludeXmlComments(xmlPath);
                 c.IncludeXmlComments(contractsXmlPath);
                 c.EnableAnnotations();
+                c.CustomSchemaIds(type => type.ToString());
 
                 c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme
@@ -69,6 +71,7 @@ namespace TestApi
                 c.OperationFilter<AuthResponsesOperationFilter>();
             });
             services.AddSwaggerGenNewtonsoftSupport();
+
             return services;
         }
 
