@@ -141,7 +141,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/judge", Name = nameof(GetConferencesForTodayJudgeAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<ConferenceForJudgeResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayJudgeAsync(string username)
@@ -164,7 +164,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/vho", Name = nameof(GetConferencesForTodayVhoAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<ConferenceForAdminResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayVhoAsync()
