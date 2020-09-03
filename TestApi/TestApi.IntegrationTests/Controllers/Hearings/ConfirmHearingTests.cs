@@ -7,6 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Domain.Enums;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
@@ -23,13 +24,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             var hearingResponse = await CreateHearing(hearingRequest);
             var caseAdmin = hearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin);
 
-            var request = new UpdateBookingStatusRequest()
-            {
-                Updated_by = caseAdmin.Username,
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created
-            };
+            var request = new UpdateBookingRequestBuilder().UpdatedBy(caseAdmin.Username).Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(hearingResponse.Id);
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -46,13 +41,9 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             const string CASE_ADMIN_USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
-            var request = new UpdateBookingStatusRequest()
-            {
-                Updated_by = CASE_ADMIN_USERNAME,
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created
-            };
+            var request = new UpdateBookingRequestBuilder()
+                .UpdatedBy(CASE_ADMIN_USERNAME)
+                .Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(Guid.NewGuid());
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

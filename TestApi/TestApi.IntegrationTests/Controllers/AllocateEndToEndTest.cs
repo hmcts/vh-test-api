@@ -10,6 +10,7 @@ using TestApi.Contract.Responses;
 using TestApi.Domain.Enums;
 using TestApi.IntegrationTests.Controllers.Hearings;
 using TestApi.Mappings;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
@@ -65,13 +66,9 @@ namespace TestApi.IntegrationTests.Controllers
 
             var caseAdmin = hearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin);
 
-            var request = new UpdateBookingStatusRequest()
-            {
-                Updated_by = caseAdmin.Username,
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created
-            };
+            var request = new UpdateBookingRequestBuilder()
+                .UpdatedBy(caseAdmin.Username)
+                .Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(hearing.Id);
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

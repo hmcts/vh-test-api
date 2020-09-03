@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 
@@ -18,13 +19,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var hearingId = Guid.NewGuid();
             var conferenceDetailsResponse = CreateConferenceDetailsResponse();
 
-            var request = new UpdateBookingStatusRequest()
-            {
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created,
-                Updated_by = "updated_by@email.com"
-            };
+            const string UPDATED_BY = "updated_by@email.com";
+
+            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
 
             BookingsApiClient
                 .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
@@ -48,13 +45,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_for_non_existent_hearing_id()
         {
             var hearingId = Guid.NewGuid();
-            var request = new UpdateBookingStatusRequest()
-            {
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created,
-                Updated_by = "updated_by@email.com"
-            };
+            const string UPDATED_BY = "updated_by@email.com";
+
+            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
@@ -71,13 +64,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_if_conference_not_created()
         {
             var hearingId = Guid.NewGuid();
-            var request = new UpdateBookingStatusRequest()
-            {
-                AdditionalProperties = null,
-                Cancel_reason = null,
-                Status = UpdateBookingStatus.Created,
-                Updated_by = "updated_by@email.com"
-            };
+            const string UPDATED_BY = "updated_by@email.com";
+
+            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
 
             BookingsApiService
                 .Setup(x => x.UpdateBookingStatusPollingAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
