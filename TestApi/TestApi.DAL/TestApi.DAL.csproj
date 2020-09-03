@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
     <ProjectGuid>79DC8C08-D2B1-43DC-89EE-88DDED57FF1D</ProjectGuid>
   </PropertyGroup>
 

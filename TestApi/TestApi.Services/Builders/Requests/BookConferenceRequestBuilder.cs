@@ -30,12 +30,12 @@ namespace TestApi.Services.Builders.Requests
             _request.Case_name = $"{AppShortName.FromApplication(Application.TestApi)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
             _request.Case_number = GenerateRandom.CaseNumber(_randomNumber);
             _request.Case_type = HearingData.CASE_TYPE_NAME;
+            _request.Endpoints = new List<AddEndpointRequest>();
             _request.Hearing_ref_id = Guid.NewGuid();
             _request.Hearing_venue_name = HearingData.VENUE_NAME;
             _request.Participants = new BookConferenceParticipantsBuilder(_users).Build();
             _request.Scheduled_date_time = DateTime.UtcNow.AddMinutes(5);
             _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
-            _request.Endpoints = new List<AddEndpointRequest>();
             return _request;
         }
 
