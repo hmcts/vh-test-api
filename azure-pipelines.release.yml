@@ -122,7 +122,6 @@ extends:
           secret: true
         - name: IsLive
           value: false
-
         - name: TestDefaultPassword
           value: false
         - name: UsernameStem
@@ -171,7 +170,6 @@ extends:
           secret: true
         - name: IsLive
           value: false
-
         - name: TestDefaultPassword
           value: $(TestDefaultPassword)
         - name: UsernameStem

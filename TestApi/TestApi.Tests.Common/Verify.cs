@@ -137,7 +137,7 @@ namespace TestApi.Tests.Common
         private static void VerifyConferenceParticipants(IReadOnlyCollection<ParticipantDetailsResponse> hearingParticipants,
             IReadOnlyCollection<ParticipantResponse> conferenceParticipants)
         {
-            hearingParticipants.Count().Should().Be(conferenceParticipants.Count());
+            hearingParticipants.Count.Should().Be(conferenceParticipants.Count);
             foreach (var hearingParticipant in hearingParticipants)
             {
                 var conferenceParticipant =

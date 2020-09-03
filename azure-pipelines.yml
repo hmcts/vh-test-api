@@ -56,7 +56,6 @@ parameters:
     secret: true
   - name: IsLive
     value: false
-
   - name: TestDefaultPassword
     value: $(TestDefaultPassword)
   - name: UsernameStem
@@ -108,7 +107,6 @@ parameters:
     secret: true
   - name: IsLive
     value: false
-
   - name: TestDefaultPassword
     value: $(TestDefaultPassword)
   - name: UsernameStem
