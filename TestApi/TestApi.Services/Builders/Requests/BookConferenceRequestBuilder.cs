@@ -35,6 +35,7 @@ namespace TestApi.Services.Builders.Requests
             _request.Participants = new BookConferenceParticipantsBuilder(_users).Build();
             _request.Scheduled_date_time = DateTime.UtcNow.AddMinutes(5);
             _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
+            _request.Endpoints = new List<AddEndpointRequest>();
             return _request;
         }
 
