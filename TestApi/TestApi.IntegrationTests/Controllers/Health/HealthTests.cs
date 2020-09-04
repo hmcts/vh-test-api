@@ -17,7 +17,7 @@ namespace TestApi.IntegrationTests.Controllers.Health
             var uri = ApiUriFactory.HealthCheckEndpoints.CheckServiceHealth;
             await SendGetRequest(uri);
             VerifyResponse(HttpStatusCode.OK, true);
-            var response = RequestHelper.Deserialise<HealthCheckResponse>(Json);
+            var response = RequestHelper.Deserialise<HealthResponse>(Json);
 
             response.BookingsApiHealth.Successful.Should().BeTrue();
             response.BookingsApiHealth.Data.Should().BeNull();

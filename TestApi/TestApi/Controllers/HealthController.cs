@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
-using HealthCheckResponse = TestApi.Contract.Responses.HealthCheckResponse;
 
 namespace TestApi.Controllers
 {
@@ -41,11 +41,11 @@ namespace TestApi.Controllers
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health")]
         [SwaggerOperation(OperationId = "CheckServiceHealth")]
-        [ProducesResponseType(typeof(HealthCheckResponse), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(HealthCheckResponse), (int) HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> HealthAsync()
         {
-            var response = new HealthCheckResponse {Version = GetApplicationVersion()};
+            var response = new HealthResponse {Version = GetApplicationVersion()};
             try
             {
                 const string username = "health";
@@ -102,9 +102,9 @@ namespace TestApi.Controllers
                 : StatusCode((int) HttpStatusCode.InternalServerError, response);
         }
 
-        private static HealthCheckResponse.ApplicationVersion GetApplicationVersion()
+        private static HealthResponse.ApplicationVersion GetApplicationVersion()
         {
-            var applicationVersion = new HealthCheckResponse.ApplicationVersion
+            var applicationVersion = new HealthResponse.ApplicationVersion
             {
                 Version = GetExecutingAssemblyAttribute<AssemblyFileVersionAttribute>(a => a.Version)
             };

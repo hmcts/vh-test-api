@@ -3,10 +3,10 @@
 namespace TestApi.Contract.Responses
 {
     /// <summary>Determine the health of the test api and connected apis</summary>
-    public class HealthCheckResponse
+    public class HealthResponse
     {
         /// <summary>The main response</summary>
-        public HealthCheckResponse()
+        public HealthResponse()
         {
             BookingsApiHealth = new HealthCheck();
             TestApiHealth = new HealthCheck();
