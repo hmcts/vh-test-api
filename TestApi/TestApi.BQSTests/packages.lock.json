@@ -60,9 +60,9 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Direct",
-        "requested": "[1.0.267, )",
-        "resolved": "1.0.267",
-        "contentHash": "f/x3wD4gzVsRmn2BAfBDOnSJmZ3CqtEJUc56we1dF1/STOcZmmDe6ahAxPsHX4raSOUTTSi0+XpODekJzKXqgg==",
+        "requested": "[1.0.270, )",
+        "resolved": "1.0.270",
+        "contentHash": "/fyJ71qrVPdNQFJgoqV/tbChsu9GedPO1lL8YkS6ojs/nRWjkTd8hcqGvAUs8d/6/pKyVYrPHPDPE3DiBDk+tA==",
         "dependencies": {
           "Appium.WebDriver": "4.1.1",
           "Azure.Storage.Blobs": "12.5.1",
@@ -2585,7 +2585,7 @@
           "Microsoft.IdentityModel.Clients.ActiveDirectory": "5.2.8",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.0.267"
+          "VH.AcceptanceTests.Common": "1.0.270"
         }
       },
       "testapi.contract": {
