@@ -8,6 +8,7 @@ using TestApi.Contract.Responses;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.Tests.Common
@@ -218,6 +219,11 @@ namespace TestApi.Tests.Common
         public static void Tasks(TaskResponse response, ConferenceEventRequest request)
         {
             response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
+        }
+
+        public static void UserProfileResponse(UserProfile response, User user)
+        {
+            response.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
         }
     }
 }
