@@ -102,9 +102,9 @@ namespace TestApi.Controllers
                 : StatusCode((int) HttpStatusCode.InternalServerError, response);
         }
 
-        private static HealthResponse.ApplicationVersion GetApplicationVersion()
+        private static AppVersionResponse GetApplicationVersion()
         {
-            var applicationVersion = new HealthResponse.ApplicationVersion
+            var applicationVersion = new AppVersionResponse()
             {
                 Version = GetExecutingAssemblyAttribute<AssemblyFileVersionAttribute>(a => a.Version)
             };

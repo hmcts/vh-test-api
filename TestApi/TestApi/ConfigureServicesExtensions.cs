@@ -44,7 +44,7 @@ namespace TestApi
                 c.IncludeXmlComments(xmlPath);
                 c.IncludeXmlComments(contractsXmlPath);
                 c.EnableAnnotations();
-                c.CustomSchemaIds(type => type.ToString());
+                c.CustomSchemaIds(x => x.FullName);
 
                 c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme

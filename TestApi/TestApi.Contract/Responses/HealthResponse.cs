@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace TestApi.Contract.Responses
+﻿namespace TestApi.Contract.Responses
 {
     /// <summary>Determine the health of the test api and connected apis</summary>
     public class HealthResponse
@@ -8,46 +6,26 @@ namespace TestApi.Contract.Responses
         /// <summary>The main response</summary>
         public HealthResponse()
         {
-            BookingsApiHealth = new HealthCheck();
-            TestApiHealth = new HealthCheck();
-            UserApiHealth = new HealthCheck();
-            VideoApiHealth = new HealthCheck();
-            Version = new ApplicationVersion();
+            BookingsApiHealth = new HealthDetailsResponse();
+            TestApiHealth = new HealthDetailsResponse();
+            UserApiHealth = new HealthDetailsResponse();
+            VideoApiHealth = new HealthDetailsResponse();
+            Version = new AppVersionResponse();
         }
 
         /// <summary>The health of the Bookings Api</summary>
-        public HealthCheck BookingsApiHealth { get; set; }
+        public HealthDetailsResponse BookingsApiHealth { get; set; }
 
         /// <summary>The health of the Test Api</summary>
-        public HealthCheck TestApiHealth { get; set; }
+        public HealthDetailsResponse TestApiHealth { get; set; }
 
         /// <summary>The health of the User Api</summary>
-        public HealthCheck UserApiHealth { get; set; }
+        public HealthDetailsResponse UserApiHealth { get; set; }
 
         /// <summary>The health of the Video Api</summary>
-        public HealthCheck VideoApiHealth { get; set; }
+        public HealthDetailsResponse VideoApiHealth { get; set; }
 
         /// <summary>Version of the Test Api</summary>
-        public ApplicationVersion Version { get; set; }
-
-        /// <summary>Version of the app</summary>
-        public class ApplicationVersion
-        {
-            /// <summary>Version of the app</summary>
-            public string Version { get; set; }
-        }
-
-        /// <summary>Healthcheck response</summary>
-        public class HealthCheck
-        {
-            /// <summary>Whether the check was successful</summary>
-            public bool Successful { get; set; }
-
-            /// <summary>Any associated error message with an unsuccessful response</summary>
-            public string ErrorMessage { get; set; }
-
-            /// <summary>Any associated data</summary>
-            public IDictionary Data { get; set; }
-        }
+        public AppVersionResponse Version { get; set; }
     }
 }
