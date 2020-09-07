@@ -188,7 +188,7 @@ namespace TestApi.Controllers
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinkByHearingIdAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AudioRecordingResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAudioRecordingLinkByHearingIdAsync(Guid hearingId)
