@@ -212,7 +212,7 @@ namespace TestApi.Controllers
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         [HttpGet("tasks/{conferenceId}", Name = nameof(GetTasksByConferenceIdAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<TaskResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetTasksByConferenceIdAsync(Guid conferenceId)
