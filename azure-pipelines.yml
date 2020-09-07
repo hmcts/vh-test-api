@@ -176,6 +176,7 @@ extends:
     PackageAcceptanceTests: ${{ parameters.PackageACTests }}
     Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}
     testParameters:
+      baseAgent: windows-latest
       coreProjectPath: TestApi/TestApi
       unitTestProjectPath: TestApi/TestApi.UnitTests
       integTestProjectPath: TestApi/TestApi.IntegrationTests
