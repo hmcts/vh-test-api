@@ -7,6 +7,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <DocumentationFile></DocumentationFile>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
     <ProjectGuid>53AD42B3-211E-46EC-B22E-D80733FA6989</ProjectGuid>
     <UserSecretsId>04df59fe-66aa-4fb2-8ac5-b87656f7675a</UserSecretsId>
   </PropertyGroup>
