@@ -106,7 +106,9 @@ namespace TestApi.Controllers
         {
             var applicationVersion = new AppVersionResponse()
             {
-                Version = GetExecutingAssemblyAttribute<AssemblyFileVersionAttribute>(a => a.Version)
+                Version = GetExecutingAssemblyAttribute<AssemblyVersionAttribute>(a => a.Version),
+                FileVersion = GetExecutingAssemblyAttribute<AssemblyFileVersionAttribute>(a => a.Version),
+                InformationVersion = GetExecutingAssemblyAttribute<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion)
             };
             return applicationVersion;
         }
