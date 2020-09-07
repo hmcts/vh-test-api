@@ -85,7 +85,6 @@ namespace TestApi.UnitTests.Controllers
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
             var response = (HealthResponse) typedResult.Value;
-            response.Version.Version.Should().NotBeNullOrEmpty();
             response.Version.FileVersion.Should().NotBeNullOrEmpty();
             response.Version.InformationVersion.Should().NotBeNullOrEmpty();
         }

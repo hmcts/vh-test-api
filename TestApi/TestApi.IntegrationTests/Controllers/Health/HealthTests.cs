@@ -36,7 +36,6 @@ namespace TestApi.IntegrationTests.Controllers.Health
             response.VideoApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
 
             response.Version.Should().NotBeNull();
-            response.Version.Version.Should().NotBeNull();
             response.Version.FileVersion.Should().NotBeNull();
             response.Version.InformationVersion.Should().NotBeNull();
         }

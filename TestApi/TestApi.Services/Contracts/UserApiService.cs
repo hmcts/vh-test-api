@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using AcceptanceTests.Common.Api.Helpers;
-using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
@@ -11,9 +8,7 @@ using TestApi.Common.Data;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Helpers;
-using TaskStatus = TestApi.Services.Clients.VideoApiClient.TaskStatus;
 
 namespace TestApi.Services.Contracts
 {
