@@ -32,10 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Update="TestAudioFiles\TestAudioFile.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
