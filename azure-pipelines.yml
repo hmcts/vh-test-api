@@ -203,6 +203,7 @@ extends:
           - name: ${{ setting.name }}
             value: ${{ setting.value }}
             secret: ${{ setting.secret }}
+            type: ${{ setting.type }}
       variables:
         - group: vh-test-api
       coverletCoverageExclusions:
