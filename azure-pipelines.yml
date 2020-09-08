@@ -39,6 +39,7 @@ parameters:
   default:
   - name: ApplicationInsights:InstrumentationKey
     value: vh-core-infra-AppInsightsKey
+    secret: true
   - name: AzureAd:ClientId
     value: vh-test-api-appid
     secret: true
@@ -93,6 +94,7 @@ parameters:
   default:
   - name: ApplicationInsights:InstrumentationKey
     value: vh-core-infra-AppInsightsKey
+    secret: true
   - name: AzureAd:ClientId
     value: vh-test-api-appid
     secret: true
@@ -110,6 +112,21 @@ parameters:
     secret: true
   - name: IsLive
     value: false
+  - name: Services:BookingsApiResourceId
+    value: vh-bookings-api-identifieruris
+    secret: true
+  - name: Services:BookingsApiUrl
+    value: $(bookings_api_url)
+  - name: Services:UserApiResourceId
+    value: vh-user-api-identifieruris
+    secret: true
+  - name: Services:UserApiUrl
+    value: $(user_api_url)
+  - name: Services:VideoApiResourceId
+    value: vh-video-api-identifieruris
+    secret: true
+  - name: Services:VideoApiUrl
+    value: $(video_api_url)
   - name: TestDefaultPassword
     value: $(TestDefaultPassword)
   - name: UsernameStem
