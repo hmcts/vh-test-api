@@ -181,6 +181,7 @@ variables:
   - group: vh-domains-and-urls
   - group: vh-apps-settings-generic
   - group: vh-wowza-dev
+  - group: vh-preview
 
 trigger:
   branches:
