@@ -77,6 +77,7 @@ extends:
     ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
       deploymentBranch: resources.pipeline.CI.sourceBranch
     releaseParameters:
+      runACTests: false
       runZapTests: ${{ parameters.RunZap }}
       subscription: $(env_Subscription)
       secrets_KeyVault: $(env_Secret_KeyVault)
@@ -105,6 +106,7 @@ extends:
       appSettings:
         - name: ApplicationInsights:InstrumentationKey
           value: vh-core-infra-AppInsightsKey
+          secret: true
         - name: AzureAd:ClientId
           value: vh-test-api-appid
           secret: true
@@ -122,10 +124,25 @@ extends:
           secret: true
         - name: IsLive
           value: false
+        - name: Services:BookingsApiResourceId
+          value: vh-bookings-api-identifieruris
+          secret: true
+        - name: Services:BookingsApiUrl
+          value: $(bookings_api_url)
+        - name: Services:UserApiResourceId
+          value: vh-user-api-identifieruris
+          secret: true
+        - name: Services:UserApiUrl
+          value: $(user_api_url)
+        - name: Services:VideoApiResourceId
+          value: vh-video-api-identifieruris
+          secret: true
+        - name: Services:VideoApiUrl
+          value: $(video_api_url)
         - name: TestDefaultPassword
-          value: false
+          value: $(TestDefaultPassword)
         - name: UsernameStem
-          value: false
+          value: $(UsernameStem)
         - name: UserGroups:JudgeGroups
           value: $(UserGroups:JudgeGroups)
           type: json
@@ -159,6 +176,7 @@ extends:
       acceptanceTestSettings:
         - name: ApplicationInsights:InstrumentationKey
           value: vh-core-infra-AppInsightsKey
+          secret: true
         - name: AzureAd:ClientId
           value: vh-test-api-appid
           secret: true
@@ -171,11 +189,23 @@ extends:
         - name: AzureAd:ValidAudience
           value: vh-test-api-identifieruris
           secret: true
-        - name: ConnectionStrings:TestApi
-          value: TestApiDb-connection-str
-          secret: true
         - name: IsLive
           value: false
+        - name: Services:BookingsApiResourceId
+          value: vh-bookings-api-identifieruris
+          secret: true
+        - name: Services:BookingsApiUrl
+          value: $(bookings_api_url)
+        - name: Services:UserApiResourceId
+          value: vh-user-api-identifieruris
+          secret: true
+        - name: Services:UserApiUrl
+          value: $(user_api_url)
+        - name: Services:VideoApiResourceId
+          value: vh-video-api-identifieruris
+          secret: true
+        - name: Services:VideoApiUrl
+          value: $(video_api_url)
         - name: TestDefaultPassword
           value: $(TestDefaultPassword)
         - name: UsernameStem
