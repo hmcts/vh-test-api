@@ -51,9 +51,6 @@ parameters:
   - name: AzureAd:ValidAudience
     value: vh-test-api-identifieruris
     secret: true
-  - name: ConnectionStrings:TestApi
-    value: TestApiDb-connection-str
-    secret: true
   - name: IsLive
     value: false
   - name: TestDefaultPassword
