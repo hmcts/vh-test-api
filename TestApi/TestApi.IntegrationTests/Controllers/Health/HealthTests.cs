@@ -12,7 +12,7 @@ namespace TestApi.IntegrationTests.Controllers.Health
     {
         [Test]
         [Category("Health")]
-        public async Task Should_return_OK()
+        public async Task Should_return_health_OK()
         {
             var uri = ApiUriFactory.HealthCheckEndpoints.CheckServiceHealth;
             await SendGetRequest(uri);
