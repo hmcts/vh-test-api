@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
+using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Helpers;
 
@@ -31,6 +34,17 @@ namespace TestApi.Services.Contracts
         /// <param name="contactEmail">Contact email of the user</param>
         /// <returns></returns>
         Task DeleteUserInAAD(string contactEmail);
+
+        /// <summary>Get an AD user profile by contact email</summary>
+        /// <param name="contactEmail">Contact email of the user</param>
+        /// <returns>User profile of the user</returns>
+        Task<UserProfile> GetADUserProfile(string contactEmail);
+
+        /// <summary>Checks that the user has the required groups and adds any missing ones</summary>
+        /// <param name="user">The test api user profile</param>
+        /// <param name="adUserProfile">The AD user profile</param>
+        /// <returns>A count of the number of groups the user now has</returns>
+        Task<int> AddGroupsToUserIfRequired(User user, UserProfile adUserProfile);
     }
 
     public class UserApiService : IUserApiService
@@ -43,11 +57,20 @@ namespace TestApi.Services.Contracts
         {
             _userApiClient = userApiClient;
             _userGroups = userGroupsConfiguration.Value;
+            ValidateGroupsAreSet(userGroupsConfiguration.Value);
+        }
+
+        private static void ValidateGroupsAreSet(UserGroupsConfiguration values)
+        {
+            values.GetType().GetProperties()
+                .Where(pi => pi.PropertyType == typeof(string))
+                .Select(pi => (string)pi.GetValue(values))
+                .Any(string.IsNullOrEmpty)
+                .Should().BeFalse("All values are set");
         }
 
         public async Task<bool> CheckUserExistsInAAD(string contactEmail)
         {
-
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.InternalServerError))
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
@@ -78,18 +101,7 @@ namespace TestApi.Services.Contracts
                 Is_test_user = true
             };
 
-            var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
-
-            var userType = GetUserType.FromUserLastName(lastName);
-
-            await AddUserToGroups(newUserResponse.User_id, userType, IsPerformanceTestUser(firstName), isProdUser);
-
-            return newUserResponse;
-        }
-
-        private static bool IsPerformanceTestUser(string firstName)
-        {
-            return firstName.Contains(UserData.PERFORMANCE_FIRST_NAME_PREFIX);
+            return await _userApiClient.CreateUserAsync(createUserRequest);
         }
 
         public async Task DeleteUserInAAD(string contactEmail)
@@ -106,26 +118,58 @@ namespace TestApi.Services.Contracts
             }
         }
 
-        private async Task AddUserToGroups(string userId, UserType userType, bool isPerformanceTestUser = false,
-            bool isProdUser = false)
+        public async Task<UserProfile> GetADUserProfile(string contactEmail)
+        {
+            var policy = Policy
+                .Handle<UserApiException>()
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            return await policy.ExecuteAsync(async () => await _userApiClient.GetUserByEmailAsync(contactEmail));
+        }
+
+        public async Task<int> AddGroupsToUserIfRequired(User user, UserProfile adUserProfile)
+        {
+            var policy = Policy
+                .Handle<UserApiException>()
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            var existingGroups = await policy.ExecuteAsync(async () => await _userApiClient.GetGroupsForUserAsync(adUserProfile.User_id));
+            var requiredGroups = GetRequiredGroups(user);
+
+            foreach (var requiredGroup in requiredGroups.Where(requiredGroup => !existingGroups.Any(x => x.Display_name.Equals(requiredGroup, StringComparison.CurrentCultureIgnoreCase))))
+            {
+                await AddUserToGroup(adUserProfile.User_id, requiredGroup);
+            }
+
+            return requiredGroups.Count;
+        }
+
+        private List<string> GetRequiredGroups(User user)
         {
             var userGroupStrategies = new UserGroups().GetStrategies();
-            var groups = userGroupStrategies[userType].GetGroups(_userGroups);
+            var groups = userGroupStrategies[user.UserType].GetGroups(_userGroups);
 
-            if (!isProdUser && userType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
+            if (!user.IsProdUser && user.UserType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
 
-            if (isPerformanceTestUser) groups.Add(_userGroups.PerformanceTestAccountGroup);
+            if (IsPerformanceTestUser(user.FirstName)) groups.Add(_userGroups.PerformanceTestAccountGroup);
 
-            foreach (var group in groups)
+            return groups;
+        }
+
+        private static bool IsPerformanceTestUser(string firstName)
+        {
+            return firstName.Contains(UserData.PERFORMANCE_FIRST_NAME_PREFIX);
+        }
+
+        private async Task AddUserToGroup(string adUserId, string group)
+        {
+            var request = new AddUserToGroupRequest
             {
-                var request = new AddUserToGroupRequest
-                {
-                    User_id = userId,
-                    Group_name = group
-                };
+                User_id = adUserId,
+                Group_name = group
+            };
 
-                await PollToAddUserToGroup(request);
-            }
+            await PollToAddUserToGroup(request);
         }
 
         private async Task PollToAddUserToGroup(AddUserToGroupRequest request)
@@ -133,15 +177,8 @@ namespace TestApi.Services.Contracts
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            try
-            {
-                await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Encountered error '{e.Message}' after {POLLY_RETRIES ^ 2} seconds.");
-            }
+            
+            await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
         }
     }
 }
