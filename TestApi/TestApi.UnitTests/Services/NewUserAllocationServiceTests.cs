@@ -57,18 +57,6 @@ namespace TestApi.UnitTests.Services
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var adUserProfile = new UserProfileResponseBuilder(user).Build();
-
-            MockUserApiService
-                .Setup(x => x.GetADUserProfile(It.IsAny<string>()))
-                .ReturnsAsync(adUserProfile);
-
-            const int NUMBER_OF_USER_GROUPS = 2;
-
-            MockUserApiService
-                .Setup(x => x.AddGroupsToUserIfRequired(It.IsAny<User>(), It.IsAny<UserProfile>()))
-                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
-
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
                 .Returns(Task.CompletedTask);
@@ -132,18 +120,6 @@ namespace TestApi.UnitTests.Services
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var adUserProfile = new UserProfileResponseBuilder(user).Build();
-
-            MockUserApiService
-                .Setup(x => x.GetADUserProfile(It.IsAny<string>()))
-                .ReturnsAsync(adUserProfile);
-
-            const int NUMBER_OF_USER_GROUPS = 2;
-
-            MockUserApiService
-                .Setup(x => x.AddGroupsToUserIfRequired(It.IsAny<User>(), It.IsAny<UserProfile>()))
-                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
-
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
                 .Returns(Task.CompletedTask);
@@ -206,16 +182,10 @@ namespace TestApi.UnitTests.Services
                 .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(newUserResponse);
 
-            var adUserProfile = new UserProfileResponseBuilder(user).Build();
-
-            MockUserApiService
-                .Setup(x => x.GetADUserProfile(It.IsAny<string>()))
-                .ReturnsAsync(adUserProfile);
-
             const int NUMBER_OF_USER_GROUPS = 2;
 
             MockUserApiService
-                .Setup(x => x.AddGroupsToUserIfRequired(It.IsAny<User>(), It.IsAny<UserProfile>()))
+                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
@@ -271,18 +241,6 @@ namespace TestApi.UnitTests.Services
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var adUserProfile = new UserProfileResponseBuilder(user).Build();
-
-            MockUserApiService
-                .Setup(x => x.GetADUserProfile(It.IsAny<string>()))
-                .ReturnsAsync(adUserProfile);
-
-            const int NUMBER_OF_USER_GROUPS = 2;
-
-            MockUserApiService
-                .Setup(x => x.AddGroupsToUserIfRequired(It.IsAny<User>(), It.IsAny<UserProfile>()))
-                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
-
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
                 .Returns(Task.CompletedTask);
@@ -334,18 +292,6 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
-
-            var adUserProfile = new UserProfileResponseBuilder(user).Build();
-
-            MockUserApiService
-                .Setup(x => x.GetADUserProfile(It.IsAny<string>()))
-                .ReturnsAsync(adUserProfile);
-
-            const int NUMBER_OF_USER_GROUPS = 2;
-
-            MockUserApiService
-                .Setup(x => x.AddGroupsToUserIfRequired(It.IsAny<User>(), It.IsAny<UserProfile>()))
-                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))

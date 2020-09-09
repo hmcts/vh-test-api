@@ -87,13 +87,10 @@ namespace TestApi.DAL.Commands
 
                 var response = await CreateUserInAAD(user);
                 _logger.LogDebug($"The user with username {response.Username} created in AAD");
+
+                var groupsCount = await AddGroupsToUser(user, response.User_id);
+                _logger.LogDebug($"The ad user has {groupsCount} groups");
             }
-
-            var adUserProfile = await GetADUserProfile(user.ContactEmail);
-            _logger.LogDebug($"The ad user with Id {adUserProfile.User_id} has been retrieved");
-
-            var groupsCount = await AddGroupsToUserIfRequired(user, adUserProfile);
-            _logger.LogDebug($"The ad user has {groupsCount} groups");
 
             await AllocateUser(user.Id, expiresInMinutes);
             _logger.LogDebug($"User with username '{user.Username}' has been allocated");
@@ -203,14 +200,9 @@ namespace TestApi.DAL.Commands
             return await _userApiService.CreateNewUserInAAD(user.FirstName, user.LastName, user.ContactEmail, user.IsProdUser);
         }
 
-        private async Task<UserProfile> GetADUserProfile(string contactEmail)
+        private async Task<int> AddGroupsToUser(User user, string adUserId)
         {
-            return await _userApiService.GetADUserProfile(contactEmail);
-        }
-
-        private async Task<int> AddGroupsToUserIfRequired(User user, UserProfile adUserProfile)
-        {
-            return await _userApiService.AddGroupsToUserIfRequired(user, adUserProfile);
+            return await _userApiService.AddGroupsToUser(user, adUserId);
         }
 
         private string GetEmailStem()

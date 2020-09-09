@@ -36,16 +36,11 @@ namespace TestApi.Services.Contracts
         /// <returns></returns>
         Task DeleteUserInAAD(string contactEmail);
 
-        /// <summary>Get an AD user profile by contact email</summary>
-        /// <param name="contactEmail">Contact email of the user</param>
-        /// <returns>User profile of the user</returns>
-        Task<UserProfile> GetADUserProfile(string contactEmail);
-
         /// <summary>Checks that the user has the required groups and adds any missing ones</summary>
         /// <param name="user">The test api user profile</param>
-        /// <param name="adUserProfile">The AD user profile</param>
+        /// <param name="adUserId">The AD user profile id</param>
         /// <returns>A count of the number of groups the user now has</returns>
-        Task<int> AddGroupsToUserIfRequired(User user, UserProfile adUserProfile);
+        Task<int> AddGroupsToUser(User user, string adUserId);
     }
 
     public class UserApiService : IUserApiService
@@ -90,7 +85,11 @@ namespace TestApi.Services.Contracts
             {
                 if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
 
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
+                if (e.StatusCode == (int) HttpStatusCode.InternalServerError)
+                {
+                    await _userApiClient.DeleteUserAsync(contactEmail); // if the user exists without groups it can throw an exception
+                    return false;
+                }; 
             }
 
             return true;
@@ -125,27 +124,13 @@ namespace TestApi.Services.Contracts
             }
         }
 
-        public async Task<UserProfile> GetADUserProfile(string contactEmail)
+        public async Task<int> AddGroupsToUser(User user, string adUserId)
         {
-            var policy = Policy
-                .Handle<UserApiException>()
-                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            return await policy.ExecuteAsync(async () => await _userApiClient.GetUserByEmailAsync(contactEmail));
-        }
-
-        public async Task<int> AddGroupsToUserIfRequired(User user, UserProfile adUserProfile)
-        {
-            var policy = Policy
-                .Handle<UserApiException>()
-                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            var existingGroups = await policy.ExecuteAsync(async () => await _userApiClient.GetGroupsForUserAsync(adUserProfile.User_id));
             var requiredGroups = GetRequiredGroups(user);
 
-            foreach (var requiredGroup in requiredGroups.Where(requiredGroup => !existingGroups.Any(x => x.Display_name.Equals(requiredGroup, StringComparison.CurrentCultureIgnoreCase))))
+            foreach (var requiredGroup in requiredGroups)
             {
-                await AddUserToGroup(adUserProfile.User_id, requiredGroup);
+                await AddUserToGroup(adUserId, requiredGroup);
             }
 
             return requiredGroups.Count;
