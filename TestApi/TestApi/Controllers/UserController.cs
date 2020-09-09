@@ -1,16 +1,14 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.Contract.Responses;
-using TestApi.DAL.Exceptions;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Mappings;
+using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Contracts;
-using Utf8Json.Formatters;
 
 namespace TestApi.Controllers
 {
@@ -22,18 +20,20 @@ namespace TestApi.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IQueryHandler _queryHandler;
+        private readonly IUserApiClient _userApiClient;
         private readonly IUserApiService _userApiService;
 
         public UserController(IQueryHandler queryHandler, ILogger<UserController> logger,
-            IUserApiService userApiService)
+            IUserApiService userApiService, IUserApiClient userApiClient)
         {
             _queryHandler = queryHandler;
             _logger = logger;
             _userApiService = userApiService;
+            _userApiClient = userApiClient;
         }
 
         /// <summary>
-        ///     Get user by username
+        ///     Get test api user by username
         /// </summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
@@ -54,6 +54,30 @@ namespace TestApi.Controllers
 
             var response = UserToDetailsResponseMapper.MapToResponse(user);
             return Ok(response);
+        }
+
+        /// <summary>
+        ///     Get user by user principal name
+        /// </summary>
+        /// <param name="username">Username of the user (case insensitive)</param>
+        /// <returns>Full details of a user</returns>
+        [HttpGet("userPrincipalName/{username}")]
+        [ProducesResponseType(typeof(UserProfile), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetUserByUserPrincipleNameAsync(string username)
+        {
+            _logger.LogDebug($"GetUserByUserPrincipleNameAsync {username}");
+
+            try
+            {
+                var response = await _userApiClient.GetUserByAdUserNameAsync(username);
+                return Ok(response);
+            }
+            catch (UserApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
         }
 
         /// <summary>

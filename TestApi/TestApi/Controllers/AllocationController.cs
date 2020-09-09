@@ -83,6 +83,8 @@ namespace TestApi.Controllers
                 responses.Add(UserToDetailsResponseMapper.MapToResponse(user));
             }
 
+            _logger.LogInformation($"Allocated {responses.Count} user(s)");
+
             return Ok(responses);
         }
 
@@ -121,7 +123,7 @@ namespace TestApi.Controllers
 
             var response = allocations.Select(AllocationToDetailsResponseMapper.MapToResponse).ToList();
 
-            _logger.LogInformation($"Allocated {response.Count} user(s)");
+            _logger.LogInformation($"Unallocated {response.Count} user(s)");
 
             return Ok(response);
         }

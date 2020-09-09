@@ -25,6 +25,7 @@ namespace TestApi.DAL.Commands
         /// <param name="userType">Type of user to allocate (e.g. Judge)</param>
         /// <param name="application">Application to assign to (e.g. VideoWeb)</param>
         /// <param name="testType">Type of test user is required for. Default is Automation test</param>
+        /// <param name="isProdUser">Whether the user will be required for prod environments</param>
         /// <param name="expiresInMinutes">Gives an expiry time in minutes. Default is 10 minutes</param>
         /// <returns>An allocated user</returns>
         Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10);
@@ -49,7 +50,7 @@ namespace TestApi.DAL.Commands
             _userApiService = userApiService;
         }
 
-        public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes)
+        public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10)
         {
             var users = await GetAllUsers(userType, application, isProdUser);
             _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}' and application '{application}'");

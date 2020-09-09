@@ -141,7 +141,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/judge", Name = nameof(GetConferencesForTodayJudgeAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<ConferenceForJudgeResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayJudgeAsync(string username)
@@ -164,7 +164,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/vho", Name = nameof(GetConferencesForTodayVhoAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<ConferenceForAdminResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayVhoAsync()
@@ -188,7 +188,7 @@ namespace TestApi.Controllers
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinkByHearingIdAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AudioRecordingResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAudioRecordingLinkByHearingIdAsync(Guid hearingId)
@@ -212,7 +212,7 @@ namespace TestApi.Controllers
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         [HttpGet("tasks/{conferenceId}", Name = nameof(GetTasksByConferenceIdAsync))]
-        [ProducesResponseType(typeof(List<ConferenceDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<TaskResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetTasksByConferenceIdAsync(Guid conferenceId)

@@ -23,7 +23,7 @@ namespace TestApi.UnitTests.Controllers.Users
             Logger = new Mock<ILogger<UserController>>();
             UserApiClient = new Mock<IUserApiClient>();
             UserApiService = new Mock<IUserApiService>();
-            Controller = new UserController(QueryHandler.Object, Logger.Object, UserApiService.Object);
+            Controller = new UserController(QueryHandler.Object, Logger.Object, UserApiService.Object, UserApiClient.Object);
         }
     }
 }

@@ -8,16 +8,16 @@ using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Health
 {
-    public class HealthcheckTests : ControllerTestsBase
+    public class HealthTests : ControllerTestsBase
     {
         [Test]
         [Category("Health")]
-        public async Task Should_return_OK()
+        public async Task Should_return_health_OK()
         {
             var uri = ApiUriFactory.HealthCheckEndpoints.CheckServiceHealth;
             await SendGetRequest(uri);
             VerifyResponse(HttpStatusCode.OK, true);
-            var response = RequestHelper.Deserialise<HealthCheckResponse>(Json);
+            var response = RequestHelper.Deserialise<HealthResponse>(Json);
 
             response.BookingsApiHealth.Successful.Should().BeTrue();
             response.BookingsApiHealth.Data.Should().BeNull();
@@ -36,6 +36,8 @@ namespace TestApi.IntegrationTests.Controllers.Health
             response.VideoApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
 
             response.Version.Should().NotBeNull();
+            response.Version.FileVersion.Should().NotBeNull();
+            response.Version.InformationVersion.Should().NotBeNull();
         }
     }
 }

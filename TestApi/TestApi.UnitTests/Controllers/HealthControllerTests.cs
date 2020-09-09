@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Responses;
 using TestApi.Controllers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
@@ -15,13 +16,12 @@ using TestApi.Domain.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
-using HealthCheckResponse = TestApi.Contract.Responses.HealthCheckResponse;
 
 namespace TestApi.UnitTests.Controllers
 {
-    public class HealthCheckControllerTests
+    public class HealthControllerTests
     {
-        private HealthCheckController _controller;
+        private HealthController _controller;
         private Mock<IBookingsApiClient> _mockBookingsApiClient;
         private Mock<IQueryHandler> _mockQueryHandler;
         private Mock<IUserApiClient> _mockUserApiClient;
@@ -50,7 +50,7 @@ namespace TestApi.UnitTests.Controllers
 
             var query = new GetUserByUsernameQuery(user.Username);
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
             _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, User>(query))
                 .Returns(Task.FromResult(user));
@@ -65,7 +65,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("database connection failed");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
             _mockQueryHandler
                 .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
@@ -74,7 +74,7 @@ namespace TestApi.UnitTests.Controllers
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.TestApiHealth.Successful.Should().BeFalse();
             response.TestApiHealth.ErrorMessage.Should().NotBeNullOrWhiteSpace();
         }
@@ -84,8 +84,9 @@ namespace TestApi.UnitTests.Controllers
         {
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
-            var response = (HealthCheckResponse) typedResult.Value;
-            response.Version.Version.Should().NotBeNullOrEmpty();
+            var response = (HealthResponse) typedResult.Value;
+            response.Version.FileVersion.Should().NotBeNullOrEmpty();
+            response.Version.InformationVersion.Should().NotBeNullOrEmpty();
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.BookingsApiHealth.Successful.Should().BeTrue();
             response.BookingsApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
             response.VideoApiHealth.Data.Should().BeNull();
@@ -104,7 +105,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.UserApiHealth.Successful.Should().BeTrue();
             response.UserApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
             response.VideoApiHealth.Data.Should().BeNull();
@@ -115,7 +116,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.VideoApiHealth.Successful.Should().BeTrue();
             response.VideoApiHealth.ErrorMessage.Should().BeNullOrWhiteSpace();
             response.VideoApiHealth.Data.Should().BeNull();
@@ -126,7 +127,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("BQS error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockBookingsApiClient
@@ -136,7 +137,7 @@ namespace TestApi.UnitTests.Controllers
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.BookingsApiHealth.Successful.Should().BeFalse();
             response.BookingsApiHealth.ErrorMessage.Should().NotBeNullOrWhiteSpace();
         }
@@ -146,7 +147,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("AAD error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockUserApiClient
@@ -156,7 +157,7 @@ namespace TestApi.UnitTests.Controllers
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.UserApiHealth.Successful.Should().BeFalse();
             response.UserApiHealth.ErrorMessage.Should().NotBeNullOrWhiteSpace();
         }
@@ -166,7 +167,7 @@ namespace TestApi.UnitTests.Controllers
         {
             var exception = new AggregateException("kinly api error");
 
-            _controller = new HealthCheckController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
+            _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
 
             _mockVideoApiClient
@@ -176,7 +177,7 @@ namespace TestApi.UnitTests.Controllers
             var result = await _controller.HealthAsync();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
-            var response = (HealthCheckResponse) typedResult.Value;
+            var response = (HealthResponse) typedResult.Value;
             response.VideoApiHealth.Successful.Should().BeFalse();
             response.VideoApiHealth.ErrorMessage.Should().NotBeNullOrWhiteSpace();
         }

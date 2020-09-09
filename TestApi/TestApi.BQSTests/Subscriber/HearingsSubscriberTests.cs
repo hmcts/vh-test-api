@@ -10,6 +10,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Polly;
 using TestApi.Common.Data;
+using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
@@ -120,13 +121,10 @@ namespace TestApi.BQSTests.Subscriber
             var uri = BookingsApiUriFactory.HearingsEndpoints.UpdateHearingStatus(Hearing.Id);
             const string UPDATED_BY = "updated_by_user@email.com";
 
-            var request = new UpdateBookingStatusRequest()
-            {
-                AdditionalProperties = new Dictionary<string, object>(),
-                Cancel_reason = HearingData.CANCELLATION_REASON,
-                Status = UpdateBookingStatus.Cancelled,
-                Updated_by = UPDATED_BY
-            };
+            var request = new UpdateBookingRequestBuilder()
+                .WithStatus(UpdateBookingStatus.Cancelled)
+                .UpdatedBy(UPDATED_BY)
+                .Build();
 
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
             VerifyResponse(HttpStatusCode.NoContent, true);

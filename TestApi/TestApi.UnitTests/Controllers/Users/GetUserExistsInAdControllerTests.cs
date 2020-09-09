@@ -30,7 +30,7 @@ namespace TestApi.UnitTests.Controllers.Users
         }
 
         [Test]
-        public async Task Should_return_false_not_found_for_non_existent_ser()
+        public async Task Should_return_false_not_found_for_non_existent_user()
         {
             const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 

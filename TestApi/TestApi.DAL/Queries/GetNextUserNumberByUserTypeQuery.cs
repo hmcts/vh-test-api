@@ -39,7 +39,7 @@ namespace TestApi.DAL.Queries
 
             if (users.Count.Equals(0)) return 1;
 
-            return users.Select(user => user.Number).ToList().Max() + 1;
+            return users.Select(user => user.Number).AsEnumerable().Max() + 1;
         }
     }
 }

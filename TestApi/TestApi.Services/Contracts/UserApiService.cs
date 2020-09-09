@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Polly;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
 using TestApi.Domain.Enums;
@@ -33,6 +35,7 @@ namespace TestApi.Services.Contracts
 
     public class UserApiService : IUserApiService
     {
+        protected const int ADD_TO_USER_GROUP_RETRIES = 4;
         private readonly IUserApiClient _userApiClient;
         private readonly UserGroupsConfiguration _userGroups;
 
@@ -116,7 +119,23 @@ namespace TestApi.Services.Contracts
                     Group_name = group
                 };
 
-                await _userApiClient.AddUserToGroupAsync(request);
+                await PollToAddUserToGroup(request);
+            }
+        }
+
+        private async Task PollToAddUserToGroup(AddUserToGroupRequest request)
+        {
+            var policy = Policy
+                .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
+                .WaitAndRetryAsync(ADD_TO_USER_GROUP_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            try
+            {
+                await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Encountered error '{e.Message}' after {ADD_TO_USER_GROUP_RETRIES ^ 2} seconds.");
             }
         }
     }

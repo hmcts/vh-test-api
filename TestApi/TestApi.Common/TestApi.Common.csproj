@@ -2,15 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode>true</RestoreLockedMode>
+    <NoWarn>NU1603</NoWarn>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <ProjectGuid>1BD87BF5-98BF-4AE8-A0C4-630F5FE8F07A</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Faker.NETCore" Version="1.0.2" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.7" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.8" />
-    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.0.257" />
+    <PackageReference Include="VH.AcceptanceTests.Common" Version="1.0.272" />
   </ItemGroup>
 
   <ItemGroup>

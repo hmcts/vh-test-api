@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;

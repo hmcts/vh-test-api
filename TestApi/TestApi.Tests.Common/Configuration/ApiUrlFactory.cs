@@ -30,7 +30,7 @@ namespace TestApi.Tests.Common.Configuration
 
         public static class HealthCheckEndpoints
         {
-            private const string ApiRoot = "/healthCheck";
+            private const string ApiRoot = "/health";
             public static string CheckServiceHealth => $"{ApiRoot}/health";
         }
 
@@ -77,6 +77,11 @@ namespace TestApi.Tests.Common.Configuration
             public static string GetUserByUsername(string username)
             {
                 return $"{ApiRoot}/username/{username}";
+            }
+
+            public static string GetUserByUserPrincipalName(string username)
+            {
+                return $"{ApiRoot}/userPrincipalName/{username}";
             }
 
             public static string GetUserExistsInAd(string contactEmail)

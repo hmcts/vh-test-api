@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
 using TestApi.Common.Builders;
@@ -88,7 +89,23 @@ namespace TestApi.Services.Builders.Requests
 
         private void SetCreatedBy()
         {
-            _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
+            var caseAdminsCount = _createHearingRequest.Users.Count(x => x.UserType == UserType.CaseAdmin);
+            var videoHearingsOfficerCount = _createHearingRequest.Users.Count(x => x.UserType == UserType.VideoHearingsOfficer);
+            
+            if (caseAdminsCount + videoHearingsOfficerCount == 0)
+            {
+                throw new DataException("No case admins or video hearing officers in the users list");
+            }
+
+            if (caseAdminsCount > 0)
+            {
+                _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
+            }
+
+            if (videoHearingsOfficerCount > 0)
+            {
+                _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.VideoHearingsOfficer).Username;
+            }
         }
 
         public BookNewHearingRequest Build()
