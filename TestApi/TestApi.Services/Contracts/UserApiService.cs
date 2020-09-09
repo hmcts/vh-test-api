@@ -153,8 +153,8 @@ namespace TestApi.Services.Contracts
 
         private List<string> GetRequiredGroups(User user)
         {
-            var userGroupStrategies = new UserGroups().GetStrategies();
-            var groups = userGroupStrategies[user.UserType].GetGroups(_userGroups);
+            var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
+            var groups = userGroupStrategies[user.UserType].GetGroups();
 
             if (!user.IsProdUser && user.UserType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
 
