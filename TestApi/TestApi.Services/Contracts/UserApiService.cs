@@ -36,7 +36,7 @@ namespace TestApi.Services.Contracts
         /// <returns></returns>
         Task DeleteUserInAAD(string contactEmail);
 
-        /// <summary>Checks that the user has the required groups and adds any missing ones</summary>
+        /// <summary>Adds required groups to the test user</summary>
         /// <param name="user">The test api user profile</param>
         /// <param name="adUserId">The AD user profile id</param>
         /// <returns>A count of the number of groups the user now has</returns>
