@@ -89,7 +89,7 @@ namespace TestApi.DAL.Commands
                 _logger.LogDebug($"The user with username {response.Username} created in AAD");
             }
 
-            var adUserProfile = await GetADUserId(user.ContactEmail);
+            var adUserProfile = await GetADUserProfile(user.ContactEmail);
             _logger.LogDebug($"The ad user with Id {adUserProfile.User_id} has been retrieved");
 
             var groupsCount = await AddGroupsToUserIfRequired(user, adUserProfile);
@@ -203,7 +203,7 @@ namespace TestApi.DAL.Commands
             return await _userApiService.CreateNewUserInAAD(user.FirstName, user.LastName, user.ContactEmail, user.IsProdUser);
         }
 
-        private async Task<UserProfile> GetADUserId(string contactEmail)
+        private async Task<UserProfile> GetADUserProfile(string contactEmail)
         {
             return await _userApiService.GetADUserProfile(contactEmail);
         }
