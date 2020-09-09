@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -67,6 +68,12 @@ namespace TestApi.Services.Contracts
                 .Select(pi => (string)pi.GetValue(values))
                 .Any(string.IsNullOrEmpty)
                 .Should().BeFalse("All values are set");
+
+            values.GetType().GetProperties()
+                .Where(pi => pi.PropertyType == typeof(List<string>))
+                .Select(pi => (List<string>)pi.GetValue(values))
+                .Any(x => x.IsNullOrEmpty())
+                .Should().BeFalse("All list values are set");
         }
 
         public async Task<bool> CheckUserExistsInAAD(string contactEmail)
