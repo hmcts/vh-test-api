@@ -35,7 +35,7 @@ namespace TestApi.Services.Contracts
 
     public class UserApiService : IUserApiService
     {
-        protected const int ADD_TO_USER_GROUP_RETRIES = 4;
+        protected const int POLLY_RETRIES = 4;
         private readonly IUserApiClient _userApiClient;
         private readonly UserGroupsConfiguration _userGroups;
 
@@ -47,9 +47,14 @@ namespace TestApi.Services.Contracts
 
         public async Task<bool> CheckUserExistsInAAD(string contactEmail)
         {
+
+            var policy = Policy
+                .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.InternalServerError))
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
             try
             {
-                await _userApiClient.GetUserByEmailAsync(contactEmail);
+                await policy.ExecuteAsync(async () => await _userApiClient.GetUserByEmailAsync(contactEmail));
             }
             catch (UserApiException e)
             {
@@ -127,7 +132,7 @@ namespace TestApi.Services.Contracts
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
-                .WaitAndRetryAsync(ADD_TO_USER_GROUP_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
             try
             {
@@ -135,7 +140,7 @@ namespace TestApi.Services.Contracts
             }
             catch (Exception e)
             {
-                throw new Exception($"Encountered error '{e.Message}' after {ADD_TO_USER_GROUP_RETRIES ^ 2} seconds.");
+                throw new Exception($"Encountered error '{e.Message}' after {POLLY_RETRIES ^ 2} seconds.");
             }
         }
     }
