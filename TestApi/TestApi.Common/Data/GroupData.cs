@@ -4,8 +4,7 @@
     {
         public const string FAKE_JUDGE_GROUP_1 = "Judge group 1";
         public const string FAKE_JUDGE_GROUP_2 = "Judge group 2";
-        public const string FAKE_INDIVIDUAL_GROUP_1 = "Individual group 1";
-        public const string FAKE_INDIVIDUAL_GROUP_2 = "Individual group 2";
+        public const string FAKE_INDIVIDUAL_GROUP = "Individual group 1";
         public const string FAKE_REPRESENTATIVE_GROUP_1 = "Representative group 1";
         public const string FAKE_REPRESENTATIVE_GROUP_2 = "Representative group 2";
         public const string FAKE_CASE_ADMIN_GROUP_1 = "Case Admin group 1";

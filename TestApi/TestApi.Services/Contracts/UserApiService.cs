@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
+using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
+using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Helpers;
 
@@ -14,10 +18,10 @@ namespace TestApi.Services.Contracts
 {
     public interface IUserApiService
     {
-        /// <summary>Checks if a user already exists based on their contact email</summary>
-        /// <param name="contactEmail">Contact email of the user</param>
+        /// <summary>Checks if a user already exists based on their username</summary>
+        /// <param name="username">username of the user</param>
         /// <returns>True if the user exists in AAD</returns>
-        Task<bool> CheckUserExistsInAAD(string contactEmail);
+        Task<bool> CheckUserExistsInAAD(string username);
 
         /// <summary>Creates a user based on the user information</summary>
         /// <param name="firstName">First name of the user</param>
@@ -27,10 +31,16 @@ namespace TestApi.Services.Contracts
         /// <returns>New user details</returns>
         Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail, bool isProdUser);
 
-        /// <summary>Deletes a user by contact email</summary>
-        /// <param name="contactEmail">Contact email of the user</param>
+        /// <summary>Deletes a user by username</summary>
+        /// <param name="username">Username of the user</param>
         /// <returns></returns>
-        Task DeleteUserInAAD(string contactEmail);
+        Task DeleteUserInAAD(string username);
+
+        /// <summary>Adds required groups to the test user</summary>
+        /// <param name="user">The test api user profile</param>
+        /// <param name="adUserId">The AD user profile id</param>
+        /// <returns>A count of the number of groups the user now has</returns>
+        Task<int> AddGroupsToUser(User user, string adUserId);
     }
 
     public class UserApiService : IUserApiService
@@ -43,24 +53,39 @@ namespace TestApi.Services.Contracts
         {
             _userApiClient = userApiClient;
             _userGroups = userGroupsConfiguration.Value;
+            ValidateGroupsAreSet(userGroupsConfiguration.Value);
         }
 
-        public async Task<bool> CheckUserExistsInAAD(string contactEmail)
+        private static void ValidateGroupsAreSet(UserGroupsConfiguration values)
         {
+            values.GetType().GetProperties()
+                .Where(pi => pi.PropertyType == typeof(string))
+                .Select(pi => (string)pi.GetValue(values))
+                .Any(string.IsNullOrEmpty)
+                .Should().BeFalse("All values are set");
 
+            values.GetType().GetProperties()
+                .Where(pi => pi.PropertyType == typeof(List<string>))
+                .Select(pi => (List<string>)pi.GetValue(values))
+                .Any(x => x.IsNullOrEmpty())
+                .Should().BeFalse("All list values are set");
+        }
+
+        public async Task<bool> CheckUserExistsInAAD(string username)
+        {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.InternalServerError))
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
             try
             {
-                await policy.ExecuteAsync(async () => await _userApiClient.GetUserByEmailAsync(contactEmail));
+                await policy.ExecuteAsync(async () => await _userApiClient.GetUserByAdUserNameAsync(username));
             }
             catch (UserApiException e)
             {
                 if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
 
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
+                throw;
             }
 
             return true;
@@ -78,57 +103,10 @@ namespace TestApi.Services.Contracts
                 Is_test_user = true
             };
 
-            var newUserResponse = await _userApiClient.CreateUserAsync(createUserRequest);
-
-            var userType = GetUserType.FromUserLastName(lastName);
-
-            await AddUserToGroups(newUserResponse.User_id, userType, IsPerformanceTestUser(firstName), isProdUser);
-
-            return newUserResponse;
+           return await _userApiClient.CreateUserAsync(createUserRequest);
         }
 
-        private static bool IsPerformanceTestUser(string firstName)
-        {
-            return firstName.Contains(UserData.PERFORMANCE_FIRST_NAME_PREFIX);
-        }
-
-        public async Task DeleteUserInAAD(string contactEmail)
-        {
-            try
-            {
-                await _userApiClient.DeleteUserAsync(contactEmail);
-            }
-            catch (UserApiException e)
-            {
-                if (e.StatusCode == (int) HttpStatusCode.NotFound) throw;
-
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
-            }
-        }
-
-        private async Task AddUserToGroups(string userId, UserType userType, bool isPerformanceTestUser = false,
-            bool isProdUser = false)
-        {
-            var userGroupStrategies = new UserGroups().GetStrategies();
-            var groups = userGroupStrategies[userType].GetGroups(_userGroups);
-
-            if (!isProdUser && userType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
-
-            if (isPerformanceTestUser) groups.Add(_userGroups.PerformanceTestAccountGroup);
-
-            foreach (var group in groups)
-            {
-                var request = new AddUserToGroupRequest
-                {
-                    User_id = userId,
-                    Group_name = group
-                };
-
-                await PollToAddUserToGroup(request);
-            }
-        }
-
-        private async Task PollToAddUserToGroup(AddUserToGroupRequest request)
+        public async Task DeleteUserInAAD(string username)
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
@@ -136,11 +114,68 @@ namespace TestApi.Services.Contracts
 
             try
             {
+                await policy.ExecuteAsync(async () => await _userApiClient.DeleteUserAsync(username));
+            }
+            catch (UserApiException e)
+            {
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
+            }
+        }
+
+        public async Task<int> AddGroupsToUser(User user, string adUserId)
+        {
+            var requiredGroups = GetRequiredGroups(user);
+
+            foreach (var requiredGroup in requiredGroups)
+            {
+                await AddUserToGroup(adUserId, requiredGroup);
+            }
+
+            return requiredGroups.Count;
+        }
+
+        private List<string> GetRequiredGroups(User user)
+        {
+            var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
+            var groups = userGroupStrategies[user.UserType].GetGroups();
+
+            if (!user.IsProdUser && user.UserType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
+
+            if (IsPerformanceTestUser(user.FirstName)) groups.Add(_userGroups.PerformanceTestAccountGroup);
+
+            return groups;
+        }
+
+        private static bool IsPerformanceTestUser(string firstName)
+        {
+            return firstName.Contains(UserData.PERFORMANCE_FIRST_NAME_PREFIX);
+        }
+
+        private async Task AddUserToGroup(string adUserId, string group)
+        {
+            var request = new AddUserToGroupRequest
+            {
+                User_id = adUserId,
+                Group_name = group
+            };
+
+            await PollToAddUserToGroup(request);
+        }
+
+        private async Task PollToAddUserToGroup(AddUserToGroupRequest request)
+        {
+            var policy = Policy
+                .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
+                .Or<Exception>()
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+            
+            try
+            {
                 await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
             }
-            catch (Exception e)
+            catch (UserApiException e)
             {
-                throw new Exception($"Encountered error '{e.Message}' after {POLLY_RETRIES ^ 2} seconds.");
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
             }
         }
     }

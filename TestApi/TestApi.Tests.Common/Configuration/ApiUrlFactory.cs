@@ -88,6 +88,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/aad/{contactEmail}";
             }
+
+            public static string DeleteAdUser(string contactEmail)
+            {
+                return $"{ApiRoot}/aad/{contactEmail}";
+            }
         }
 
         public static class UtilityEndpoints

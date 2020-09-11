@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
@@ -42,6 +43,19 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
+
+            var recentUser = new RecentUser(user.Username);
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetRecentUserByUsernameQuery, RecentUser>(It.IsAny<GetRecentUserByUsernameQuery>()))
+                .ReturnsAsync(recentUser);
+
+            const int NUMBER_OF_USER_GROUPS = 2;
+
+            MockUserApiService
+                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
@@ -88,6 +102,13 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
+
+            var recentUser = new RecentUser(user.Username);
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetRecentUserByUsernameQuery, RecentUser>(It.IsAny<GetRecentUserByUsernameQuery>()))
+                .ReturnsAsync(recentUser);
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))
@@ -138,6 +159,12 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CreateNewUserInAAD(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(newUserResponse);
+
+            const int NUMBER_OF_USER_GROUPS = 2;
+
+            MockUserApiService
+                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))

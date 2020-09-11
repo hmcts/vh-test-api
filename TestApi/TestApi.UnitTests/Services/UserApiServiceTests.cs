@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -16,26 +17,26 @@ namespace TestApi.UnitTests.Services
         [Test]
         public async Task Should_return_true_for_existing_user_in_aad()
         {
-            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             UserApiClient
-                .Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ReturnsAsync(It.IsAny<UserProfile>());
+                .Setup(x => x.GetUserByAdUserNameAsync(USERNAME)).ReturnsAsync(It.IsAny<UserProfile>());
 
-            var userExists = await UserApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
+            var userExists = await UserApiService.CheckUserExistsInAAD(USERNAME);
             userExists.Should().BeTrue();
         }
 
         [Test]
         public async Task Should_return_false_for_nonexistent_user_in_aad()
         {
-            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             var ex = new UserApiException("User not found", 404, "Response",
                 new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
 
-            UserApiClient.Setup(x => x.GetUserByEmailAsync(CONTACT_EMAIL)).ThrowsAsync(ex);
+            UserApiClient.Setup(x => x.GetUserByAdUserNameAsync(USERNAME)).ThrowsAsync(ex);
 
-            var userExists = await UserApiService.CheckUserExistsInAAD(CONTACT_EMAIL);
+            var userExists = await UserApiService.CheckUserExistsInAAD(USERNAME);
             userExists.Should().BeFalse();
         }
 
@@ -127,6 +128,18 @@ namespace TestApi.UnitTests.Services
             userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
             userDetails.User_id.Should().Be(newUserResponse.User_id);
             userDetails.Username.Should().Be(newUserResponse.Username);
+        }
+
+        [Test]
+        public async Task Should_delete_user_in_aad()
+        {
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+
+            UserApiClient
+                .Setup(x => x.DeleteUserAsync(It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+
+            await UserApiService.DeleteUserInAAD(USERNAME);
         }
     }
 }

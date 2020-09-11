@@ -14,6 +14,7 @@ namespace TestApi.DAL
 
         public DbSet<User> Users { get; set; }
         public DbSet<Allocation> Allocations { get; set; }
+        public DbSet<RecentUser> RecentUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

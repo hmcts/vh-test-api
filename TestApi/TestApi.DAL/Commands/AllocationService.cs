@@ -81,18 +81,59 @@ namespace TestApi.DAL.Commands
 
             var user = await GetUserById(userId.Value);
 
-            if (await UserDoesNotExistInAAD(user.ContactEmail))
+            if (!await IsRecentlyCreated(user.Username) && await UserDoesNotExistInAAD(user.Username))
             {
                 _logger.LogDebug($"The user with username {user.Username} does not already exist in AAD");
 
                 var response = await CreateUserInAAD(user);
                 _logger.LogDebug($"The user with username {response.Username} created in AAD");
+
+                if (response.Username != user.Username)
+                {
+                    await _userApiService.DeleteUserInAAD(response.Username);
+                    _logger.LogDebug($"The newly created user was a duplicate of an existing AAD user and was therefore deleted");
+                }
+                else
+                {
+                    await AddNewUserToRecentlyCreatedList(user.Username);
+                    _logger.LogDebug($"The ad user has been added to the list of recently created users with username {user.Username}");
+
+                    var groupsCount = await AddGroupsToUser(user, response.User_id);
+                    _logger.LogDebug($"The ad user now has {groupsCount} groups");
+                }
             }
 
             await AllocateUser(user.Id, expiresInMinutes);
             _logger.LogDebug($"User with username '{user.Username}' has been allocated");
 
             return user;
+        }
+
+        private async Task AddNewUserToRecentlyCreatedList(string username)
+        {
+            var command = new CreateNewRecentUserByUsernameCommand(username);
+            await _commandHandler.Handle(command);
+        }
+
+        private async Task<bool> IsRecentlyCreated(string username)
+        {
+            var query = new GetRecentUserByUsernameQuery(username);
+            var recentUser = await _queryHandler.Handle<GetRecentUserByUsernameQuery, RecentUser>(query);
+
+            if (recentUser == null)
+            {
+                return false;
+            }
+
+            if (recentUser.IsRecentlyCreated())
+            {
+                return true;
+            }
+
+            var command = new DeleteNewRecentUserByUsernameCommand(username);
+            await _commandHandler.Handle(command);
+
+            return false;
         }
 
         private async Task<List<User>> GetAllUsers(UserType userType, Application application, bool isProdUser)
@@ -187,14 +228,19 @@ namespace TestApi.DAL.Commands
             return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, User>(query);
         }
 
-        private async Task<bool> UserDoesNotExistInAAD(string contactEmail)
+        private async Task<bool> UserDoesNotExistInAAD(string username)
         {
-            return !await _userApiService.CheckUserExistsInAAD(contactEmail);
+            return !await _userApiService.CheckUserExistsInAAD(username);
         }
 
         private async Task<NewUserResponse> CreateUserInAAD(User user)
         {
             return await _userApiService.CreateNewUserInAAD(user.FirstName, user.LastName, user.ContactEmail, user.IsProdUser);
+        }
+
+        private async Task<int> AddGroupsToUser(User user, string adUserId)
+        {
+            return await _userApiService.AddGroupsToUser(user, adUserId);
         }
 
         private string GetEmailStem()

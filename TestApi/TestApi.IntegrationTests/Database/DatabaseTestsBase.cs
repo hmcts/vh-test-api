@@ -21,6 +21,7 @@ namespace TestApi.IntegrationTests.Database
         public async Task AfterEveryTest()
         {
             await Context.Data.DeleteUsers();
+            await Context.Data.DeleteRecentUsers();
         }
 
         [OneTimeTearDown]

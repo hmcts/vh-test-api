@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -52,7 +54,7 @@ namespace TestApi.UnitTests.Services
             var groups = new UserGroupsConfiguration
             {
                 JudgeGroups = new List<string> { GroupData.FAKE_JUDGE_GROUP_1, GroupData.FAKE_JUDGE_GROUP_2 },
-                IndividualGroups = new List<string> { GroupData.FAKE_INDIVIDUAL_GROUP_1, GroupData.FAKE_INDIVIDUAL_GROUP_2 },
+                IndividualGroup = GroupData.FAKE_INDIVIDUAL_GROUP,
                 RepresentativeGroups = new List<string> { GroupData.FAKE_REPRESENTATIVE_GROUP_1, GroupData.FAKE_REPRESENTATIVE_GROUP_2 },
                 VideoHearingsOfficerGroups = new List<string> { GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_1, GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_2 },
                 CaseAdminGroups = new List<string> { GroupData.FAKE_CASE_ADMIN_GROUP_1, GroupData.FAKE_CASE_ADMIN_GROUP_2 },
@@ -116,6 +118,12 @@ namespace TestApi.UnitTests.Services
         {
             const int ALLOCATE_FOR_MINUTES = 1;
             foreach (var allocation in allocations) allocation.Allocate(ALLOCATE_FOR_MINUTES);
+        }
+
+        protected UserApiException CreateUserApiException(string errorMessage, HttpStatusCode statusCode)
+        {
+            return new UserApiException(errorMessage, (int)statusCode, "Response",
+                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
         }
     }
 }
