@@ -40,12 +40,14 @@ namespace TestApi.Services.Builders.Requests
                 if (user.UserType == UserType.Individual)
                 {
                     request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                    request.Hearing_role = indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
                     indIndex++;
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
                     request.Case_type_group = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                    request.Hearing_role = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
                 }
@@ -53,6 +55,7 @@ namespace TestApi.Services.Builders.Requests
                 if (user.UserType != UserType.Individual && user.UserType != UserType.Representative)
                 {
                     request.Case_type_group = AddSpacesToUserType(user.UserType);
+                    request.Hearing_role = AddSpacesToUserType(user.UserType);
                 }
 
                 request.Contact_email = user.ContactEmail;

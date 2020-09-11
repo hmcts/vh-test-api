@@ -11,11 +11,11 @@ namespace TestApi.IntegrationTests.Controllers.Users
     public class GetUserExistsInAdTests : ControllerTestsBase
     {
         [Test]
-        public async Task Should_return_true_if_user_with_contact_email_exists()
+        public async Task Should_return_true_if_user_with_username_exists()
         {
             var user = await Context.Data.SeedUser();
 
-            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(user.ContactEmail);
+            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(user.Username);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
@@ -25,11 +25,11 @@ namespace TestApi.IntegrationTests.Controllers.Users
         }
 
         [Test]
-        public async Task Should_return_false_not_found_for_non_existent_contact_email()
+        public async Task Should_return_false_not_found_for_non_existent_username()
         {
-            const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
-            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(CONTACT_EMAIL);
+            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(USERNAME);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.NotFound, false);
@@ -43,7 +43,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         {
             var user = await Context.Data.SeedUser();
 
-            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(user.ContactEmail.ToUpperInvariant());
+            var uri = ApiUriFactory.UserEndpoints.GetUserExistsInAd(user.Username.ToUpperInvariant());
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);

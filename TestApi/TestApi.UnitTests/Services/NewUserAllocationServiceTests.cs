@@ -9,7 +9,6 @@ using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Services.Builders.Responses;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Services

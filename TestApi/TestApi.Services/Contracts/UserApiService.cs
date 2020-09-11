@@ -18,10 +18,10 @@ namespace TestApi.Services.Contracts
 {
     public interface IUserApiService
     {
-        /// <summary>Checks if a user already exists based on their contact email</summary>
-        /// <param name="contactEmail">Contact email of the user</param>
+        /// <summary>Checks if a user already exists based on their username</summary>
+        /// <param name="username">username of the user</param>
         /// <returns>True if the user exists in AAD</returns>
-        Task<bool> CheckUserExistsInAAD(string contactEmail);
+        Task<bool> CheckUserExistsInAAD(string username);
 
         /// <summary>Creates a user based on the user information</summary>
         /// <param name="firstName">First name of the user</param>
@@ -31,10 +31,10 @@ namespace TestApi.Services.Contracts
         /// <returns>New user details</returns>
         Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail, bool isProdUser);
 
-        /// <summary>Deletes a user by contact email</summary>
-        /// <param name="contactEmail">Contact email of the user</param>
+        /// <summary>Deletes a user by username</summary>
+        /// <param name="username">Username of the user</param>
         /// <returns></returns>
-        Task DeleteUserInAAD(string contactEmail);
+        Task DeleteUserInAAD(string username);
 
         /// <summary>Adds required groups to the test user</summary>
         /// <param name="user">The test api user profile</param>
@@ -71,7 +71,7 @@ namespace TestApi.Services.Contracts
                 .Should().BeFalse("All list values are set");
         }
 
-        public async Task<bool> CheckUserExistsInAAD(string contactEmail)
+        public async Task<bool> CheckUserExistsInAAD(string username)
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.InternalServerError))
@@ -79,17 +79,13 @@ namespace TestApi.Services.Contracts
 
             try
             {
-                await policy.ExecuteAsync(async () => await _userApiClient.GetUserByEmailAsync(contactEmail));
+                await policy.ExecuteAsync(async () => await _userApiClient.GetUserByAdUserNameAsync(username));
             }
             catch (UserApiException e)
             {
                 if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
 
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError)
-                {
-                    await _userApiClient.DeleteUserAsync(contactEmail); // if the user exists without groups it can throw an exception
-                    return false;
-                }; 
+                throw;
             }
 
             return true;
@@ -107,20 +103,22 @@ namespace TestApi.Services.Contracts
                 Is_test_user = true
             };
 
-            return await _userApiClient.CreateUserAsync(createUserRequest);
+           return await _userApiClient.CreateUserAsync(createUserRequest);
         }
 
-        public async Task DeleteUserInAAD(string contactEmail)
+        public async Task DeleteUserInAAD(string username)
         {
+            var policy = Policy
+                .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
+                .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
             try
             {
-                await _userApiClient.DeleteUserAsync(contactEmail);
+                await policy.ExecuteAsync(async () => await _userApiClient.DeleteUserAsync(username));
             }
             catch (UserApiException e)
             {
-                if (e.StatusCode == (int) HttpStatusCode.NotFound) throw;
-
-                if (e.StatusCode == (int) HttpStatusCode.InternalServerError) throw;
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
             }
         }
 
@@ -168,9 +166,17 @@ namespace TestApi.Services.Contracts
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
+                .Or<Exception>()
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             
-            await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
+            try
+            {
+                await policy.ExecuteAsync(async () => await _userApiClient.AddUserToGroupAsync(request));
+            }
+            catch (UserApiException e)
+            {
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
+            }
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Services.Builders.Responses;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Services
@@ -43,6 +43,13 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
+
+            var recentUser = new RecentUser(user.Username);
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetRecentUserByUsernameQuery, RecentUser>(It.IsAny<GetRecentUserByUsernameQuery>()))
+                .ReturnsAsync(recentUser);
 
             const int NUMBER_OF_USER_GROUPS = 2;
 
@@ -95,6 +102,13 @@ namespace TestApi.UnitTests.Services
             MockUserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
+
+            var recentUser = new RecentUser(user.Username);
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetRecentUserByUsernameQuery, RecentUser>(It.IsAny<GetRecentUserByUsernameQuery>()))
+                .ReturnsAsync(recentUser);
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<AllocateByUserIdCommand>()))

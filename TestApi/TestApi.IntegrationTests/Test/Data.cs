@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestApi.Common.Builders;
+using TestApi.Common.Data;
 using TestApi.DAL;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -71,6 +72,15 @@ namespace TestApi.IntegrationTests.Test
             return allocation;
         }
 
+        public async Task<RecentUser> SeedRecentUser(string username)
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
+            var recentUser = new RecentUser(username);
+            await db.RecentUsers.AddAsync(recentUser);
+            await db.SaveChangesAsync();
+            return recentUser;
+        }
+
         public async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
@@ -116,6 +126,22 @@ namespace TestApi.IntegrationTests.Test
             }
         }
 
+        public async Task DeleteRecentUsers()
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
+
+            var recentUsers = await db.RecentUsers
+                .Where(x => x.Username == EmailData.RECENT_USER_USERNAME)
+                .AsNoTracking()
+                .ToListAsync();
+
+            foreach (var user in recentUsers)
+            {
+                db.Remove(user);
+                await db.SaveChangesAsync();
+            }
+        }
+
         public async Task<Allocation> GetAllocationByUserId(Guid userId)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
@@ -132,6 +158,16 @@ namespace TestApi.IntegrationTests.Test
 
             return await db.Users
                 .Where(x => x.Id == userId)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<RecentUser> GetRecentUserByUsername(string username)
+        {
+            await using var db = new TestApiDbContext(_dbContextOptions);
+
+            return await db.RecentUsers
+                .Where(x => x.Username == username)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
         }
