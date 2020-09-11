@@ -91,7 +91,7 @@ namespace TestApi.DAL.Commands
                 if (response.Username != user.Username)
                 {
                     await _userApiService.DeleteUserInAAD(response.Username);
-                    _logger.LogDebug($"The newly created user was a duplicate of an existing user ad and was therefore deleted");
+                    _logger.LogDebug($"The newly created user was a duplicate of an existing AAD user and was therefore deleted");
                 }
                 else
                 {
