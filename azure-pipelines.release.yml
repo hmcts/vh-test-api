@@ -146,9 +146,8 @@ extends:
         - name: UserGroups:JudgeGroups
           value: $(UserGroups:JudgeGroups)
           type: json
-        - name: UserGroups:IndividualGroups
-          value: $(UserGroups:IndividualGroups)
-          type: json
+        - name: UserGroups:IndividualGroup
+          value: $(UserGroups:IndividualGroup)
         - name: UserGroups:RepresentativeGroups
           value: $(UserGroups:RepresentativeGroups)
           type: json
@@ -213,9 +212,8 @@ extends:
         - name: UserGroups:JudgeGroups
           value: $(UserGroups:JudgeGroups)
           type: json
-        - name: UserGroups:IndividualGroups
-          value: $(UserGroups:IndividualGroups)
-          type: json
+        - name: UserGroups:IndividualGroup
+          value: $(UserGroups:IndividualGroup)
         - name: UserGroups:RepresentativeGroups
           value: $(UserGroups:RepresentativeGroups)
           type: json

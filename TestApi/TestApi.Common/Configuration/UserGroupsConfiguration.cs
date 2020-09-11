@@ -5,7 +5,7 @@ namespace TestApi.Common.Configuration
     public class UserGroupsConfiguration
     {
         public List<string> JudgeGroups { get; set; }
-        public List<string> IndividualGroups { get; set; }
+        public string IndividualGroup { get; set; }
         public List<string> RepresentativeGroups { get; set; }
         public List<string> VideoHearingsOfficerGroups { get; set; }
         public List<string> CaseAdminGroups { get; set; }

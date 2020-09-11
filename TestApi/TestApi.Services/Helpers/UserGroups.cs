@@ -55,7 +55,7 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            return _configuration.IndividualGroups;
+            return new List<string>(){ _configuration.IndividualGroup };
         }
     }
 
