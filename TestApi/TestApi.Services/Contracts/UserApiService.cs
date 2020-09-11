@@ -58,17 +58,14 @@ namespace TestApi.Services.Contracts
 
         private static void ValidateGroupsAreSet(UserGroupsConfiguration values)
         {
-            values.GetType().GetProperties()
-                .Where(pi => pi.PropertyType == typeof(string))
-                .Select(pi => (string)pi.GetValue(values))
-                .Any(string.IsNullOrEmpty)
-                .Should().BeFalse("All values are set");
-
-            values.GetType().GetProperties()
-                .Where(pi => pi.PropertyType == typeof(List<string>))
-                .Select(pi => (List<string>)pi.GetValue(values))
-                .Any(x => x.IsNullOrEmpty())
-                .Should().BeFalse("All list values are set");
+            values.CaseAdminGroups.Should().NotBeNullOrEmpty();
+            values.IndividualGroup.Should().NotBeNullOrWhiteSpace();
+            values.JudgeGroups.Should().NotBeNullOrEmpty();
+            values.KinlyGroups.Should().NotBeNullOrEmpty();
+            values.PerformanceTestAccountGroup.Should().NotBeNullOrWhiteSpace();
+            values.RepresentativeGroups.Should().NotBeNullOrEmpty();
+            values.TestAccountGroup.Should().NotBeNullOrWhiteSpace();
+            values.VideoHearingsOfficerGroups.Should().NotBeNullOrEmpty();
         }
 
         public async Task<bool> CheckUserExistsInAAD(string username)
