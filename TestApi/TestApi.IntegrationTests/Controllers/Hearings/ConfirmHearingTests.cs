@@ -8,7 +8,6 @@ using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Domain.Enums;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;

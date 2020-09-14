@@ -68,6 +68,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/suitabilityAnswers/{username}";
             }
+
+            public static string GetPersonByUsername(string username)
+            {
+                return $"{ApiRoot}/person/{username}";
+            }
         }
 
         public static class UserEndpoints
