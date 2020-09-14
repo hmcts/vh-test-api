@@ -53,14 +53,14 @@ namespace TestApi.UnitTests.Services
         {
             var groups = new UserGroupsConfiguration
             {
-                JudgeGroups = new List<string> { GroupData.FAKE_JUDGE_GROUP_1, GroupData.FAKE_JUDGE_GROUP_2 },
-                IndividualGroup = GroupData.FAKE_INDIVIDUAL_GROUP,
-                RepresentativeGroups = new List<string> { GroupData.FAKE_REPRESENTATIVE_GROUP_1, GroupData.FAKE_REPRESENTATIVE_GROUP_2 },
-                VideoHearingsOfficerGroups = new List<string> { GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_1, GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUP_2 },
-                CaseAdminGroups = new List<string> { GroupData.FAKE_CASE_ADMIN_GROUP_1, GroupData.FAKE_CASE_ADMIN_GROUP_2 },
-                KinlyGroups = new List<string> { GroupData.FAKE_PEXIP_GROUP_1, GroupData.FAKE_PEXIP_GROUP_2 },
-                TestAccountGroup = GroupData.FAKE_TEST_GROUP,
-                PerformanceTestAccountGroup = GroupData.FAKE_PERFORMANCE_TEST_GROUP
+                JudgeGroups = GroupData.FAKE_JUDGE_GROUPS,
+                IndividualGroups = GroupData.FAKE_INDIVIDUAL_GROUPS,
+                RepresentativeGroups = GroupData.FAKE_REPRESENTATIVE_GROUPS,
+                VideoHearingsOfficerGroups = GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUPS,
+                CaseAdminGroups = GroupData.FAKE_CASE_ADMIN_GROUPS,
+                KinlyGroups = GroupData.FAKE_PEXIP_GROUPS,
+                TestAccountGroups = GroupData.FAKE_TEST_GROUPS,
+                PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS
             };
 
             GroupsConfig

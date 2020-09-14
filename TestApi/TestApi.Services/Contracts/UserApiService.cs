@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -58,14 +57,11 @@ namespace TestApi.Services.Contracts
 
         private static void ValidateGroupsAreSet(UserGroupsConfiguration values)
         {
-            values.CaseAdminGroups.Should().NotBeNullOrEmpty();
-            values.IndividualGroup.Should().NotBeNullOrWhiteSpace();
-            values.JudgeGroups.Should().NotBeNullOrEmpty();
-            values.KinlyGroups.Should().NotBeNullOrEmpty();
-            values.PerformanceTestAccountGroup.Should().NotBeNullOrWhiteSpace();
-            values.RepresentativeGroups.Should().NotBeNullOrEmpty();
-            values.TestAccountGroup.Should().NotBeNullOrWhiteSpace();
-            values.VideoHearingsOfficerGroups.Should().NotBeNullOrEmpty();
+            values.GetType().GetProperties()
+                .Where(pi => pi.PropertyType == typeof(string))
+                .Select(pi => (string)pi.GetValue(values))
+                .Any(string.IsNullOrWhiteSpace)
+                .Should().BeFalse("All user group values are set");
         }
 
         public async Task<bool> CheckUserExistsInAAD(string username)
@@ -136,9 +132,9 @@ namespace TestApi.Services.Contracts
             var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
             var groups = userGroupStrategies[user.UserType].GetGroups();
 
-            if (!user.IsProdUser && user.UserType != UserType.Judge) groups.Add(_userGroups.TestAccountGroup);
+            if (!user.IsProdUser && user.UserType != UserType.Judge) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
 
-            if (IsPerformanceTestUser(user.FirstName)) groups.Add(_userGroups.PerformanceTestAccountGroup);
+            if (IsPerformanceTestUser(user.FirstName)) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.PerformanceTestAccountGroups));
 
             return groups;
         }

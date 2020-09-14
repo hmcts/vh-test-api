@@ -37,8 +37,8 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            var judgeGroups = _configuration.JudgeGroups;
-            var kinlyGroups = _configuration.KinlyGroups;
+            var judgeGroups = ConvertGroupsStringToList.Convert(_configuration.JudgeGroups);
+            var kinlyGroups = ConvertGroupsStringToList.Convert(_configuration.KinlyGroups);
             judgeGroups.AddRange(kinlyGroups);
             return judgeGroups;
         }
@@ -55,7 +55,7 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            return new List<string>(){ _configuration.IndividualGroup };
+            return ConvertGroupsStringToList.Convert(_configuration.IndividualGroups);
         }
     }
 
@@ -70,7 +70,7 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            return _configuration.RepresentativeGroups;
+            return ConvertGroupsStringToList.Convert(_configuration.RepresentativeGroups);
         }
     }
 
@@ -85,7 +85,7 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            return _configuration.CaseAdminGroups;
+            return ConvertGroupsStringToList.Convert(_configuration.CaseAdminGroups);
         }
     }
 
@@ -100,8 +100,8 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            var vhoGroups = _configuration.VideoHearingsOfficerGroups;
-            var kinlyGroups = _configuration.KinlyGroups;
+            var vhoGroups = ConvertGroupsStringToList.Convert(_configuration.VideoHearingsOfficerGroups);
+            var kinlyGroups = ConvertGroupsStringToList.Convert(_configuration.KinlyGroups);
             vhoGroups.AddRange(kinlyGroups);
             return vhoGroups;
         }

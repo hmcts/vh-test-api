@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace TestApi.Common.Configuration
+﻿namespace TestApi.Common.Configuration
 {
     public class UserGroupsConfiguration
     {
-        public List<string> JudgeGroups { get; set; }
-        public string IndividualGroup { get; set; }
-        public List<string> RepresentativeGroups { get; set; }
-        public List<string> VideoHearingsOfficerGroups { get; set; }
-        public List<string> CaseAdminGroups { get; set; }
-        public List<string> KinlyGroups { get; set; }
-        public string TestAccountGroup { get; set; }
-        public string PerformanceTestAccountGroup { get; set; }
+        public string JudgeGroups { get; set; }
+        public string IndividualGroups { get; set; }
+        public string RepresentativeGroups { get; set; }
+        public string VideoHearingsOfficerGroups { get; set; }
+        public string CaseAdminGroups { get; set; }
+        public string KinlyGroups { get; set; }
+        public string TestAccountGroups { get; set; }
+        public string PerformanceTestAccountGroups { get; set; }
     }
 }

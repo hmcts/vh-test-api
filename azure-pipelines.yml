@@ -75,25 +75,20 @@ parameters:
     value: $(UsernameStem)
   - name: UserGroups:JudgeGroups
     value: $(UserGroups:JudgeGroups)
-    type: json
-  - name: UserGroups:IndividualGroup
-    value: $(UserGroups:IndividualGroup)
+  - name: UserGroups:IndividualGroups
+    value: $(UserGroups:IndividualGroups)
   - name: UserGroups:RepresentativeGroups
     value: $(UserGroups:RepresentativeGroups)
-    type: json
   - name: UserGroups:VideoHearingsOfficerGroups
     value: $(UserGroups:VideoHearingsOfficerGroups)
-    type: json
   - name: UserGroups:CaseAdminGroups
     value: $(UserGroups:CaseAdminGroups)
-    type: json
   - name: UserGroups:KinlyGroups
     value: $(UserGroups:KinlyGroups)
-    type: json
-  - name: UserGroups:TestAccountGroup
-    value: $(UserGroups:TestAccountGroup)
-  - name: UserGroups:PerformanceTestAccountGroup
-    value: $(UserGroups:PerformanceTestAccountGroup)
+  - name: UserGroups:TestAccountGroups
+    value: $(UserGroups:TestAccountGroups)
+  - name: UserGroups:PerformanceTestAccountGroups
+    value: $(UserGroups:PerformanceTestAccountGroups)
 
   # WowzaConfiguration
   - name: WowzaConfiguration:StorageAccountName
@@ -147,25 +142,20 @@ parameters:
     value: $(UsernameStem)
   - name: UserGroups:JudgeGroups
     value: $(UserGroups:JudgeGroups)
-    type: json
-  - name: UserGroups:IndividualGroup
-    value: $(UserGroups:IndividualGroup)
+  - name: UserGroups:IndividualGroups
+    value: $(UserGroups:IndividualGroups)
   - name: UserGroups:RepresentativeGroups
     value: $(UserGroups:RepresentativeGroups)
-    type: json
   - name: UserGroups:VideoHearingsOfficerGroups
     value: $(UserGroups:VideoHearingsOfficerGroups)
-    type: json
   - name: UserGroups:CaseAdminGroups
     value: $(UserGroups:CaseAdminGroups)
-    type: json
   - name: UserGroups:KinlyGroups
     value: $(UserGroups:KinlyGroups)
-    type: json
-  - name: UserGroups:TestAccountGroup
-    value: $(UserGroups:TestAccountGroup)
-  - name: UserGroups:PerformanceTestAccountGroup
-    value: $(UserGroups:PerformanceTestAccountGroup)
+  - name: UserGroups:TestAccountGroups
+    value: $(UserGroups:TestAccountGroups)
+  - name: UserGroups:PerformanceTestAccountGroups
+    value: $(UserGroups:PerformanceTestAccountGroups)
 
   # WowzaConfiguration
   - name: WowzaConfiguration:StorageAccountName
