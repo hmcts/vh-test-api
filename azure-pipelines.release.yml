@@ -155,6 +155,8 @@ extends:
           value: $(UserGroups:CaseAdminGroups)
         - name: UserGroups:KinlyGroups
           value: $(UserGroups:KinlyGroups)
+        - name: UserGroups:KinlyProdGroups
+          value: $(UserGroups:KinlyProdGroups)
         - name: UserGroups:TestAccountGroups
           value: $(UserGroups:TestAccountGroups)
         - name: UserGroups:PerformanceTestAccountGroups
@@ -216,6 +218,8 @@ extends:
           value: $(UserGroups:CaseAdminGroups)
         - name: UserGroups:KinlyGroups
           value: $(UserGroups:KinlyGroups)
+        - name: UserGroups:KinlyProdGroups
+          value: $(UserGroups:KinlyProdGroups)
         - name: UserGroups:TestAccountGroups
           value: $(UserGroups:TestAccountGroups)
         - name: UserGroups:PerformanceTestAccountGroups
