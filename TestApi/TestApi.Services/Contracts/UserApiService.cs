@@ -132,7 +132,12 @@ namespace TestApi.Services.Contracts
             var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
             var groups = userGroupStrategies[user.UserType].GetGroups();
 
-            if (!user.IsProdUser && user.UserType != UserType.Judge) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
+            if (user.IsProdUser && user.UserType == UserType.Judge || user.UserType == UserType.VideoHearingsOfficer)
+            {
+                groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.KinlyProdGroups));
+            }
+
+            groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
 
             if (IsPerformanceTestUser(user.FirstName)) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.PerformanceTestAccountGroups));
 
