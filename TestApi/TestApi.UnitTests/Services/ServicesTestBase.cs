@@ -58,7 +58,8 @@ namespace TestApi.UnitTests.Services
                 RepresentativeGroups = GroupData.FAKE_REPRESENTATIVE_GROUPS,
                 VideoHearingsOfficerGroups = GroupData.FAKE_VIDEO_HEARINGS_OFFICER_GROUPS,
                 CaseAdminGroups = GroupData.FAKE_CASE_ADMIN_GROUPS,
-                KinlyGroups = GroupData.FAKE_PEXIP_GROUPS,
+                KinlyGroups = GroupData.FAKE_KINLY_GROUPS,
+                KinlyProdGroups = GroupData.FAKE_KINLY_PROD_GROUPS,
                 TestAccountGroups = GroupData.FAKE_TEST_GROUPS,
                 PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS
             };

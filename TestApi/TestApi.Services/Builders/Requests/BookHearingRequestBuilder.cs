@@ -35,6 +35,7 @@ namespace TestApi.Services.Builders.Requests
             _request = new BookNewHearingRequest
             {
                 Cases = new List<CaseRequest>(),
+                Endpoints = new List<EndpointRequest>(),
                 Participants = new List<ParticipantRequest>()
             };
 

@@ -254,5 +254,30 @@ namespace TestApi.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
         }
+
+        /// <summary>
+        /// Get person by username
+        /// </summary>
+        /// <param name="username">Username of the person</param>
+        /// <returns>List of suitability answer responses</returns>
+        [HttpGet("person/{username}")]
+        [ProducesResponseType(typeof(PersonResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetPersonByUsernameAsync(string username)
+        {
+            _logger.LogDebug($"GetPersonByUsernameAsync {username}");
+
+            try
+            {
+                var response = await _bookingsApiClient.GetPersonByUsernameAsync(username);
+
+                return Ok(response);
+            }
+            catch (BookingsApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
     }
 }

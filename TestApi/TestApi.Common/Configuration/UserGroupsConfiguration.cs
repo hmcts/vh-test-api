@@ -8,6 +8,7 @@
         public string VideoHearingsOfficerGroups { get; set; }
         public string CaseAdminGroups { get; set; }
         public string KinlyGroups { get; set; }
+        public string KinlyProdGroups { get; set; }
         public string TestAccountGroups { get; set; }
         public string PerformanceTestAccountGroups { get; set; }
     }

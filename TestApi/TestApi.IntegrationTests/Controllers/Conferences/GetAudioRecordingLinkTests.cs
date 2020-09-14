@@ -16,13 +16,13 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         
         private async Task CreateAudioFileInWowza(Guid hearingRefId)
         {
-            var file = FileManager.CreateNewAudioFile("TestAudioFile.mp4", hearingRefId);
+            var file = FileManager.CreateNewAudioFile("TestAudioFile.mp4", hearingRefId.ToString());
 
             _azureStorage = new AzureStorageManager()
                 .SetStorageAccountName(Context.Config.Wowza.StorageAccountName)
                 .SetStorageAccountKey(Context.Config.Wowza.StorageAccountKey)
                 .SetStorageContainerName(Context.Config.Wowza.StorageContainerName)
-                .CreateBlobClient(hearingRefId);
+                .CreateBlobClient(hearingRefId.ToString());
 
             await _azureStorage.UploadAudioFileToStorage(file);
             FileManager.RemoveLocalAudioFile(file);
