@@ -54,7 +54,7 @@ namespace TestApi.DAL.Commands
         {
             if (application == Application.AdminWeb && userType == UserType.Judge)
             {
-                CreateAdminWebDropdownJudge();
+                return CreateAdminWebDropdownJudge();
             }
 
             var users = await GetAllUsers(userType, application, isProdUser);
