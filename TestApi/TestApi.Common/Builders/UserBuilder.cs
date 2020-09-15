@@ -133,7 +133,8 @@ namespace TestApi.Common.Builders
                 LastName = AdminWebJudgeData.LAST_NAME,
                 Number = 0,
                 TestType = TestType.Automated,
-                Username = AdminWebJudgeData.USERNAME + _emailStem
+                Username = AdminWebJudgeData.USERNAME + _emailStem,
+                UserType = UserType.Judge
             };
         }
 
