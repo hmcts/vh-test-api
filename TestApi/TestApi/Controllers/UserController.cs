@@ -85,7 +85,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
-        [HttpGet("aad/{contactEmail}")]
+        [HttpGet("aad/{username}")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
