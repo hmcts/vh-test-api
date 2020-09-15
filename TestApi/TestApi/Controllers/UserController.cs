@@ -81,19 +81,19 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        ///     Check if user exists in AAD by contact email
+        ///     Check if user exists in AAD by username
         /// </summary>
-        /// <param name="contactEmail">Contact email of the user (case insensitive)</param>
+        /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
-        [HttpGet("aad/{contactEmail}")]
+        [HttpGet("aad/{username}")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetUserExistsInAdAsync(string contactEmail)
+        public async Task<IActionResult> GetUserExistsInAdAsync(string username)
         {
-            _logger.LogDebug($"GetUserExistsInAdAsync {contactEmail}");
+            _logger.LogDebug($"GetUserExistsInAdAsync {username}");
 
-            var exists = await _userApiService.CheckUserExistsInAAD(contactEmail);
+            var exists = await _userApiService.CheckUserExistsInAAD(username);
 
             if (exists)
             {

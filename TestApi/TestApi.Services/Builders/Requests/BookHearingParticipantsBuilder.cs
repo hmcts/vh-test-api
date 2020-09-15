@@ -49,7 +49,7 @@ namespace TestApi.Services.Builders.Requests
                 {
                     request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                     request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
-                    request.Organisation_name = Company.Name();
+                    request.Organisation_name = UserData.ORGANISATION;
                     request.Reference = UserData.REFERENCE;
                     request.Representee = individuals[repIndex].DisplayName;
                     repIndex++;
