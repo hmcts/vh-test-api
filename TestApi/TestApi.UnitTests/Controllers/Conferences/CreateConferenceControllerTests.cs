@@ -16,6 +16,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
     public class CreateConferenceControllerTests : ConferencesControllerTestsBase
     {
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_create_conference(TestType testType)

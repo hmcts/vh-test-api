@@ -192,6 +192,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_create_hearing_with_specified_test_type(TestType testType)
