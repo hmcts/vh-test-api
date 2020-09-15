@@ -124,5 +124,26 @@ namespace TestApi.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        ///     Refresh Judges Cache
+        /// </summary>
+        [HttpGet("judges/cache")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> RefreshJudgesCacheAsync()
+        {
+            _logger.LogDebug($"RefreshJudgesCacheAsync");
+
+            try
+            {
+                await _userApiClient.RefreshJudgeCacheAsync();
+                return Ok();
+            }
+            catch (UserApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
     }
 }
