@@ -225,5 +225,18 @@ namespace TestApi.Tests.Common
         {
             response.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
         }
+
+        public static void AdminWebDropdownUserResponse(UserDetailsResponse response)
+        {
+            response.Application.Should().Be(Application.AdminWeb);
+            response.ContactEmail.Should().Be(AdminWebJudgeData.CONTACT_EMAIL);
+            response.DisplayName.Should().Be(AdminWebJudgeData.DISPLAY_NAME);
+            response.FirstName.Should().Be(AdminWebJudgeData.FIRST_NAME);
+            response.IsProdUser.Should().BeTrue();
+            response.LastName.Should().Be(AdminWebJudgeData.LAST_NAME);
+            response.TestType.Should().Be(TestType.Automated);
+            response.UserType.Should().Be(UserType.Judge);
+            response.Username.Should().StartWith(AdminWebJudgeData.USERNAME);
+        }
     }
 }

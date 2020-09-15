@@ -142,6 +142,27 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             Verify.UserDetailsResponse(response, user);
         }
 
+        [Test]
+        public async Task Should_allocate_admin_web_dropdown_judge()
+        {
+            const UserType userType = UserType.Judge;
+            const Application application = Application.AdminWeb;
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(userType)
+                .ForApplication(application)
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.AdminWebDropdownUserResponse(response);
+        }
+
         [TestCase(TestType.Automated)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
