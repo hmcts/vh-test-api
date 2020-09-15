@@ -164,6 +164,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_allocate_user_with_specified_test_type(TestType testType)

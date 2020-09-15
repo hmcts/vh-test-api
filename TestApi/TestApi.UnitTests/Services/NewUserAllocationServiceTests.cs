@@ -198,6 +198,7 @@ namespace TestApi.UnitTests.Services
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_allocate_new_user_for_test_type(TestType testType)

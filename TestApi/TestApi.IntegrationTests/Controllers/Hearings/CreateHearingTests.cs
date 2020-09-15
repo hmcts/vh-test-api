@@ -12,6 +12,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
     public class CreateHearingTests : HearingsTestsBase
     {
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_create_hearing(TestType testType)

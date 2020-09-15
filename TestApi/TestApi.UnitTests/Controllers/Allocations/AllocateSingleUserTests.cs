@@ -45,6 +45,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
         public async Task Should_return_allocated_user_for_test_type(TestType testType)
