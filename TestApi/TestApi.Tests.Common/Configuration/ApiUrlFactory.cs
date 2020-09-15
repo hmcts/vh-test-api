@@ -98,6 +98,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/aad/{contactEmail}";
             }
+
+            public static string RefreshJudgesCache()
+            {
+                return $"{ApiRoot}/judges/cache";
+            }
         }
 
         public static class UtilityEndpoints
