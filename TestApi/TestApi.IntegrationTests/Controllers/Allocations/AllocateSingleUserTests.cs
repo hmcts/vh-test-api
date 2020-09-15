@@ -145,12 +145,12 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [Test]
         public async Task Should_allocate_admin_web_dropdown_judge()
         {
-            const UserType userType = UserType.Judge;
-            const Application application = Application.AdminWeb;
+            const UserType USER_TYPE = UserType.Judge;
+            const Application APPLICATION = Application.AdminWeb;
 
             var request = new AllocateUserRequestBuilder()
-                .WithUserType(userType)
-                .ForApplication(application)
+                .WithUserType(USER_TYPE)
+                .ForApplication(APPLICATION)
                 .Build();
 
             var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
