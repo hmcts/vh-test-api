@@ -52,11 +52,6 @@ namespace TestApi.DAL.Commands
 
         public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10)
         {
-            if (application == Application.AdminWeb && userType == UserType.Judge)
-            {
-                return CreateAdminWebDropdownJudge();
-            }
-
             var users = await GetAllUsers(userType, application, isProdUser);
             _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}' and application '{application}'");
 
@@ -112,11 +107,6 @@ namespace TestApi.DAL.Commands
             _logger.LogDebug($"User with username '{user.Username}' has been allocated");
 
             return user;
-        }
-
-        private User CreateAdminWebDropdownJudge()
-        {
-            return new UserBuilder(GetEmailStem()).BuildAdminWebDropdownUser();
         }
 
         private async Task AddNewUserToRecentlyCreatedList(string username)
