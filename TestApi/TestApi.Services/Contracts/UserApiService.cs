@@ -137,7 +137,10 @@ namespace TestApi.Services.Contracts
                 groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.KinlyProdGroups));
             }
 
-            groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
+            if (!user.IsProdUser && user.UserType != UserType.Judge)
+            {
+                groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
+            }
 
             if (IsPerformanceTestUser(user.FirstName)) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.PerformanceTestAccountGroups));
 

@@ -1,5 +1,4 @@
-﻿using System;
-using TestApi.Common.Data;
+﻿using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -118,24 +117,6 @@ namespace TestApi.Common.Builders
             var request = BuildRequest();
             return new User(request.Username, request.ContactEmail, request.FirstName, request.LastName,
                 request.DisplayName, request.Number, request.TestType, request.UserType, request.Application, request.IsProdUser);
-        }
-
-        public User BuildAdminWebDropdownUser()
-        {
-            return new User()
-            {
-                Application = Application.AdminWeb,
-                ContactEmail = AdminWebJudgeData.CONTACT_EMAIL,
-                CreatedDate = DateTime.UtcNow,
-                DisplayName = AdminWebJudgeData.DISPLAY_NAME,
-                FirstName = AdminWebJudgeData.FIRST_NAME,
-                IsProdUser = true,
-                LastName = AdminWebJudgeData.LAST_NAME,
-                Number = 0,
-                TestType = TestType.Automated,
-                Username = AdminWebJudgeData.USERNAME + _emailStem,
-                UserType = UserType.Judge
-            };
         }
 
         private string SetFirstName()

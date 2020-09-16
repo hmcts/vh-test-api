@@ -100,32 +100,5 @@ namespace TestApi.UnitTests.Controllers.Allocations
             var userDetailsResponse = (UserDetailsResponse) result.Value;
             userDetailsResponse.Should().BeEquivalentTo(user);
         }
-
-        [Test]
-        public async Task Should_allocate_admin_web_dropdown_judge()
-        {
-            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
-
-            var user = new UserBuilder(EMAIL_STEM).BuildAdminWebDropdownUser();
-
-            var request = new AllocateUserRequestBuilder()
-                .WithUserType(user.UserType)
-                .ForApplication(user.Application)
-                .Build();
-
-            QueryHandler
-                .Setup(
-                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
-                .ReturnsAsync(user);
-
-            var response = await Controller.AllocateSingleUserAsync(request);
-            response.Should().NotBeNull();
-
-            var result = (OkObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
-
-            var userDetailsResponse = (UserDetailsResponse)result.Value;
-            userDetailsResponse.Should().BeEquivalentTo(user);
-        }
     }
 }
