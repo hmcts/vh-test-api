@@ -8,7 +8,7 @@ The Test Api supports the acceptance tests in the vh-video-web, vh-service-web a
 ## Quality Gate Status
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vh-test-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=vh-test-api)
 
-# Generating the clients
+## Generating the clients
 If the interface for the Bookings API Client, Video API Client or User API Client are missing after cloning the repo, these can be rebuilt using the following command:
 
 In the `TestApi.Services.Generator` folder:
