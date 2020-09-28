@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
@@ -10,7 +11,7 @@ using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
-    public class GetAudioRecordingLinkTests : ConferencesTestsBase
+    public class GetAudioRecordingLinksTests : ConferencesTestsBase
     {
         private AzureStorageManager _azureStorage;
         
@@ -29,29 +30,31 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         }
 
         [Test]
-        public async Task Should_get_audio_recording_link()
+        public async Task Should_get_audio_recording_links()
         {
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
             await CreateAudioFileInWowza(conference.Hearing_id);
 
-            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinkByHearingId(conference.Hearing_id);
+            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinksByHearingId(conference.Hearing_id);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<AudioRecordingResponse>(Json);
 
             response.Should().NotBeNull();
-            response.Audio_file_link.Should().Contain(conference.Hearing_id.ToString());
+            response.Audio_file_links.First().Should().Contain(conference.Hearing_id.ToString());
         }
 
         [Test]
-        public async Task Should_return_not_found_for_non_existent_audio_recording_link()
+        public async Task Should_return_ok_for_non_existent_audio_recording_links()
         {
-            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinkByHearingId(Guid.NewGuid());
+            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinksByHearingId(Guid.NewGuid());
             await SendGetRequest(uri);
 
-            VerifyResponse(HttpStatusCode.NotFound, false);
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<AudioRecordingResponse>(Json);
+            response.Audio_file_links.Count.Should().Be(0);
         }
 
         [OneTimeTearDown]

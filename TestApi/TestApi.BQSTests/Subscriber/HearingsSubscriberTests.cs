@@ -46,7 +46,7 @@ namespace TestApi.BQSTests.Subscriber
                 Questionnaire_not_required = !Hearing.Questionnaire_not_required,
                 Scheduled_date_time = Hearing.Scheduled_date_time.AddMinutes(10),
                 Scheduled_duration = Hearing.Scheduled_duration / 2,
-                Updated_by = Hearing.Updated_by
+                Updated_by = EmailData.NON_EXISTENT_USERNAME
             };
 
             await SendPutRequest(updateUri, RequestHelper.Serialise(request));
