@@ -183,17 +183,17 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        ///     Get audio recording link
+        ///     Get audio recording links
         /// </summary>
         /// <param name="hearingId">Hearing Id of the conference</param>
-        /// <returns>A list of task details for a conference</returns>
-        [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinkByHearingIdAsync))]
+        /// <returns>A list of audio recording links for a conference</returns>
+        [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinksByHearingIdAsync))]
         [ProducesResponseType(typeof(AudioRecordingResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAudioRecordingLinkByHearingIdAsync(Guid hearingId)
+        public async Task<IActionResult> GetAudioRecordingLinksByHearingIdAsync(Guid hearingId)
         {
-            _logger.LogDebug($"GetAudioRecordingLinkByHearingIdAsync {hearingId}");
+            _logger.LogDebug($"GetAudioRecordingLinksByHearingIdAsync {hearingId}");
 
             try
             {

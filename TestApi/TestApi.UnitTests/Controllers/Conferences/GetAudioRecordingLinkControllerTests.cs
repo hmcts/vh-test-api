@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -16,14 +17,14 @@ namespace TestApi.UnitTests.Controllers.Conferences
         {
             var audioLinkResponse = new AudioRecordingResponse()
             {
-                Audio_file_link = "http://link-to-file"
+                Audio_file_links = new List<string>(){ "http://link-to-file" }
             };
                 
             VideoApiClient
                 .Setup(x => x.GetAudioRecordingLinkAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(audioLinkResponse);
 
-            var response = await Controller.GetAudioRecordingLinkByHearingIdAsync(Guid.NewGuid());
+            var response = await Controller.GetAudioRecordingLinksByHearingIdAsync(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -41,7 +42,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetAudioRecordingLinkAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("No hearing found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetAudioRecordingLinkByHearingIdAsync(Guid.NewGuid());
+            var response = await Controller.GetAudioRecordingLinksByHearingIdAsync(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
