@@ -47,13 +47,6 @@ namespace TestApi.Services.Builders.Requests
                 new UserBuilder(usernameStem, 1).AddCaseAdmin().ForApplication(Application.QueueSubscriber).BuildUser(),
             };
 
-            _request.Endpoints.Add(new EndpointRequest()
-            {
-                AdditionalProperties = null,
-                Defence_advocate_username = users[2].Username,
-                Display_name = users[2].DisplayName
-            });
-
             _createHearingRequest = new CreateHearingRequest()
             {
                 Application = Application.TestApi,
