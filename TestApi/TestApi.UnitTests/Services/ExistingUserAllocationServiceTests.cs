@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Services
             allocations.Count.Should().Be(NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
@@ -74,7 +74,7 @@ namespace TestApi.UnitTests.Services
             var users = CreateListOfUsers(UserType.Individual, NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             var allocations = CreateAllocations(users);
@@ -129,7 +129,7 @@ namespace TestApi.UnitTests.Services
             allocations.Count.Should().Be(NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
