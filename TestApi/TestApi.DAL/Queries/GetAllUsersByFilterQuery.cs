@@ -8,33 +8,39 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.DAL.Queries
 {
-    public class GetAllUsersByUserTypeQuery : IQuery
+    public class GetAllUsersByFilterQuery : IQuery
     {
-        public GetAllUsersByUserTypeQuery(UserType userType, Application application, bool isProdUser)
+        public GetAllUsersByFilterQuery(UserType userType, TestType testType, Application application, bool isProdUser)
         {
             UserType = userType;
+            TestType = testType;
             Application = application;
             IsProdUser = isProdUser;
         }
 
         public UserType UserType { get; set; }
+        public TestType TestType { get; set; }
         public Application Application { get; set; }
         public bool IsProdUser { get; set; }
     }
 
-    public class GetAllUsersByUserTypeQueryHandler : IQueryHandler<GetAllUsersByUserTypeQuery, List<User>>
+    public class GetAllUsersByFilterQueryHandler : IQueryHandler<GetAllUsersByFilterQuery, List<User>>
     {
         private readonly TestApiDbContext _context;
 
-        public GetAllUsersByUserTypeQueryHandler(TestApiDbContext context)
+        public GetAllUsersByFilterQueryHandler(TestApiDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<User>> Handle(GetAllUsersByUserTypeQuery query)
+        public async Task<List<User>> Handle(GetAllUsersByFilterQuery query)
         {
             return await _context.Users
-                .Where(x => x.UserType == query.UserType && x.Application == query.Application && x.IsProdUser == query.IsProdUser)
+                .Where(x => 
+                    x.UserType == query.UserType && 
+                    x.TestType == query.TestType &&
+                    x.Application == query.Application && 
+                    x.IsProdUser == query.IsProdUser)
                 .AsNoTracking()
                 .ToListAsync();
         }

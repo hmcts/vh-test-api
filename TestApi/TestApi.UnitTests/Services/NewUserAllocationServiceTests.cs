@@ -21,7 +21,7 @@ namespace TestApi.UnitTests.Services
             var users = new List<User>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -77,7 +77,7 @@ namespace TestApi.UnitTests.Services
             AllocateAllUsers(allocations);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
@@ -135,7 +135,7 @@ namespace TestApi.UnitTests.Services
             var users = new List<User>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -206,7 +206,7 @@ namespace TestApi.UnitTests.Services
             var users = new List<User>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -258,7 +258,7 @@ namespace TestApi.UnitTests.Services
             var users = new List<User>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByUserTypeQuery, List<User>>(It.IsAny<GetAllUsersByUserTypeQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;

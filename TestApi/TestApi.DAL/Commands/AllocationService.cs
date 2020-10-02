@@ -52,8 +52,8 @@ namespace TestApi.DAL.Commands
 
         public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10)
         {
-            var users = await GetAllUsers(userType, application, isProdUser);
-            _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}' and application '{application}'");
+            var users = await GetAllUsers(userType, testType, application, isProdUser);
+            _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}', test type '{testType}' and application '{application}'");
 
             var allocations = await CreateAllocationsForUsersIfRequired(users);
 
@@ -136,10 +136,10 @@ namespace TestApi.DAL.Commands
             return false;
         }
 
-        private async Task<List<User>> GetAllUsers(UserType userType, Application application, bool isProdUser)
+        private async Task<List<User>> GetAllUsers(UserType userType, TestType testType, Application application, bool isProdUser)
         {
-            var query = new GetAllUsersByUserTypeQuery(userType, application, isProdUser);
-            return await _queryHandler.Handle<GetAllUsersByUserTypeQuery, List<User>>(query);
+            var query = new GetAllUsersByFilterQuery(userType, testType, application, isProdUser);
+            return await _queryHandler.Handle<GetAllUsersByFilterQuery, List<User>>(query);
         }
 
         private async Task<List<Allocation>> CreateAllocationsForUsersIfRequired(IReadOnlyCollection<User> users)

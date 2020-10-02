@@ -7,13 +7,13 @@ using TestApi.Domain.Enums;
 
 namespace TestApi.IntegrationTests.Database.Queries
 {
-    public class GetAllUsersByUserTypeQueryTests : DatabaseTestsBase
+    public class GetAllUsersByFilterQueryTests : DatabaseTestsBase
     {
-        private readonly GetAllUsersByUserTypeQueryHandler _query;
+        private readonly GetAllUsersByFilterQueryHandler _query;
 
-        public GetAllUsersByUserTypeQueryTests()
+        public GetAllUsersByFilterQueryTests()
         {
-            _query = new GetAllUsersByUserTypeQueryHandler(DbContext);
+            _query = new GetAllUsersByFilterQueryHandler(DbContext);
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var expectedUser = await Context.Data.SeedUser();
             var unexpectedUser = await Context.Data.SeedUser(UserType.None);
-            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(expectedUser.UserType,
+            var users = await _query.Handle(new GetAllUsersByFilterQuery(expectedUser.UserType, expectedUser.TestType,
                 expectedUser.Application, expectedUser.IsProdUser));
             users.Count.Should().Be(1);
             users.Any(x => x.DisplayName.Equals(unexpectedUser.DisplayName)).Should().BeFalse();
@@ -31,7 +31,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         [Test]
         public async Task Should_return_empty_list_for_no_suitable_users()
         {
-            var users = await _query.Handle(new GetAllUsersByUserTypeQuery(UserType.None, Application.TestApi, false));
+            var users = await _query.Handle(new GetAllUsersByFilterQuery(UserType.None, TestType.Automated, Application.TestApi, false));
             users.Count.Should().Be(0);
         }
     }
