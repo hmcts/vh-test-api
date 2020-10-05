@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castle.Core.Internal;
+using System;
 using System.Net.Mail;
 
 namespace TestApi.Validations
@@ -13,7 +14,7 @@ namespace TestApi.Validations
             try
             {
                 var address = new MailAddress(email);
-                return address.Address.Length > 0;
+                return !string.IsNullOrEmpty(address.Address);
             }
             catch (FormatException)
             {

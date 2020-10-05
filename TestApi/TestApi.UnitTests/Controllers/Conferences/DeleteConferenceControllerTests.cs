@@ -37,5 +37,23 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var result = (ObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }
+
+        [Test]
+        public async Task Should_delete_conference_without_deleting_audio_application_with_no_audio_application()
+        {
+            VideoApiClient
+               .Setup(x => x.RemoveConferenceAsync(It.IsAny<Guid>()))
+               .Returns(Task.CompletedTask);
+
+            VideoApiClient
+                .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(CreateVideoApiException($"No audio application found to delete with hearing id ", HttpStatusCode.NotFound));
+
+            var response = await Controller.DeleteConferenceAsync(Guid.NewGuid(), Guid.NewGuid());
+            response.Should().NotBeNull();
+
+            var result = (NoContentResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        }
     }
 }
