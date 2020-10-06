@@ -102,6 +102,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             var result = (BadRequestObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
+            result.Value.Should().Be($"No allocation exists for user with username {user.Username}");
         }
     }
 }

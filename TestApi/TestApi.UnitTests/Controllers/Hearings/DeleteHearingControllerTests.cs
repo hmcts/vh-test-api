@@ -55,5 +55,30 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
+
+        [Test]
+        public async Task Should_delete_hearing_without_removing_audio_application_with_no_audio_application()
+        {
+            var hearingId = Guid.NewGuid();
+            var hearingDetailsResponse = CreateHearingDetailsResponse();
+
+            BookingsApiClient
+                .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            BookingsApiClient
+                .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
+                .Returns(Task.CompletedTask);
+
+            VideoApiClient
+                .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(CreateVideoApiException("No audio application found", HttpStatusCode.NotFound));
+
+            var response = await Controller.DeleteHearingByIdAsync(hearingId);
+            response.Should().NotBeNull();
+
+            var result = (NoContentResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        }
     }
 }
