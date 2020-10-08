@@ -65,6 +65,12 @@ namespace TestApi.Common.Builders
             return this;
         }
 
+        public UserBuilder AddWinger()
+        {
+            _userType = UserType.Winger;
+            return this;
+        }
+
         public UserBuilder WithUserType(UserType userType)
         {
             _userType = userType;

@@ -18,6 +18,7 @@ namespace TestApi.Services.Helpers
                 {UserType.Judge, new JudgeGroupsStrategy(configuration)},
                 {UserType.Individual, new IndividualGroupsStrategy(configuration)},
                 {UserType.PanelMember, new IndividualGroupsStrategy(configuration)},
+                {UserType.Winger, new IndividualGroupsStrategy(configuration)},
                 {UserType.Observer, new IndividualGroupsStrategy(configuration)},
                 {UserType.Representative, new RepresentativeGroupsStrategy(configuration)},
                 {UserType.CaseAdmin, new CaseAdminGroupsStrategy(configuration)},

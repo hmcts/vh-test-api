@@ -85,7 +85,7 @@ namespace TestApi.Services.Builders.Requests
 
         private static UserRole GetUserRoleFromUserType(UserType userType)
         {
-            if (userType == UserType.Observer || userType == UserType.PanelMember)
+            if (userType == UserType.Observer || userType == UserType.PanelMember || userType == UserType.Winger)
             {
                 return UserRole.Individual;
             }

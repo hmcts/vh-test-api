@@ -19,6 +19,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Representative)]
         [TestCase(UserType.Observer)]
         [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         public async Task Should_allocate_single_user_no_users_exist(UserType userType)
@@ -40,6 +41,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Representative)]
         [TestCase(UserType.Observer)]
         [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         public async Task Should_allocate_single_user_one_unallocated_user_exists(UserType userType)
@@ -67,6 +69,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Representative)]
         [TestCase(UserType.Observer)]
         [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         public async Task Should_allocate_single_user_one_allocated_user_exists(UserType userType)
@@ -96,6 +99,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Representative)]
         [TestCase(UserType.Observer)]
         [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         public async Task Should_allocate_single_user_allocated_user_expired(UserType userType)

@@ -20,6 +20,7 @@ namespace TestApi.Domain.Helpers
         public static UserTypeName Representative => new UserTypeName(UserType.Representative, "Representative");
         public static UserTypeName Observer => new UserTypeName(UserType.Observer, "Observer");
         public static UserTypeName PanelMember => new UserTypeName(UserType.PanelMember, "Panel Member");
+        public static UserTypeName Winger => new UserTypeName(UserType.Winger, "Winger");
         public static UserTypeName CaseAdmin => new UserTypeName(UserType.CaseAdmin, "Case Admin");
 
         public static UserTypeName VideoHearingsOfficer =>
@@ -34,6 +35,7 @@ namespace TestApi.Domain.Helpers
                 yield return Representative;
                 yield return Observer;
                 yield return PanelMember;
+                yield return Winger;
                 yield return CaseAdmin;
                 yield return VideoHearingsOfficer;
             }
