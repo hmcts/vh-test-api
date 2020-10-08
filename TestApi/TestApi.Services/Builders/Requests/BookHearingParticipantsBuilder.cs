@@ -55,7 +55,13 @@ namespace TestApi.Services.Builders.Requests
                     repIndex++;
                 }
 
-                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative)
+                if (user.UserType == UserType.Winger)
+                {
+                    request.Case_role_name = RoleData.WINGER_CASE_ROLE_NAME;
+                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                }
+
+                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative && user.UserType != UserType.Winger)
                 {
                     request.Case_role_name = AddSpacesToUserType(user.UserType);
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);
