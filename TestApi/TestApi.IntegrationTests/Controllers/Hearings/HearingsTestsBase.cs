@@ -25,6 +25,29 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return new HearingBuilder(users).TypeOfTest(testType).Build();
         }
 
+        protected CreateHearingRequest CreateCACDHearingRequest()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .BuildUser();
+
+            var individual = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddIndividual()
+                .BuildUser();
+
+            var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddCaseAdmin()
+                .BuildUser();
+
+            var winger = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddWinger()
+                .BuildUser();
+
+            var users = new List<User>() { judge, individual, caseAdmin, winger };
+
+            return new HearingBuilder(users).CACDHearing().Build();
+        }
+
         protected CreateHearingRequest CreateHearingRequestWithQuestionnaireEnabled()
         {
             var users = CreateDefaultUsers(TestType.Automated);

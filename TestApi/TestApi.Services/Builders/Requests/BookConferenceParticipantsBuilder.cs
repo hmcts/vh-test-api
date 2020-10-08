@@ -14,11 +14,13 @@ namespace TestApi.Services.Builders.Requests
         private readonly List<ParticipantRequest> _participants;
 
         private readonly List<User> _users;
+        private readonly bool _isCACDCaseType;
 
-        public BookConferenceParticipantsBuilder(List<User> users)
+        public BookConferenceParticipantsBuilder(List<User> users, bool isCACDCaseType)
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
+            _isCACDCaseType = isCACDCaseType;
         }
 
         public List<ParticipantRequest> Build()
@@ -39,9 +41,17 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role = indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
-                    indIndex++;
+                    if (_isCACDCaseType)
+                    {
+                        request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
+                        request.Hearing_role = RoleData.APPELLANT_CASE_ROLE_NAME;
+                    }
+                    else
+                    {
+                        request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.Hearing_role = indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
+                        indIndex++;
+                    }
                 }
 
                 if (user.UserType == UserType.Representative)
@@ -54,7 +64,7 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Winger)
                 {
-                    request.Case_type_group = RoleData.WINGER_CASE_ROLE_NAME;
+                    request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
                     request.Hearing_role = AddSpacesToUserType(user.UserType);
                 }
 
