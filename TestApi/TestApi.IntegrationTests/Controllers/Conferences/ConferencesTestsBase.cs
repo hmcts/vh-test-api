@@ -73,13 +73,19 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .ForTestType(testType)
                 .BuildUser();
 
+            var winger = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddWinger()
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
+                .BuildUser();
+
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
                 .BuildUser();
 
-            return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
+            return new List<User>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
         }
 
         protected ConferenceEventRequest CreateVideoEventRequest(ConferenceDetailsResponse conference)

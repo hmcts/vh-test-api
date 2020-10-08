@@ -23,13 +23,14 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             const UserType REPRESENTATIVE_USER = UserType.Representative;
             const UserType OBSERVER_USER = UserType.Observer;
             const UserType PANEL_MEMBER_USER = UserType.PanelMember;
+            const UserType WINGER_USER = UserType.Winger;
             const UserType CASE_ADMIN_USER = UserType.CaseAdmin;
 
             const Application APPLICATION = Application.TestApi;
 
             var userTypes = new List<UserType>()
             {
-                JUDGE_USER, INDIVIDUAL_USER, REPRESENTATIVE_USER, OBSERVER_USER, PANEL_MEMBER_USER, CASE_ADMIN_USER
+                JUDGE_USER, INDIVIDUAL_USER, REPRESENTATIVE_USER, OBSERVER_USER, PANEL_MEMBER_USER, WINGER_USER, CASE_ADMIN_USER
             };
 
             var request = new AllocateUsersRequestBuilder()
