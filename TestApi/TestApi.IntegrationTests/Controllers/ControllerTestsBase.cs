@@ -40,10 +40,8 @@ namespace TestApi.IntegrationTests.Controllers
         }
 
         private HttpClient CreateNewClient()
-        {
-            var client = _server.CreateClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
-            return client;
+        { 
+            return Context.CreateClient();
         }
 
         protected async Task SendGetRequest(string uri)

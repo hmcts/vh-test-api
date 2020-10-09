@@ -1,4 +1,5 @@
-﻿using AcceptanceTests.Common.Configuration;
+﻿using AcceptanceTests.Common.Api;
+using AcceptanceTests.Common.Configuration;
 using FluentAssertions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -32,9 +33,16 @@ namespace TestApi.IntegrationTests.Test
             RegisterDatabaseSettings();
             RegisterUsernameStem();
             RegisterServer();
+            RegisterServices();
             RegisterWowzaSettings();
             GenerateBearerTokens(azureOptions);
             return _context;
+        }
+
+        private void RegisterServices()
+        {
+            _context.Config.Services = Options.Create(_configRoot.GetSection("Services").Get<ServicesConfiguration>()).Value;
+            _context.Config.Services.TestApiUrl.Should().NotBeNullOrEmpty();
         }
 
         private IOptions<AzureAdConfiguration> RegisterAzureSecrets()
@@ -86,6 +94,8 @@ namespace TestApi.IntegrationTests.Test
                 azureOptions.Value.ClientId, azureOptions.Value.ClientSecret,
                 azureOptions.Value.ValidAudience);
             _context.Tokens.TestApiBearerToken.Should().NotBeNullOrEmpty();
+
+            Zap.SetAuthToken(_context.Tokens.TestApiBearerToken);
         }
     }
 }
