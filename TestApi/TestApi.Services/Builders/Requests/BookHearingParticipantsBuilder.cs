@@ -54,12 +54,21 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                    if (_isCACDCaseType)
+                    {
+                        request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
+                        request.Hearing_role_name = RoleData.CACD_REP_HEARING_ROLE_NAME;
+                    }
+                    else
+                    {
+                        request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                        request.Representee = individuals[repIndex].DisplayName;
+                        repIndex++;
+                    }
+
                     request.Organisation_name = UserData.ORGANISATION;
                     request.Reference = UserData.REFERENCE;
-                    request.Representee = individuals[repIndex].DisplayName;
-                    repIndex++;
                 }
 
                 if (user.UserType == UserType.Winger)
@@ -95,8 +104,7 @@ namespace TestApi.Services.Builders.Requests
             var totalJudges = _users.Count(x => x.UserType == UserType.Judge);
             totalJudges.Should().Be(1);
             totalIndividuals.Should().BeGreaterThan(0);
-            totalRepresentatives.Should().BeGreaterThan(0);
-            totalIndividuals.Should().Be(totalRepresentatives);
+            totalRepresentatives.Should().BeLessOrEqualTo(totalIndividuals);
         }
 
         private static string AddSpacesToUserType(UserType userType)
