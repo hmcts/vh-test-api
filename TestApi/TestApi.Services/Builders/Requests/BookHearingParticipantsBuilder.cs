@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Faker;
 using FluentAssertions;
 using TestApi.Common.Data;
 using TestApi.Domain;
@@ -12,13 +11,14 @@ namespace TestApi.Services.Builders.Requests
     public class BookHearingParticipantsBuilder
     {
         private readonly List<ParticipantRequest> _participants;
-
         private readonly List<User> _users;
+        private readonly bool _isCACDCaseType;
 
-        public BookHearingParticipantsBuilder(List<User> users)
+        public BookHearingParticipantsBuilder(List<User> users, bool isCACDCaseType)
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
+            _isCACDCaseType = isCACDCaseType;
         }
 
         public List<ParticipantRequest> Build()
@@ -39,23 +39,45 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Individual)
                 {
-                    request.Case_role_name = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name =
-                        indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
-                    indIndex++;
+                    if (_isCACDCaseType)
+                    {
+                        request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
+                        request.Hearing_role_name = RoleData.APPELLANT_CASE_ROLE_NAME;
+                    }
+                    else
+                    {
+                        request.Case_role_name = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.Hearing_role_name = indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
+                        indIndex++;
+                    }
                 }
 
                 if (user.UserType == UserType.Representative)
                 {
-                    request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                    request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                    if (_isCACDCaseType)
+                    {
+                        request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
+                        request.Hearing_role_name = RoleData.CACD_REP_HEARING_ROLE_NAME;
+                    }
+                    else
+                    {
+                        request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                        request.Representee = individuals[repIndex].DisplayName;
+                        repIndex++;
+                    }
+
                     request.Organisation_name = UserData.ORGANISATION;
                     request.Reference = UserData.REFERENCE;
-                    request.Representee = individuals[repIndex].DisplayName;
-                    repIndex++;
                 }
 
-                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative)
+                if (user.UserType == UserType.Winger)
+                {
+                    request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
+                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                }
+
+                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative && user.UserType != UserType.Winger)
                 {
                     request.Case_role_name = AddSpacesToUserType(user.UserType);
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);
@@ -82,8 +104,7 @@ namespace TestApi.Services.Builders.Requests
             var totalJudges = _users.Count(x => x.UserType == UserType.Judge);
             totalJudges.Should().Be(1);
             totalIndividuals.Should().BeGreaterThan(0);
-            totalRepresentatives.Should().BeGreaterThan(0);
-            totalIndividuals.Should().Be(totalRepresentatives);
+            totalRepresentatives.Should().BeLessOrEqualTo(totalIndividuals);
         }
 
         private static string AddSpacesToUserType(UserType userType)

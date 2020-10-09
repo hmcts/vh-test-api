@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
+using Castle.Core.Internal;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
@@ -23,6 +24,7 @@ namespace TestApi.Services.Builders.Requests
         {
             _request = new BookNewHearingRequest
             {
+                Case_type_name = createHearingRequest.CaseType,
                 Cases = new List<CaseRequest>(),
                 Participants = new List<ParticipantRequest>()
             };
@@ -51,6 +53,7 @@ namespace TestApi.Services.Builders.Requests
             {
                 Application = Application.TestApi,
                 AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
+                CaseType = HearingData.CASE_TYPE_NAME,
                 QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow.AddMinutes(35),
                 Users = users,
@@ -110,22 +113,39 @@ namespace TestApi.Services.Builders.Requests
             }
         }
 
+        private void SetCaseTypeAndHearingTypeNames()
+        {
+            if (_request.Case_type_name.IsNullOrEmpty())
+            {
+                _request.Case_type_name = HearingData.CASE_TYPE_NAME;
+                _request.Hearing_type_name = HearingData.HEARING_TYPE_NAME;
+            }
+            else
+            {
+                _request.Hearing_type_name = IsCACDCaseType() ? HearingData.CACD_HEARING_TYPE_NAME : HearingData.HEARING_TYPE_NAME;
+            }
+        }
+
         public BookNewHearingRequest Build()
         {
             AddCases();
             SetCreatedBy();
+            SetCaseTypeAndHearingTypeNames();
             _request.AdditionalProperties = null;
             _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
-            _request.Case_type_name = HearingData.CASE_TYPE_NAME;
             _request.Hearing_room_name = HearingData.HEARING_ROOM_NAME;
-            _request.Hearing_type_name = HearingData.HEARING_TYPE_NAME;
             _request.Hearing_venue_name = _createHearingRequest.Venue;
             _request.Other_information = HearingData.OTHER_INFORMATION;
             _request.Questionnaire_not_required = _createHearingRequest.QuestionnaireNotRequired;
-            _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users).Build();
+            _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users, IsCACDCaseType()).Build();
             _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
             _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
             return _request;
+        }
+
+        private bool IsCACDCaseType()
+        {
+            return _request.Case_type_name.Equals(HearingData.CACD_CASE_TYPE_NAME);
         }
     }
 }

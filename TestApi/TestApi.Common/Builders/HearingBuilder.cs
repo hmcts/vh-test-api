@@ -17,6 +17,7 @@ namespace TestApi.Common.Builders
             {
                 Application = Application.TestApi,
                 AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
+                CaseType = HearingData.CASE_TYPE_NAME,
                 QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow,
                 TestType = TestType.Automated,
@@ -28,6 +29,12 @@ namespace TestApi.Common.Builders
         public HearingBuilder AudioRecordingRequired()
         {
             _request.AudioRecordingRequired = true;
+            return this;
+        }
+
+        public HearingBuilder CACDHearing()
+        {
+            _request.CaseType = HearingData.CACD_CASE_TYPE_NAME;
             return this;
         }
 
