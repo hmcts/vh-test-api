@@ -14,21 +14,13 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-  
-  <Target Name="AssemblyVersionAttributes" Condition=" '$(Configuration)' != 'Debug' ">
+
+  <Target Name="AssemblyVersionAttributes" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)' != 'Debug' ">
     <PropertyGroup>
       <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
       <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
       <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     </PropertyGroup>
-  </Target>
- 
-   <Target Name="UpdateAssemblyVersionAttributes" Condition=" '$(Configuration)' == 'Debug' ">
-    <CreateProperty Value="true"   >
-      <Output TaskParameter="Value" PropertyName="GenerateAssemblyVersionAttribute"/>
-      <Output TaskParameter="Value" PropertyName="GenerateAssemblyFileVersionAttribute"/>
-      <Output TaskParameter="Value" PropertyName="GenerateAssemblyInformationalVersionAttribute"/>
-    </CreateProperty>
   </Target>
 
   <ItemGroup>
