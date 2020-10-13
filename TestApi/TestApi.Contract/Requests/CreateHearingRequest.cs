@@ -14,6 +14,9 @@ namespace TestApi.Contract.Requests
         /// <summary>Application hearing is required for</summary>
         public Application Application { get; set; }
 
+        /// <summary>Case Type</summary>
+        public string CaseType { get; set; }
+
         /// <summary>Participants need to answer questionnaire before video web</summary>
         public bool QuestionnaireNotRequired { get; set; }
 

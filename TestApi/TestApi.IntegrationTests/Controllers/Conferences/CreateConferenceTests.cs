@@ -26,5 +26,18 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             response.Should().NotBeNull();
             Verify.ConferenceDetailsResponse(response, request);
         }
+
+        [Test]
+        public async Task Should_create_cacd_conference()
+        {
+            var request = CreateCACDConferenceRequest();
+            await CreateConference(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<ConferenceDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.ConferenceDetailsResponse(response, request);
+        }
     }
 }

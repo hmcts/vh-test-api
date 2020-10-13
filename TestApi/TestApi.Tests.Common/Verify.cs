@@ -61,7 +61,7 @@ namespace TestApi.Tests.Common
             response.AdditionalProperties.Count.Should().Be(0);
             response.Audio_recording_required.Should().Be(request.AudioRecordingRequired);
             response.Cancel_reason.Should().BeNull();
-            response.Case_type_name.Should().Be(HearingData.CASE_TYPE_NAME);
+            response.Case_type_name.Should().Be(request.CaseType);
             response.Cases.First().AdditionalProperties.Count.Should().Be(0);
             response.Cases.First().Name.Should().Contain(request.TestType.ToString());
             response.Cases.First().Number.Should().NotBeNullOrWhiteSpace();
@@ -71,7 +71,11 @@ namespace TestApi.Tests.Common
             response.Created_by.Should().Be(request.Users.First(x => x.UserType == UserType.CaseAdmin).Username);
             response.Created_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
             response.Hearing_room_name.Should().Be(HearingData.HEARING_ROOM_NAME);
-            response.Hearing_type_name.Should().Be(HearingData.HEARING_TYPE_NAME);
+
+            response.Hearing_type_name.Should().Be(request.CaseType.Equals(HearingData.CASE_TYPE_NAME)
+                ? HearingData.HEARING_TYPE_NAME
+                : HearingData.CACD_HEARING_TYPE_NAME);
+
             response.Hearing_venue_name.Should().Be(request.Venue);
             response.Id.Should().NotBeEmpty();
             response.Other_information.Should().Be(HearingData.OTHER_INFORMATION);
@@ -160,7 +164,10 @@ namespace TestApi.Tests.Common
                 if (!conferenceParticipant.User_role_name.Equals("Representative")) continue;
                 conferenceParticipant.Organisation.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Reference.Should().NotBeNullOrWhiteSpace();
-                conferenceParticipant.Representee.Should().NotBeNullOrWhiteSpace();
+                if (conferenceParticipant.Hearing_role_name != RoleData.CACD_REP_HEARING_ROLE_NAME)
+                {
+                    conferenceParticipant.Representee.Should().NotBeNullOrWhiteSpace();
+                }
             }
         }
 

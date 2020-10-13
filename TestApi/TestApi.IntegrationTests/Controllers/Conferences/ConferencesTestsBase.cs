@@ -22,8 +22,14 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
         protected BookNewConferenceRequest CreateConferenceRequest(TestType testType = TestType.Automated)
         {
-            var users = CreateDefaultUsers(testType);
+            var users = CreateDefaultUsers(testType, false);
             return new BookConferenceRequestBuilder(users, testType).BuildRequest();
+        }
+
+        protected BookNewConferenceRequest CreateCACDConferenceRequest()
+        {
+            var users = CreateDefaultUsers(TestType.Automated, true);
+            return new BookConferenceRequestBuilder(users, TestType.Automated).WithCACDCaseType().BuildRequest();
         }
 
         protected async Task<ConferenceDetailsResponse> CreateConference(BookNewConferenceRequest request)
@@ -41,7 +47,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return response;
         }
 
-        private List<User> CreateDefaultUsers(TestType testType)
+        private List<User> CreateDefaultUsers(TestType testType, bool isCACDCaseType)
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
@@ -79,7 +85,16 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .ForTestType(testType)
                 .BuildUser();
 
-            return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
+            if (!isCACDCaseType)
+                return new List<User>() {judge, individual, representative, observer, panelMember, caseAdmin};
+            
+            var winger = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddWinger()
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
+                .BuildUser();
+
+            return new List<User>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
         }
 
         protected ConferenceEventRequest CreateVideoEventRequest(ConferenceDetailsResponse conference)

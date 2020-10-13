@@ -26,5 +26,18 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             response.Should().NotBeNull();
             Verify.HearingDetailsResponse(response, request);
         }
+
+        [Test]
+        public async Task Should_create_CACD_hearing()
+        {
+            var request = CreateCACDHearingRequest();
+            await CreateHearing(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.HearingDetailsResponse(response, request);
+        }
     }
 }

@@ -10,6 +10,7 @@
         Individual = 5,
         Representative = 6,
         Observer = 7,
-        PanelMember = 8
+        PanelMember = 8,
+        Winger = 9
     }
 }
