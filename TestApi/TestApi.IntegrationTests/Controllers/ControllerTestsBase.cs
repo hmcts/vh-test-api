@@ -51,11 +51,9 @@ namespace TestApi.IntegrationTests.Controllers
                     UseProxy = true,
                 };
 
-                _server.BaseAddress = new Uri(Context.Config.Services.TestApiUrl);
-
                 client = new HttpClient(handler)
                 {
-                    BaseAddress = _server.BaseAddress
+                    BaseAddress = new Uri(Context.Config.Services.TestApiUrl)
                 };
             }
             else
@@ -70,7 +68,7 @@ namespace TestApi.IntegrationTests.Controllers
         protected async Task SendGetRequest(string uri)
         {
             using var client = CreateNewClient();
-            Response = await client.GetAsync(new Uri(_server.BaseAddress, uri));
+            Response = await client.GetAsync(uri);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
@@ -78,7 +76,7 @@ namespace TestApi.IntegrationTests.Controllers
         {
             var content = new StringContent(request, Encoding.UTF8, "application/json");
             using var client = CreateNewClient();
-            Response = await client.PatchAsync(new Uri(_server.BaseAddress, uri), content);
+            Response = await client.PatchAsync(uri, content);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
@@ -86,7 +84,7 @@ namespace TestApi.IntegrationTests.Controllers
         {
             var content = new StringContent(request, Encoding.UTF8, "application/json");
             using var client = CreateNewClient();
-            Response = await client.PostAsync(new Uri(_server.BaseAddress, uri), content);
+            Response = await client.PostAsync(uri, content);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
@@ -94,14 +92,14 @@ namespace TestApi.IntegrationTests.Controllers
         {
             var content = new StringContent(request, Encoding.UTF8, "application/json");
             using var client = CreateNewClient();
-            Response = await client.PutAsync(new Uri(_server.BaseAddress, uri), content);
+            Response = await client.PutAsync(uri, content);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
         protected async Task SendDeleteRequest(string uri)
         {
             using var client = CreateNewClient();
-            Response = await client.DeleteAsync(new Uri(_server.BaseAddress, uri));
+            Response = await client.DeleteAsync(uri);
             Json = await Response.Content.ReadAsStringAsync();
         }
 
