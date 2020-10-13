@@ -13,23 +13,7 @@
     <UserSecretsId>04df59fe-66aa-4fb2-8ac5-b87656f7675a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-  </PropertyGroup>
-
-  <Target Name="AssemblyVersionAttributes" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)' != 'Debug' ">   
-        <PropertyGroup>
-          <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-          <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-          <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-        </PropertyGroup>
-  </Target>
-
-  <Target Name="AssemblyVersionAttributes" BeforeTargets="BeforeBuild" Condition=" '$(Configuration)' == 'Debug' ">
-    <PropertyGroup>
-      <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-      <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
-      <GenerateAssemblyInformationalVersionAttribute>true</GenerateAssemblyInformationalVersionAttribute>
-    </PropertyGroup>
-  </Target>
+  </PropertyGroup> 
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.1" />
