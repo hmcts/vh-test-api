@@ -51,6 +51,10 @@ dotnet tool install dotnet-stryker
 
 To update latest version of stryker please use the following command
 
+```bash
+dotnet tool update --global dotnet-stryker
+```
+
 ## Run Zap scan locally
 
 To run Zap scan locally update the following settings and run acceptance\integration tests
@@ -63,6 +67,3 @@ Update following configuration under appsettings.json under TestApi.IntegrationT
 
 Note: Ensure you have Docker desktop engine installed and setup
 
-```bash
-dotnet tool update --global dotnet-stryker
-```
