@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AcceptanceTests.Common.Api;
 using FluentAssertions;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
@@ -40,8 +41,30 @@ namespace TestApi.IntegrationTests.Controllers
         }
 
         private HttpClient CreateNewClient()
-        { 
-            return Context.CreateClient();
+        {
+            HttpClient client;
+            if (Zap.SetupProxy)
+            {
+                var handler = new HttpClientHandler
+                {
+                    Proxy = Zap.WebProxy,
+                    UseProxy = true,
+                };
+
+                _server.BaseAddress = new Uri(Context.Config.Services.TestApiUrl);
+
+                client = new HttpClient(handler)
+                {
+                    BaseAddress = _server.BaseAddress
+                };
+            }
+            else
+            {
+                client = _server.CreateClient();
+            }
+
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Context.Tokens.TestApiBearerToken}");
+            return client;
         }
 
         protected async Task SendGetRequest(string uri)
