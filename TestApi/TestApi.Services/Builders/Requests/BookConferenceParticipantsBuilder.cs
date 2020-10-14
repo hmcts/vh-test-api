@@ -65,7 +65,7 @@ namespace TestApi.Services.Builders.Requests
                     {
                         request.Case_type_group = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                         request.Hearing_role = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
-                        request.Representee = individuals[repIndex].DisplayName;
+                        request.Representee = individuals.Count == 0 ? "An individual" : individuals[repIndex].DisplayName;
                         repIndex++;
                     }
                 }
@@ -102,8 +102,7 @@ namespace TestApi.Services.Builders.Requests
         {
             var totalJudges = _users.Count(x => x.UserType == UserType.Judge);
             totalJudges.Should().Be(1);
-            totalIndividuals.Should().BeGreaterThan(0);
-            totalRepresentatives.Should().BeLessOrEqualTo(totalIndividuals);
+            (totalIndividuals + totalRepresentatives).Should().BeGreaterThan(0);
         }
 
         private static UserRole GetUserRoleFromUserType(UserType userType)
