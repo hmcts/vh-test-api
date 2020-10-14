@@ -54,3 +54,16 @@ To update latest version of stryker please use the following command
 ```bash
 dotnet tool update --global dotnet-stryker
 ```
+
+## Run Zap scan locally
+
+To run Zap scan locally update the following settings and run acceptance\integration tests
+
+Update following configuration under appsettings.json under TestApi.IntegrationTests
+
+- "Services:TestApiUrl": "https://TestApi_AC/"
+- "ZapConfiguration:ZapScan": true
+- "ConnectionStrings:TestApi": "Server=localhost,1433;Database=TestApi;User=sa;Password=VeryStrongPassword!;" (TestApi\appsettings.development.json)
+
+Note: Ensure you have Docker desktop engine installed and setup
+

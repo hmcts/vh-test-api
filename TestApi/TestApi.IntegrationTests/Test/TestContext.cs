@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.TestHost;
+﻿using AcceptanceTests.Common.Api;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 using TestApi.DAL;
 using TestApi.Tests.Common.Configuration;
 
