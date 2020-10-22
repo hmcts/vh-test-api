@@ -68,7 +68,6 @@ namespace TestApi.Services.Builders.Requests
                     }
 
                     request.Organisation_name = UserData.ORGANISATION;
-                    request.Reference = UserData.REFERENCE;
                 }
 
                 if (user.UserType == UserType.Winger)

@@ -43,7 +43,6 @@ namespace TestApi.Services.Builders.Responses
                     Last_name = participant.Last_name,
                     Middle_names = participant.Middle_names,
                     Organisation = participant.Organisation_name,
-                    Reference = participant.Reference,
                     Representee = participant.Representee,
                     Telephone_number = participant.Telephone_number,
                     Title = participant.Title,
