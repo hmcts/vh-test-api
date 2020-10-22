@@ -105,7 +105,6 @@ namespace TestApi.BQSTests.Subscriber
             {
                 Display_name = $"{participant.Display_name} {HearingData.UPDATED_TEXT}",
                 Organisation_name = $"{participant.Organisation} {HearingData.UPDATED_TEXT}",
-                Reference = $"{participant.Reference} {HearingData.UPDATED_TEXT}",
                 Representee = $"{participant.Representee} {HearingData.UPDATED_TEXT}",
                 Telephone_number = Faker.Phone.Number(),
                 Title = $"{participant.Title} {HearingData.UPDATED_TEXT}"

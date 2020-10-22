@@ -107,7 +107,6 @@ namespace TestApi.Tests.Common
                 if (user.UserType == UserType.Representative)
                 {
                     participant.Organisation.Should().NotBeNullOrWhiteSpace();
-                    participant.Reference.Should().NotBeNullOrWhiteSpace();
                     participant.Representee.Should().NotBeNullOrWhiteSpace();
                 }
 
@@ -163,7 +162,6 @@ namespace TestApi.Tests.Common
 
                 if (!conferenceParticipant.User_role_name.Equals("Representative")) continue;
                 conferenceParticipant.Organisation.Should().NotBeNullOrWhiteSpace();
-                conferenceParticipant.Reference.Should().NotBeNullOrWhiteSpace();
                 if (conferenceParticipant.Hearing_role_name != RoleData.CACD_REP_HEARING_ROLE_NAME)
                 {
                     conferenceParticipant.Representee.Should().NotBeNullOrWhiteSpace();

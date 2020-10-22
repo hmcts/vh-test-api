@@ -7227,6 +7227,9 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("case_type_group", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Case_type_group { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("hearing_role", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Hearing_role { get; set; }
+    
     
     }
     
@@ -7657,6 +7660,12 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("browser_version", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Browser_version { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("operating_system", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Operating_system { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("operating_system_version", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Operating_system_version { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTime Timestamp { get; set; }
     
@@ -7695,6 +7704,12 @@ namespace TestApi.Services.Clients.VideoApiClient
     
         [Newtonsoft.Json.JsonProperty("browser_version", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Browser_version { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("operating_system", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Operating_system { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("operating_system_version", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Operating_system_version { get; set; }
     
     
     }
