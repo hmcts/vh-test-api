@@ -49,7 +49,7 @@ namespace TestApi.Services.Builders.Requests
                     else
                     {
                         request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                        request.Hearing_role = indIndex == 0 ? RoleData.FIRST_INDV_HEARING_ROLE_NAME : RoleData.SECOND_INDV_HEARING_ROLE_NAME;
+                        request.Hearing_role = RoleData.INDV_HEARING_ROLE_NAME;
                         indIndex++;
                     }
                 }
