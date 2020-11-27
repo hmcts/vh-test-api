@@ -210,7 +210,7 @@ namespace TestApi.Controllers
         /// <param name="participantId">Id of participant</param>
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
-        [HttpPut("{hearingId}/participants/{participantId}/suitability-answers")]
+        [HttpPut("{hearingId}/participants/{participantId}/update-suitability-answers")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -235,7 +235,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
-        [HttpGet("suitabilityAnswers/{username}")]
+        [HttpGet("get-suitability-answers/{username}")]
         [ProducesResponseType(typeof(List<PersonSuitabilityAnswerResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

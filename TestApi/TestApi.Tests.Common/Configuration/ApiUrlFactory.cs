@@ -61,12 +61,12 @@ namespace TestApi.Tests.Common.Configuration
 
             public static string UpdateSuitabilityAnswers(Guid hearingId, Guid participantId)
             {
-                return $"{ApiRoot}/{hearingId}/participants/{participantId}/suitability-answers";
+                return $"{ApiRoot}/{hearingId}/participants/{participantId}/update-suitability-answers";
             }
 
             public static string GetSuitabilityAnswers(string username)
             {
-                return $"{ApiRoot}/suitabilityAnswers/{username}";
+                return $"{ApiRoot}/get-suitability-answers/{username}";
             }
 
             public static string GetPersonByUsername(string username)
