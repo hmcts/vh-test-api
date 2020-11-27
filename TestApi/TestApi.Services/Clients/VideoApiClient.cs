@@ -7558,6 +7558,9 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("hearing_venue_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Hearing_venue_name { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("telephone_conference_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Telephone_conference_id { get; set; }
+    
     
     }
     

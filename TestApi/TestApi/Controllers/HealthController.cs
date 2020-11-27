@@ -16,7 +16,7 @@ using TestApi.Services.Clients.VideoApiClient;
 namespace TestApi.Controllers
 {
     [Produces("application/json")]
-    [Route("Health")]
+    [Route("health")]
     [AllowAnonymous]
     [ApiController]
     public class HealthController : ControllerBase
