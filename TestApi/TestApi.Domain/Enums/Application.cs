@@ -10,6 +10,7 @@
         UserApi = 5,
         VideoApi = 6,
         VideoWeb = 7,
-        QueueSubscriber = 8
+        QueueSubscriber = 8,
+        TestWeb = 9
     }
 }

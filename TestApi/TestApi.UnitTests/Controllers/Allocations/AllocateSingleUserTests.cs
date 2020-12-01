@@ -22,6 +22,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(UserType.PanelMember)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.Tester)]
         public async Task Should_return_allocated_user(UserType userType)
         {
             var user = CreateUser(userType);

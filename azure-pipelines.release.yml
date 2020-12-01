@@ -159,6 +159,8 @@ extends:
           value: $(UserGroups:KinlyProdGroups)
         - name: UserGroups:TestAccountGroups
           value: $(UserGroups:TestAccountGroups)
+        - name: UserGroups:TestWebGroups
+          value: $(UserGroups:TestWebGroups)  
         - name: UserGroups:PerformanceTestAccountGroups
           value: $(UserGroups:PerformanceTestAccountGroups)
 
@@ -222,6 +224,8 @@ extends:
           value: $(UserGroups:KinlyProdGroups)
         - name: UserGroups:TestAccountGroups
           value: $(UserGroups:TestAccountGroups)
+        - name: UserGroups:TestWebGroups
+          value: $(UserGroups:TestWebGroups)  
         - name: UserGroups:PerformanceTestAccountGroups
           value: $(UserGroups:PerformanceTestAccountGroups)
 

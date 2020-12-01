@@ -22,6 +22,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.Tester)]
         public async Task Should_allocate_single_user_no_users_exist(UserType userType)
         {
             var request = new AllocateUserRequestBuilder().WithUserType(userType).Build();
@@ -44,6 +45,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.Tester)]
         public async Task Should_allocate_single_user_one_unallocated_user_exists(UserType userType)
         {
             var user = await Context.Data.SeedUser(userType);
@@ -72,6 +74,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.Tester)]
         public async Task Should_allocate_single_user_one_allocated_user_exists(UserType userType)
         {
             var user = await Context.Data.SeedUser(userType);
@@ -102,6 +105,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [TestCase(UserType.Winger)]
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
+        [TestCase(UserType.Tester)]
         public async Task Should_allocate_single_user_allocated_user_expired(UserType userType)
         {
             var user = await Context.Data.SeedUser(userType);
