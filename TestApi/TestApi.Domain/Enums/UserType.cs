@@ -11,6 +11,7 @@
         Representative = 6,
         Observer = 7,
         PanelMember = 8,
-        Winger = 9
+        Winger = 9,
+        Tester = 10
     }
 }

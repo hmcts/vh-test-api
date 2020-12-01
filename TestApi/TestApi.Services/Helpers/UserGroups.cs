@@ -22,7 +22,8 @@ namespace TestApi.Services.Helpers
                 {UserType.Observer, new IndividualGroupsStrategy(configuration)},
                 {UserType.Representative, new RepresentativeGroupsStrategy(configuration)},
                 {UserType.CaseAdmin, new CaseAdminGroupsStrategy(configuration)},
-                {UserType.VideoHearingsOfficer, new VideoHearingsOfficerGroupsStrategy(configuration)}
+                {UserType.VideoHearingsOfficer, new VideoHearingsOfficerGroupsStrategy(configuration)},
+                {UserType.Tester, new TesterGroupsStrategy(configuration)}
             };
         }
     }
@@ -105,6 +106,21 @@ namespace TestApi.Services.Helpers
             var kinlyGroups = ConvertGroupsStringToList.Convert(_configuration.KinlyGroups);
             vhoGroups.AddRange(kinlyGroups);
             return vhoGroups;
+        }
+    }
+
+    public class TesterGroupsStrategy : IUserGroupsStrategy
+    {
+        private readonly UserGroupsConfiguration _configuration;
+
+        public TesterGroupsStrategy(UserGroupsConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public List<string> GetGroups()
+        {
+            return ConvertGroupsStringToList.Convert(_configuration.TestWebGroups);
         }
     }
 }

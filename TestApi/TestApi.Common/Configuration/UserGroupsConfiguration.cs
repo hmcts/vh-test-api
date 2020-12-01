@@ -10,6 +10,7 @@
         public string KinlyGroups { get; set; }
         public string KinlyProdGroups { get; set; }
         public string TestAccountGroups { get; set; }
+        public string TestWebGroups { get; set; }
         public string PerformanceTestAccountGroups { get; set; }
     }
 }

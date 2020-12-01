@@ -19,6 +19,7 @@ namespace TestApi.Domain.Helpers
         public static AppShortName BookingsApi => new AppShortName(Application.BookingsApi, "BA");
         public static AppShortName ServiceWeb => new AppShortName(Application.ServiceWeb, "SW");
         public static AppShortName TestApi => new AppShortName(Application.TestApi, "TA");
+        public static AppShortName TestWeb => new AppShortName(Application.TestWeb, "TW");
         public static AppShortName UserApi => new AppShortName(Application.UserApi, "UA");
         public static AppShortName VideoApi => new AppShortName(Application.VideoApi, "VA");
         public static AppShortName VideoWeb => new AppShortName(Application.VideoWeb, "VW");
@@ -32,6 +33,7 @@ namespace TestApi.Domain.Helpers
                 yield return BookingsApi;
                 yield return ServiceWeb;
                 yield return TestApi;
+                yield return TestWeb;
                 yield return UserApi;
                 yield return VideoApi;
                 yield return VideoWeb;

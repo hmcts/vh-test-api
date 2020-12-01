@@ -61,6 +61,7 @@ namespace TestApi.UnitTests.Services
                 KinlyGroups = GroupData.FAKE_KINLY_GROUPS,
                 KinlyProdGroups = GroupData.FAKE_KINLY_PROD_GROUPS,
                 TestAccountGroups = GroupData.FAKE_TEST_GROUPS,
+                TestWebGroups = GroupData.FAKE_TEST_WEB_GROUPS,
                 PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS
             };
 
