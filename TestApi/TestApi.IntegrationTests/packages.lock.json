@@ -2603,7 +2603,6 @@
         "dependencies": {
           "FluentAssertions": "5.10.3",
           "Microsoft.Extensions.Caching.Abstractions": "3.1.8",
-          "Microsoft.Extensions.Options": "3.1.8",
           "Microsoft.IdentityModel.Clients.ActiveDirectory": "5.2.8",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
