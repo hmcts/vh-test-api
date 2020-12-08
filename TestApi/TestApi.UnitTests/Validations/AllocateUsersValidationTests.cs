@@ -77,22 +77,6 @@ namespace TestApi.UnitTests.Validations
         }
 
         [Test]
-        public async Task Should_return_missing_admin_users()
-        {
-            var request = new AllocateUsersRequestBuilder()
-                .WithoutCaseAdmin()
-                .ForApplication(Application.TestApi)
-                .Build();
-
-            var result = await _validator.ValidateAsync(request);
-
-            result.IsValid.Should().BeFalse();
-            result.Errors.Count.Should().Be(1);
-            result.Errors.First().ErrorMessage.Should()
-                .Be(AllocateUsersRequestValidator.MISSING_ADMIN_USERS_ERROR_MESSAGE);
-        }
-
-        [Test]
         public async Task Should_return_more_than_one_judge_error()
         {
             var request = new AllocateUsersRequestBuilder()

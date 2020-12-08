@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
 using Castle.Core.Internal;
-using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
-using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Domain.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
@@ -29,37 +26,6 @@ namespace TestApi.Services.Builders.Requests
                 Participants = new List<ParticipantRequest>()
             };
             _createHearingRequest = createHearingRequest;
-            _randomNumber = new Random();
-        }
-
-        public BookHearingRequestBuilder(string usernameStem)
-        {
-            _request = new BookNewHearingRequest
-            {
-                Cases = new List<CaseRequest>(),
-                Endpoints = new List<EndpointRequest>(),
-                Participants = new List<ParticipantRequest>()
-            };
-
-            var users = new List<User>()
-            {
-                new UserBuilder(usernameStem, 1).AddJudge().ForApplication(Application.QueueSubscriber).BuildUser(),
-                new UserBuilder(usernameStem, 1).AddIndividual().ForApplication(Application.QueueSubscriber).BuildUser(),
-                new UserBuilder(usernameStem, 1).AddRepresentative().ForApplication(Application.QueueSubscriber).BuildUser(),
-                new UserBuilder(usernameStem, 1).AddCaseAdmin().ForApplication(Application.QueueSubscriber).BuildUser(),
-            };
-
-            _createHearingRequest = new CreateHearingRequest()
-            {
-                Application = Application.TestApi,
-                AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
-                CaseType = HearingData.CASE_TYPE_NAME,
-                QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
-                ScheduledDateTime = DateTime.UtcNow.AddMinutes(35),
-                Users = users,
-                Venue = HearingData.VENUE_NAME
-            };
-            
             _randomNumber = new Random();
         }
 
@@ -99,7 +65,7 @@ namespace TestApi.Services.Builders.Requests
             
             if (caseAdminsCount + videoHearingsOfficerCount == 0)
             {
-                throw new DataException("No case admins or video hearing officers in the users list");
+                _request.Created_by = UserData.DEFAULT_CREATED_BY_USER;
             }
 
             if (caseAdminsCount > 0)
