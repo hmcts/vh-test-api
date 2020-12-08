@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using TestApi.Services.Clients.VideoApiClient;
 
-namespace TestApi.Services.Contracts
+namespace TestApi.Services.Services
 {
     public interface IVideoApiService
     {

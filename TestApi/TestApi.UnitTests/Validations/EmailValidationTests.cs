@@ -1,6 +1,6 @@
-﻿using Faker;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
+using TestApi.Common.Data;
 using TestApi.Validations;
 
 namespace TestApi.UnitTests.Validations
@@ -10,7 +10,7 @@ namespace TestApi.UnitTests.Validations
         [Test]
         public void Should_pass_validation_with_good_email()
         {
-            var EMAIL = Internet.Email();
+            const string EMAIL = EmailData.EXISTING_CONTACT_EMAIL;
             EMAIL.IsValidEmail().Should().BeTrue();
         }
 

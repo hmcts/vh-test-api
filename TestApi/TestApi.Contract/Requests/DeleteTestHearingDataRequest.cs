@@ -11,11 +11,6 @@
         public string PartialHearingCaseName { get; set; }
 
         /// <summary>
-        /// Partial Hearing Case Number (must contain 'Test')
-        /// </summary>
-        public string PartialHearingCaseNumber { get; set; }
-
-        /// <summary>
         /// The limit of how many hearings to search through for the title. Default is 1000
         /// </summary>
         public int? Limit { get; set; }

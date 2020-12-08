@@ -13,7 +13,7 @@ using TestApi.Domain.Enums;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Helpers;
 
-namespace TestApi.Services.Contracts
+namespace TestApi.Services.Services
 {
     public interface IUserApiService
     {

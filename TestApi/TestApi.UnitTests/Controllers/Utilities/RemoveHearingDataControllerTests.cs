@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Utilities
 {
@@ -17,8 +18,7 @@ namespace TestApi.UnitTests.Controllers.Utilities
         {
             var request = new DeleteTestHearingDataRequest()
             {
-                PartialHearingCaseName = "Test",
-                PartialHearingCaseNumber = string.Empty
+                PartialHearingCaseName = "Test"
             };
 
             var idsResponse = new List<Guid>(){Guid.NewGuid()};
@@ -36,8 +36,8 @@ namespace TestApi.UnitTests.Controllers.Utilities
             var result = (ObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var hearingDetails = (int)result.Value;
-            hearingDetails.Should().Be(1);
+            var deletionDetails = (DeletedResponse)result.Value;
+            deletionDetails.NumberOfDeletedHearings.Should().Be(1);
         }
 
         [Test]

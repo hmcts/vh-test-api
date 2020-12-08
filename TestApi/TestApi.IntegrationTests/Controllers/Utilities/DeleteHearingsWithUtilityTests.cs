@@ -4,6 +4,7 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Utilities
@@ -17,8 +18,7 @@ namespace TestApi.IntegrationTests.Controllers.Utilities
         {
             var request = new DeleteTestHearingDataRequest()
             {
-                PartialHearingCaseNumber = $"Test {NAME_THAT_WONT_BE_FOUND}",
-                PartialHearingCaseName = string.Empty,
+                PartialHearingCaseName = $"Test {NAME_THAT_WONT_BE_FOUND}",
                 Limit = 1
             };
 
@@ -26,9 +26,9 @@ namespace TestApi.IntegrationTests.Controllers.Utilities
             await SendPostRequest(uri, RequestHelper.Serialise(request));
 
             VerifyResponse(HttpStatusCode.OK, true);
-            var response = RequestHelper.Deserialise<int>(Json);
+            var response = RequestHelper.Deserialise<DeletedResponse>(Json);
 
-            response.Should().Be(0);
+            response.NumberOfDeletedHearings.Should().Be(0);
         }
 
         [Test]
@@ -36,8 +36,7 @@ namespace TestApi.IntegrationTests.Controllers.Utilities
         {
             var request = new DeleteTestHearingDataRequest()
             {
-                PartialHearingCaseNumber = NAME_THAT_WONT_BE_FOUND,
-                PartialHearingCaseName = string.Empty,
+                PartialHearingCaseName = NAME_THAT_WONT_BE_FOUND,
                 Limit = 1
             };
 

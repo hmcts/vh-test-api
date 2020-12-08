@@ -18,14 +18,12 @@ namespace TestApi.IntegrationTests.Controllers
         protected HttpResponseMessage Response;
         protected string Json;
         private TestServer _server;
-        private string _bearerToken;
 
         [OneTimeSetUp]
         public void BeforeTestRun()
         {
             Context = new Setup().RegisterSecrets();
             _server = Context.Server;
-            _bearerToken = Context.Tokens.TestApiBearerToken;
         }
 
         [TearDown]

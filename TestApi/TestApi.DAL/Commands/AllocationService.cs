@@ -12,7 +12,7 @@ using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Contracts;
+using TestApi.Services.Services;
 
 namespace TestApi.DAL.Commands
 {
