@@ -70,6 +70,12 @@ namespace TestApi.Common.Builders
             _userType = UserType.Winger;
             return this;
         }
+        
+        public UserBuilder AddJoh()
+        {
+            _userType = UserType.JudicialOfficeHolder;
+            return this;
+        }
 
         public UserBuilder WithUserType(UserType userType)
         {

@@ -13,7 +13,8 @@ namespace TestApi.Validations
         public const string MORE_THAN_ONE_JUDGE_ERROR_MESSAGE = "You can only specify 1 judge per allocation";
         public const string EXPIRES_IN_GREATER_THAN_ZERO_ERROR_MESSAGE = "Expires in must be greater than 0";
         public const string EXPIRES_IN_LESS_THAN_TWELVE_HOURS_ERROR_MESSAGE = "Expires in must be less than or equal to 12 hours";
-
+        public const string MORE_THAN_ONE_JOH_ERROR_MESSAGE = "You can only specify 1 judicial office holder per allocation";
+        
         public AllocateUsersRequestValidator()
         {
             RuleFor(x => x.UserTypes)
@@ -37,6 +38,10 @@ namespace TestApi.Validations
 
             RuleFor(x => x.ExpiryInMinutes)
                 .LessThanOrEqualTo(Convert.ToInt32(TimeSpan.FromHours(12).TotalMinutes)).WithMessage(EXPIRES_IN_LESS_THAN_TWELVE_HOURS_ERROR_MESSAGE);
+
+            RuleFor(x => x.UserTypes)
+                .Must(x => x.FindAll(u => u.Equals(UserType.JudicialOfficeHolder)).Count <= 1)
+                .WithMessage(MORE_THAN_ONE_JOH_ERROR_MESSAGE);
         }
     }
 }
