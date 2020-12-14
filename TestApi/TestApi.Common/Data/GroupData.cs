@@ -12,5 +12,6 @@
         public const string FAKE_TEST_GROUPS = "Test group 1";
         public const string FAKE_TEST_WEB_GROUPS = "Test Web group 1";
         public const string FAKE_PERFORMANCE_TEST_GROUPS = "Performance test group 1";
+        public const string FAKE_JOH_GROUPS = "JOH test group 1";
     }
 }

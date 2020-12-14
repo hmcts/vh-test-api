@@ -120,10 +120,7 @@ namespace TestApi.Services.Helpers
 
         public List<string> GetGroups()
         {
-            var individualGroups = ConvertGroupsStringToList.Convert(_configuration.IndividualGroups);
-            var johGroups = ConvertGroupsStringToList.Convert(_configuration.JudicialOfficeGroups);
-            johGroups.AddRange(individualGroups);
-            return johGroups;
+            return ConvertGroupsStringToList.Convert(_configuration.JudicialOfficeGroups);
         }
     }
 
