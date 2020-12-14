@@ -13,7 +13,7 @@ namespace TestApi.Validations
         public const string MORE_THAN_ONE_JUDGE_ERROR_MESSAGE = "You can only specify 1 judge per allocation";
         public const string EXPIRES_IN_GREATER_THAN_ZERO_ERROR_MESSAGE = "Expires in must be greater than 0";
         public const string EXPIRES_IN_LESS_THAN_TWELVE_HOURS_ERROR_MESSAGE = "Expires in must be less than or equal to 12 hours";
-        
+
         public AllocateUsersRequestValidator()
         {
             RuleFor(x => x.UserTypes)

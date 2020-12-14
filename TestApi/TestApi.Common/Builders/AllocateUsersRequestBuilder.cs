@@ -11,7 +11,7 @@ namespace TestApi.Common.Builders
         private const UserType REPRESENTATIVE_USER_TYPE = UserType.Representative;
         private const UserType CASE_ADMIN_USER_TYPE = UserType.CaseAdmin;
         private const UserType VIDEO_HEARINGS_OFFICER_USER_TYPE = UserType.VideoHearingsOfficer;
-            
+   
         private readonly AllocateUsersRequest _request;
 
         public AllocateUsersRequestBuilder()
@@ -40,7 +40,7 @@ namespace TestApi.Common.Builders
             _request.UserTypes = userTypes;
             return this;
         }
-        
+
         public AllocateUsersRequestBuilder WithoutCaseAdmin()
         {
             var userTypes = new List<UserType> {JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE};
