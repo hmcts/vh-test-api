@@ -9,21 +9,15 @@ namespace TestApi.Validations
         public const string EMPTY_REQUEST_ERROR_MESSAGE = "You must supply one partial case name or number text";
         public const string HEARING_CASE_NAME_MUST_CONTAIN_TEST_ERROR_MESSAGE =
             "The supplied hearing case name must contain the name 'test'";
-        public const string HEARING_CASE_NUMBER_MUST_CONTAIN_TEST_ERROR_MESSAGE =
-            "The supplied hearing case number must contain the name 'test'";
 
         public DeleteTestHearingDataRequestValidator()
         {
-            RuleFor(x => x.PartialHearingCaseName.Length + x.PartialHearingCaseNumber.Length)
+            RuleFor(x => x.PartialHearingCaseName.Length)
                 .GreaterThan(0).WithMessage(EMPTY_REQUEST_ERROR_MESSAGE);
 
             RuleFor(x => x.PartialHearingCaseName)
                 .Must(x => x.Length == 0 || x.ToUpperInvariant().Contains(REQUIRED_TEXT))
                 .WithMessage(HEARING_CASE_NAME_MUST_CONTAIN_TEST_ERROR_MESSAGE);
-
-            RuleFor(x => x.PartialHearingCaseNumber)
-                .Must(x => x.Length == 0 || x.ToUpperInvariant().Contains(REQUIRED_TEXT))
-                .WithMessage(HEARING_CASE_NUMBER_MUST_CONTAIN_TEST_ERROR_MESSAGE);
         }
     }
 }

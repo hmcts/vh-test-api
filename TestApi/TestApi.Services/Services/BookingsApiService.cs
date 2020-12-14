@@ -7,7 +7,7 @@ using Polly.Retry;
 using TestApi.Contract.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 
-namespace TestApi.Services.Contracts
+namespace TestApi.Services.Services
 {
     public interface IBookingsApiService
     {
@@ -65,7 +65,7 @@ namespace TestApi.Services.Contracts
 
             try
             {
-                var caseTypes = new List<int>(){1, 2};
+                var caseTypes = new List<int>{1, 2};
                 var response = await _bookingsApiClient.GetHearingsByTypesAsync(caseTypes, CURSOR, DEFAULT_LIMIT);
 
                 var hearings = new List<BookingsHearingResponse>();
@@ -75,7 +75,7 @@ namespace TestApi.Services.Contracts
                     hearings.AddRange(bookedHearing.Hearings);
                 }
 
-                return await DeleteHearings(hearings, request.PartialHearingCaseName, request.PartialHearingCaseNumber);
+                return await DeleteHearings(hearings, request.PartialHearingCaseName);
             }
             catch (BookingsApiException e)
             {
@@ -84,23 +84,17 @@ namespace TestApi.Services.Contracts
             }
         }
 
-        private async Task<List<Guid>> DeleteHearings(IEnumerable<BookingsHearingResponse> hearings, string hearingName, string hearingNumber)
+        private async Task<List<Guid>> DeleteHearings(IEnumerable<BookingsHearingResponse> hearings, string hearingName)
         {
             if (hearingName.Equals(string.Empty))
             {
                 hearingName = NAME_THAT_WONT_BE_FOUND;
             }
 
-            if (hearingNumber.Equals(string.Empty))
-            {
-                hearingNumber = NAME_THAT_WONT_BE_FOUND;
-            }
-
             var deletedHearingIds = new List<Guid>();
             foreach (var hearing in hearings)
             {
-                if (!hearing.Hearing_name.ToLower().Contains(hearingName.ToLower()) &&
-                    !hearing.Hearing_number.ToLower().Contains(hearingNumber.ToLower())) continue;
+                if (!hearing.Hearing_name.ToLower().Contains(hearingName.ToLower())) continue;
                 await _bookingsApiClient.RemoveHearingAsync(hearing.Hearing_id);
                 deletedHearingIds.Add(hearing.Hearing_id);
             }

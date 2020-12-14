@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.Contract.Requests;
+using TestApi.Contract.Responses;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
-using TestApi.Services.Contracts;
+using TestApi.Services.Services;
 
 namespace TestApi.Controllers
 {
@@ -35,17 +36,17 @@ namespace TestApi.Controllers
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         [HttpPost("removeTestData")]
-        [ProducesResponseType(typeof(int), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DeletedResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
         {
             _logger.LogDebug($"DeleteHearingsByPartialCaseTextAsync");
 
-            List<Guid> audioApplicationsToDelete;
+            List<Guid> hearingIds;
 
             try
             {
-                audioApplicationsToDelete = await _bookingsApiService.DeleteHearingsByPartialCaseTextAsync(request);
+                hearingIds = await _bookingsApiService.DeleteHearingsByPartialCaseTextAsync(request);
             }
             catch (BookingsApiException e)
             {
@@ -54,7 +55,7 @@ namespace TestApi.Controllers
 
             try
             {
-                foreach (var hearingId in audioApplicationsToDelete)
+                foreach (var hearingId in hearingIds)
                 {
                     await _videoApiClient.DeleteAudioApplicationAsync(hearingId);
                     _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingId}");
@@ -65,7 +66,12 @@ namespace TestApi.Controllers
                 if (e.StatusCode != (int)HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
             }
 
-            return Ok(audioApplicationsToDelete.Count);
+            var response = new DeletedResponse()
+            {
+                NumberOfDeletedHearings = hearingIds.Count
+            };
+
+            return Ok(response);
         }
     }
 }

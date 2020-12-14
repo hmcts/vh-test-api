@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Mappings;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Contracts;
+using TestApi.Services.Services;
 
 namespace TestApi.Controllers
 {
@@ -139,6 +140,29 @@ namespace TestApi.Controllers
             {
                 await _userApiClient.RefreshJudgeCacheAsync();
                 return Ok();
+            }
+            catch (UserApiException e)
+            {
+                return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        ///     Reset user password
+        /// </summary>
+        /// <param name="request">Details of the required user</param>
+        [HttpPatch("aad/password")]
+        [ProducesResponseType(typeof(UpdateUserResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ResetUserPasswordAsync(ResetUserPasswordRequest request)
+        {
+            _logger.LogDebug($"ResetUserPasswordAsync");
+
+            try
+            {
+                var response = await _userApiClient.UpdateUserAsync(request.Username);
+                return Ok(response);
             }
             catch (UserApiException e)
             {

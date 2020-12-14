@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TestApi.Controllers;
 using TestApi.DAL.Queries.Core;
 using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Contracts;
+using TestApi.Services.Services;
 
 namespace TestApi.UnitTests.Controllers.Users
 {

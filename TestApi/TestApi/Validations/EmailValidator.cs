@@ -1,5 +1,4 @@
-﻿using Castle.Core.Internal;
-using System;
+﻿using System;
 using System.Net.Mail;
 
 namespace TestApi.Validations

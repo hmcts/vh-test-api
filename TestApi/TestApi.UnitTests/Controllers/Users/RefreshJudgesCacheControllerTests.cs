@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
-    public class RefreshJudgesCacheTests : UserControllerTestsBase
+    public class RefreshJudgesCacheControllerTests : UserControllerTestsBase
     {
         [Test]
         public async Task Should_refresh_judges_cache()

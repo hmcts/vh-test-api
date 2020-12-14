@@ -15,7 +15,7 @@ namespace TestApi.Services.Builders.Requests
         private readonly Random _randomNumber;
         private readonly List<User> _users;
         private readonly TestType _testType;
-        private bool _isCACDCaseType = false;
+        private bool _isCACDCaseType;
 
         public BookConferenceRequestBuilder(List<User> users, TestType testType)
         {

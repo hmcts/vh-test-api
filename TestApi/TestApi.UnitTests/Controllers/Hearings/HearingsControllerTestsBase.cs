@@ -6,7 +6,7 @@ using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.VideoApiClient;
-using TestApi.Services.Contracts;
+using TestApi.Services.Services;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {

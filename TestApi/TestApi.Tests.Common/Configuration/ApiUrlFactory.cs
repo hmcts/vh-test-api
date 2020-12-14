@@ -103,6 +103,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/judges/cache";
             }
+
+            public static string ResetUserPassword()
+            {
+                return $"{ApiRoot}/aad/password";
+            }
         }
 
         public static class UtilityEndpoints
