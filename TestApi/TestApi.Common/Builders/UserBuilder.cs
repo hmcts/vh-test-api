@@ -70,12 +70,6 @@ namespace TestApi.Common.Builders
             _userType = UserType.Winger;
             return this;
         }
-        
-        public UserBuilder AddJoh()
-        {
-            _userType = UserType.JudicialOfficeHolder;
-            return this;
-        }
 
         public UserBuilder WithUserType(UserType userType)
         {
@@ -177,7 +171,7 @@ namespace TestApi.Common.Builders
 
         private static string ContactEmailStem(string emailStem)
         {
-            return emailStem.Substring(16);
+            return emailStem[16..];
         }
     }
 }

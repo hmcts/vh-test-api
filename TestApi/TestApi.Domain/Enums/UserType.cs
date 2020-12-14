@@ -12,7 +12,6 @@
         Observer = 7,
         PanelMember = 8,
         Winger = 9,
-        Tester = 10,
-        JudicialOfficeHolder = 11
+        Tester = 10
     }
 }

@@ -34,8 +34,7 @@ namespace TestApi.IntegrationTests.Controllers
                 UserType.Individual,
                 UserType.Representative,
                 UserType.Observer,
-                UserType.PanelMember,
-                UserType.JudicialOfficeHolder
+                UserType.PanelMember
             };
 
             var allocateRequest = new AllocateUsersRequestBuilder()
@@ -103,8 +102,7 @@ namespace TestApi.IntegrationTests.Controllers
                 UserType.VideoHearingsOfficer,
                 UserType.Individual,
                 UserType.Representative,
-                UserType.Winger,
-                UserType.JudicialOfficeHolder
+                UserType.Winger
             };
 
             var allocateRequest = new AllocateUsersRequestBuilder()
