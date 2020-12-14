@@ -163,7 +163,7 @@ extends:
           value: $(UserGroups:TestWebGroups)  
         - name: UserGroups:PerformanceTestAccountGroups
           value: $(UserGroups:PerformanceTestAccountGroups)
-         - name: UserGroups:JudicialOfficeGroups
+        - name: UserGroups:JudicialOfficeGroups
           value: $(UserGroups:JudicialOfficeGroups)
 
         # WowzaConfiguration
