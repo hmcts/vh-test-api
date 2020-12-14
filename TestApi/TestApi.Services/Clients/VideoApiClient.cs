@@ -7116,6 +7116,9 @@ namespace TestApi.Services.Clients.VideoApiClient
         [System.Runtime.Serialization.EnumMember(Value = @"Representative")]
         Representative = 6,
     
+        [System.Runtime.Serialization.EnumMember(Value = @"JudicialOfficeHolder")]
+        JudicialOfficeHolder = 7,
+    
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]

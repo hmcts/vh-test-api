@@ -171,7 +171,7 @@ namespace TestApi.Common.Builders
 
         private static string ContactEmailStem(string emailStem)
         {
-            return emailStem.Substring(16);
+            return emailStem[16..];
         }
     }
 }
