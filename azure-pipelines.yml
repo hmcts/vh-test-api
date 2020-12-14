@@ -93,6 +93,8 @@ parameters:
     value: $(UserGroups:TestWebGroups)
   - name: UserGroups:PerformanceTestAccountGroups
     value: $(UserGroups:PerformanceTestAccountGroups)
+  - name: UserGroups:JudicialOfficeGroups
+    value: $(UserGroups:JudicialOfficeGroups)
 
   # WowzaConfiguration
   - name: WowzaConfiguration:StorageAccountName
@@ -164,6 +166,8 @@ parameters:
     value: $(UserGroups:TestWebGroups)   
   - name: UserGroups:PerformanceTestAccountGroups
     value: $(UserGroups:PerformanceTestAccountGroups)
+  - name: UserGroups:JudicialOfficeGroups
+    value: $(UserGroups:JudicialOfficeGroups)
 
   # WowzaConfiguration
   - name: WowzaConfiguration:StorageAccountName

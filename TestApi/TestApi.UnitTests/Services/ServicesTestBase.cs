@@ -62,7 +62,8 @@ namespace TestApi.UnitTests.Services
                 KinlyProdGroups = GroupData.FAKE_KINLY_PROD_GROUPS,
                 TestAccountGroups = GroupData.FAKE_TEST_GROUPS,
                 TestWebGroups = GroupData.FAKE_TEST_WEB_GROUPS,
-                PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS
+                PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS,
+                JudicialOfficeGroups = GroupData.FAKE_JOH_GROUPS
             };
 
             GroupsConfig

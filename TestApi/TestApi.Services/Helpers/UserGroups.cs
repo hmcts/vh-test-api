@@ -17,8 +17,8 @@ namespace TestApi.Services.Helpers
             {
                 {UserType.Judge, new JudgeGroupsStrategy(configuration)},
                 {UserType.Individual, new IndividualGroupsStrategy(configuration)},
-                {UserType.PanelMember, new IndividualGroupsStrategy(configuration)},
-                {UserType.Winger, new IndividualGroupsStrategy(configuration)},
+                {UserType.PanelMember, new JOHGroupsStrategy(configuration)},
+                {UserType.Winger, new JOHGroupsStrategy(configuration)},
                 {UserType.Observer, new IndividualGroupsStrategy(configuration)},
                 {UserType.Representative, new RepresentativeGroupsStrategy(configuration)},
                 {UserType.CaseAdmin, new CaseAdminGroupsStrategy(configuration)},
@@ -106,6 +106,21 @@ namespace TestApi.Services.Helpers
             var kinlyGroups = ConvertGroupsStringToList.Convert(_configuration.KinlyGroups);
             vhoGroups.AddRange(kinlyGroups);
             return vhoGroups;
+        }
+    }
+
+    public class JOHGroupsStrategy : IUserGroupsStrategy
+    {
+        private readonly UserGroupsConfiguration _configuration;
+
+        public JOHGroupsStrategy(UserGroupsConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public List<string> GetGroups()
+        {
+            return ConvertGroupsStringToList.Convert(_configuration.JudicialOfficeGroups);
         }
     }
 
