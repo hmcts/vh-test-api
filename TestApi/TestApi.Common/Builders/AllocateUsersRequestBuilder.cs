@@ -11,7 +11,6 @@ namespace TestApi.Common.Builders
         private const UserType REPRESENTATIVE_USER_TYPE = UserType.Representative;
         private const UserType CASE_ADMIN_USER_TYPE = UserType.CaseAdmin;
         private const UserType VIDEO_HEARINGS_OFFICER_USER_TYPE = UserType.VideoHearingsOfficer;
-   
         private readonly AllocateUsersRequest _request;
 
         public AllocateUsersRequestBuilder()
