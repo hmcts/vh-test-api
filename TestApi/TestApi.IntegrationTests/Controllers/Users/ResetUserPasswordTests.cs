@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
@@ -16,7 +17,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         [Test]
         public async Task Should_reset_users_password()
         {
-            var individualUser = await Context.Data.SeedUser(UserType.Individual);
+            var individualUser = await Context.Data.SeedUser(TestType.Manual);
             await Context.Data.SeedAllocation(individualUser.Id);
             await Context.Data.AllocateUser(individualUser.Id);
 
@@ -33,6 +34,23 @@ namespace TestApi.IntegrationTests.Controllers.Users
 
             response.Should().NotBeNull();
             response.New_password.Should().NotBeNullOrEmpty();
+        }
+
+        [Test]
+        public async Task Should_return_bad_request_for_automation_user()
+        {
+            var individualUser = await Context.Data.SeedUser(UserType.Individual);
+            await Context.Data.SeedAllocation(individualUser.Id);
+            await Context.Data.AllocateUser(individualUser.Id);
+
+            var request = new ResetUserPasswordRequest()
+            {
+                Username = individualUser.Username
+            };
+
+            var uri = ApiUriFactory.UserEndpoints.ResetUserPassword();
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+            VerifyResponse(HttpStatusCode.BadRequest, false);
         }
 
         [Test]
@@ -55,7 +73,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
         {
             var request = new ResetUserPasswordRequest()
             {
-                Username = null
+                Username = string.Empty
             };
 
             var uri = ApiUriFactory.UserEndpoints.ResetUserPassword();
