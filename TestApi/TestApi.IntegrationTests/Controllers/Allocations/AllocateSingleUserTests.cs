@@ -151,6 +151,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.Demo)]
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]

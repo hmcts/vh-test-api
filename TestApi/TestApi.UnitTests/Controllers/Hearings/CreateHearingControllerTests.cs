@@ -192,6 +192,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.Demo)]
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]

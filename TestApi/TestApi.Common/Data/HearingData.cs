@@ -9,6 +9,7 @@
         public const string CACD_HEARING_TYPE_NAME = "Appn for leave to appeal to SC";
         public const string CASE_TYPE_NAME = "Civil Money Claims";
         public static string CREATED_BY(string usernameStem) => $"automation_test@{usernameStem}";
+        public const string DEMO_CASE_NAME_PREFIX = "Demo Test";
         public const string HEARING_ROOM_NAME = "Room 1";
         public const string HEARING_TYPE_NAME = "Application to Set Judgment Aside";
         public const bool IS_LEAD_CASE = false;
