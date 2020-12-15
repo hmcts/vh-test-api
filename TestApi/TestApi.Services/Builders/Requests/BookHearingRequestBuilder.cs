@@ -54,6 +54,7 @@ namespace TestApi.Services.Builders.Requests
                 TestType.ITHC => HearingData.ITHC_CASE_NAME_PREFIX,
                 TestType.Manual => HearingData.MANUAL_CASE_NAME_PREFIX,
                 TestType.Performance => HearingData.PERFORMANCE_CASE_NAME_PREFIX,
+                TestType.Demo => HearingData.DEMO_CASE_NAME_PREFIX,
                 _ => HearingData.AUTOMATED_CASE_NAME_PREFIX
             };
         }

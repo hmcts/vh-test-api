@@ -12,6 +12,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
     public class CreateConferenceTests : ConferencesTestsBase
     {
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.Demo)]
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]

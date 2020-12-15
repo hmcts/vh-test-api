@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain;

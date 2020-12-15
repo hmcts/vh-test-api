@@ -132,6 +132,7 @@ namespace TestApi.Common.Builders
                 TestType.ITHC => $"{UserData.ITHC_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
                 TestType.Manual => $"{UserData.MANUAL_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
                 TestType.Performance => $"{UserData.PERFORMANCE_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
+                TestType.Demo => $"{UserData.DEMO_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
                 _ => $"{UserData.AUTOMATED_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}"
             };
         }

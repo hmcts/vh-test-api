@@ -123,6 +123,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             Verify.UsersDetailsResponse(response, userTypes);
         }
 
+        [TestCase(TestType.Demo)]
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
