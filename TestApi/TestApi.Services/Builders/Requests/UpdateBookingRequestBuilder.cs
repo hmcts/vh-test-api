@@ -9,7 +9,10 @@ namespace TestApi.Services.Builders.Requests
 
         public UpdateBookingRequestBuilder()
         {
-            _request = new UpdateBookingStatusRequest {Status = UpdateBookingStatus.Created};
+            _request = new UpdateBookingStatusRequest
+            {
+                Status = UpdateBookingStatus.Created, Updated_by = UserData.DEFAULT_UPDATED_BY_USER
+            };
         }
 
         public UpdateBookingRequestBuilder WithStatus(UpdateBookingStatus status)
