@@ -59,6 +59,20 @@ namespace TestApi.Services.Builders.Requests
             };
         }
 
+        private void AddEndpoints()
+        {
+            if (_createHearingRequest.Endpoints <= 0) return;
+            _request.Endpoints = new List<EndpointRequest>();
+
+            for (var i = 1; i <= _createHearingRequest.Endpoints; i++)
+            {
+                _request.Endpoints.Add(new EndpointRequest()
+                {
+                    Display_name = $"{HearingData.ENDPOINT_PREFIX}{i}"
+                });
+            }
+        }
+
         private void SetCreatedBy()
         {
             var caseAdminsCount = _createHearingRequest.Users.Count(x => x.UserType == UserType.CaseAdmin);
@@ -98,6 +112,7 @@ namespace TestApi.Services.Builders.Requests
             AddCases();
             SetCreatedBy();
             SetCaseTypeAndHearingTypeNames();
+            AddEndpoints();
             _request.AdditionalProperties = null;
             _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
             _request.Hearing_room_name = HearingData.HEARING_ROOM_NAME;

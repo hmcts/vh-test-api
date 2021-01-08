@@ -120,7 +120,7 @@ namespace TestApi.UnitTests.Services
         protected void AllocateAllUsers(List<Allocation> allocations)
         {
             const int ALLOCATE_FOR_MINUTES = 1;
-            foreach (var allocation in allocations) allocation.Allocate(ALLOCATE_FOR_MINUTES);
+            foreach (var allocation in allocations) allocation.Allocate(ALLOCATE_FOR_MINUTES, EmailData.TEST_WEB_MANUAL_USER);
         }
 
         protected UserApiException CreateUserApiException(string errorMessage, HttpStatusCode statusCode)

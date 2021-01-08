@@ -128,6 +128,28 @@ namespace TestApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        ///     Get allocated users by allocatedBy
+        /// </summary>
+        /// <param name="username">Username of the user that has allocated users</param>
+        /// <returns>Full details of any allocated users</returns>
+        [HttpGet("allocatedUsers/{username}")]
+        [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAllocatedUsersAsync(string username)
+        {
+            _logger.LogDebug($"GetAllocatedUsersAsync {username}");
+
+            var allocations = await GetAllAllocatedByUsers(username);
+            _logger.LogDebug($"Allocations for '{username}' successfully retrieved");
+
+            var responses = allocations.Select(AllocationToDetailsResponseMapper.MapToResponse).ToList();
+
+            _logger.LogInformation($"{responses.Count} user(s) found");
+
+            return Ok(responses);
+        }
+
         private async Task<User> GetUserByUsernameAsync(string username)
         {
             return await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
@@ -149,6 +171,12 @@ namespace TestApi.Controllers
         {
             var unallocateCommand = new UnallocateByUsernameCommand(username);
             await _commandHandler.Handle(unallocateCommand);
+        }
+
+        private async Task<List<Allocation>> GetAllAllocatedByUsers(string username)
+        {
+            return await _queryHandler.Handle<GetAllAllocationsForAUserQuery, List<Allocation>>(
+                new GetAllAllocationsForAUserQuery(username));
         }
     }
 }

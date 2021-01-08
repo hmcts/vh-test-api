@@ -14,6 +14,7 @@ namespace TestApi.DAL.Mappings
             builder.HasIndex(x => x.Username).IsUnique();
             builder.Property(x => x.ExpiresAt);
             builder.Property(x => x.Allocated);
+            builder.Property(x => x.AllocatedBy);
         }
     }
 }

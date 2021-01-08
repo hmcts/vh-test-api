@@ -9,15 +9,17 @@ namespace TestApi.DAL.Commands
 {
     public class AllocateByUserIdCommand : ICommand
     {
-        public AllocateByUserIdCommand(Guid userId, int extendedExpiryInMinutes = 10)
+        public AllocateByUserIdCommand(Guid userId, int extendedExpiryInMinutes = 10, string allocatedBy = null)
         {
             UserId = userId;
             ExtendedExpiryInMinutes = extendedExpiryInMinutes;
+            AllocatedBy = allocatedBy;
         }
 
         public Guid UserId { get; set; }
         public int ExtendedExpiryInMinutes { get; set; }
         public User User { get; set; }
+        public string AllocatedBy { get; set; }
     }
 
     public class AllocateByUserIdCommandHandler : ICommandHandler<AllocateByUserIdCommand>
@@ -41,7 +43,7 @@ namespace TestApi.DAL.Commands
 
             if (allocation.IsAllocated()) throw new UserUnavailableException();
 
-            allocation.Allocate(command.ExtendedExpiryInMinutes);
+            allocation.Allocate(command.ExtendedExpiryInMinutes, command.AllocatedBy);
             await _context.SaveChangesAsync();
             command.User = user;
         }

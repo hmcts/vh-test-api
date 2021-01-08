@@ -31,5 +31,10 @@ namespace TestApi.Contract.Responses
         ///     Allocated
         /// </summary>
         public bool Allocated { get; set; }
+
+        /// <summary>
+        ///     Allocated By
+        /// </summary>
+        public string AllocatedBy { get; set; }
     }
 }
