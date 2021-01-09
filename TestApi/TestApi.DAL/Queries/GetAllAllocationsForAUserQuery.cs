@@ -28,13 +28,13 @@ namespace TestApi.DAL.Queries
 
         public async Task<List<Allocation>> Handle(GetAllAllocationsForAUserQuery query)
         {
-            return await _context.Allocations
+            var allocations = await _context.Allocations
+                .Where(x =>
+                    x.AllocatedBy.ToLower() == query.Username.ToLower())
+                .AsNoTracking()
+                .ToListAsync();
 
-                    .Where(x =>
-                        x.AllocatedBy.ToLower() == query.Username.ToLower() &&
-                        x.Allocated)
-                    .AsNoTracking()
-                    .ToListAsync();
+            return allocations.Where(x => x.IsAllocated()).ToList();
         }
     }
 }
