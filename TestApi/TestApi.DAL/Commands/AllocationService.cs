@@ -27,8 +27,9 @@ namespace TestApi.DAL.Commands
         /// <param name="testType">Type of test user is required for. Default is Automation test</param>
         /// <param name="isProdUser">Whether the user will be required for prod environments</param>
         /// <param name="expiresInMinutes">Gives an expiry time in minutes. Default is 10 minutes</param>
+        /// <param name="allocatedBy">Allocated By a particular user</param>
         /// <returns>An allocated user</returns>
-        Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10);
+        Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null);
     }
 
     public class AllocationService : IAllocationService
@@ -50,7 +51,7 @@ namespace TestApi.DAL.Commands
             _userApiService = userApiService;
         }
 
-        public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10)
+        public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null)
         {
             var users = await GetAllUsers(userType, testType, application, isProdUser);
             _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}', test type '{testType}' and application '{application}'");
@@ -103,7 +104,7 @@ namespace TestApi.DAL.Commands
                 }
             }
 
-            await AllocateUser(user.Id, expiresInMinutes);
+            await AllocateUser(user.Id, expiresInMinutes, allocatedBy);
             _logger.LogDebug($"User with username '{user.Username}' has been allocated");
 
             return user;
@@ -252,9 +253,9 @@ namespace TestApi.DAL.Commands
             return emailStem;
         }
 
-        private async Task AllocateUser(Guid userId, int expiresInMinutes)
+        private async Task AllocateUser(Guid userId, int expiresInMinutes, string allocatedBy = null)
         {
-            var allocateCommand = new AllocateByUserIdCommand(userId, expiresInMinutes);
+            var allocateCommand = new AllocateByUserIdCommand(userId, expiresInMinutes, allocatedBy);
             await _commandHandler.Handle(allocateCommand);
         }
     }

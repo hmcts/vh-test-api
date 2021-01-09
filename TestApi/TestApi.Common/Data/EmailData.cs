@@ -7,5 +7,6 @@
         public const string NON_EXISTENT_CONTACT_EMAIL = "made_up_email@email.com";
         public const string NON_EXISTENT_USERNAME = "made_up_username@email.com";
         public const string RECENT_USER_USERNAME = "made_up_recent_username@email.com";
+        public const string TEST_WEB_MANUAL_USER = "manual_tester@email.com";
     }
 }

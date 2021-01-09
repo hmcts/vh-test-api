@@ -23,12 +23,14 @@ namespace TestApi.Domain
         public string Username { get; set; }
         public DateTime? ExpiresAt { get; set; }
         public bool Allocated { get; set; }
+        public string AllocatedBy { get; set; }
 
-        public void Allocate(int minutes)
+        public void Allocate(int minutes, string allocatedBy = null)
         {
             if (IsAllocated()) throw new DomainRuleException("Allocation", "User is already allocated");
 
             Allocated = true;
+            AllocatedBy = allocatedBy;
             ExpiresAt = DateTime.UtcNow.AddMinutes(minutes);
         }
 
@@ -42,6 +44,7 @@ namespace TestApi.Domain
         public void Unallocate()
         {
             Allocated = false;
+            AllocatedBy = null;
             ExpiresAt = null;
         }
     }

@@ -18,6 +18,7 @@ namespace TestApi.Common.Builders
                 Application = Application.TestApi,
                 AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED,
                 CaseType = HearingData.CASE_TYPE_NAME,
+                Endpoints = HearingData.NUMBER_OF_ENDPOINTS,
                 QuestionnaireNotRequired = HearingData.QUESTIONNAIRE_NOT_REQUIRED,
                 ScheduledDateTime = DateTime.UtcNow,
                 TestType = TestType.Automated,

@@ -17,6 +17,9 @@ namespace TestApi.Contract.Requests
         /// <summary>Case Type</summary>
         public string CaseType { get; set; }
 
+        /// <summary>Endpoints</summary>
+        public int Endpoints { get; set; }
+
         /// <summary>Participants need to answer questionnaire before video web</summary>
         public bool QuestionnaireNotRequired { get; set; }
 

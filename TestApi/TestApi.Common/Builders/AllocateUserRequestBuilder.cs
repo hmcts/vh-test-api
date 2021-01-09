@@ -49,6 +49,12 @@ namespace TestApi.Common.Builders
             return this;
         }
 
+        public AllocateUserRequestBuilder WithAllocatedBy(string allocatedBy)
+        {
+            _request.AllocatedBy = allocatedBy;
+            return this;
+        }
+
         public AllocateUserRequest Build()
         {
             return _request;

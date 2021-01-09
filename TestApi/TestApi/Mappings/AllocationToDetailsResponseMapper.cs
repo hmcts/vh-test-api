@@ -13,7 +13,8 @@ namespace TestApi.Mappings
                 UserId = allocation.UserId,
                 Username = allocation.Username,
                 Allocated = allocation.Allocated,
-                ExpiresAt = allocation.ExpiresAt
+                ExpiresAt = allocation.ExpiresAt,
+                AllocatedBy = allocation.AllocatedBy
             };
         }
     }

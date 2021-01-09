@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
@@ -37,7 +38,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var allocationRequest = new AllocateUserRequestBuilder().WithUserType(USER_TYPE).Build();
 
             _allocationService
-                .Setup(x => x.AllocateToService(It.IsAny<UserType>(), It.IsAny<Application>(), It.IsAny<TestType>(), It.IsAny<bool>(), It.IsAny<int>()))
+                .Setup(x => x.AllocateToService(It.IsAny<UserType>(), It.IsAny<Application>(), It.IsAny<TestType>(), It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(user));
 
             var userDetails = await _query.Handle(new GetAllocatedUserByUserTypeQuery(allocationRequest));

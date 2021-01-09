@@ -10,6 +10,7 @@ namespace TestApi.Tests.Common.Configuration
             public static string AllocateSingleUser => $"{ApiRoot}/allocateUser";
             public static string AllocateUsers => $"{ApiRoot}/allocateUsers";
             public static string UnallocateUsers => $"{ApiRoot}/unallocateUsers";
+            public static string GetAllocatedUsers(string username) => $"{ApiRoot}/allocatedUsers/{username}";
         }
 
         public static class ConferenceEndpoints

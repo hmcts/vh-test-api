@@ -16,6 +16,7 @@ namespace TestApi.DAL.Queries
             IsProdUser = request.IsProdUser;
             TestType = request.TestType;
             UserType = request.UserType;
+            AllocatedBy = request.AllocatedBy;
         }
 
         public Application Application { get; set; }
@@ -23,6 +24,7 @@ namespace TestApi.DAL.Queries
         public bool IsProdUser { get; set; }
         public TestType TestType { get; set; }
         public UserType UserType { get; set; }
+        public string AllocatedBy { get; set; }
     }
 
     public class GetAllocatedUserByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
@@ -39,7 +41,7 @@ namespace TestApi.DAL.Queries
         public async Task<User> Handle(GetAllocatedUserByUserTypeQuery query)
         {
             var user = await _service.AllocateToService(query.UserType, query.Application,
-                query.TestType, query.IsProdUser, query.ExpiryInMinutes);
+                query.TestType, query.IsProdUser, query.ExpiryInMinutes, query.AllocatedBy);
             await _context.SaveChangesAsync();
             return user;
         }

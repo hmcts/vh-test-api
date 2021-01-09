@@ -18,6 +18,8 @@ namespace TestApi.UnitTests.Services
         [Test]
         public async Task Should_allocate_new_user_no_users_exist_user_exists_in_aad()
         {
+            const string ALLOCATED_BY = EmailData.TEST_WEB_MANUAL_USER;
+
             var users = new List<User>();
 
             QueryHandler
@@ -43,6 +45,7 @@ namespace TestApi.UnitTests.Services
                 .ReturnsAsync(user);
 
             var allocation = CreateAllocation(user);
+            allocation.AllocatedBy = ALLOCATED_BY;
 
             CommandHandler
                 .Setup(x => x.Handle(It.IsAny<CreateNewAllocationByUserIdCommand>()))
@@ -62,7 +65,7 @@ namespace TestApi.UnitTests.Services
 
             const int MINUTES = 1;
 
-            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES);
+            var allocatedUser = await AllocationService.AllocateToService(user.UserType, user.Application, user.TestType, user.IsProdUser, MINUTES, ALLOCATED_BY);
             allocatedUser.Should().BeEquivalentTo(user);
         }
 
