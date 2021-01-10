@@ -25,15 +25,15 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return new HearingBuilder(users).TypeOfTest(testType).Build();
         }
 
-        protected CreateHearingRequest CreateHearingWithJustIndividual()
+        protected CreateHearingRequest CreateHearingWithJustIndividualAndJudge()
         {
-            var users = CreateUsersWithJustIndividual();
+            var users = CreateUsersWithJustIndividualAndJudge();
             return new HearingBuilder(users).Build();
         }
 
-        protected CreateHearingRequest CreateHearingWithJustRep()
+        protected CreateHearingRequest CreateHearingWithJustRepAndJudge()
         {
-            var users = CreateUsersWithJustRep();
+            var users = CreateUsersWithJustRepAndJudge();
             return new HearingBuilder(users).Build();
         }
 
@@ -122,7 +122,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
         }
 
-        private List<User> CreateUsersWithJustIndividual()
+        private List<User> CreateUsersWithJustIndividualAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
@@ -137,7 +137,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return new List<User>() { judge, individual };
         }
 
-        private List<User> CreateUsersWithJustRep()
+        private List<User> CreateUsersWithJustRepAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()

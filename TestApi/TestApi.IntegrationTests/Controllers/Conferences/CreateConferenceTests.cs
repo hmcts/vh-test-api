@@ -46,7 +46,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         [Test]
         public async Task Should_create_conference_with_more_individuals_than_reps()
         {
-            var request = CreateConferenceRequestWithIndividual();
+            var request = CreateConferenceRequestWithIndividualAndJudge();
             await CreateConference(request);
 
             VerifyResponse(HttpStatusCode.Created, true);
@@ -59,7 +59,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         [Test]
         public async Task Should_create_conference_with_more_reps_than_individuals()
         {
-            var request = CreateConferenceRequestWithRep();
+            var request = CreateConferenceRequestWithRepAndJudge();
             await CreateConference(request);
 
             VerifyResponse(HttpStatusCode.Created, true);
@@ -67,7 +67,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
             response.Should().NotBeNull();
             Verify.ConferenceDetailsResponse(response, request);
-            response.Participants.First(x => x.Last_name.Contains("Representative")).Representee.Should()
+            response.Participants.Single(x => x.Last_name.Contains("Representative")).Representee.Should()
                 .Be(HearingData.REPRESENTEE);
         }
     }

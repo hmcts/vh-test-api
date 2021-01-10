@@ -63,7 +63,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_create_hearing_with_more_individuals_than_reps()
         {
-            var request = CreateHearingWithJustIndividual();
+            var request = CreateHearingWithJustIndividualAndJudge();
             await CreateHearing(request);
 
             VerifyResponse(HttpStatusCode.Created, true);
@@ -76,7 +76,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_create_hearing_with_more_representatives_than_reps()
         {
-            var request = CreateHearingWithJustRep();
+            var request = CreateHearingWithJustRepAndJudge();
             await CreateHearing(request);
 
             VerifyResponse(HttpStatusCode.Created, true);
@@ -84,7 +84,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
 
             response.Should().NotBeNull();
             Verify.HearingDetailsResponse(response, request);
-            response.Participants.First(x => x.Last_name.Contains("Representative")).Representee.Should()
+            response.Participants.Single(x => x.Last_name.Contains("Representative")).Representee.Should()
                 .Be(HearingData.REPRESENTEE);
         }
     }

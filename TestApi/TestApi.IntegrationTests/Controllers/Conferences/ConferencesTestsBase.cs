@@ -26,15 +26,15 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return new BookConferenceRequestBuilder(users, testType).BuildRequest();
         }
 
-        protected BookNewConferenceRequest CreateConferenceRequestWithIndividual()
+        protected BookNewConferenceRequest CreateConferenceRequestWithIndividualAndJudge()
         {
-            var users = CreateJustIndividualUser();
+            var users = CreateJustIndividualUserAndJudge();
             return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
         }
 
-        protected BookNewConferenceRequest CreateConferenceRequestWithRep()
+        protected BookNewConferenceRequest CreateConferenceRequestWithRepAndJudge()
         {
-            var users = CreateJustRepUser();
+            var users = CreateJustRepUserAndJudge();
             return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
         }
 
@@ -109,7 +109,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return new List<User>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
         }
 
-        private List<User> CreateJustIndividualUser()
+        private List<User> CreateJustIndividualUserAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
@@ -124,7 +124,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return new List<User>() { judge, individual };
         }
 
-        private List<User> CreateJustRepUser()
+        private List<User> CreateJustRepUserAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
