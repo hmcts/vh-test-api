@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
+using System.Xml.Serialization;
 using FluentAssertions;
 using TestApi.Common.Data;
 using TestApi.Domain;
@@ -63,7 +65,7 @@ namespace TestApi.Services.Builders.Requests
                     {
                         request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
                         request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
-                        request.Representee = individuals.Count == 0 ? "An individual" : individuals[repIndex].DisplayName;
+                        request.Representee = ChooseToRepresentIndividualIfPossible(individuals, repIndex);
                         repIndex++;
                     }
 
@@ -96,6 +98,11 @@ namespace TestApi.Services.Builders.Requests
             }
 
             return _participants;
+        }
+
+        private static string ChooseToRepresentIndividualIfPossible(IReadOnlyList<User> individuals, int repIndex)
+        {
+            return repIndex + 1 <= individuals.Count ? individuals[repIndex].DisplayName : HearingData.REPRESENTEE;
         }
 
         private void ValidateUsers(int totalIndividuals, int totalRepresentatives)

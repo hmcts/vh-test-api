@@ -71,6 +71,7 @@ namespace TestApi.Controllers
             {
                 var allocateRequest = new AllocateUserRequest()
                 {
+                    AllocatedBy = request.AllocatedBy,
                     Application = request.Application,
                     ExpiryInMinutes = request.ExpiryInMinutes,
                     IsProdUser = request.IsProdUser,

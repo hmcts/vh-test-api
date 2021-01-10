@@ -59,5 +59,33 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             response.Endpoints.Count.Should().Be(ENDPOINTS_COUNT);
             response.Endpoints.All(x => x.Display_name.StartsWith(HearingData.ENDPOINT_PREFIX)).Should().BeTrue();
         }
+
+        [Test]
+        public async Task Should_create_hearing_with_more_individuals_than_reps()
+        {
+            var request = CreateHearingWithJustIndividual();
+            await CreateHearing(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.HearingDetailsResponse(response, request);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_more_representatives_than_reps()
+        {
+            var request = CreateHearingWithJustRep();
+            await CreateHearing(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.HearingDetailsResponse(response, request);
+            response.Participants.First(x => x.Last_name.Contains("Representative")).Representee.Should()
+                .Be(HearingData.REPRESENTEE);
+        }
     }
 }

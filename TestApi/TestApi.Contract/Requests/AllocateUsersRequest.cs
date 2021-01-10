@@ -20,5 +20,8 @@ namespace TestApi.Contract.Requests
 
         /// <summary>A list of the User types (e.g. Judge, Individual etc...)</summary>
         public List<UserType> UserTypes { get; set; }
+
+        /// <summary>The user that allocated the user</summary>
+        public string AllocatedBy { get; set; }
     }
 }

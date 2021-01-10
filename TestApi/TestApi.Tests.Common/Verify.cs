@@ -68,7 +68,7 @@ namespace TestApi.Tests.Common
             response.Cases.First().Is_lead_case.Should().Be(HearingData.IS_LEAD_CASE);
             response.Confirmed_by.Should().BeNull();
             response.Confirmed_date.Should().BeNull();
-            response.Created_by.Should().Be(request.Users.First(x => x.UserType == UserType.CaseAdmin).Username);
+            VerifyCreatedBy(response, request);
             response.Created_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
             response.Hearing_room_name.Should().Be(HearingData.HEARING_ROOM_NAME);
 
@@ -79,7 +79,8 @@ namespace TestApi.Tests.Common
             response.Hearing_venue_name.Should().Be(request.Venue);
             response.Id.Should().NotBeEmpty();
             response.Other_information.Should().Be(HearingData.OTHER_INFORMATION);
-            response.Participants.Count.Should().Be(request.Users.Count - 1);
+            var expectedCount = UsersIncludeCaseAdminOrVho(request.Users) ? request.Users.Count - 1 : request.Users.Count;
+            response.Participants.Count.Should().Be(expectedCount);
             response.Questionnaire_not_required.Should().Be(request.QuestionnaireNotRequired);
             response.Scheduled_date_time.Should().Be(request.ScheduledDateTime);
             response.Scheduled_duration.Should().Be(HearingData.SCHEDULED_DURATION);
@@ -87,6 +88,20 @@ namespace TestApi.Tests.Common
             response.Updated_by.Should().BeNull();
             response.Updated_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
             VerifyHearingParticipants(response.Participants, request.Users);
+        }
+
+        private static void VerifyCreatedBy(HearingDetailsResponse response, CreateHearingRequest request)
+        {
+            response.Created_by.Should().Be(
+                UsersIncludeCaseAdminOrVho(request.Users)
+                    ? request.Users.First(x =>
+                        x.UserType == UserType.CaseAdmin || x.UserType == UserType.VideoHearingsOfficer).Username
+                    : UserData.DEFAULT_CREATED_BY_USER);
+        }
+
+        private static bool UsersIncludeCaseAdminOrVho(IEnumerable<User> users)
+        {
+            return users.Any(x => x.UserType == UserType.CaseAdmin || x.UserType == UserType.VideoHearingsOfficer);
         }
 
         private static void VerifyHearingParticipants(IEnumerable<ParticipantResponse> participants, IReadOnlyCollection<User> users)
