@@ -25,6 +25,18 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return new HearingBuilder(users).TypeOfTest(testType).Build();
         }
 
+        protected CreateHearingRequest CreateHearingWithJustIndividualAndJudge()
+        {
+            var users = CreateUsersWithJustIndividualAndJudge();
+            return new HearingBuilder(users).Build();
+        }
+
+        protected CreateHearingRequest CreateHearingWithJustRepAndJudge()
+        {
+            var users = CreateUsersWithJustRepAndJudge();
+            return new HearingBuilder(users).Build();
+        }
+
         protected CreateHearingRequest CreateCACDHearingRequest()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
@@ -108,6 +120,36 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
                 .BuildUser();
 
             return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
+        }
+
+        private List<User> CreateUsersWithJustIndividualAndJudge()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var individual = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddIndividual()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            return new List<User>() { judge, individual };
+        }
+
+        private List<User> CreateUsersWithJustRepAndJudge()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var representative = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddRepresentative()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            return new List<User>() { judge, representative };
         }
 
         protected List<SuitabilityAnswersRequest> CreateAnswersRequest()

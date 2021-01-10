@@ -26,6 +26,18 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return new BookConferenceRequestBuilder(users, testType).BuildRequest();
         }
 
+        protected BookNewConferenceRequest CreateConferenceRequestWithIndividualAndJudge()
+        {
+            var users = CreateJustIndividualUserAndJudge();
+            return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
+        }
+
+        protected BookNewConferenceRequest CreateConferenceRequestWithRepAndJudge()
+        {
+            var users = CreateJustRepUserAndJudge();
+            return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
+        }
+
         protected BookNewConferenceRequest CreateCACDConferenceRequest()
         {
             var users = CreateDefaultUsers(TestType.Automated, true);
@@ -95,6 +107,36 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .BuildUser();
 
             return new List<User>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
+        }
+
+        private List<User> CreateJustIndividualUserAndJudge()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var individual = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddIndividual()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            return new List<User>() { judge, individual };
+        }
+
+        private List<User> CreateJustRepUserAndJudge()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var representative = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddRepresentative()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            return new List<User>() { judge, representative };
         }
 
         protected ConferenceEventRequest CreateVideoEventRequest(ConferenceDetailsResponse conference)

@@ -1,4 +1,5 @@
-﻿using TestApi.Contract.Requests;
+﻿using TestApi.Common.Data;
+using TestApi.Contract.Requests;
 using TestApi.Domain.Enums;
 
 namespace TestApi.Common.Builders
@@ -11,6 +12,7 @@ namespace TestApi.Common.Builders
         {
             _request = new AllocateUserRequest
             {
+                AllocatedBy = EmailData.TEST_WEB_MANUAL_USER,
                 Application = Application.TestApi,
                 ExpiryInMinutes = 1,
                 IsProdUser = false,
