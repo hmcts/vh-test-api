@@ -44,7 +44,7 @@ namespace TestApi.Services.Builders.Requests
         private string GenerateRandomCaseName()
         {
             return
-                $"{AppShortName.FromApplication(_createHearingRequest.Application)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
+                $"{GetCustomCaseNamePrefix()}{AppShortName.FromApplication(_createHearingRequest.Application)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
         }
 
         private string GetCaseNamePrefix()
@@ -57,6 +57,11 @@ namespace TestApi.Services.Builders.Requests
                 TestType.Demo => HearingData.DEMO_CASE_NAME_PREFIX,
                 _ => HearingData.AUTOMATED_CASE_NAME_PREFIX
             };
+        }
+
+        private string GetCustomCaseNamePrefix()
+        {
+            return string.IsNullOrEmpty(_createHearingRequest.CustomCaseNamePrefix) ? string.Empty : $"{_createHearingRequest.CustomCaseNamePrefix} ";
         }
 
         private void AddEndpoints()
