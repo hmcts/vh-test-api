@@ -87,5 +87,21 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             response.Participants.Single(x => x.Last_name.Contains("Representative")).Representee.Should()
                 .Be(HearingData.REPRESENTEE);
         }
+
+        [Test]
+        public async Task Should_create_hearing_with_custom_case_name_prefix()
+        {
+            const string CUSTOM_CASE_NAME = "A Custom case name prefix";
+            var request = CreateHearingRequest();
+            request.CustomCaseNamePrefix = CUSTOM_CASE_NAME;
+            await CreateHearing(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.HearingDetailsResponse(response, request);
+            response.Cases.Single().Name.Should().StartWith(CUSTOM_CASE_NAME);
+        }
     }
 }

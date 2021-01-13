@@ -17,6 +17,9 @@ namespace TestApi.Contract.Requests
         /// <summary>Case Type</summary>
         public string CaseType { get; set; }
 
+        /// <summary>An optional parameter to add some text before the case name to help identify a case</summary>
+        public string CustomCaseNamePrefix { get; set; }
+
         /// <summary>Endpoints</summary>
         public int Endpoints { get; set; }
 
