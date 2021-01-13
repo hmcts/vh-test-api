@@ -45,7 +45,7 @@ namespace TestApi.UnitTests.Validations
         public async Task Should_be_less_than_twelve_hours_for_expiry()
         {
             var request = new AllocateUserRequestBuilder()
-                .WithExpiryInMinutes(Convert.ToInt32(TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(1)).TotalMinutes))
+                .WithExpiryInMinutes(Convert.ToInt32(TimeSpan.FromHours(12).Add(TimeSpan.FromDays(30)).TotalMinutes))
                 .Build();
 
             var result = await _validator.ValidateAsync(request);
@@ -53,7 +53,7 @@ namespace TestApi.UnitTests.Validations
             result.IsValid.Should().BeFalse();
             result.Errors.Count.Should().Be(1);
             result.Errors.First().ErrorMessage.Should()
-                .Be(AllocateUserRequestValidator.EXPIRES_IN_LESS_THAN_TWELVE_HOURS_ERROR_MESSAGE);
+                .Be(AllocateUserRequestValidator.EXPIRES_IN_LESS_THAN_THIRTY_DAYS_ERROR_MESSAGE);
         }
     }
 }
