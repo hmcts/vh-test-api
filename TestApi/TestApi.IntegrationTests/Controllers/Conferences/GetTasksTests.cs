@@ -20,7 +20,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var conferenceRequest = CreateConferenceRequest();
             var conference = await CreateConference(conferenceRequest);
             var videoEventRequest = CreateVideoEventRequest(conference);
-            await CreateVideoEvent(videoEventRequest);
+            await CreateEvent(videoEventRequest);
 
             var uri = ApiUriFactory.ConferenceEndpoints.GetTasksByConferenceId(conference.Id);
             await SendGetRequest(uri);

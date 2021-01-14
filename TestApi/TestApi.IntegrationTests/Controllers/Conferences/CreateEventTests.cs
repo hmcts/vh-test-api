@@ -10,7 +10,7 @@ using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
-    public class CreateVideoEventTests : ConferencesTestsBase
+    public class CreateEventTests : ConferencesTestsBase
     {
         [Test]
         public async Task Should_create_video_event()
@@ -18,7 +18,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var conferenceRequest = CreateConferenceRequest();
             var conference = await CreateConference(conferenceRequest);
             var videoEventRequest = CreateVideoEventRequest(conference);
-            await CreateVideoEvent(videoEventRequest);
+            await CreateEvent(videoEventRequest);
 
             VerifyResponse(HttpStatusCode.NoContent, true);
         }
@@ -50,6 +50,17 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var uri = ApiUriFactory.ConferenceEndpoints.CreateVideoEvent;
             await SendPostRequest(uri, RequestHelper.Serialise(request));
             VerifyResponse(HttpStatusCode.BadRequest, false);
+        }
+
+        [Test]
+        public async Task Should_create_transfer_event_with_room_types()
+        {
+            var conferenceRequest = CreateConferenceRequest();
+            var conference = await CreateConference(conferenceRequest);
+            var videoEventRequest = CreateTransferEventRequest(conference);
+            await CreateEvent(videoEventRequest);
+
+            VerifyResponse(HttpStatusCode.NoContent, true);
         }
     }
 }

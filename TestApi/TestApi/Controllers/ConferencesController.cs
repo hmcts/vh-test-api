@@ -231,17 +231,17 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        ///     Create video event
+        ///     Create event
         /// </summary>
         /// <param name="request">Conference event request</param>
         /// <returns></returns>
-        [HttpPost("events", Name = nameof(CreateVideoEventAsync))]
+        [HttpPost("events", Name = nameof(CreateEventAsync))]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateVideoEventAsync(ConferenceEventRequest request)
+        public async Task<IActionResult> CreateEventAsync(ConferenceEventRequest request)
         {
-            _logger.LogDebug($"CreateVideoEventAsync");
+            _logger.LogDebug($"CreateEventAsync");
 
             try
             {
