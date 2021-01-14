@@ -10,10 +10,10 @@ using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {
-    public class CreateVideoEventControllerTests : ConferencesControllerTestsBase
+    public class CreateEventControllerTests : ConferencesControllerTestsBase
     {
         [Test]
-        public async Task Should_create_video_event()
+        public async Task Should_create_event()
         {
             const EventType EVENT_TYPE = EventType.None;
             const int EVENT_TYPE_ID = (int)EVENT_TYPE;
@@ -35,7 +35,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RaiseVideoEventAsync(It.IsAny<ConferenceEventRequest>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.CreateVideoEventAsync(request);
+            var response = await Controller.CreateEventAsync(request);
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;

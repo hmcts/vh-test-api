@@ -158,7 +158,28 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             };
         }
 
-        protected async Task CreateVideoEvent(ConferenceEventRequest request)
+        protected ConferenceEventRequest CreateTransferEventRequest(ConferenceDetailsResponse conference)
+        {
+            const EventType EVENT_TYPE = EventType.Transfer;
+            const int EVENT_TYPE_ID = (int)EVENT_TYPE;
+            const RoomType TRANSFER_FROM = RoomType.WaitingRoom;
+            const RoomType TRANSFER_TO = RoomType.HearingRoom;
+            var judge = conference.Participants.Single(x => x.User_role == UserRole.Judge);
+
+            return new ConferenceEventRequest()
+            {
+                Conference_id = conference.Id.ToString(),
+                Event_id = EVENT_TYPE_ID.ToString(),
+                Event_type = EVENT_TYPE,
+                Participant_id = judge.Id.ToString(),
+                Reason = HearingData.VIDEO_EVENT_REASON,
+                Time_stamp_utc = DateTime.UtcNow,
+                Transfer_from = TRANSFER_FROM.ToString(),
+                Transfer_to = TRANSFER_TO.ToString()
+            };
+        }
+
+        protected async Task CreateEvent(ConferenceEventRequest request)
         {
             var uri = ApiUriFactory.ConferenceEndpoints.CreateVideoEvent;
             await SendPostRequest(uri, RequestHelper.Serialise(request));
