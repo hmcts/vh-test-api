@@ -80,6 +80,12 @@ namespace TestApi.Services.Builders.Requests
 
         private void SetCreatedBy()
         {
+            if (!_createHearingRequest.CreatedBy.IsNullOrEmpty())
+            {
+                _request.Created_by = _createHearingRequest.CreatedBy;
+                return;
+            }
+
             var caseAdminsCount = _createHearingRequest.Users.Count(x => x.UserType == UserType.CaseAdmin);
             var videoHearingsOfficerCount = _createHearingRequest.Users.Count(x => x.UserType == UserType.VideoHearingsOfficer);
             

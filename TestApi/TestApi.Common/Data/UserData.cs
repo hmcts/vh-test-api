@@ -3,8 +3,8 @@
     public static class UserData
     {
         public const string AUTOMATED_FIRST_NAME_PREFIX = "Auto_";
-        public const string DEFAULT_CREATED_BY_USER = "Default_Created_By@hmcts.com";
-        public const string DEFAULT_UPDATED_BY_USER = "Default_Updated_By@hmcts.com";
+        public const string DEFAULT_CREATED_BY_USER = "Automated_Test@hmcts.com";
+        public const string DEFAULT_UPDATED_BY_USER = "Automated_Test@hmcts.com";
         public const string DEMO_FIRST_NAME_PREFIX = "Demo_";
         public const string ITHC_FIRST_NAME_PREFIX = "Ithc_";
         public const string MANUAL_FIRST_NAME_PREFIX = "Manual_";

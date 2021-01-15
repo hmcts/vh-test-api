@@ -103,5 +103,20 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             Verify.HearingDetailsResponse(response, request);
             response.Cases.Single().Name.Should().StartWith(CUSTOM_CASE_NAME);
         }
+
+        [Test]
+        public async Task Should_create_hearing_with_created_by()
+        {
+            const string CREATED_BY = "A_Custom_Created_By_User@email.com";
+            var request = CreateHearingRequest();
+            request.CreatedBy = CREATED_BY;
+            await CreateHearing(request);
+
+            VerifyResponse(HttpStatusCode.Created, true);
+            var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            response.Created_by.Should().Be(CREATED_BY);
+        }
     }
 }
