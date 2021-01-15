@@ -44,7 +44,17 @@ namespace TestApi.Services.Builders.Requests
         private string GenerateRandomCaseName()
         {
             return
-                $"{GetCustomCaseNamePrefix()}{AppShortName.FromApplication(_createHearingRequest.Application)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
+                $"{GetCustomCaseNamePrefix()}{GetAppShortName()}{GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
+        }
+
+        private string GetCustomCaseNamePrefix()
+        {
+            return string.IsNullOrEmpty(_createHearingRequest.CustomCaseNamePrefix) ? string.Empty : $"{_createHearingRequest.CustomCaseNamePrefix} ";
+        }
+
+        private string GetAppShortName()
+        {
+            return _createHearingRequest.TestType == TestType.Automated ? $"{AppShortName.FromApplication(_createHearingRequest.Application)} " : string.Empty;
         }
 
         private string GetCaseNamePrefix()
@@ -57,11 +67,6 @@ namespace TestApi.Services.Builders.Requests
                 TestType.Demo => HearingData.DEMO_CASE_NAME_PREFIX,
                 _ => HearingData.AUTOMATED_CASE_NAME_PREFIX
             };
-        }
-
-        private string GetCustomCaseNamePrefix()
-        {
-            return string.IsNullOrEmpty(_createHearingRequest.CustomCaseNamePrefix) ? string.Empty : $"{_createHearingRequest.CustomCaseNamePrefix} ";
         }
 
         private void AddEndpoints()
