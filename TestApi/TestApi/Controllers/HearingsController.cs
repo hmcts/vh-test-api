@@ -285,7 +285,7 @@ namespace TestApi.Controllers
         /// Get all hearings by default type
         /// </summary>
         /// <returns>List of hearings by default type</returns>
-        [HttpGet("hearings/")]
+        [HttpGet("all-hearings/")]
         [ProducesResponseType(typeof(List<BookingsHearingResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllHearingsAsync()

@@ -77,7 +77,7 @@ namespace TestApi.Tests.Common.Configuration
 
             public static string GetAllHearingsByDefaultCaseType()
             {
-                return $"{ApiRoot}/hearings/";
+                return $"{ApiRoot}/all-hearings/";
             }
         }
 
