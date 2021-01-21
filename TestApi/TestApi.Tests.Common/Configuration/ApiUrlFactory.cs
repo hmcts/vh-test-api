@@ -74,6 +74,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/person/{username}";
             }
+
+            public static string GetAllHearingsByDefaultCaseType()
+            {
+                return $"{ApiRoot}/hearings/";
+            }
         }
 
         public static class UserEndpoints
