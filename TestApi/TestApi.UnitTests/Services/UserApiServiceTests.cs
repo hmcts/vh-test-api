@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -141,6 +140,56 @@ namespace TestApi.UnitTests.Services
                 .Returns(Task.CompletedTask);
 
             await UserApiService.DeleteUserInAAD(USERNAME);
+        }
+
+        [Test]
+        public async Task Should_add_prod_judge_groups()
+        {
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var prodJudge = new UserBuilder(EMAIL_STEM, 1)
+                .WithUserType(UserType.Judge)
+                .ForApplication(Application.TestApi)
+                .IsProdUser(true)
+                .BuildUser();
+
+            var nonProdJudge = new UserBuilder(EMAIL_STEM, 2)
+                .WithUserType(UserType.Judge)
+                .ForApplication(Application.TestApi)
+                .IsProdUser(false)
+                .BuildUser();
+
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
+
+            var groupsForProdCount = await UserApiService.AddGroupsToUser(prodJudge, "1");
+            var groupsForNonProdCount = await UserApiService.AddGroupsToUser(nonProdJudge, "2");
+
+            groupsForProdCount.Should().BeGreaterThan(groupsForNonProdCount);
+        }
+
+        [Test]
+        public async Task Should_add_performance_test_groups()
+        {
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var performanceTestUser = new UserBuilder(EMAIL_STEM, 1)
+                .ForTestType(TestType.Performance)
+                .WithUserType(UserType.Individual)
+                .BuildUser();
+
+            var nonPerformanceTestUser = new UserBuilder(EMAIL_STEM, 2)
+                .ForTestType(TestType.Automated)
+                .WithUserType(UserType.Individual)
+                .BuildUser();
+
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
+
+            var groupsForPerformanceTestUserCount = await UserApiService.AddGroupsToUser(performanceTestUser, "1");
+            var groupsForNonPerformanceTestUserCount = await UserApiService.AddGroupsToUser(nonPerformanceTestUser, "2");
+
+            groupsForPerformanceTestUserCount.Should().BeGreaterThan(groupsForNonPerformanceTestUserCount);
         }
     }
 }
