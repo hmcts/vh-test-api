@@ -284,19 +284,19 @@ namespace TestApi.Controllers
         /// <summary>
         /// Get all hearings by default type
         /// </summary>
+        /// <param name="limit">Limit of number of hearings should be searched</param>
         /// <returns>List of hearings by default type</returns>
-        [HttpGet("all-hearings/")]
+        [HttpGet("all-hearings/{limit}")]
         [ProducesResponseType(typeof(List<BookingsHearingResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllHearingsAsync()
+        public async Task<IActionResult> GetAllHearingsAsync(int limit = HearingData.GET_HEARINGS_LIMIT)
         {
             _logger.LogDebug($"GetAllHearingsAsync");
 
             try
             {
                 var types = new List<int> { HearingData.CIVIL_MONEY_CLAIMS_CASE_TYPE_INT };
-                const int LIMIT = HearingData.GET_HEARINGS_LIMIT;
-                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT);
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, limit);
 
                 var hearings = new List<BookingsHearingResponse>();
                 foreach (var day in response.Hearings)

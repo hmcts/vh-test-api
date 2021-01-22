@@ -1,4 +1,5 @@
 ﻿using System;
+using TestApi.Common.Data;
 
 namespace TestApi.Tests.Common.Configuration
 {
@@ -75,9 +76,9 @@ namespace TestApi.Tests.Common.Configuration
                 return $"{ApiRoot}/person/{username}";
             }
 
-            public static string GetAllHearingsByDefaultCaseType()
+            public static string GetAllHearingsByDefaultCaseType(int limit = HearingData.GET_HEARINGS_LIMIT)
             {
-                return $"{ApiRoot}/all-hearings/";
+                return $"{ApiRoot}/all-hearings/{limit}";
             }
         }
 
