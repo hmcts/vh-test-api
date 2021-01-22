@@ -76,9 +76,9 @@ namespace TestApi.Tests.Common.Configuration
                 return $"{ApiRoot}/person/{username}";
             }
 
-            public static string GetAllHearingsByDefaultCaseType(int limit = HearingData.GET_HEARINGS_LIMIT)
+            public static string GetAllHearingsByDefaultCaseType()
             {
-                return $"{ApiRoot}/all-hearings/{limit}";
+                return $"{ApiRoot}/all/hearings";
             }
         }
 

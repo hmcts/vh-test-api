@@ -67,5 +67,23 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var result = (ObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
         }
+
+        [Test]
+        public async Task Should_return_okay_if_no_hearings_found()
+        {
+            BookingsApiClient
+                .Setup(
+                    x => x.GetHearingsByTypesAsync(It.IsAny<IEnumerable<int>>(), It.IsAny<string>(), It.IsAny<int>()))
+                .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.NotFound));
+
+            var response = await Controller.GetAllHearingsAsync();
+            response.Should().NotBeNull();
+
+            var result = (OkObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var responses = (List<BookingsHearingResponse>)result.Value;
+            responses.Should().BeEmpty();
+        }
     }
 }

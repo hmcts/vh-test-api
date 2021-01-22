@@ -282,21 +282,21 @@ namespace TestApi.Controllers
         }
 
         /// <summary>
-        /// Get all hearings by default type
+        /// Get all hearings by default case type
         /// </summary>
-        /// <param name="limit">Limit of number of hearings should be searched</param>
         /// <returns>List of hearings by default type</returns>
-        [HttpGet("all-hearings/{limit}")]
+        [HttpGet("all/hearings")]
         [ProducesResponseType(typeof(List<BookingsHearingResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllHearingsAsync(int limit = HearingData.GET_HEARINGS_LIMIT)
+        public async Task<IActionResult> GetAllHearingsAsync()
         {
             _logger.LogDebug($"GetAllHearingsAsync");
 
             try
             {
+                const int LIMIT = HearingData.GET_HEARINGS_LIMIT;
                 var types = new List<int> { HearingData.CIVIL_MONEY_CLAIMS_CASE_TYPE_INT };
-                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, limit);
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT);
 
                 var hearings = new List<BookingsHearingResponse>();
                 foreach (var day in response.Hearings)
@@ -308,7 +308,7 @@ namespace TestApi.Controllers
             }
             catch (BookingsApiException e)
             {
-                return StatusCode(e.StatusCode, e.Response);
+                return e.StatusCode == (int) HttpStatusCode.NotFound ? Ok(new List<BookingsHearingResponse>()) : StatusCode(e.StatusCode, e.Response);
             }
         }
     }
