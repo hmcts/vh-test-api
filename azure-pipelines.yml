@@ -220,8 +220,8 @@ extends:
     testParameters:
       baseAgent: windows-latest
       coreProjectPath: TestApi/TestApi
-      unitTestProjectPath: TestApi.UnitTests
-      integTestProjectPath: TestApi.IntegrationTests
+      unitTestProjectPath: TestApi/TestApi.UnitTests
+      integTestProjectPath: TestApi/TestApi.IntegrationTests
       secrets_KeyVault: $(pr_Secret_KeyVault)
       secrets_Subscription: $(pr_Secret_Subscription)
       RunUnitTests: ${{ parameters.RunUnitTests }}
