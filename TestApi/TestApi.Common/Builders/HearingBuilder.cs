@@ -39,6 +39,12 @@ namespace TestApi.Common.Builders
             return this;
         }
 
+        public HearingBuilder ForApplication(Application application)
+        {
+            _request.Application = application;
+            return this;
+        }
+
         public HearingBuilder HearingVenue(string venue)
         {
             _request.Venue = venue;
@@ -60,6 +66,12 @@ namespace TestApi.Common.Builders
         public HearingBuilder TypeOfTest(TestType testType)
         {
             _request.TestType = testType;
+            return this;
+        }
+
+        public HearingBuilder WithoutACaseType()
+        {
+            _request.CaseType = string.Empty;
             return this;
         }
 
