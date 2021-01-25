@@ -203,7 +203,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .TypeOfTest(testType)
@@ -218,10 +218,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
 
-            var hearingDetails = (HearingDetailsResponse)result.Value;
+            var hearingDetails = (HearingDetailsResponse) result.Value;
             hearingDetails.Should().NotBeNull();
             hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
         }
@@ -232,7 +232,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var judge = CreateUser(UserType.Judge);
             var individual = CreateUser(UserType.Individual);
 
-            var users = new List<User> { judge, individual };
+            var users = new List<User> {judge, individual};
 
             var createHearingRequest = new HearingBuilder(users).WithoutACaseType().Build();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
@@ -244,25 +244,25 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
 
-            var hearingDetails = (HearingDetailsResponse)result.Value;
+            var hearingDetails = (HearingDetailsResponse) result.Value;
             hearingDetails.Should().NotBeNull();
             hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
         }
 
-        [TestCase(TestType.Performance)]
-        public async Task Should_create_hearings_with_specified_application(Application application)
+        [Test]
+        public async Task Should_create_hearings_for_other_applications()
         {
             var judge = CreateUser(UserType.Judge);
             var individual = CreateUser(UserType.Individual);
 
-            var users = new List<User> { judge, individual };
+            var users = new List<User> {judge, individual};
 
             var createHearingRequest = new HearingBuilder(users)
                 .TypeOfTest(TestType.Automated)
-                .ForApplication(application)
+                .ForApplication(Application.QueueSubscriber)
                 .Build();
 
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
@@ -274,12 +274,41 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var response = await Controller.CreateHearingAsync(createHearingRequest);
 
-            var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.Created);
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
 
-            var hearingDetails = (HearingDetailsResponse)result.Value;
+            var hearingDetails = (HearingDetailsResponse) result.Value;
             hearingDetails.Should().NotBeNull();
             hearingDetails.Should().BeEquivalentTo(hearingDetailsResponse);
+        }
+
+        [Test]
+        public async Task Should_create_hearing_with_all_user_types()
+        {
+            var judge = CreateUser(UserType.Judge);
+            var observer = CreateUser(UserType.Observer);
+            var panelMember = CreateUser(UserType.PanelMember);
+            var caseAdmin = CreateUser(UserType.CaseAdmin);
+            var vho = CreateUser(UserType.VideoHearingsOfficer);
+            var individual = CreateUser(UserType.Individual);
+
+            var users = new List<User> { judge, observer, panelMember, caseAdmin, vho, individual };
+
+            var createHearingRequest = new HearingBuilder(users).Build();
+            var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
+            var hearingDetailsResponse = new HearingDetailsResponseBuilder(bookHearingRequest).Build();
+
+            BookingsApiClient
+                .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
+                .ReturnsAsync(hearingDetailsResponse);
+
+            var response = await Controller.CreateHearingAsync(createHearingRequest);
+
+            var result = (ObjectResult) response;
+            result.StatusCode.Should().Be((int) HttpStatusCode.Created);
+
+            var hearingDetails = (HearingDetailsResponse) result.Value;
+            hearingDetails.Should().NotBeNull();
         }
     }
 }
