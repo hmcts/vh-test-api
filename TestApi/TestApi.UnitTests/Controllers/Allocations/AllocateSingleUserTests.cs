@@ -10,6 +10,7 @@ using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -46,6 +47,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         }
 
         [TestCase(TestType.Automated)]
+        [TestCase(TestType.Demo)]
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
@@ -100,6 +102,40 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             var userDetailsResponse = (UserDetailsResponse) result.Value;
             userDetailsResponse.Should().BeEquivalentTo(user);
+        }
+
+        [TestCase(TestType.Automated)]
+        [TestCase(TestType.Demo)]
+        [TestCase(TestType.ITHC)]
+        [TestCase(TestType.Manual)]
+        [TestCase(TestType.Performance)]
+        public async Task Should_create_user_first_names_based_on_test_type(TestType testType)
+        {
+            var user = CreateUser(testType);
+            CreateAllocation(user);
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(user.UserType)
+                .ForTestType(testType)
+                .Build();
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                .ReturnsAsync(user);
+
+            var response = await Controller.AllocateSingleUserAsync(request);
+            response.Should().NotBeNull();
+
+            var result = (OkObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var userDetailsResponse = (UserDetailsResponse)result.Value;
+            userDetailsResponse.Should().BeEquivalentTo(user);
+
+            userDetailsResponse.FirstName.ToLower().Should().Contain(testType == TestType.Automated
+                ? UserData.AUTOMATED_FIRST_NAME_PREFIX.ToLower()
+                : testType.ToString().ToLower());
         }
     }
 }

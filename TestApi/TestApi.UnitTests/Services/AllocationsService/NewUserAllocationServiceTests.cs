@@ -11,7 +11,7 @@ using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Clients.UserApiClient;
 
-namespace TestApi.UnitTests.Services
+namespace TestApi.UnitTests.Services.AllocationsService
 {
     public class NewUserAllocationServiceTests : ServicesTestBase
     {
