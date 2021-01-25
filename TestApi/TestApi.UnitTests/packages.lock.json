@@ -2,6 +2,12 @@
   "version": 1,
   "dependencies": {
     ".NETCoreApp,Version=v3.1": {
+      "coverlet.msbuild": {
+        "type": "Direct",
+        "requested": "[3.0.2, )",
+        "resolved": "3.0.2",
+        "contentHash": "chWBtSiXjjjQDOpnSl6Qld7jaUrGg+raxyCUaGKOab5Mc5TyQmCGYgU1CwWx6Zcb9KdRuAz/5r4hmqMmyhvFfw=="
+      },
       "FluentAssertions": {
         "type": "Direct",
         "requested": "[5.10.3, )",
