@@ -22,7 +22,7 @@ parameters:
 - name: RunSonarCloudTests
   displayName: Run Sonar Cloud Analysis
   type: boolean
-  default: false
+  default: true
 
 - name: RunMutationTests
   displayName: Run Mutation Tests
@@ -240,11 +240,11 @@ extends:
         - "[TestApi.*Tests?]*"
         - "[TestApi.API]Startup"
         - "[TestApi.Common]*"
-        - "[Testing.Common]*"
+        - "[TestApi.Testing.Common]*"
       sonarCloud_ExtraProperties: |
         sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
-        sonar.coverage.exclusions="**/TestApi/Swagger/**, **/Program.cs, **/Startup.cs, **/Testing.Common/**, **/TestApi.Common/**, **/TestApi.IntegrationTests/**, **/TestApi.UnitTests/**, **/TestApi/Helper/**, **/TestApi/ConfigureServicesExtensions.cs, **/TestApi/Extensions/**"
-        sonar.cpd.exclusions="**/Program.cs, **/Startup.cs, **/Testing.Common/**, **/TestApi/Swagger/**"
+        sonar.coverage.exclusions="**/TestApi/Swagger/**, **/Program.cs, **/Startup.cs,  **/TestApi/Helper/**, **/TestApi/ConfigureServicesExtensions.cs, **/TestApi/Extensions/**, **/TestApi.DAL/Migrations/*, **/TestApi.IntegrationTests/**/*,**/TestApi.UnitTests/**/*"
+        sonar.cpd.exclusions="**/Program.cs, **/Startup.cs, **/TestApi/Swagger/**"
       StrykerBreak: 75
     ACTest: ${{ parameters.RunACTests }}
     releaseParameters:

@@ -11,6 +11,6 @@ namespace TestApi.IntegrationTests.Test
         public DbContextOptions<TestApiDbContext> DbContextOptions { get; set; }
         public TestServer Server { get; set; }
         public Data Data { get; set; }
-        public Tokens Tokens { get; set; }
+        public string Token { get; set; }
     }
 }

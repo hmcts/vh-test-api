@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
@@ -170,12 +171,6 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"DeleteHearingByIdAsync {hearingId}");
 
-            var existingHearing = await GetHearingByIdAsync(hearingId);
-
-            if (existingHearing == null) return NotFound();
-
-            _logger.LogDebug($"Hearing with id {hearingId} retrieved");
-
             try
             {
                 await _bookingsApiClient.RemoveHearingAsync(hearingId);
@@ -277,6 +272,37 @@ namespace TestApi.Controllers
             catch (BookingsApiException e)
             {
                 return StatusCode(e.StatusCode, e.Response);
+            }
+        }
+
+        /// <summary>
+        /// Get all hearings by default case type
+        /// </summary>
+        /// <returns>List of hearings by default type</returns>
+        [HttpGet("all/hearings")]
+        [ProducesResponseType(typeof(List<BookingsHearingResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetAllHearingsAsync()
+        {
+            _logger.LogDebug($"GetAllHearingsAsync");
+
+            try
+            {
+                const int LIMIT = HearingData.GET_HEARINGS_LIMIT;
+                var types = new List<int> { HearingData.CIVIL_MONEY_CLAIMS_CASE_TYPE_INT };
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT);
+
+                var hearings = new List<BookingsHearingResponse>();
+                foreach (var day in response.Hearings)
+                {
+                    hearings.AddRange(day.Hearings);  
+                }
+
+                return Ok(hearings);
+            }
+            catch (BookingsApiException e)
+            {
+                return e.StatusCode == (int) HttpStatusCode.NotFound ? Ok(new List<BookingsHearingResponse>()) : StatusCode(e.StatusCode, e.Response);
             }
         }
     }

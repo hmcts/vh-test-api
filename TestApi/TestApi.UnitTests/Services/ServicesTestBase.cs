@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -31,6 +30,10 @@ namespace TestApi.UnitTests.Services
         protected Mock<IQueryHandler> QueryHandler;
         protected Mock<IUserApiClient> UserApiClient;
         protected IUserApiService UserApiService;
+        protected readonly UserApiException NotFoundError = new UserApiException("User not found", 404, "Response",
+            new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+        protected readonly UserApiException InternalServerError = new UserApiException("Internal server error", 500, "Response",
+            new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
 
         [SetUp]
         public void Setup()
@@ -44,7 +47,7 @@ namespace TestApi.UnitTests.Services
             SetMockConfig();
             MockUserApiService = new Mock<IUserApiService>();
             UserApiClient = new Mock<IUserApiClient>();
-            UserApiService = new UserApiService(UserApiClient.Object, GroupsConfig.Object);
+            UserApiService = new TestApi.Services.Services.UserApiService(UserApiClient.Object, GroupsConfig.Object);
             AllocationService = new AllocationService(CommandHandler.Object, QueryHandler.Object, Logger.Object,
                 Configuration.Object, MockUserApiService.Object);
         }
@@ -121,12 +124,6 @@ namespace TestApi.UnitTests.Services
         {
             const int ALLOCATE_FOR_MINUTES = 1;
             foreach (var allocation in allocations) allocation.Allocate(ALLOCATE_FOR_MINUTES, EmailData.TEST_WEB_MANUAL_USER);
-        }
-
-        protected UserApiException CreateUserApiException(string errorMessage, HttpStatusCode statusCode)
-        {
-            return new UserApiException(errorMessage, (int)statusCode, "Response",
-                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
         }
     }
 }

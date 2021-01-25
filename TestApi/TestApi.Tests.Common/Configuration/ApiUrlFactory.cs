@@ -1,4 +1,5 @@
 ﻿using System;
+using TestApi.Common.Data;
 
 namespace TestApi.Tests.Common.Configuration
 {
@@ -74,6 +75,11 @@ namespace TestApi.Tests.Common.Configuration
             {
                 return $"{ApiRoot}/person/{username}";
             }
+
+            public static string GetAllHearingsByDefaultCaseType()
+            {
+                return $"{ApiRoot}/all/hearings";
+            }
         }
 
         public static class UserEndpoints
@@ -93,11 +99,6 @@ namespace TestApi.Tests.Common.Configuration
             public static string GetUserExistsInAd(string username)
             {
                 return $"{ApiRoot}/aad/{username}";
-            }
-
-            public static string DeleteAdUser(string contactEmail)
-            {
-                return $"{ApiRoot}/aad/{contactEmail}";
             }
 
             public static string RefreshJudgesCache()

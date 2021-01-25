@@ -44,6 +44,12 @@ namespace TestApi.UnitTests.Controllers
             return new HearingDetailsResponseBuilder(bookHearingRequest).Build();
         }
 
+        protected BookingsHearingResponse CreateBookingDetailsResponse()
+        {
+            var response = CreateHearingDetailsResponse();
+            return new BookingsHearingResponseBuilder(response).Build();
+        }
+
         protected ConferenceDetailsResponse CreateConferenceDetailsResponse()
         {
             var response = CreateHearingDetailsResponse();

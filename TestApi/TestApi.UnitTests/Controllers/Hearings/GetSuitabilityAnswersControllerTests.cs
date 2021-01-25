@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +72,22 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var answers = (List<PersonSuitabilityAnswerResponse>)result.Value;
             answers.Should().NotBeNull();
             answers.Should().BeEmpty();
+        }
+
+        [Test]
+        public async Task Should_throw_api_error()
+        {
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+
+            BookingsApiClient
+                .Setup(x => x.GetPersonSuitabilityAnswersAsync(It.IsAny<string>()))
+                .ThrowsAsync(CreateBookingsApiException("Hearing error", HttpStatusCode.InternalServerError));
+
+            var response = await Controller.GetSuitabilityAnswersAsync(USERNAME);
+            response.Should().NotBeNull();
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
     }
 }

@@ -132,12 +132,12 @@ namespace TestApi.Services.Services
             var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
             var groups = userGroupStrategies[user.UserType].GetGroups();
 
-            if (user.IsProdUser && user.UserType == UserType.Judge || user.UserType == UserType.VideoHearingsOfficer)
+            if (user.IsProdUser && (user.UserType == UserType.Judge || user.UserType == UserType.VideoHearingsOfficer))
             {
                 groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.KinlyProdGroups));
             }
 
-            if (!user.IsProdUser && user.UserType != UserType.Judge)
+            if (!user.IsProdUser || user.UserType != UserType.Judge)
             {
                 groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.TestAccountGroups));
             }

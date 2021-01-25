@@ -131,19 +131,19 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         {
             const Application APPLICATION = Application.TestApi;
 
-            var judgeUser = await Context.Data.SeedUser();
+            var judgeUser = await Context.Data.SeedUser(testType);
             await Context.Data.SeedAllocation(judgeUser.Id);
             await Context.Data.AllocateUser(judgeUser.Id);
 
-            var individualUser = await Context.Data.SeedUser(UserType.Individual);
+            var individualUser = await Context.Data.SeedUser(testType, UserType.Individual);
             await Context.Data.SeedAllocation(individualUser.Id);
             await Context.Data.AllocateUser(individualUser.Id);
 
-            var representativeUser = await Context.Data.SeedUser(UserType.Representative);
+            var representativeUser = await Context.Data.SeedUser(testType, UserType.Representative);
             await Context.Data.SeedAllocation(representativeUser.Id);
             await Context.Data.AllocateUser(representativeUser.Id);
 
-            var caseAdminUser = await Context.Data.SeedUser(UserType.CaseAdmin);
+            var caseAdminUser = await Context.Data.SeedUser(testType, UserType.CaseAdmin);
             await Context.Data.SeedAllocation(caseAdminUser.Id);
             await Context.Data.AllocateUser(caseAdminUser.Id);
 

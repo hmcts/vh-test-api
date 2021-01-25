@@ -22,7 +22,6 @@ namespace TestApi.Domain.Helpers
         public static UserTypeName PanelMember => new UserTypeName(UserType.PanelMember, "Panel Member");
         public static UserTypeName Winger => new UserTypeName(UserType.Winger, "Winger");
         public static UserTypeName CaseAdmin => new UserTypeName(UserType.CaseAdmin, "Case Admin");
-
         public static UserTypeName VideoHearingsOfficer =>
             new UserTypeName(UserType.VideoHearingsOfficer, "Video Hearings Officer");
 

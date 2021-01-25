@@ -40,13 +40,6 @@ namespace TestApi.Common.Builders
             return this;
         }
 
-        public AllocateUsersRequestBuilder WithoutCaseAdmin()
-        {
-            var userTypes = new List<UserType> {JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE};
-            _request.UserTypes = userTypes;
-            return this;
-        }
-
         public AllocateUsersRequestBuilder WithEmptyUsers()
         {
             _request.UserTypes = new List<UserType>();

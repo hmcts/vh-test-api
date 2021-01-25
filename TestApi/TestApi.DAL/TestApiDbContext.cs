@@ -23,8 +23,8 @@ namespace TestApi.DAL
                                                 BindingFlags.FlattenHierarchy);
             var applyGenericApplyConfigurationMethods = applyGenericMethods.Where(m =>
                 m.IsGenericMethod && m.Name.Equals("ApplyConfiguration", StringComparison.OrdinalIgnoreCase));
-            var applyGenericMethod = applyGenericApplyConfigurationMethods.FirstOrDefault(m =>
-                m.GetParameters().FirstOrDefault()?.ParameterType.Name == "IEntityTypeConfiguration`1");
+            var applyGenericMethod = applyGenericApplyConfigurationMethods
+                .FirstOrDefault(m => m.GetParameters().FirstOrDefault()?.ParameterType.Name == "IEntityTypeConfiguration`1");
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
                 .Where(c => c.IsClass && !c.IsAbstract && !c.ContainsGenericParameters))

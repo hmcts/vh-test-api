@@ -40,18 +40,17 @@ namespace TestApi.IntegrationTests.Test
             return user;
         }
 
-        public async Task<User> SeedUser(TestType testType)
+        public async Task<User> SeedUser(TestType testType, UserType userType = UserType.Judge)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
-            const UserType USER_TYPE = UserType.Judge;
             const Application APPLICATION = Application.TestApi;
             const bool IS_PROD_USER = false;
 
-            var number = await IterateUserNumber(USER_TYPE, APPLICATION, IS_PROD_USER);
+            var number = await IterateUserNumber(userType, APPLICATION, IS_PROD_USER);
 
             var user = new UserBuilder(_context.Config.UsernameStem, number)
-                .WithUserType(USER_TYPE)
+                .WithUserType(userType)
                 .ForApplication(APPLICATION)
                 .ForTestType(testType)
                 .BuildUser();
