@@ -125,6 +125,7 @@ namespace TestApi.UnitTests.Services.UserApiService
         [TestCase(UserType.PanelMember)]
         [TestCase(UserType.Representative)]
         [TestCase(UserType.Tester)]
+        [TestCase(UserType.VideoHearingsOfficer)]
         [TestCase(UserType.Winger)]
         public async Task Should_add_user_to_groups_by_user_type(UserType userType)
         {
@@ -145,14 +146,19 @@ namespace TestApi.UnitTests.Services.UserApiService
         [Test]
         public async Task Should_throw_error_if_failed_to_add_user_to_group()
         {
-            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var user = new UserBuilder(EMAIL_STEM, 1)
+                .ForTestType(TestType.Automated)
+                .WithUserType(UserType.Individual)
+                .BuildUser();
 
             UserApiClient
                 .Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .ThrowsAsync(InternalServerError);
             try
             {
-                await UserApiService.DeleteUserInAAD(USERNAME);
+                await UserApiService.AddGroupsToUser(user, "1");
             }
             catch (UserApiException ex)
             {
