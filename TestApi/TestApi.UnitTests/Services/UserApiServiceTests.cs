@@ -13,6 +13,11 @@ namespace TestApi.UnitTests.Services
 {
     public class UserApiServiceTests : ServicesTestBase
     {
+        private readonly UserApiException _notFoundError = new UserApiException("User not found", 404, "Response",
+            new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+        private readonly UserApiException _internalServerError = new UserApiException("Internal server error", 500, "Response",
+            new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
+
         [Test]
         public async Task Should_return_true_for_existing_user_in_aad()
         {
@@ -30,13 +35,28 @@ namespace TestApi.UnitTests.Services
         {
             const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
-            var ex = new UserApiException("User not found", 404, "Response",
-                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
-
-            UserApiClient.Setup(x => x.GetUserByAdUserNameAsync(USERNAME)).ThrowsAsync(ex);
+            UserApiClient.Setup(x => x.GetUserByAdUserNameAsync(USERNAME)).ThrowsAsync(_notFoundError);
 
             var userExists = await UserApiService.CheckUserExistsInAAD(USERNAME);
             userExists.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Should_throw_error_whilst_checking_if_user_exists()
+        {
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+
+            UserApiClient.Setup(x => x.GetUserByAdUserNameAsync(USERNAME))
+                .ThrowsAsync(_internalServerError);
+
+            try
+            {
+                await UserApiService.CheckUserExistsInAAD(USERNAME);
+            }
+            catch (UserApiException ex)
+            {
+                ex.StatusCode.Should().Be(_internalServerError.StatusCode);
+            }
         }
 
         [TestCase(UserType.Judge)]
@@ -143,6 +163,25 @@ namespace TestApi.UnitTests.Services
         }
 
         [Test]
+        public async Task Should_throw_error_if_failed_to_delete_user_in_aad()
+        {
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+
+            UserApiClient
+                .Setup(x => x.DeleteUserAsync(It.IsAny<string>()))
+                .ThrowsAsync(_internalServerError);
+
+            try
+            {
+                await UserApiService.DeleteUserInAAD(USERNAME);
+            }
+            catch (UserApiException ex)
+            {
+                ex.StatusCode.Should().Be(_internalServerError.StatusCode);
+            }
+        }
+
+        [Test]
         public async Task Should_add_prod_judge_groups()
         {
             const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
@@ -214,6 +253,24 @@ namespace TestApi.UnitTests.Services
 
             var groupsCount = await UserApiService.AddGroupsToUser(user, "1");
             groupsCount.Should().BeGreaterThan(0);
+        }
+
+        [Test]
+        public async Task Should_throw_error_if_failed_to_add_user_to_group()
+        {
+            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+
+            UserApiClient
+                .Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .ThrowsAsync(_internalServerError);
+            try
+            {
+                await UserApiService.DeleteUserInAAD(USERNAME);
+            }
+            catch (UserApiException ex)
+            {
+                ex.StatusCode.Should().Be(_internalServerError.StatusCode);
+            }
         }
     }
 }
