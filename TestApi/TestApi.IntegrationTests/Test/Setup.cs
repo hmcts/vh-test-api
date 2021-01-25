@@ -24,7 +24,6 @@ namespace TestApi.IntegrationTests.Test
             _context = new TestContext();
             _configRoot = ConfigurationManager.BuildConfig("04df59fe-66aa-4fb2-8ac5-b87656f7675a");
             _context.Config = new Config();
-            _context.Tokens = new Tokens();
         }
 
         public TestContext RegisterSecrets()
@@ -89,12 +88,12 @@ namespace TestApi.IntegrationTests.Test
 
         private void GenerateBearerTokens(IOptions<AzureAdConfiguration> azureOptions)
         {
-            _context.Tokens.TestApiBearerToken = new AzureTokenProvider(azureOptions).GetClientAccessToken(
+            _context.Token = new AzureTokenProvider(azureOptions).GetClientAccessToken(
                 azureOptions.Value.ClientId, azureOptions.Value.ClientSecret,
                 azureOptions.Value.ValidAudience);
-            _context.Tokens.TestApiBearerToken.Should().NotBeNullOrEmpty();
+            _context.Token.Should().NotBeNullOrEmpty();
 
-            Zap.SetAuthToken(_context.Tokens.TestApiBearerToken);
+            Zap.SetAuthToken(_context.Token);
         }
     }
 }

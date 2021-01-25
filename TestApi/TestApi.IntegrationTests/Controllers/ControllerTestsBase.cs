@@ -59,7 +59,7 @@ namespace TestApi.IntegrationTests.Controllers
                 client = _server.CreateClient();
             }
 
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Context.Tokens.TestApiBearerToken}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Context.Token}");
             return client;
         }
 
