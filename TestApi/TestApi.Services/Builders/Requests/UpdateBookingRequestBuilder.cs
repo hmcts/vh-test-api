@@ -15,13 +15,6 @@ namespace TestApi.Services.Builders.Requests
             };
         }
 
-        public UpdateBookingRequestBuilder WithStatus(UpdateBookingStatus status)
-        {
-            _request.Cancel_reason = HearingData.CANCELLATION_REASON;
-            _request.Status = status;
-            return this;
-        }
-
         public UpdateBookingRequestBuilder UpdatedBy(string username)
         {
             _request.Updated_by = username;

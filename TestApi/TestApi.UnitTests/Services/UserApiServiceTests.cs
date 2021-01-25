@@ -191,5 +191,29 @@ namespace TestApi.UnitTests.Services
 
             groupsForPerformanceTestUserCount.Should().BeGreaterThan(groupsForNonPerformanceTestUserCount);
         }
+
+        [TestCase(UserType.CaseAdmin)]
+        [TestCase(UserType.Individual)]
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.Observer)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Representative)]
+        [TestCase(UserType.Tester)]
+        [TestCase(UserType.Winger)]
+        public async Task Should_add_user_to_groups(UserType userType)
+        {
+            const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
+
+            var user = new UserBuilder(EMAIL_STEM, 1)
+                .ForTestType(TestType.Automated)
+                .WithUserType(userType)
+                .BuildUser();
+
+            UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
+                .Returns(Task.CompletedTask);
+
+            var groupsCount = await UserApiService.AddGroupsToUser(user, "1");
+            groupsCount.Should().BeGreaterThan(0);
+        }
     }
 }

@@ -59,13 +59,13 @@ namespace TestApi.UnitTests.Controllers.Hearings
             BookingsApiClient
                 .Setup(
                     x => x.GetHearingsByTypesAsync(It.IsAny<IEnumerable<int>>(), It.IsAny<string>(), It.IsAny<int>()))
-                .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.BadRequest));
+                .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.InternalServerError));
 
             var response = await Controller.GetAllHearingsAsync();
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
-            result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            result.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
 
         [Test]

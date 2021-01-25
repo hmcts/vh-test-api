@@ -171,12 +171,6 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"DeleteHearingByIdAsync {hearingId}");
 
-            var existingHearing = await GetHearingByIdAsync(hearingId);
-
-            if (existingHearing == null) return NotFound();
-
-            _logger.LogDebug($"Hearing with id {hearingId} retrieved");
-
             try
             {
                 await _bookingsApiClient.RemoveHearingAsync(hearingId);

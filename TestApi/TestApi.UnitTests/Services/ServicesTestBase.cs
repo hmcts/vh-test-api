@@ -122,11 +122,5 @@ namespace TestApi.UnitTests.Services
             const int ALLOCATE_FOR_MINUTES = 1;
             foreach (var allocation in allocations) allocation.Allocate(ALLOCATE_FOR_MINUTES, EmailData.TEST_WEB_MANUAL_USER);
         }
-
-        protected UserApiException CreateUserApiException(string errorMessage, HttpStatusCode statusCode)
-        {
-            return new UserApiException(errorMessage, (int)statusCode, "Response",
-                new Dictionary<string, IEnumerable<string>>(), new Exception("Message"));
-        }
     }
 }

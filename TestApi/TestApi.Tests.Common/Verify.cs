@@ -196,32 +196,6 @@ namespace TestApi.Tests.Common
             }
         }
 
-        public static void UpdatedHearing(HearingDetailsResponse hearingDetails, UpdateHearingRequest request)
-        {
-            hearingDetails.Should().BeEquivalentTo(request);
-        }
-
-        public static void UpdatedConference(ConferenceDetailsResponse conferenceDetails, UpdateHearingRequest request)
-        {
-            conferenceDetails.Should().BeEquivalentTo(request, options => options
-                .Excluding(x => x.AdditionalProperties)
-                .Excluding(x => x.Cases)
-                .Excluding(x => x.Hearing_room_name)
-                .Excluding(x => x.Other_information)
-                .Excluding(x => x.Questionnaire_not_required)
-                .Excluding(x => x.Updated_by)
-            );
-
-            conferenceDetails.Case_name.Should().Be(request.Cases.First().Name);
-            conferenceDetails.Case_number.Should().Be(request.Cases.First().Number);
-        }
-
-        public static void ParticipantDetails(ParticipantDetailsResponse participant, AddParticipantsToHearingRequest request)
-        {
-            participant.Should().BeEquivalentTo(request.Participants.First(), 
-                options => options.ExcludingMissingMembers().Excluding(x => x.Representee));
-        }
-
         public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)
         {
             response.Count.Should().BeGreaterThan(0);

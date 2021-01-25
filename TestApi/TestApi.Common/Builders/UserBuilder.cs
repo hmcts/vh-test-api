@@ -17,11 +17,6 @@ namespace TestApi.Common.Builders
         private UserType _userType;
         private bool _isProdUser;
 
-        public UserBuilder(string emailStem)
-        {
-            _emailStem = emailStem;
-        }
-
         public UserBuilder(string emailStem, int number)
         {
             _emailStem = emailStem;

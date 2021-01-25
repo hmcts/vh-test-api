@@ -83,5 +83,30 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
+
+        [Test]
+        public async Task Should_throw_error_if_update_booking_status_failed()
+        {
+            var hearingId = Guid.NewGuid();
+            const string UPDATED_BY = UserData.DEFAULT_UPDATED_BY_USER;
+
+            var conferenceDetailsResponse = CreateConferenceDetailsResponse();
+
+            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
+
+            VideoApiService
+                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(conferenceDetailsResponse);
+
+            BookingsApiService
+                .Setup(x => x.UpdateBookingStatusPollingAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
+                .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
+
+            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
+            response.Should().NotBeNull();
+
+            var result = (ObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+        }
     }
 }

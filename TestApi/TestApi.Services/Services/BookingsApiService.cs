@@ -30,7 +30,6 @@ namespace TestApi.Services.Services
         private const string CURSOR = "0";
         private const int DEFAULT_LIMIT = 1000;
         private const string NAME_THAT_WONT_BE_FOUND = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
         private readonly IBookingsApiClient _bookingsApiClient;
         private readonly ILogger<BookingsApiService> _logger;
         private readonly AsyncRetryPolicy _retryPolicy;
