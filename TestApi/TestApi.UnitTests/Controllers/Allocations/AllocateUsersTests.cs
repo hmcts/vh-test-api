@@ -16,7 +16,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
     public class AllocateUsersTests : HearingsControllerTestBase
     {
         [Test]
-        public async Task Should_return_allocated_users()
+        public void Should_return_allocated_users()
         {
             const UserType JUDGE_USER_TYPE = UserType.Judge;
             const UserType INDIVIDUAL_USER_TYPE = UserType.Individual;
@@ -50,7 +50,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .ReturnsAsync(representativeUser)
                 .ReturnsAsync(caseAdminUser);
 
-            var response = await Controller.AllocateUsersAsync(request);
+            var response = Controller.AllocateUsersAsync(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
