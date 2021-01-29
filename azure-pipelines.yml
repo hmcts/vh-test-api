@@ -60,8 +60,6 @@ parameters:
   - name: Services:UserApiResourceId
     value: vh-user-api-identifieruris
     secret: true
-  - name: Services:TestApiUrl
-    value: $(test_api_url)
   - name: Services:TestApiResourceId
     value: vh-test-api-identifieruris
     secret: true
