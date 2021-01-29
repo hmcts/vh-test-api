@@ -90,7 +90,7 @@ namespace TestApi.IntegrationTests.Test
         {
             _context.Token = new AzureTokenProvider(azureOptions).GetClientAccessToken(
                 azureOptions.Value.ClientId, azureOptions.Value.ClientSecret,
-                azureOptions.Value.ValidAudience);
+                _context.Config.Services.TestApiResourceId);
             _context.Token.Should().NotBeNullOrEmpty();
 
             Zap.SetAuthToken(_context.Token);

@@ -77,6 +77,7 @@ namespace TestApi
         private void RegisterAuth(IServiceCollection services)
         {
             var securitySettings = Configuration.GetSection("AzureAd").Get<AzureAdConfiguration>();
+            var servicesSettings = Configuration.GetSection("Services").Get<ServicesConfiguration>();
 
             services.AddAuthentication(options =>
                 {
@@ -90,7 +91,7 @@ namespace TestApi
                     {
                         ClockSkew = TimeSpan.Zero,
                         ValidateLifetime = true,
-                        ValidAudience = securitySettings.ValidAudience
+                        ValidAudience = servicesSettings.TestApiResourceId
                     };
                 });
 
