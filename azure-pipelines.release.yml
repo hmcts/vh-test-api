@@ -116,9 +116,6 @@ extends:
         - name: AzureAd:TenantId
           value: tenantid
           secret: true
-        - name: AzureAd:ValidAudience
-          value: vh-test-api-identifieruris
-          secret: true
         - name: ConnectionStrings:TestApi
           value: TestApiDb-connection-str
           secret: true
@@ -129,6 +126,9 @@ extends:
           secret: true
         - name: Services:BookingsApiUrl
           value: $(bookings_api_url)
+        - name: Services:TestApiResourceId
+          value: vh-test-api-identifieruris
+          secret: true
         - name: Services:UserApiResourceId
           value: vh-user-api-identifieruris
           secret: true
@@ -186,9 +186,6 @@ extends:
         - name: AzureAd:TenantId
           value: tenantid
           secret: true
-        - name: AzureAd:ValidAudience
-          value: vh-test-api-identifieruris
-          secret: true
         - name: IsLive
           value: false
         - name: Services:BookingsApiResourceId
@@ -196,6 +193,11 @@ extends:
           secret: true
         - name: Services:BookingsApiUrl
           value: $(bookings_api_url)
+        - name: Services:TestApiUrl
+          value: $(test_api_url)
+        - name: Services:TestApiResourceId
+          value: vh-test-api-identifieruris
+          secret: true  
         - name: Services:UserApiResourceId
           value: vh-user-api-identifieruris
           secret: true
