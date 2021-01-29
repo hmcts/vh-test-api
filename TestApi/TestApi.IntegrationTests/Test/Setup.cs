@@ -73,6 +73,7 @@ namespace TestApi.IntegrationTests.Test
         {
             var webHostBuilder = WebHost.CreateDefaultBuilder()
                 .UseEnvironment("Development")
+                .UseKestrel(c => c.AddServerHeader = false) // Required for build server
                 .UseStartup<Startup>();
             _context.Server = new TestServer(webHostBuilder);
         }
