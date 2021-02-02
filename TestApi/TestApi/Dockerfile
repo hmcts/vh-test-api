@@ -14,7 +14,8 @@ COPY ["TestApi.Common/TestApi.Common.csproj", "TestApi.Common/"]
 COPY ["TestApi.Services/TestApi.Services.csproj", "TestApi.Services/"]
 COPY ["TestApi.Services.Generator/TestApi.Services.Generator.csproj", "TestApi.Services.Generator/"]
 COPY ["TestApi.DAL/TestApi.DAL.csproj", "TestApi.DAL/"]
-RUN dotnet restore "TestApi/TestApi.csproj"
+COPY ["nuget.config", "nuget.config"]
+RUN dotnet restore --configfile nuget.config "TestApi/TestApi.csproj"
 COPY . .
 WORKDIR "/src/TestApi"
 RUN dotnet build "TestApi.csproj" -c Release -o /app/build
