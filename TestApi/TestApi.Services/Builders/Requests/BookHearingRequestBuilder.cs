@@ -35,7 +35,6 @@ namespace TestApi.Services.Builders.Requests
             {
                 Name = GenerateRandomCaseName(),
                 Number = GenerateRandom.CaseNumber(_randomNumber),
-                AdditionalProperties = null,
                 Is_lead_case = HearingData.IS_LEAD_CASE
             };
             _request.Cases.Add(caseRequest);
@@ -129,7 +128,6 @@ namespace TestApi.Services.Builders.Requests
             SetCreatedBy();
             SetCaseTypeAndHearingTypeNames();
             AddEndpoints();
-            _request.AdditionalProperties = null;
             _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
             _request.Hearing_room_name = HearingData.HEARING_ROOM_NAME;
             _request.Hearing_venue_name = _createHearingRequest.Venue;

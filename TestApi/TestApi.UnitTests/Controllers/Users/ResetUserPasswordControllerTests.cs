@@ -29,7 +29,7 @@ namespace TestApi.UnitTests.Controllers.Users
             };
 
             UserApiClient
-                .Setup(x => x.UpdateUserAsync(USERNAME))
+                .Setup(x => x.ResetUserPasswordAsync(USERNAME))
                 .ReturnsAsync(response);
 
             var result = await Controller.ResetUserPasswordAsync(request);

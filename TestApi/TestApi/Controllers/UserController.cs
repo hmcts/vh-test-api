@@ -161,7 +161,7 @@ namespace TestApi.Controllers
 
             try
             {
-                var response = await _userApiClient.UpdateUserAsync(request.Username);
+                var response = await _userApiClient.ResetUserPasswordAsync(request.Username);
                 return Ok(response);
             }
             catch (UserApiException e)
