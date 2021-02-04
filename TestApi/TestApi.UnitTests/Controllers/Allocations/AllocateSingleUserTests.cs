@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         [TestCase(UserType.Tester)]
-        public async Task Should_return_allocated_user(UserType userType)
+        public void Should_return_allocated_user(UserType userType)
         {
             var user = CreateUser(userType);
             CreateAllocation(user);
@@ -36,7 +36,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUserAsync(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -51,7 +51,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
-        public async Task Should_return_allocated_user_for_test_type(TestType testType)
+        public void Should_return_allocated_user_for_test_type(TestType testType)
         {
             var user = CreateUser(testType);
             CreateAllocation(user);
@@ -66,7 +66,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUserAsync(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -77,7 +77,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         }
 
         [Test]
-        public async Task Should_allocate_prod_user()
+        public void Should_allocate_prod_user()
         {
             const bool IS_PROD_USER = UserData.IS_PROD_USER;
 
@@ -94,7 +94,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUserAsync(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -109,7 +109,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(TestType.ITHC)]
         [TestCase(TestType.Manual)]
         [TestCase(TestType.Performance)]
-        public async Task Should_create_user_first_names_based_on_test_type(TestType testType)
+        public void Should_create_user_first_names_based_on_test_type(TestType testType)
         {
             var user = CreateUser(testType);
             CreateAllocation(user);
@@ -124,7 +124,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUserAsync(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
