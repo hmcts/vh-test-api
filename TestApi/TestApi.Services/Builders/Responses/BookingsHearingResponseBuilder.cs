@@ -11,7 +11,6 @@ namespace TestApi.Services.Builders.Responses
         {
             _response = new BookingsHearingResponse()
             {
-                AdditionalProperties = response.AdditionalProperties,
                 Audio_recording_required = response.Audio_recording_required,
                 Cancel_reason = response.Cancel_reason,
                 Case_type_name = response.Case_type_name,
