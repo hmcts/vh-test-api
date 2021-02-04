@@ -84,7 +84,6 @@ namespace TestApi.Services.Builders.Requests
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);
                 }
 
-                request.AdditionalProperties = null;
                 request.Contact_email = user.ContactEmail;
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;

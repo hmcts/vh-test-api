@@ -58,11 +58,9 @@ namespace TestApi.Tests.Common
 
         public static void HearingDetailsResponse(HearingDetailsResponse response, CreateHearingRequest request)
         {
-            response.AdditionalProperties.Count.Should().Be(0);
             response.Audio_recording_required.Should().Be(request.AudioRecordingRequired);
             response.Cancel_reason.Should().BeNull();
             response.Case_type_name.Should().Be(request.CaseType);
-            response.Cases.First().AdditionalProperties.Count.Should().Be(0);
             response.Cases.First().Name.Should().Contain(request.TestType.ToString());
             response.Cases.First().Number.Should().NotBeNullOrWhiteSpace();
             response.Cases.First().Is_lead_case.Should().Be(HearingData.IS_LEAD_CASE);
@@ -109,7 +107,6 @@ namespace TestApi.Tests.Common
             foreach (var participant in participants)
             {
                 var user = users.First(x => x.LastName.Equals(participant.Last_name));
-                participant.AdditionalProperties.Should().BeEmpty();
                 participant.Case_role_name.Should().NotBeNullOrWhiteSpace();
                 participant.Contact_email.Should().Be(user.ContactEmail);
                 participant.Display_name.Should().Be(user.DisplayName);
@@ -162,7 +159,6 @@ namespace TestApi.Tests.Common
                 var conferenceParticipant =
                     conferenceParticipants.First(x => x.Last_name.Equals(hearingParticipant.Last_name));
 
-                conferenceParticipant.AdditionalProperties.Should().BeEmpty();
                 conferenceParticipant.Case_role_name.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Contact_email.Should().Be(hearingParticipant.Contact_email);
                 conferenceParticipant.Display_name.Should().Be(hearingParticipant.Display_name);

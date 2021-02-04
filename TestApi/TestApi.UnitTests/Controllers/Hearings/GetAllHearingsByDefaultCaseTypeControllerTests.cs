@@ -32,7 +32,6 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var bookingResponse = new BookingsResponse()
             {
-                AdditionalProperties = new Dictionary<string, object>(),
                 Hearings = bookingsByDateResponses,
                 Limit = LIMIT
             };

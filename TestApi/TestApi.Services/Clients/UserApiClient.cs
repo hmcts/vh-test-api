@@ -19,222 +19,208 @@ namespace TestApi.Services.Clients.UserApiClient
     public partial interface IUserApiClient
     {
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GroupsResponse> GetGroupByNameAsync(string name);
     
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         GroupsResponse GetGroupByName(string name);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GroupsResponse> GetGroupByNameAsync(string name, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GroupsResponse> GetGroupByIdAsync(string groupId);
     
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         GroupsResponse GetGroupById(string groupId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GroupsResponse> GetGroupByIdAsync(string groupId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.List<GroupsResponse>> GetGroupsForUserAsync(string userId);
     
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Collections.Generic.List<GroupsResponse> GetGroupsForUser(string userId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.List<GroupsResponse>> GetGroupsForUserAsync(string userId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest body);
+        System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest request);
     
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        void AddUserToGroup(AddUserToGroupRequest body);
+        void AddUserToGroup(AddUserToGroupRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task CheckServiceHealthAsync();
     
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         void CheckServiceHealth();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task CheckServiceHealthAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest body);
+        System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest request);
     
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        NewUserResponse CreateUser(CreateUserRequest body);
+        NewUserResponse CreateUser(CreateUserRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest request, System.Threading.CancellationToken cancellationToken);
     
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(string body);
+        System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(string username);
     
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        UpdateUserResponse UpdateUser(string body);
+        UpdateUserResponse ResetUserPassword(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(string body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByAdUserIdAsync(string userId);
     
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         UserProfile GetUserByAdUserId(string userId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByAdUserIdAsync(string userId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByAdUserNameAsync(string userName);
     
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         UserProfile GetUserByAdUserName(string userName);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByAdUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByEmailAsync(string email);
     
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         UserProfile GetUserByEmail(string email);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserProfile> GetUserByEmailAsync(string email, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.List<UserResponse>> GetJudgesAsync();
     
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Collections.Generic.List<UserResponse> GetJudges();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.List<UserResponse>> GetJudgesAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RefreshJudgeCacheAsync();
     
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         void RefreshJudgeCache();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RefreshJudgeCacheAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task DeleteUserAsync(string username);
     
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         void DeleteUser(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken);
+    
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UserResponse> UpdateUserAccountAsync(System.Guid userId, UpdateUserAccountRequest payload);
+    
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        UserResponse UpdateUserAccount(System.Guid userId, UpdateUserAccountRequest payload);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UserResponse> UpdateUserAccountAsync(System.Guid userId, UpdateUserAccountRequest payload, System.Threading.CancellationToken cancellationToken);
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class UserApiClient : IUserApiClient
     {
-        private string _baseUrl = "http://localhost:5400";
+        private string _baseUrl = "https://http://localhost:5400";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -266,7 +252,6 @@ namespace TestApi.Services.Clients.UserApiClient
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<GroupsResponse> GetGroupByNameAsync(string name)
         {
@@ -274,7 +259,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public GroupsResponse GetGroupByName(string name)
         {
@@ -283,7 +267,6 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group By Name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<GroupsResponse> GetGroupByNameAsync(string name, System.Threading.CancellationToken cancellationToken)
         {
@@ -340,13 +323,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -369,7 +346,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<GroupsResponse> GetGroupByIdAsync(string groupId)
         {
@@ -377,7 +353,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public GroupsResponse GetGroupById(string groupId)
         {
@@ -386,13 +361,9 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group By Id</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<GroupsResponse> GetGroupByIdAsync(string groupId, System.Threading.CancellationToken cancellationToken)
         {
-            if (groupId == null)
-                throw new System.ArgumentNullException("groupId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/group/{groupId}");
             urlBuilder_.Replace("{groupId}", System.Uri.EscapeDataString(ConvertToString(groupId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -442,13 +413,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -471,7 +436,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.List<GroupsResponse>> GetGroupsForUserAsync(string userId)
         {
@@ -479,7 +443,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Collections.Generic.List<GroupsResponse> GetGroupsForUser(string userId)
         {
@@ -488,13 +451,9 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get AD Group For a User</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.List<GroupsResponse>> GetGroupsForUserAsync(string userId, System.Threading.CancellationToken cancellationToken)
         {
-            if (userId == null)
-                throw new System.ArgumentNullException("userId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/user/{userId}/groups");
             urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -544,13 +503,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -573,27 +526,27 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest body)
+        public System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest request)
         {
-            return AddUserToGroupAsync(body, System.Threading.CancellationToken.None);
+            return AddUserToGroupAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public void AddUserToGroup(AddUserToGroupRequest body)
+        public void AddUserToGroup(AddUserToGroupRequest request)
         {
-            System.Threading.Tasks.Task.Run(async () => await AddUserToGroupAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await AddUserToGroupAsync(request, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Add a user to a group</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task AddUserToGroupAsync(AddUserToGroupRequest request, System.Threading.CancellationToken cancellationToken)
         {
+            if (request == null)
+                throw new System.ArgumentNullException("request");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/user/group");
     
@@ -603,8 +556,8 @@ namespace TestApi.Services.Clients.UserApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json");
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
     
@@ -639,7 +592,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 404)
@@ -649,13 +602,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -678,7 +625,7 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task CheckServiceHealthAsync()
         {
@@ -686,7 +633,7 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public void CheckServiceHealth()
         {
@@ -695,7 +642,7 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Run a health check of the service</summary>
-        /// <returns>Success</returns>
+        /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task CheckServiceHealthAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -737,13 +684,7 @@ namespace TestApi.Services.Clients.UserApiClient
                         if (status_ == 500)
                         {
                             string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Server Error", status_, responseText_, headers_, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException("A server side error occurred.", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -766,30 +707,30 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest body)
+        public System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest request)
         {
-            return CreateUserAsync(body, System.Threading.CancellationToken.None);
+            return CreateUserAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public NewUserResponse CreateUser(CreateUserRequest body)
+        public NewUserResponse CreateUser(CreateUserRequest request)
         {
-            return System.Threading.Tasks.Task.Run(async () => await CreateUserAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return System.Threading.Tasks.Task.Run(async () => await CreateUserAsync(request, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create a new hearings reforms user account</summary>
-        /// <param name="body">Details of a new user</param>
-        /// <returns>Success</returns>
+        /// <param name="request">Details of a new user</param>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<NewUserResponse> CreateUserAsync(CreateUserRequest request, System.Threading.CancellationToken cancellationToken)
         {
+            if (request == null)
+                throw new System.ArgumentNullException("request");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users");
     
@@ -799,8 +740,8 @@ namespace TestApi.Services.Clients.UserApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json");
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -841,13 +782,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -869,28 +804,31 @@ namespace TestApi.Services.Clients.UserApiClient
             }
         }
     
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(string body)
+        public System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(string username)
         {
-            return UpdateUserAsync(body, System.Threading.CancellationToken.None);
+            return ResetUserPasswordAsync(username, System.Threading.CancellationToken.None);
         }
     
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public UpdateUserResponse UpdateUser(string body)
+        public UpdateUserResponse ResetUserPassword(string username)
         {
-            return System.Threading.Tasks.Task.Run(async () => await UpdateUserAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return System.Threading.Tasks.Task.Run(async () => await ResetUserPasswordAsync(username, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Updates an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <summary>Reset password for an AAD user</summary>
+        /// <returns>New password</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UpdateUserResponse> UpdateUserAsync(string body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
+            if (username == null)
+                throw new System.ArgumentNullException("username");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users");
     
@@ -900,8 +838,8 @@ namespace TestApi.Services.Clients.UserApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json");
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(username, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -942,7 +880,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 404)
@@ -952,13 +890,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -981,7 +913,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<UserProfile> GetUserByAdUserIdAsync(string userId)
         {
@@ -989,7 +920,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public UserProfile GetUserByAdUserId(string userId)
         {
@@ -998,13 +928,9 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get User by AD User ID</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<UserProfile> GetUserByAdUserIdAsync(string userId, System.Threading.CancellationToken cancellationToken)
         {
-            if (userId == null)
-                throw new System.ArgumentNullException("userId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/{userId}");
             urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1054,13 +980,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -1083,7 +1003,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<UserProfile> GetUserByAdUserNameAsync(string userName)
         {
@@ -1091,7 +1010,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public UserProfile GetUserByAdUserName(string userName)
         {
@@ -1100,13 +1018,9 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get User by User principal name</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<UserProfile> GetUserByAdUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken)
         {
-            if (userName == null)
-                throw new System.ArgumentNullException("userName");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/userName/{userName}");
             urlBuilder_.Replace("{userName}", System.Uri.EscapeDataString(ConvertToString(userName, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1156,13 +1070,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -1185,7 +1093,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<UserProfile> GetUserByEmailAsync(string email)
         {
@@ -1193,7 +1100,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public UserProfile GetUserByEmail(string email)
         {
@@ -1202,13 +1108,9 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get user profile by email</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<UserProfile> GetUserByEmailAsync(string email, System.Threading.CancellationToken cancellationToken)
         {
-            if (email == null)
-                throw new System.ArgumentNullException("email");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/email/{email}");
             urlBuilder_.Replace("{email}", System.Uri.EscapeDataString(ConvertToString(email, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1258,13 +1160,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -1287,7 +1183,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<System.Collections.Generic.List<UserResponse>> GetJudgesAsync()
         {
@@ -1295,7 +1190,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Collections.Generic.List<UserResponse> GetJudges()
         {
@@ -1304,7 +1198,6 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get Judges from AD</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<System.Collections.Generic.List<UserResponse>> GetJudgesAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -1356,13 +1249,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -1385,7 +1272,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task RefreshJudgeCacheAsync()
         {
@@ -1393,7 +1279,6 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public void RefreshJudgeCache()
         {
@@ -1402,7 +1287,6 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Refresh Judge List Cache</summary>
-        /// <returns>Success</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task RefreshJudgeCacheAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -1441,12 +1325,6 @@ namespace TestApi.Services.Clients.UserApiClient
                             return;
                         }
                         else
-                        if (status_ == 401)
-                        {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
-                        }
-                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new UserApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -1467,7 +1345,7 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeleteUserAsync(string username)
         {
@@ -1475,7 +1353,7 @@ namespace TestApi.Services.Clients.UserApiClient
         }
     
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public void DeleteUser(string username)
         {
@@ -1484,13 +1362,10 @@ namespace TestApi.Services.Clients.UserApiClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete an AAD user</summary>
-        /// <returns>Success</returns>
+        /// <returns>NoContent</returns>
         /// <exception cref="UserApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
-            if (username == null)
-                throw new System.ArgumentNullException("username");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/username/{username}");
             urlBuilder_.Replace("{username}", System.Uri.EscapeDataString(ConvertToString(username, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1534,7 +1409,7 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 404)
@@ -1544,13 +1419,119 @@ namespace TestApi.Services.Clients.UserApiClient
                             {
                                 throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new UserApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
-                        if (status_ == 401)
                         {
-                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new UserApiException("Unauthorized", status_, responseText_, headers_, null);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new UserApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<UserResponse> UpdateUserAccountAsync(System.Guid userId, UpdateUserAccountRequest payload)
+        {
+            return UpdateUserAccountAsync(userId, payload, System.Threading.CancellationToken.None);
+        }
+    
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        public UserResponse UpdateUserAccount(System.Guid userId, UpdateUserAccountRequest payload)
+        {
+            return System.Threading.Tasks.Task.Run(async () => await UpdateUserAccountAsync(userId, payload, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Update an accounts first and last name</summary>
+        /// <param name="userId">AD Object ID for user</param>
+        /// <exception cref="UserApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<UserResponse> UpdateUserAccountAsync(System.Guid userId, UpdateUserAccountRequest payload, System.Threading.CancellationToken cancellationToken)
+        {
+            if (userId == null)
+                throw new System.ArgumentNullException("userId");
+    
+            if (payload == null)
+                throw new System.ArgumentNullException("payload");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/username/{userId}");
+            urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(payload, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("PATCH");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<UserResponse>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new UserApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new UserApiException<ProblemDetails>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -1708,35 +1689,26 @@ namespace TestApi.Services.Clients.UserApiClient
         [Newtonsoft.Json.JsonProperty("extensions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.Dictionary<string, object> Extensions { get; set; }
     
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class AddUserToGroupRequest 
     {
-        [Newtonsoft.Json.JsonProperty("user_id", Required = Newtonsoft.Json.Required.AllowNull)]
+        [Newtonsoft.Json.JsonProperty("user_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string User_id { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("group_name", Required = Newtonsoft.Json.Required.AllowNull)]
+        [Newtonsoft.Json.JsonProperty("group_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Group_name { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class CreateUserRequest 
-    {
-        [Newtonsoft.Json.JsonProperty("first_name", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string First_name { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("last_name", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string Last_name { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("recovery_email", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string Recovery_email { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("is_test_user", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Is_test_user { get; set; }
     
     
     }
@@ -1757,10 +1729,19 @@ namespace TestApi.Services.Clients.UserApiClient
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class UpdateUserResponse 
+    public partial class CreateUserRequest 
     {
-        [Newtonsoft.Json.JsonProperty("new_password", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string New_password { get; set; }
+        [Newtonsoft.Json.JsonProperty("first_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string First_name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("last_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Last_name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("recovery_email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Recovery_email { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("is_test_user", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Is_test_user { get; set; }
     
     
     }
@@ -1799,18 +1780,42 @@ namespace TestApi.Services.Clients.UserApiClient
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class UserResponse 
     {
+        /// <summary>Judge first name</summary>
         [Newtonsoft.Json.JsonProperty("first_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string First_name { get; set; }
     
+        /// <summary>Judge last name</summary>
         [Newtonsoft.Json.JsonProperty("last_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Last_name { get; set; }
     
+        /// <summary>Judge display name as in the identity system</summary>
         [Newtonsoft.Json.JsonProperty("display_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Display_name { get; set; }
     
         /// <summary>Judge username/email</summary>
         [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Email { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class UpdateUserAccountRequest 
+    {
+        [Newtonsoft.Json.JsonProperty("first_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string First_name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("last_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Last_name { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class UpdateUserResponse 
+    {
+        [Newtonsoft.Json.JsonProperty("new_password", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string New_password { get; set; }
     
     
     }

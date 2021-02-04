@@ -21,7 +21,6 @@ namespace TestApi.Services.Builders.Responses
             {
                 new CaseResponse
                 {
-                    AdditionalProperties = null,
                     Is_lead_case = _request.Cases.First().Is_lead_case,
                     Name = _request.Cases.First().Name,
                     Number = _request.Cases.First().Number
@@ -33,7 +32,6 @@ namespace TestApi.Services.Builders.Responses
                 let userRoleName = UserTypeName.FromUserType(userType)
                 select new ParticipantResponse
                 {
-                    AdditionalProperties = null,
                     Case_role_name = participant.Case_role_name,
                     Contact_email = participant.Contact_email,
                     Display_name = participant.Display_name,
@@ -52,7 +50,6 @@ namespace TestApi.Services.Builders.Responses
 
             return new HearingDetailsResponse
             {
-                AdditionalProperties = null,
                 Audio_recording_required = _request.Audio_recording_required,
                 Cancel_reason = null,
                 Case_type_name = _request.Case_type_name,
