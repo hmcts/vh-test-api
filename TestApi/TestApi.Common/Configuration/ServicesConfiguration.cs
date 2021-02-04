@@ -9,5 +9,6 @@
         public string VideoApiResourceId { get; set; }
         public string VideoApiUrl { get; set; }
         public string TestApiUrl { get; set; }
+        public string TestApiResourceId { get; set; }
     }
 }

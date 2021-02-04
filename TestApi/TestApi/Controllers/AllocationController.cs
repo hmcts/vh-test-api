@@ -24,6 +24,7 @@ namespace TestApi.Controllers
         private readonly ICommandHandler _commandHandler;
         private readonly ILogger<AllocationController> _logger;
         private readonly IQueryHandler _queryHandler;
+        private readonly object _allocationLock = new object();
 
         public AllocationController(ICommandHandler commandHandler, IQueryHandler queryHandler,
             ILogger<AllocationController> logger)
@@ -41,15 +42,18 @@ namespace TestApi.Controllers
         [HttpPatch("allocateUser")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateSingleUserAsync(AllocateUserRequest request)
+        public IActionResult AllocateSingleUserAsync(AllocateUserRequest request)
         {
             _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
 
-            var user = await AllocateAsync(request);
-            _logger.LogDebug($"User '{user.Username}' successfully allocated");
+            lock (_allocationLock)
+            {
+                var user = AllocateAsync(request);
+                _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
 
-            var response = UserToDetailsResponseMapper.MapToResponse(user);
-            return Ok(response);
+                var response = UserToDetailsResponseMapper.MapToResponse(user.Result);
+                return Ok(response);
+            }
         }
 
         /// <summary>
@@ -60,33 +64,36 @@ namespace TestApi.Controllers
         [HttpPatch("allocateUsers")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AllocateUsersAsync(AllocateUsersRequest request)
+        public IActionResult AllocateUsersAsync(AllocateUsersRequest request)
         {
             _logger.LogDebug(
                 $"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
 
-            var responses = new List<UserDetailsResponse>();
-
-            foreach (var userType in request.UserTypes)
+            lock (_allocationLock)
             {
-                var allocateRequest = new AllocateUserRequest()
+                var responses = new List<UserDetailsResponse>();
+
+                foreach (var userType in request.UserTypes)
                 {
-                    AllocatedBy = request.AllocatedBy,
-                    Application = request.Application,
-                    ExpiryInMinutes = request.ExpiryInMinutes,
-                    IsProdUser = request.IsProdUser,
-                    TestType = request.TestType,
-                    UserType = userType
-                };
+                    var allocateRequest = new AllocateUserRequest()
+                    {
+                        AllocatedBy = request.AllocatedBy,
+                        Application = request.Application,
+                        ExpiryInMinutes = request.ExpiryInMinutes,
+                        IsProdUser = request.IsProdUser,
+                        TestType = request.TestType,
+                        UserType = userType
+                    };
 
-                var user = await AllocateAsync(allocateRequest);
-                _logger.LogDebug($"User '{user.Username}' successfully allocated");
-                responses.Add(UserToDetailsResponseMapper.MapToResponse(user));
+                    var user = AllocateAsync(allocateRequest);
+                    _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
+                    responses.Add(UserToDetailsResponseMapper.MapToResponse(user.Result));
+                }
+
+                _logger.LogInformation($"Allocated {responses.Count} user(s)");
+
+                return Ok(responses);
             }
-
-            _logger.LogInformation($"Allocated {responses.Count} user(s)");
-
-            return Ok(responses);
         }
 
         /// <summary>

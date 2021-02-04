@@ -21,7 +21,6 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var personResponse = new PersonResponse()
             {
-                AdditionalProperties = null,
                 Contact_email = individual.Contact_email,
                 First_name = individual.First_name,
                 Id = Guid.NewGuid(),
