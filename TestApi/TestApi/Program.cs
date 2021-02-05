@@ -18,13 +18,22 @@ namespace TestApi
 
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
+            const string mountPath = "/mnt/secrets/vh-test-api";
+
             return Host.CreateDefaultBuilder(args)
-                .AddAksKeyVaultSecretProvider()
+                .ConfigureAppConfiguration((configBuilder) =>
+                {
+                    configBuilder.AddAksKeyVaultSecretProvider(mountPath);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureAppConfiguration(configBuilder =>
+                    {
+                        configBuilder.AddAksKeyVaultSecretProvider(mountPath);
+                    });
                 });
         }
     }
