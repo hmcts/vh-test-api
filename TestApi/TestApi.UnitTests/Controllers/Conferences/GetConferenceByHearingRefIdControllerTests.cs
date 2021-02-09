@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var conferenceDetailsResponse = CreateConferenceDetailsResponse();
 
             VideoApiClient
-                .Setup(x => x.GetConferenceByHearingRefIdAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingRefIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
             var response = await Controller.GetConferenceByHearingRefIdAsync(conferenceDetailsResponse.Hearing_id);
@@ -35,7 +35,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
         public async Task Should_return_not_found_for_non_existent_hearing_ref_id()
         {
             VideoApiClient
-                .Setup(x => x.GetConferenceByHearingRefIdAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingRefIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
             var response = await Controller.GetConferenceByHearingRefIdAsync(Guid.NewGuid());

@@ -36,7 +36,7 @@ namespace TestApi.Services.Services
                     TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             try
             {
-                var result = await policy.ExecuteAsync(() => _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId));
+                var result = await policy.ExecuteAsync(() => _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId, true));
                 return result;
             }
             catch (Exception e)
