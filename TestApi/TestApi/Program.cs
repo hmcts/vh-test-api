@@ -18,12 +18,14 @@ namespace TestApi
 
         private static IHostBuilder CreateWebHostBuilder(string[] args)
         {
-            const string mountPath = "/mnt/secrets/vh-test-api";
+            const string vhInfraCore = "/mnt/secrets/vh-infra-core";
+            const string vhTestApi = "/mnt/secrets/vh-test-api";
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
-                    configBuilder.AddAksKeyVaultSecretProvider(mountPath);
+                    configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
+                    configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -32,7 +34,8 @@ namespace TestApi
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureAppConfiguration(configBuilder =>
                     {
-                        configBuilder.AddAksKeyVaultSecretProvider(mountPath);
+                        configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
+                        configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
                     });
                 });
         }
