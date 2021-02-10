@@ -63,7 +63,7 @@ namespace TestApi.Controllers
 
             try
             {
-                var response = await _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId, true);
+                var response = await _videoApiClient.GetConferenceByHearingRefIdAsync(hearingRefId, false);
                 return Ok(response);
             }
             catch (VideoApiException e)

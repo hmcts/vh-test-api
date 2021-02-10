@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
@@ -6,7 +8,9 @@ using RestSharp;
 using TestApi.AcceptanceTests.Helpers;
 using TestApi.Common.Builders;
 using TestApi.Contract.Responses;
+using TestApi.Domain;
 using TestApi.Domain.Enums;
+using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 using TestContext = TestApi.AcceptanceTests.Helpers.TestContext;
 
@@ -25,6 +29,15 @@ namespace TestApi.AcceptanceTests.Controllers
             RequestHandler = new RequestHandler(Context.Config.Services.TestApiUrl, Context.Token);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            if (Context?.TestData?.Hearing != null)
+            {
+                DeleteHearing(Context.TestData.Hearing.Id);
+            }
+        }
+
         protected IRestResponse SendRequest(IRestRequest request)
         {
             return RequestHandler.Client().Execute(request);
@@ -39,6 +52,44 @@ namespace TestApi.AcceptanceTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             response.IsSuccessful.Should().BeTrue();
             return RequestHelper.Deserialise<UserDetailsResponse>(response.Content);
+        }
+
+        protected HearingDetailsResponse CreateHearing()
+        {
+            var users = CreateUsers();
+            var body = new HearingBuilder(users).Build();
+            var uri = ApiUriFactory.HearingEndpoints.CreateHearing;
+            var request = RequestHandler.Post(uri, body);
+            var response = SendRequest(request);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            response.IsSuccessful.Should().BeTrue();
+            Context.TestData.Hearing = RequestHelper.Deserialise<HearingDetailsResponse>(response.Content);
+            return Context.TestData.Hearing;
+        }
+
+        protected IRestResponse DeleteHearing(Guid hearingId)
+        {
+            var uri = ApiUriFactory.HearingEndpoints.DeleteHearing(hearingId);
+            var request = RequestHandler.Delete(uri);
+            var response = SendRequest(request);
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            response.IsSuccessful.Should().BeTrue();
+            return response;
+        }
+
+        private List<User> CreateUsers()
+        {
+            var judge = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddJudge()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            var individual = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddIndividual()
+                .ForApplication(Application.TestApi)
+                .BuildUser();
+
+            return new List<User>{ judge, individual };
         }
     }
 }
