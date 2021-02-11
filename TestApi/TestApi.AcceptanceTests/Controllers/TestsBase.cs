@@ -74,6 +74,8 @@ namespace TestApi.AcceptanceTests.Controllers
             var response = SendRequest(request);
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             response.IsSuccessful.Should().BeTrue();
+            Context.TestData.Hearing = null;
+            Context.TestData.Conference = null;
             return response;
         }
 
