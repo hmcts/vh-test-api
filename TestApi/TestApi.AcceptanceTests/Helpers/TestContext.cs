@@ -5,6 +5,7 @@ namespace TestApi.AcceptanceTests.Helpers
     public class TestContext
     {
         public Config Config { get; set; }
+        public TestData TestData { get; set; }
         public string Token { get; set; }
     }
 }

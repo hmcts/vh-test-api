@@ -19,6 +19,8 @@ namespace TestApi.AcceptanceTests.Helpers
             _configRoot = ConfigurationManager.BuildConfig("04df59fe-66aa-4fb2-8ac5-b87656f7675a", "A5262BF7-401F-4BAE-93D8-59A0D59CFE70");
             var azure = RegisterAzureSecrets();
             RegisterServices();
+            RegisterTestData();
+            RegisterUsernameStem();
             GenerateBearerToken(azure);
             return context;
         }
@@ -42,6 +44,16 @@ namespace TestApi.AcceptanceTests.Helpers
 
             _context.Config.Services.TestApiUrl.Should().NotBeNullOrWhiteSpace();
             _context.Config.Services.TestApiResourceId.Should().NotBeNullOrWhiteSpace();
+        }
+
+        private void RegisterTestData()
+        {
+            _context.TestData = new TestData();
+        }
+
+        private void RegisterUsernameStem()
+        {
+            _context.Config.UsernameStem = _configRoot.GetValue<string>("UsernameStem");
         }
 
         private void GenerateBearerToken(IOptions<AzureAdConfiguration> azureOptions)
