@@ -29,6 +29,7 @@ namespace TestApi
         }
 
         private IConfiguration Configuration { get; }
+        public SettingsConfiguration SettingsConfiguration { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -51,6 +52,7 @@ namespace TestApi
 
             services.AddJsonOptions();
 
+            SettingsConfiguration = Configuration.Get<SettingsConfiguration>();
             services.Configure<AzureAdConfiguration>(options => Configuration.Bind("AzureAd", options));
             services.Configure<ServicesConfiguration>(options => Configuration.Bind("Services", options));
             services.Configure<UserGroupsConfiguration>(options => Configuration.Bind("UserGroups", options));
@@ -103,7 +105,15 @@ namespace TestApi
         {
             app.RunLatestMigrations();
 
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else if (!SettingsConfiguration.DisableHttpsRedirection)
+            {
+                app.UseHsts();
+                app.UseHttpsRedirection();
+            }
 
             app.UseHttpsRedirection();
 
