@@ -24,7 +24,7 @@ namespace TestApi.Controllers
         private readonly ICommandHandler _commandHandler;
         private readonly ILogger<AllocationController> _logger;
         private readonly IQueryHandler _queryHandler;
-        private readonly object _allocationLock = new object();
+        private static readonly object AllocationLock = new object();
 
         public AllocationController(ICommandHandler commandHandler, IQueryHandler queryHandler,
             ILogger<AllocationController> logger)
@@ -46,7 +46,7 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
 
-            lock (_allocationLock)
+            lock (AllocationLock)
             {
                 var user = AllocateAsync(request);
                 _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
@@ -69,7 +69,7 @@ namespace TestApi.Controllers
             _logger.LogDebug(
                 $"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
 
-            lock (_allocationLock)
+            lock (AllocationLock)
             {
                 var responses = new List<UserDetailsResponse>();
 
