@@ -167,7 +167,6 @@ namespace TestApi.Services.Services
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
-                .Or<Exception>()
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             
             try
