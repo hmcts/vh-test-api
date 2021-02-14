@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Drawing.Text;
 using System.Linq;
-using System.Xml.Serialization;
 using FluentAssertions;
 using TestApi.Common.Data;
 using TestApi.Domain;

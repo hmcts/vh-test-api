@@ -124,10 +124,11 @@ namespace TestApi.Common.Builders
         {
             return _testType switch
             {
-                TestType.ITHC => $"{UserData.ITHC_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
-                TestType.Manual => $"{UserData.MANUAL_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
-                TestType.Performance => $"{UserData.PERFORMANCE_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
-                TestType.Demo => $"{UserData.DEMO_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
+                TestType.Automated => $"{UserData.AUTOMATED_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}",
+                TestType.Demo => $"{UserData.DEMO_FIRST_NAME_PREFIX}{AddProdUserSuffix()}",
+                TestType.ITHC => $"{UserData.ITHC_FIRST_NAME_PREFIX}{AddProdUserSuffix()}",
+                TestType.Manual => $"{UserData.MANUAL_FIRST_NAME_PREFIX}{AddProdUserSuffix()}",
+                TestType.Performance => $"{UserData.PERFORMANCE_FIRST_NAME_PREFIX}{AddProdUserSuffix()}",
                 _ => $"{UserData.AUTOMATED_FIRST_NAME_PREFIX}{_appShortName}{AddProdUserSuffix()}"
             };
         }
@@ -139,7 +140,7 @@ namespace TestApi.Common.Builders
 
         private string SetLastName()
         {
-            return $"{_userType}_{_numberText}";
+            return $"{_userType} {_numberText}";
         }
 
         private string SetUsername(string firstname, string lastname)

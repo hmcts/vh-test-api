@@ -87,11 +87,12 @@ namespace TestApi.Services.Services
         public async Task<NewUserResponse> CreateNewUserInAAD(string firstName, string lastName, string contactEmail, bool isProdUser)
         {
             const string BLANK = " ";
+            const string UNDERSCORE = "_";
 
             var createUserRequest = new CreateUserRequest
             {
                 First_name = firstName.Replace(BLANK, string.Empty),
-                Last_name = lastName.Replace(BLANK, string.Empty),
+                Last_name = lastName.Replace(BLANK, UNDERSCORE),
                 Recovery_email = contactEmail,
                 Is_test_user = true
             };
@@ -167,7 +168,6 @@ namespace TestApi.Services.Services
         {
             var policy = Policy
                 .Handle<UserApiException>(ex => ex.StatusCode.Equals(HttpStatusCode.NotFound))
-                .Or<Exception>()
                 .WaitAndRetryAsync(POLLY_RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             
             try
