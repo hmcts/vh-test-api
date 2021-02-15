@@ -1,0 +1,56 @@
+---
+java:
+  image: 'sdshmctspublic.azurecr.io/vh/test-api:20210210.11'
+  applicationPort: 8080
+  replicas: 2
+  ingressHost: vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+  releaseNameOverride: vh-test-api
+  readinessPath: /healthcheck/health
+  livenessPath: /healthcheck/health
+  livenessDelay: 360
+  livenessPeriod: 120
+  aadIdentityName: vh-aad-identity
+  keyVaults:
+    vh-infra-core:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - TestDefaultPassword
+        - wowzaconfiguration--storageaccountkey
+    vh-test-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - azuread--clientsecret
+        - azuread--clientid
+        - applicationinsights-instrumentationkey
+  environment:
+    ASPNETCORE_URLS: http://+:8080
+    AZUREAD__TENANTID: "fb6e0e22-0da3-4c35-972a-9d61eb256508"
+    DISABLEHTTPSREDIRECTION: true
+    Logging__LogLevel__Default: debug
+    Logging__LogLevel__System: debug
+    Logging__LogLevel__Microsoft: debug
+    SERVICES__BOOKINGSAPIRESOURCEID:	https://vh-bookings.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__BOOKINGSAPIURL:	https://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__TESTAPIRESOURCEID:	https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIRESOURCEID:	https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIURL:	https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIRESOURCEID:	https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIURL:	https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
+    USERNAMESTEM:	"hearings.reform.hmcts.net"
+    USERGROUPS__JUDGEGROUPS:	"VirtualRoomJudge, Internal"
+    USERGROUPS__INDIVIDUALGROUPS:	"External"
+    USERGROUPS__REPRESENTATIVEGROUPS:	"VirtualRoomProfessionalUser, External"
+    USERGROUPS__VIDEOHEARINGSOFFICERGROUPS:	"VirtualRoomAdministrator, Civil Money Claims, Financial Remedy, Generic, Children Act, Tax, Family Law Act, Tribunal, Civil, Land Registration, Housing Act, Housing & Planning Act, Leasehold Enfranchisement, Leasehold Management, Park Homes, Rents, Right to buy, Employment Tribunal, Court of Appeal Criminal Division, GRC - Charity, GRC - CRB, GRC - DVSA, GRC - Estate Agents, GRC - Food, GRC - Environment, GRC - Gambling, GRC - Immigration Services, GRC - Information Rights, GRC - Pensions Regulation, GRC - Professional Regulations, GRC - Query Jurisdiction, GRC - Welfare of Animals, Immigration and Asylum"
+    USERGROUPS__CASEADMINGROUPS:	"Civil Money Claims, Financial Remedy, Generic, Children Act, Tax, Family Law Act, Tribunal, Civil, Land Registration, Housing Act, Housing & Planning Act, Leasehold Enfranchisement, Leasehold Management, Park Homes, Rents, Right to buy, Employment Tribunal, Court of Appeal Criminal Division, GRC - Charity, GRC - CRB, GRC - DVSA, GRC - Estate Agents, GRC - Food, GRC - Environment, GRC - Gambling, GRC - Immigration Services, GRC - Information Rights, GRC - Pensions Regulation, GRC - Professional Regulations, GRC - Query Jurisdiction, GRC - Welfare of Animals, Immigration and Asylum"
+    USERGROUPS__KINLYGROUPS:	"vh_video_kinly_saml2_preprod_users, vh_video_kinly_saml2_test_users, vh_video_kinly_saml2_test1_users, vh_video_kinly_saml2_test2_users, vh_judges_vh_video_kinly_saml2_dev"
+    USERGROUPS__KINLYPRODGROUPS:	"vh_video_kinly_saml2_prod_users"
+    USERGROUPS__TESTACCOUNTGROUPS:	"TestAccount"
+    USERGROUPS__PERFORMANCETESTACCOUNTGROUPS:	"PerformanceTestAccount"
+    USERGROUPS__TESTWEBGROUPS:	"VHQA, Civil Money Claims"
+    USERGROUPS__JUDICIALOFFICEGROUPS:	"JudicialOfficeHolder, External"
+    WOWZACONFIGURATION__STORAGEACCOUNTNAME:	vhwowza{{ .Values.global.environment }}
+    WOWZACONFIGURATION__STORAGECONTAINERNAME:	"recordings"
