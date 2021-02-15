@@ -18,6 +18,7 @@ java:
       secrets:
         - TestDefaultPassword
         - wowzaconfiguration--storageaccountkey
+        - connectionstrings--testapi
     vh-test-api:
       excludeEnvironmentSuffix: false
       resourceGroup: vh-infra-core-{{ .Values.global.environment }}
