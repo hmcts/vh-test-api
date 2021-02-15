@@ -109,13 +109,12 @@ namespace TestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            else if (!SettingsConfiguration.DisableHttpsRedirection)
+            
+            if (!SettingsConfiguration.DisableHttpsRedirection)
             {
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
