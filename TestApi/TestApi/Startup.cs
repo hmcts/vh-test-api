@@ -112,7 +112,6 @@ namespace TestApi
             
             if (!SettingsConfiguration.DisableHttpsRedirection)
             {
-                app.UseHsts();
                 app.UseHttpsRedirection();
             }
 
