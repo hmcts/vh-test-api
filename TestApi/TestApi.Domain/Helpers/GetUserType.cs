@@ -9,10 +9,10 @@ namespace TestApi.Domain.Helpers
 
         public static UserType FromUserLastName(string text)
         {
-            text = RemoveWhitespace(text);
             text = RemoveUnderscores(text);
             text = RemoveNumbers(text);
             text = AddSpacesBetweenCapitalLetters(text);
+            text = RemoveWhitespace(text);
             return UserTypeName.FromString(text);
         }
 
