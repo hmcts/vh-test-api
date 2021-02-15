@@ -12,7 +12,6 @@ namespace TestApi.Services.Builders.Requests
     public class BookConferenceParticipantsBuilder
     {
         private readonly List<ParticipantRequest> _participants;
-
         private readonly List<User> _users;
         private readonly bool _isCACDCaseType;
 
@@ -87,6 +86,7 @@ namespace TestApi.Services.Builders.Requests
                 request.Display_name = user.DisplayName;
                 request.First_name = user.FirstName;
                 request.Last_name = user.LastName;
+                request.Linked_participants = new List<LinkedParticipantRequest>();
                 request.Name = $"{UserData.TITLE} {user.FirstName} {user.LastName}";
                 request.Participant_ref_id = Guid.NewGuid();
                 request.User_role = GetUserRoleFromUserType(user.UserType);
