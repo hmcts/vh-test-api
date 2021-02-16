@@ -34,13 +34,13 @@ java:
     Logging__LogLevel__Default: debug
     Logging__LogLevel__System: debug
     Logging__LogLevel__Microsoft: debug
-    SERVICES__BOOKINGSAPIRESOURCEID:	https://vh-bookings.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__BOOKINGSAPIURL:	https://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__TESTAPIRESOURCEID:	https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__USERAPIRESOURCEID:	https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__USERAPIURL:	https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__VIDEOAPIRESOURCEID:	https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__VIDEOAPIURL:	https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__BOOKINGSAPIRESOURCEID:	http://vh-bookings.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__BOOKINGSAPIURL:	http://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__TESTAPIRESOURCEID:	http://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIRESOURCEID:	http://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIURL:	http://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIRESOURCEID:	http://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIURL:	http://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
     USERNAMESTEM:	"hearings.reform.hmcts.net"
     USERGROUPS__JUDGEGROUPS:	"VirtualRoomJudge, Internal"
     USERGROUPS__INDIVIDUALGROUPS:	"External"
