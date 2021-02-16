@@ -73,7 +73,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         {
             var request = new UnallocateUsersRequest
             {
-                Usernames = new List<string> {"does_not_exist@email.com"}
+                Usernames = new List<string> {"does_not_exist@hmcts.net"}
             };
 
             var response = await Controller.UnallocateUsersByUsernameAsync(request);

@@ -289,7 +289,7 @@ namespace TestApi.Controllers
             try
             {
                 const int LIMIT = HearingData.GET_HEARINGS_LIMIT;
-                var types = new List<int> { HearingData.CIVIL_MONEY_CLAIMS_CASE_TYPE_INT };
+                var types = new List<int> { HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API };
                 var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT);
 
                 var hearings = new List<BookingsHearingResponse>();

@@ -10,7 +10,7 @@ namespace TestApi.UnitTests.Validations
 {
     public class UnallocateUsersValidationTests
     {
-        private const string USERNAME = "user@email.com";
+        private const string USERNAME = "user@hmcts.net";
         private UnallocateUsersRequestValidator _validator;
 
         [OneTimeSetUp]
