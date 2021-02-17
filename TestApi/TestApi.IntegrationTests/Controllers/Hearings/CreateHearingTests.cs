@@ -107,7 +107,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_create_hearing_with_created_by()
         {
-            const string CREATED_BY = "A_Custom_Created_By_User@email.com";
+            const string CREATED_BY = "A_Custom_Created_By_User@hmcts.net";
             var request = CreateHearingRequest();
             request.CreatedBy = CREATED_BY;
             await CreateHearing(request);

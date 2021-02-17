@@ -12,7 +12,7 @@ namespace TestApi.UnitTests.Controllers.Users
         [Test]
         public async Task Should_delete_hearing()
         {
-            const string CONTACT_EMAIL = "aad_user@email.com";
+            const string CONTACT_EMAIL = "aad_user@hmcts.net";
 
             UserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
@@ -32,7 +32,7 @@ namespace TestApi.UnitTests.Controllers.Users
         [Test]
         public async Task Should_return_not_found_for_non_existent_email()
         {
-            const string CONTACT_EMAIL = "aad_user@email.com";
+            const string CONTACT_EMAIL = "aad_user@hmcts.net";
 
             UserApiService
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
