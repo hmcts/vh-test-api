@@ -1,6 +1,6 @@
 ---
 java:
-  image: 'sdshmctspublic.azurecr.io/vh/test-api:20210216.2'
+  image: 'sdshmctspublic.azurecr.io/vh/test-api:20210217.2'
   applicationPort: 8080
   replicas: 2
   ingressHost: vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
@@ -55,3 +55,7 @@ java:
     USERGROUPS__JUDICIALOFFICEGROUPS:	"JudicialOfficeHolder, External"
     WOWZACONFIGURATION__STORAGEACCOUNTNAME:	vhwowza{{ .Values.global.environment }}
     WOWZACONFIGURATION__STORAGECONTAINERNAME:	"recordings"
+
+
+
+  AzureAd:ValidAudience
