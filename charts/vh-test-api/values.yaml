@@ -55,7 +55,3 @@ java:
     USERGROUPS__JUDICIALOFFICEGROUPS:	"JudicialOfficeHolder, External"
     WOWZACONFIGURATION__STORAGEACCOUNTNAME:	vhwowza{{ .Values.global.environment }}
     WOWZACONFIGURATION__STORAGECONTAINERNAME:	"recordings"
-
-
-
-  AzureAd:ValidAudience
