@@ -5,20 +5,20 @@ namespace TestApi.AcceptanceTests.Helpers
 {
     public class RequestHandler
     {
-        public string _baseUrl { get; set; }
-        public string _token { get; set; }
+        public string BaseUrl { get; set; }
+        public string Token { get; set; }
 
         public RequestHandler(string baseUrl, string token)
         {
-            _baseUrl = baseUrl;
-            _token = token;
+            BaseUrl = baseUrl;
+            this.Token = token;
         }
 
         public RestClient Client()
         {
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(BaseUrl);
             client.AddDefaultHeader("Accept", "application/json");
-            client.AddDefaultHeader("Authorization", $"Bearer {_token}");
+            client.AddDefaultHeader("Authorization", $"Bearer {Token}");
             return client;
         }
 
