@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
+using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Services.Clients.BookingsApiClient;
 
@@ -64,7 +65,7 @@ namespace TestApi.Services.Services
 
             try
             {
-                var caseTypes = new List<int>{1, 2};
+                var caseTypes = new List<int>{ HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API };
                 var response = await _bookingsApiClient.GetHearingsByTypesAsync(caseTypes, CURSOR, DEFAULT_LIMIT);
 
                 var hearings = new List<BookingsHearingResponse>();
