@@ -12,7 +12,7 @@
         public const string ENDPOINT_PREFIX = "Test Endpoint ";
         public const int GET_HEARINGS_LIMIT = 2000;
         public const string HEARING_ROOM_NAME = "Room 1";
-        public const string HEARING_TYPE_NAME = "Hearing";
+        public const string HEARING_TYPE_NAME = "Automated Test";
         public const bool IS_LEAD_CASE = false;
         public const string ITHC_CASE_NAME_PREFIX = "ITHC Test";
         public const string MANUAL_CASE_NAME_PREFIX = "Manual Test";
