@@ -7,6 +7,7 @@
         public const string CACD_CASE_TYPE_NAME = "Court of Appeal Criminal Division";
         public const string CACD_HEARING_TYPE_NAME = "Appn for leave to appeal to SC";
         public const string CASE_TYPE_NAME = "Generic";
+        public const int CACD_CASE_TYPE_ID_FROM_BOOKINGS_API = 18;
         public const int GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API = 3;
         public const string DEMO_CASE_NAME_PREFIX = "Demo Test";
         public const string ENDPOINT_PREFIX = "Test Endpoint ";
