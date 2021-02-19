@@ -97,6 +97,7 @@ namespace TestApi.Common.Builders
             var lastname = SetLastName();
             var username = SetUsername(firstname, lastname);
             var contactEmail = SetContactEmail(firstname, lastname);
+            var displayName = SetDisplayName(firstname, lastname);
 
             return new CreateUserRequest
             {
@@ -104,7 +105,7 @@ namespace TestApi.Common.Builders
                 ContactEmail = contactEmail,
                 FirstName = firstname,
                 LastName = lastname,
-                DisplayName = $"{firstname} {lastname}",
+                DisplayName = displayName,
                 TestType =_testType,
                 UserType = _userType,
                 Application = _application,
@@ -140,7 +141,12 @@ namespace TestApi.Common.Builders
 
         private string SetLastName()
         {
-            return $"{_userType} {_numberText}";
+            return _testType == TestType.Automated ? $"{_userType}_{_numberText}" : $"{_userType} {_numberText}";
+        }
+
+        private static string SetDisplayName(string firstname, string lastname)
+        {
+            return $"{firstname} {lastname}";
         }
 
         private string SetUsername(string firstname, string lastname)
