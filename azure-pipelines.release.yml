@@ -95,6 +95,7 @@ extends:
              - Sandbox
              - Test1
              - Test2
+             - Test3
           - group: vh-wowza-demo
             env:
              - Demo
@@ -166,6 +167,8 @@ extends:
           value: $(UserGroups:PerformanceTestAccountGroups)
         - name: UserGroups:JudicialOfficeGroups
           value: $(UserGroups:JudicialOfficeGroups)
+        - name: UserGroups:WitnessGroups
+          value: $(UserGroups:WitnessGroups)    
 
         # WowzaConfiguration
         - name: WowzaConfiguration:StorageAccountName
@@ -235,6 +238,8 @@ extends:
           value: $(UserGroups:PerformanceTestAccountGroups)
         - name: UserGroups:JudicialOfficeGroups
           value: $(UserGroups:JudicialOfficeGroups)
+        - name: UserGroups:WitnessGroups
+          value: $(UserGroups:WitnessGroups)
 
         # WowzaConfiguration
         - name: WowzaConfiguration:StorageAccountName

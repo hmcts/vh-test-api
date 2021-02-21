@@ -34,7 +34,8 @@ namespace TestApi.IntegrationTests.Controllers
                 UserType.Individual,
                 UserType.Representative,
                 UserType.Observer,
-                UserType.PanelMember
+                UserType.PanelMember,
+                UserType.Witness
             };
 
             var allocateRequest = new AllocateUsersRequestBuilder()

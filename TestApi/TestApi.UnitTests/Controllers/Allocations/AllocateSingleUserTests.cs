@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -10,7 +9,6 @@ using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -24,6 +22,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(UserType.CaseAdmin)]
         [TestCase(UserType.VideoHearingsOfficer)]
         [TestCase(UserType.Tester)]
+        [TestCase(UserType.Witness)]
         public void Should_return_allocated_user(UserType userType)
         {
             var user = CreateUser(userType);

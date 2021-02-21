@@ -127,6 +127,7 @@ namespace TestApi.UnitTests.Services.UserApiService
         [TestCase(UserType.Tester)]
         [TestCase(UserType.VideoHearingsOfficer)]
         [TestCase(UserType.Winger)]
+        [TestCase(UserType.Witness)]
         public async Task Should_add_user_to_groups_by_user_type(UserType userType)
         {
             const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;

@@ -13,5 +13,6 @@
         public string TestWebGroups { get; set; }
         public string PerformanceTestAccountGroups { get; set; }
         public string JudicialOfficeGroups { get; set; }
+        public string WitnessGroups { get; set; }
     }
 }

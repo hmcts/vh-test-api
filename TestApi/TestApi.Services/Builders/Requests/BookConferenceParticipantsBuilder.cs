@@ -69,13 +69,19 @@ namespace TestApi.Services.Builders.Requests
                     }
                 }
 
+                if (user.UserType == UserType.Witness)
+                {
+                    request.Case_type_group = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
+                    request.Hearing_role = AddSpacesToUserType(user.UserType);
+                }
+
                 if (user.UserType == UserType.Winger)
                 {
                     request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
                     request.Hearing_role = AddSpacesToUserType(user.UserType);
                 }
 
-                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative && user.UserType != UserType.Winger)
+                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative && user.UserType != UserType.Winger && user.UserType != UserType.Witness)
                 {
                     request.Case_type_group = AddSpacesToUserType(user.UserType);
                     request.Hearing_role = AddSpacesToUserType(user.UserType);
@@ -117,7 +123,7 @@ namespace TestApi.Services.Builders.Requests
                 return UserRole.JudicialOfficeHolder;
             }
 
-            if (userType == UserType.Observer)
+            if (userType == UserType.Observer || userType == UserType.Witness)
             {
                 return UserRole.Individual;
             }

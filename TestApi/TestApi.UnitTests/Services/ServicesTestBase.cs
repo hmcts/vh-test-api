@@ -66,7 +66,8 @@ namespace TestApi.UnitTests.Services
                 TestAccountGroups = GroupData.FAKE_TEST_GROUPS,
                 TestWebGroups = GroupData.FAKE_TEST_WEB_GROUPS,
                 PerformanceTestAccountGroups = GroupData.FAKE_PERFORMANCE_TEST_GROUPS,
-                JudicialOfficeGroups = GroupData.FAKE_JOH_GROUPS
+                JudicialOfficeGroups = GroupData.FAKE_JOH_GROUPS,
+                WitnessGroups = GroupData.FAKE_WITNESS_GROUPS,
             };
 
             GroupsConfig
