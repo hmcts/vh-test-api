@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 using TestApi.Services.Builders.Requests;
@@ -147,42 +145,26 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
         protected ConferenceEventRequest CreateVideoEventRequest(ConferenceDetailsResponse conference)
         {
-            const EventType EVENT_TYPE = EventType.MediaPermissionDenied;
-            const int EVENT_TYPE_ID = (int)EVENT_TYPE;
-            var participant = conference.Participants.First(x => x.User_role == UserRole.Individual);
-
-            return new ConferenceEventRequest()
-            {
-                Conference_id = conference.Id.ToString(),
-                Event_id = EVENT_TYPE_ID.ToString(),
-                Event_type = EVENT_TYPE,
-                Participant_id = participant.Id.ToString(),
-                Reason = HearingData.VIDEO_EVENT_REASON,
-                Time_stamp_utc = DateTime.UtcNow,
-                Transfer_from = null,
-                Transfer_to = null
-            };
+            return new ConferenceEventRequestBuilder(conference)
+                .ForIndividual()
+                .WithEventType(EventType.MediaPermissionDenied)
+                .Build();
         }
 
         protected ConferenceEventRequest CreateTransferEventRequest(ConferenceDetailsResponse conference)
         {
-            const EventType EVENT_TYPE = EventType.Transfer;
-            const int EVENT_TYPE_ID = (int)EVENT_TYPE;
-            const string TRANSFER_FROM = RoomData.WaitingRoom;
-            const string TRANSFER_TO = RoomData.HearingRoom;
-            var judge = conference.Participants.Single(x => x.User_role == UserRole.Judge);
+            return new ConferenceEventRequestBuilder(conference)
+                .ForJudge()
+                .WithEventType(EventType.Transfer)
+                .Build();
+        }
 
-            return new ConferenceEventRequest()
-            {
-                Conference_id = conference.Id.ToString(),
-                Event_id = EVENT_TYPE_ID.ToString(),
-                Event_type = EVENT_TYPE,
-                Participant_id = judge.Id.ToString(),
-                Reason = HearingData.VIDEO_EVENT_REASON,
-                Time_stamp_utc = DateTime.UtcNow,
-                Transfer_from = TRANSFER_FROM.ToString(),
-                Transfer_to = TRANSFER_TO.ToString()
-            };
+        protected ConferenceEventRequest CreatePrivateConsultationEventRequest(ConferenceDetailsResponse conference)
+        {
+            return new ConferenceEventRequestBuilder(conference)
+                .ForIndividual()
+                .WithEventType(EventType.Consultation)
+                .Build();
         }
 
         protected async Task CreateEvent(ConferenceEventRequest request)

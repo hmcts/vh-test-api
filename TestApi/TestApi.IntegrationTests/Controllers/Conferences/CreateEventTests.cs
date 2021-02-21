@@ -62,5 +62,16 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
             VerifyResponse(HttpStatusCode.NoContent, true);
         }
+
+        [Test]
+        public async Task Should_create_private_consultation_event()
+        {
+            var conferenceRequest = CreateConferenceRequest();
+            var conference = await CreateConference(conferenceRequest);
+            var videoEventRequest = CreatePrivateConsultationEventRequest(conference);
+            await CreateEvent(videoEventRequest);
+
+            VerifyResponse(HttpStatusCode.NoContent, true);
+        }
     }
 }
