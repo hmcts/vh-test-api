@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

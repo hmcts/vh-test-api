@@ -66,6 +66,12 @@ namespace TestApi.Common.Builders
             return this;
         }
 
+        public UserBuilder AddWitness()
+        {
+            _userType = UserType.Witness;
+            return this;
+        }
+
         public UserBuilder WithUserType(UserType userType)
         {
             _userType = userType;

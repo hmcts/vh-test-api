@@ -19,6 +19,8 @@ namespace TestApi.UnitTests.Services.UserApiService
         [TestCase(UserType.Observer)]
         [TestCase(UserType.PanelMember)]
         [TestCase(UserType.Winger)]
+        [TestCase(UserType.Tester)]
+        [TestCase(UserType.Witness)]
         public async Task Should_create_new_user_in_aad(UserType userType)
         {
             const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;

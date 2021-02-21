@@ -91,6 +91,12 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .ForTestType(testType)
                 .BuildUser();
 
+            var witness = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddWitness()
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
+                .BuildUser();
+
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
@@ -98,7 +104,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .BuildUser();
 
             if (!isCACDCaseType)
-                return new List<User>() {judge, individual, representative, observer, panelMember, caseAdmin};
+                return new List<User>() {judge, individual, representative, observer, panelMember, witness, caseAdmin };
             
             var winger = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddWinger()
@@ -162,8 +168,8 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             const EventType EVENT_TYPE = EventType.Transfer;
             const int EVENT_TYPE_ID = (int)EVENT_TYPE;
-            const RoomType TRANSFER_FROM = RoomType.WaitingRoom;
-            const RoomType TRANSFER_TO = RoomType.HearingRoom;
+            const string TRANSFER_FROM = RoomData.WaitingRoom;
+            const string TRANSFER_TO = RoomData.HearingRoom;
             var judge = conference.Participants.Single(x => x.User_role == UserRole.Judge);
 
             return new ConferenceEventRequest()
