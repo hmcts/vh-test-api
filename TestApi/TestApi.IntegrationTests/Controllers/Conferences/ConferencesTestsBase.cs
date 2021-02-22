@@ -95,6 +95,12 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .ForTestType(testType)
                 .BuildUser();
 
+            var interpreter = new UserBuilder(Context.Config.UsernameStem, 1)
+                .AddInterpreter()
+                .ForApplication(Application.TestApi)
+                .ForTestType(testType)
+                .BuildUser();
+
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
@@ -102,7 +108,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
                 .BuildUser();
 
             if (!isCACDCaseType)
-                return new List<User>() {judge, individual, representative, observer, panelMember, witness, caseAdmin };
+                return new List<User>() {judge, individual, representative, observer, panelMember, witness, interpreter, caseAdmin };
             
             var winger = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddWinger()

@@ -18,25 +18,22 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [Test]
         public async Task Should_allocate_multiple_users_no_users_exist()
         {
-            const UserType JUDGE_USER = UserType.Judge;
-            const UserType INDIVIDUAL_USER = UserType.Individual;
-            const UserType REPRESENTATIVE_USER = UserType.Representative;
-            const UserType OBSERVER_USER = UserType.Observer;
-            const UserType PANEL_MEMBER_USER = UserType.PanelMember;
-            const UserType WINGER_USER = UserType.Winger;
-            const UserType CASE_ADMIN_USER = UserType.CaseAdmin;
-            const UserType WITNESS_USER = UserType.Witness;
-
-            const Application APPLICATION = Application.TestApi;
-
             var userTypes = new List<UserType>()
             {
-                JUDGE_USER, INDIVIDUAL_USER, REPRESENTATIVE_USER, OBSERVER_USER, PANEL_MEMBER_USER, WINGER_USER, CASE_ADMIN_USER, WITNESS_USER
+                UserType.Judge, 
+                UserType.Individual, 
+                UserType.Representative, 
+                UserType.Observer, 
+                UserType.PanelMember, 
+                UserType.Winger, 
+                UserType.CaseAdmin, 
+                UserType.Witness, 
+                UserType.Interpreter
             };
 
             var request = new AllocateUsersRequestBuilder()
                 .WithUserTypes(userTypes)
-                .ForApplication(APPLICATION)
+                .ForApplication(Application.TestApi)
                 .Build();
 
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;
@@ -53,8 +50,6 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [Test]
         public async Task Should_allocate_multiple_users_unallocated_users_exist()
         {
-            const Application APPLICATION = Application.TestApi;
-
             var judgeUser = await Context.Data.SeedUser();
             var individualUser = await Context.Data.SeedUser(UserType.Individual);
             var representativeUser = await Context.Data.SeedUser(UserType.Representative);
@@ -68,7 +63,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
 
             var request = new AllocateUsersRequestBuilder()
                 .WithUserTypes(userTypes)
-                .ForApplication(APPLICATION)
+                .ForApplication(Application.TestApi)
                 .Build();
             
             var uri = ApiUriFactory.AllocationEndpoints.AllocateUsers;

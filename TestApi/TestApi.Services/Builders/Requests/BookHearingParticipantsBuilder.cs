@@ -70,7 +70,7 @@ namespace TestApi.Services.Builders.Requests
                     request.Organisation_name = UserData.ORGANISATION;
                 }
 
-                if (user.UserType == UserType.Witness)
+                if (user.UserType == UserType.Interpreter || user.UserType == UserType.Witness)
                 {
                     request.Case_role_name = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);
@@ -82,7 +82,11 @@ namespace TestApi.Services.Builders.Requests
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);
                 }
 
-                if (user.UserType != UserType.Individual && user.UserType != UserType.Representative && user.UserType != UserType.Winger && user.UserType != UserType.Witness)
+                if (user.UserType != UserType.Individual &&
+                    user.UserType != UserType.Representative &&
+                    user.UserType != UserType.Winger &&
+                    user.UserType != UserType.Witness &&
+                    user.UserType != UserType.Interpreter)
                 {
                     request.Case_role_name = AddSpacesToUserType(user.UserType);
                     request.Hearing_role_name = AddSpacesToUserType(user.UserType);

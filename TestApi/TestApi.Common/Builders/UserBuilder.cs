@@ -36,6 +36,12 @@ namespace TestApi.Common.Builders
             return this;
         }
 
+        public UserBuilder AddInterpreter()
+        {
+            _userType = UserType.Interpreter;
+            return this;
+        }
+
         public UserBuilder AddRepresentative()
         {
             _userType = UserType.Representative;

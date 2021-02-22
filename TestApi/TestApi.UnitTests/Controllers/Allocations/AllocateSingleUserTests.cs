@@ -23,6 +23,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
         [TestCase(UserType.VideoHearingsOfficer)]
         [TestCase(UserType.Tester)]
         [TestCase(UserType.Witness)]
+        [TestCase(UserType.Interpreter)]
         public void Should_return_allocated_user(UserType userType)
         {
             var user = CreateUser(userType);

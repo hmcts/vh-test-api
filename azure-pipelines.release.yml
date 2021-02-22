@@ -169,6 +169,8 @@ extends:
           value: $(UserGroups:JudicialOfficeGroups)
         - name: UserGroups:WitnessGroups
           value: $(UserGroups:WitnessGroups)    
+        - name: UserGroups:InterpreterGroups
+          value: $(UserGroups:InterpreterGroups)     
 
         # WowzaConfiguration
         - name: WowzaConfiguration:StorageAccountName
@@ -240,6 +242,8 @@ extends:
           value: $(UserGroups:JudicialOfficeGroups)
         - name: UserGroups:WitnessGroups
           value: $(UserGroups:WitnessGroups)
+        - name: UserGroups:InterpreterGroups
+          value: $(UserGroups:InterpreterGroups)    
 
         # WowzaConfiguration
         - name: WowzaConfiguration:StorageAccountName

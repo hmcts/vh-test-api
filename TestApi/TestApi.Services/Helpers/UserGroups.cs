@@ -24,7 +24,8 @@ namespace TestApi.Services.Helpers
                 {UserType.CaseAdmin, new CaseAdminGroupsStrategy(configuration)},
                 {UserType.VideoHearingsOfficer, new VideoHearingsOfficerGroupsStrategy(configuration)},
                 {UserType.Tester, new TesterGroupsStrategy(configuration)},
-                {UserType.Witness, new WitnessGroupsStrategy(configuration)}
+                {UserType.Witness, new WitnessGroupsStrategy(configuration)},
+                {UserType.Interpreter, new InterpreterGroupsStrategy(configuration)}
             };
         }
     }
@@ -153,6 +154,21 @@ namespace TestApi.Services.Helpers
         public List<string> GetGroups()
         {
             return ConvertGroupsStringToList.Convert(_configuration.WitnessGroups);
+        }
+    }
+
+    public class InterpreterGroupsStrategy : IUserGroupsStrategy
+    {
+        private readonly UserGroupsConfiguration _configuration;
+
+        public InterpreterGroupsStrategy(UserGroupsConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public List<string> GetGroups()
+        {
+            return ConvertGroupsStringToList.Convert(_configuration.InterpreterGroups);
         }
     }
 }
