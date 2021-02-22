@@ -24,6 +24,18 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return new BookConferenceRequestBuilder(users, testType).BuildRequest();
         }
 
+        protected BookNewConferenceRequest CreateConferenceRequestWithIndividualAndJudge()
+        {
+            var users = CreateJustIndividualUserAndJudge();
+            return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
+        }
+
+        protected BookNewConferenceRequest CreateConferenceRequestWithRepAndJudge()
+        {
+            var users = CreateJustRepUserAndJudge();
+            return new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
+        }
+
         protected BookNewConferenceRequest CreateCACDConferenceRequest()
         {
             var users = CreateDefaultUsers(TestType.Automated, true);
