@@ -33,6 +33,7 @@ namespace TestApi.IntegrationTests.Controllers
                 UserType.Representative,
                 UserType.Individual,
                 UserType.Representative,
+                UserType.Interpreter,
                 UserType.Observer,
                 UserType.PanelMember,
                 UserType.Witness
