@@ -19,6 +19,7 @@ java:
         - TestDefaultPassword
         - wowzaconfiguration--storageaccountkey
         - connectionstrings--testapi
+        - applicationinsights--instrumentationkey
     vh-test-api:
       excludeEnvironmentSuffix: false
       resourceGroup: vh-infra-core-{{ .Values.global.environment }}
@@ -26,7 +27,6 @@ java:
       secrets:
         - azuread--clientsecret
         - azuread--clientid
-        - applicationinsights-instrumentationkey
   environment:
     ASPNETCORE_URLS: http://+:8080
     AZUREAD__TENANTID: "fb6e0e22-0da3-4c35-972a-9d61eb256508"
