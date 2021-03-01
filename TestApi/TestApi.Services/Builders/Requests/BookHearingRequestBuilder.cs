@@ -137,7 +137,26 @@ namespace TestApi.Services.Builders.Requests
             _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users, IsCACDCaseType()).Build();
             _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
             _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
+            AddLinkedParticipants();
             return _request;
+        }
+
+        private void AddLinkedParticipants()
+        {
+            _request.Linked_participants = new List<LinkedParticipantRequest>();
+
+            var interpreters = _createHearingRequest.Users.Where(x => x.UserType == UserType.Interpreter).ToList();
+            var individuals = _createHearingRequest.Users.Where(x => x.UserType == UserType.Individual).ToList();
+
+            for (var i = 0; i < interpreters.Count; i++)
+            {
+                _request.Linked_participants.Add(new LinkedParticipantRequest()
+                {
+                    Participant_contact_email = interpreters[i].ContactEmail,
+                    Linked_participant_contact_email = individuals[i].ContactEmail,
+                    Type = LinkedParticipantType.Interpreter
+                });
+            }
         }
 
         private bool IsCACDCaseType()
