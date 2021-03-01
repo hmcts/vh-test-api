@@ -4,6 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Domain.Enums;
 using TestApi.UnitTests.Controllers;
 using TestApi.Validations;
 
@@ -67,6 +68,34 @@ namespace TestApi.UnitTests.Validations
             result.Errors.Count.Should().BeGreaterThan(0);
             result.Errors.Any(x => x.ErrorMessage == CreateHearingRequestValidator.WINGERS_CAN_ONLY_BE_IN_CACD_HEARINGS)
                 .Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Should_fail_validation_with_more_interpreters_than_individuals()
+        {
+            var request = CreateHearingRequest();
+            request.Users.Count(x => x.UserType == UserType.Individual).Should().Be(1);
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUser());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 2).AddInterpreter().BuildUser());
+
+            var result = await _validator.ValidateAsync(request);
+
+            result.IsValid.Should().BeFalse();
+            result.Errors.Count.Should().BeGreaterThan(0);
+            result.Errors.Any(x => x.ErrorMessage == CreateHearingRequestValidator.INTERPRETERS_COUNT_SHOULD_BE_LESS_THAN_INDIVIDUALS_COUNT_ERROR_MESSAGE)
+                .Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Should_pass_validation_with_equal_interpreters_as_individuals()
+        {
+            var request = CreateHearingRequest();
+            request.Users.Count(x => x.UserType == UserType.Individual).Should().Be(1);
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUser());
+
+            var result = await _validator.ValidateAsync(request);
+
+            result.IsValid.Should().BeTrue();
         }
     }
 }

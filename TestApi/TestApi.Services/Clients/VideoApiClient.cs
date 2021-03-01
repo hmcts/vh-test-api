@@ -512,18 +512,18 @@ namespace TestApi.Services.Clients.VideoApiClient
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RespondToConsultationRequestAsync(ConsultationRequestResponse request, System.Threading.CancellationToken cancellationToken);
     
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task StartConsultationWithEndpointAsync(EndpointConsultationRequest request);
+        System.Threading.Tasks.Task JoinEndpointToConsultationAsync(EndpointConsultationRequest request);
     
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        void StartConsultationWithEndpoint(EndpointConsultationRequest request);
+        void JoinEndpointToConsultation(EndpointConsultationRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task StartConsultationWithEndpointAsync(EndpointConsultationRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task JoinEndpointToConsultationAsync(EndpointConsultationRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task LockRoomAsync(LockRoomRequest request);
@@ -1008,6 +1008,19 @@ namespace TestApi.Services.Clients.VideoApiClient
         /// <returns>NoContent if event is handled as expected</returns>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RaiseVideoEventAsync(ConferenceEventRequest request, System.Threading.CancellationToken cancellationToken);
+    
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<InterpreterRoomResponse> GetInterpreterRoomForParticipantAsync(System.Guid conferenceId, System.Guid participantId);
+    
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        InterpreterRoomResponse GetInterpreterRoomForParticipant(System.Guid conferenceId, System.Guid participantId);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<InterpreterRoomResponse> GetInterpreterRoomForParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -3728,24 +3741,24 @@ namespace TestApi.Services.Clients.VideoApiClient
             }
         }
     
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task StartConsultationWithEndpointAsync(EndpointConsultationRequest request)
+        public System.Threading.Tasks.Task JoinEndpointToConsultationAsync(EndpointConsultationRequest request)
         {
-            return StartConsultationWithEndpointAsync(request, System.Threading.CancellationToken.None);
+            return JoinEndpointToConsultationAsync(request, System.Threading.CancellationToken.None);
         }
     
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        public void StartConsultationWithEndpoint(EndpointConsultationRequest request)
+        public void JoinEndpointToConsultation(EndpointConsultationRequest request)
         {
-            System.Threading.Tasks.Task.Run(async () => await StartConsultationWithEndpointAsync(request, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await JoinEndpointToConsultationAsync(request, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Start a private consultation with a video endpoint</summary>
+        /// <summary>Add an endpoint to a private consultation</summary>
         /// <exception cref="VideoApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task StartConsultationWithEndpointAsync(EndpointConsultationRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task JoinEndpointToConsultationAsync(EndpointConsultationRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -6597,6 +6610,103 @@ namespace TestApi.Services.Clients.VideoApiClient
             }
         }
     
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<InterpreterRoomResponse> GetInterpreterRoomForParticipantAsync(System.Guid conferenceId, System.Guid participantId)
+        {
+            return GetInterpreterRoomForParticipantAsync(conferenceId, participantId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        public InterpreterRoomResponse GetInterpreterRoomForParticipant(System.Guid conferenceId, System.Guid participantId)
+        {
+            return System.Threading.Tasks.Task.Run(async () => await GetInterpreterRoomForParticipantAsync(conferenceId, participantId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Get a VMR or return an existing one for a participant</summary>
+        /// <exception cref="VideoApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task<InterpreterRoomResponse> GetInterpreterRoomForParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (conferenceId == null)
+                throw new System.ArgumentNullException("conferenceId");
+    
+            if (participantId == null)
+                throw new System.ArgumentNullException("participantId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/conferences/{conferenceId}/rooms/interpreter/{participantId}");
+            urlBuilder_.Replace("{conferenceId}", System.Uri.EscapeDataString(ConvertToString(conferenceId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{participantId}", System.Uri.EscapeDataString(ConvertToString(participantId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<InterpreterRoomResponse>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new VideoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new VideoApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new VideoApiException<string>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new VideoApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -6935,6 +7045,9 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("audio_recording_required", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool Audio_recording_required { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("civilian_rooms", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<CivilianRoomResponse> Civilian_rooms { get; set; }
+    
     
     }
     
@@ -7151,6 +7264,10 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("defence_advocate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Defence_advocate { get; set; }
     
+        /// <summary>Current consultation room details</summary>
+        [Newtonsoft.Json.JsonProperty("current_room", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public RoomResponse Current_room { get; set; }
+    
     
     }
     
@@ -7198,6 +7315,21 @@ namespace TestApi.Services.Clients.VideoApiClient
         /// <summary>Public switched telephone network pin</summary>
         [Newtonsoft.Json.JsonProperty("telephone_conference_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Telephone_conference_id { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class CivilianRoomResponse 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("label", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Label { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("participants", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<System.Guid> Participants { get; set; }
     
     
     }
@@ -7730,6 +7862,10 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("endpoint_id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid Endpoint_id { get; set; }
     
+        /// <summary>The label / name of the room to lock/unlock</summary>
+        [Newtonsoft.Json.JsonProperty("room_label", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Room_label { get; set; }
+    
     
     }
     
@@ -7782,6 +7918,9 @@ namespace TestApi.Services.Clients.VideoApiClient
     
         [System.Runtime.Serialization.EnumMember(Value = @"WaitingRoom")]
         WaitingRoom = 2,
+    
+        [System.Runtime.Serialization.EnumMember(Value = @"Civilian")]
+        Civilian = 3,
     
     }
     
@@ -8205,6 +8344,10 @@ namespace TestApi.Services.Clients.VideoApiClient
         [Newtonsoft.Json.JsonProperty("participant_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Participant_id { get; set; }
     
+        /// <summary>Id of participant room (uuid). This only applies to VMR events</summary>
+        [Newtonsoft.Json.JsonProperty("participant_room_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Participant_room_id { get; set; }
+    
         /// <summary>Room from where the participant is transferred from.</summary>
         [Newtonsoft.Json.JsonProperty("transfer_from", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Transfer_from { get; set; }
@@ -8295,6 +8438,24 @@ namespace TestApi.Services.Clients.VideoApiClient
     
         [System.Runtime.Serialization.EnumMember(Value = @"ConnectingToConference")]
         ConnectingToConference = 22,
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.1.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class InterpreterRoomResponse 
+    {
+        /// <summary>The room label</summary>
+        [Newtonsoft.Json.JsonProperty("label", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Label { get; set; }
+    
+        /// <summary>The Pexip node</summary>
+        [Newtonsoft.Json.JsonProperty("pexip_node", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Pexip_node { get; set; }
+    
+        /// <summary>The join uri for participants</summary>
+        [Newtonsoft.Json.JsonProperty("participant_join_uri", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Participant_join_uri { get; set; }
+    
     
     }
 
