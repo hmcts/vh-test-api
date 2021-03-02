@@ -20,7 +20,6 @@ using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
 using TestApi.Swagger;
 using TestApi.Telemetry;
-using ZymLabs.NSwag.FluentValidation;
 
 namespace TestApi
 {
@@ -36,10 +35,10 @@ namespace TestApi
                         Type = OpenApiSecuritySchemeType.ApiKey,
                         Name = "Authorization",
                         In = OpenApiSecurityApiKeyLocation.Header,
-                        Description = "Type into the textbox: Bearer {your JWT token}.",
+                        Description = "Type into the textfield: Bearer {your JWT token}.",
                         Scheme = "bearer"
                     });
-                document.Title = "Test API";
+                document.Title = "Test Api";
                 document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
                 document.OperationProcessors.Add(new AuthResponseOperationProcessor());
             });
