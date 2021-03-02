@@ -15,8 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using TestApi.Common.Configuration;
 using TestApi.DAL;
 using TestApi.Extensions;
+using TestApi.Middleware.Validation;
 using TestApi.Telemetry;
-using TestApi.ValidationMiddleware;
 using TestApi.Validations;
 
 namespace TestApi
@@ -72,11 +72,6 @@ namespace TestApi
 
             services.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
             services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
-
-            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter)))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddFluentValidation(fv =>
-                    fv.RegisterValidatorsFromAssemblyContaining<AllocateUsersRequestValidator>());
         }
 
         private void RegisterAuth(IServiceCollection services)

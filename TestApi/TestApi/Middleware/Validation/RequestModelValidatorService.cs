@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace TestApi.ValidationMiddleware
+namespace TestApi.Middleware.Validation
 {
     public class RequestModelValidatorService : IRequestModelValidatorService
     {
@@ -20,7 +20,7 @@ namespace TestApi.ValidationMiddleware
             if (validator == null)
             {
                 var failure = new ValidationFailure(modelValue.GetType().ToString(), "Validator not found for request");
-                return new List<ValidationFailure> { failure };
+                return new List<ValidationFailure>{failure};
             }
             var context = new ValidationContext<object>(modelValue);
             var result = validator.Validate(context);

@@ -6,22 +6,17 @@ namespace TestApi.Common.Configuration.Helpers
 {
     public interface ILoggingDataExtractor
     {
-        Dictionary<string, object> ConvertToDictionary(object input, string path = null, int depth = 0);
+        Dictionary<string, object> ConvertToDictionary(object input, string path = null, int debth = 0);
     }
 
     public class LoggingDataExtractor : ILoggingDataExtractor
     {
-        public Dictionary<string, object> ConvertToDictionary(object input, string path = null, int depth = 0)
+        public Dictionary<string, object> ConvertToDictionary(object input, string path = null, int debth = 0)
         {
             var result = new Dictionary<string, object>();
-            if (depth > 3)
+            if (debth > 3)
             {
-                // Protection from recursive properties
-                return result;
-            }
-
-            if (input == null)
-            {
+                // Protection from recusrive properties
                 return result;
             }
 
@@ -37,15 +32,15 @@ namespace TestApi.Common.Configuration.Helpers
                 var value = property.GetValue(input);
                 if (IsCustomType(property.PropertyType))
                 {
-                    var propertyValues = ConvertToDictionary(value, GetPath(path, property.Name), depth++);
-                    foreach (var (key, o) in propertyValues)
+                    var propertyValues = ConvertToDictionary(value, GetPath(path, property.Name), debth++);
+                    foreach (var kvp in propertyValues)
                     {
-                        result.Add(key, o);
+                        result.Add(kvp.Key, kvp.Value);
                     }
                 }
                 else if (property.PropertyType != typeof(string) && property.PropertyType.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
                 {
-                    // Could handle IEnumerable here
+                    // Could handle IEnmerables here
                 }
                 else
                 {
@@ -56,21 +51,14 @@ namespace TestApi.Common.Configuration.Helpers
             return result;
         }
 
-        private static string GetPath(string path, string property) => $"{path}{(string.IsNullOrEmpty(path) ? string.Empty : ".")}{property}";
+        private string GetPath(string path, string property) => $"{path}{(string.IsNullOrEmpty(path) ? string.Empty : ".")}{property}";
 
         /// <summary>
-        /// Pass in type to see if we should reuse deeper
+        /// Pass in type to see if we should recuse deeper
         /// Not generic due to use case.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private bool IsCustomType(Type type)
-        {
-            var assemblyQualifiedName = GetType().AssemblyQualifiedName;
-            return assemblyQualifiedName != null &&
-                   (type.AssemblyQualifiedName != null &&
-                    (!type.IsEnum &&
-                     type.AssemblyQualifiedName.StartsWith(assemblyQualifiedName.Split('.')[0])));
-        }
+        private bool IsCustomType(Type type) => !type.IsEnum && type.AssemblyQualifiedName.StartsWith(this.GetType().AssemblyQualifiedName.Split('.')[0]);
     }
 }

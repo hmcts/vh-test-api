@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using TestApi.Extensions;
 
-namespace TestApi.ValidationMiddleware
+namespace TestApi.Middleware.Validation
 {
     public class RequestModelValidatorFilter : IAsyncActionFilter
     {
-        private readonly ILogger<RequestModelValidatorFilter> _logger;
         private readonly IRequestModelValidatorService _requestModelValidatorService;
+        private readonly ILogger<RequestModelValidatorFilter> _logger;
 
         public RequestModelValidatorFilter(IRequestModelValidatorService requestModelValidatorService,
             ILogger<RequestModelValidatorFilter> logger)
@@ -26,24 +26,24 @@ namespace TestApi.ValidationMiddleware
             _logger.LogDebug("Processing request");
             foreach (var property in context.ActionDescriptor.Parameters)
             {
-                var (key, value) = context.ActionArguments.SingleOrDefault(x => x.Key == property.Name);
+                var valuePair = context.ActionArguments.SingleOrDefault(x => x.Key == property.Name);
                 if (property.BindingInfo?.BindingSource == BindingSource.Body)
                 {
-                    var validationFailures = _requestModelValidatorService.Validate(property.ParameterType, value);
+                    var validationFailures = _requestModelValidatorService.Validate(property.ParameterType, valuePair.Value);
                     context.ModelState.AddFluentValidationErrors(validationFailures);
                 }
-
-                if (value != null && value.Equals(GetDefaultValue(property.ParameterType)))
+                
+                if (valuePair.Value.Equals(GetDefaultValue(property.ParameterType)))
                 {
-                    context.ModelState.AddModelError(key, $"Please provide a valid {key}");
+                    context.ModelState.AddModelError(valuePair.Key, $"Please provide a valid {valuePair.Key}");
+
                 }
             }
 
             if (!context.ModelState.IsValid)
             {
                 var errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).ToList();
-                var errorsString = string.Join("; ", errors);
-                _logger.LogWarning("Request Validation Failed: {Errors}", errorsString);
+                _logger.LogWarning($"Request Validation Failed: {string.Join("; ", errors)}");
                 context.Result = new BadRequestObjectResult(context.ModelState);
             }
             else

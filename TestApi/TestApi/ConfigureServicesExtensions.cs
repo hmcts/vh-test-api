@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using TestApi.Common.Configuration;
+using TestApi.Common.Configuration.Helpers;
 using TestApi.Common.Security;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
@@ -25,74 +26,22 @@ namespace TestApi
 {
     public static class ConfigureServicesExtensions
     {
-        //public static IServiceCollection AddSwagger(this IServiceCollection services)
-        //{
-        //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-        //    var contractsXmlFile = $"{typeof(CreateUserRequest).Assembly.GetName().Name}.xml";
-        //    var contractsXmlPath = Path.Combine(AppContext.BaseDirectory, contractsXmlFile);
-
-        //    services.AddSwaggerGen(c =>
-        //    {
-        //        c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
-        //        c.AddFluentValidationRules();
-        //        c.IncludeXmlComments(xmlPath);
-        //        c.IncludeXmlComments(contractsXmlPath);
-        //        c.CustomSchemaIds(x => x.FullName);
-
-        //        c.AddSecurityDefinition("Bearer",
-        //            new OpenApiSecurityScheme
-        //            {
-        //                Description = "JWT Authorization header using the Bearer scheme.",
-        //                Type = SecuritySchemeType.Http,
-        //                Scheme = "bearer"
-        //            });
-
-        //        c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        //        {
-        //            {
-        //                new OpenApiSecurityScheme
-        //                {
-        //                    Reference = new OpenApiReference
-        //                    {
-        //                        Id = "Bearer",
-        //                        Type = ReferenceType.SecurityScheme
-        //                    }
-        //                },
-        //                new List<string>()
-        //            }
-        //        });
-        //        c.OperationFilter<AuthResponsesOperationFilter>();
-        //    });
-        //    services.AddSwaggerGenNewtonsoftSupport();
-
-        //    return services;
-        //}
-
-
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            services.AddSingleton<FluentValidationSchemaProcessor>();
             services.AddOpenApiDocument((document, serviceProvider) =>
             {
-                document.Title = "Test Api";
-                document.DocumentProcessors.Add(
-                    new SecurityDefinitionAppender("JWT",
-                        new OpenApiSecurityScheme
-                        {
-                            Type = OpenApiSecuritySchemeType.ApiKey,
-                            Name = "Authorization",
-                            In = OpenApiSecurityApiKeyLocation.Header,
-                            Description = "Type into the textbox: Bearer {your JWT token}.",
-                            Scheme = "bearer"
-                        }));
+                document.AddSecurity("JWT", Enumerable.Empty<string>(),
+                    new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "Type into the textbox: Bearer {your JWT token}.",
+                        Scheme = "bearer"
+                    });
+                document.Title = "Test API";
                 document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
                 document.OperationProcessors.Add(new AuthResponseOperationProcessor());
-                var fluentValidationSchemaProcessor = serviceProvider.GetService<FluentValidationSchemaProcessor>();
-
-                // Add the fluent validations schema processor
-                document.SchemaProcessors.Add(fluentValidationSchemaProcessor);
             });
             return services;
         }
@@ -100,6 +49,7 @@ namespace TestApi
         public static IServiceCollection AddCustomTypes(this IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddScoped<ILoggingDataExtractor, LoggingDataExtractor>();
 
             services.AddScoped<ITokenProvider, AzureTokenProvider>();
             services.AddSingleton<ITelemetryInitializer, BadRequestTelemetry>();
