@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
@@ -40,7 +40,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health")]
-        [SwaggerOperation(OperationId = "CheckServiceHealth")]
+        [OpenApiOperation("CheckServiceHealth")]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> HealthAsync()

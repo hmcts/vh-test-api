@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
 using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.Controllers
@@ -78,7 +78,7 @@ namespace TestApi.Controllers
         /// <param name="request">Details of a conference</param>
         /// <returns>Details of the new conference</returns>
         [HttpPost]
-        [SwaggerOperation(OperationId = "BookNewConference")]
+        [OpenApiOperation("BookNewConference")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> BookNewConferenceAsync(BookNewConferenceRequest request)

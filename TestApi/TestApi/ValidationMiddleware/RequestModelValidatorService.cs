@@ -17,14 +17,14 @@ namespace TestApi.ValidationMiddleware
         public IList<ValidationFailure> Validate(Type requestModel, object modelValue)
         {
             var validator = _validatorFactory.GetValidator(requestModel);
-
             if (validator == null)
             {
-                return new List<ValidationFailure>();
+                var failure = new ValidationFailure(modelValue.GetType().ToString(), "Validator not found for request");
+                return new List<ValidationFailure> { failure };
             }
-
-            var result = validator.Validate(modelValue);
-            return result?.Errors;
+            var context = new ValidationContext<object>(modelValue);
+            var result = validator.Validate(context);
+            return result.Errors;
         }
     }
 }

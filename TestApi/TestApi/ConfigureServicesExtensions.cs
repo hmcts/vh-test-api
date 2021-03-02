@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.DAL.Commands;
@@ -23,55 +19,81 @@ using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
 using TestApi.Swagger;
 using TestApi.Telemetry;
-using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
+using ZymLabs.NSwag.FluentValidation;
 
 namespace TestApi
 {
     public static class ConfigureServicesExtensions
     {
+        //public static IServiceCollection AddSwagger(this IServiceCollection services)
+        //{
+        //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+        //    var contractsXmlFile = $"{typeof(CreateUserRequest).Assembly.GetName().Name}.xml";
+        //    var contractsXmlPath = Path.Combine(AppContext.BaseDirectory, contractsXmlFile);
+
+        //    services.AddSwaggerGen(c =>
+        //    {
+        //        c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
+        //        c.AddFluentValidationRules();
+        //        c.IncludeXmlComments(xmlPath);
+        //        c.IncludeXmlComments(contractsXmlPath);
+        //        c.CustomSchemaIds(x => x.FullName);
+
+        //        c.AddSecurityDefinition("Bearer",
+        //            new OpenApiSecurityScheme
+        //            {
+        //                Description = "JWT Authorization header using the Bearer scheme.",
+        //                Type = SecuritySchemeType.Http,
+        //                Scheme = "bearer"
+        //            });
+
+        //        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        //        {
+        //            {
+        //                new OpenApiSecurityScheme
+        //                {
+        //                    Reference = new OpenApiReference
+        //                    {
+        //                        Id = "Bearer",
+        //                        Type = ReferenceType.SecurityScheme
+        //                    }
+        //                },
+        //                new List<string>()
+        //            }
+        //        });
+        //        c.OperationFilter<AuthResponsesOperationFilter>();
+        //    });
+        //    services.AddSwaggerGenNewtonsoftSupport();
+
+        //    return services;
+        //}
+
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-            var contractsXmlFile = $"{typeof(CreateUserRequest).Assembly.GetName().Name}.xml";
-            var contractsXmlPath = Path.Combine(AppContext.BaseDirectory, contractsXmlFile);
-
-            services.AddSwaggerGen(c =>
+            services.AddSingleton<FluentValidationSchemaProcessor>();
+            services.AddOpenApiDocument((document, serviceProvider) =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
-                c.AddFluentValidationRules();
-                c.IncludeXmlComments(xmlPath);
-                c.IncludeXmlComments(contractsXmlPath);
-                c.EnableAnnotations();
-                c.CustomSchemaIds(x => x.FullName);
-
-                c.AddSecurityDefinition("Bearer",
-                    new OpenApiSecurityScheme
-                    {
-                        Description = "JWT Authorization header using the Bearer scheme.",
-                        Type = SecuritySchemeType.Http,
-                        Scheme = "bearer"
-                    });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
+                document.Title = "Test Api";
+                document.DocumentProcessors.Add(
+                    new SecurityDefinitionAppender("JWT",
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Id = "Bearer",
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },
-                        new List<string>()
-                    }
-                });
-                c.OperationFilter<AuthResponsesOperationFilter>();
-            });
-            services.AddSwaggerGenNewtonsoftSupport();
+                            Type = OpenApiSecuritySchemeType.ApiKey,
+                            Name = "Authorization",
+                            In = OpenApiSecurityApiKeyLocation.Header,
+                            Description = "Type into the textbox: Bearer {your JWT token}.",
+                            Scheme = "bearer"
+                        }));
+                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                document.OperationProcessors.Add(new AuthResponseOperationProcessor());
+                var fluentValidationSchemaProcessor = serviceProvider.GetService<FluentValidationSchemaProcessor>();
 
+                // Add the fluent validations schema processor
+                document.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+            });
             return services;
         }
 

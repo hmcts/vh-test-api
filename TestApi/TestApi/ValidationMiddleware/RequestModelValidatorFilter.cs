@@ -23,27 +23,27 @@ namespace TestApi.ValidationMiddleware
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            _logger.LogDebug($"Processing request {context.ActionDescriptor.DisplayName}");
+            _logger.LogDebug("Processing request");
             foreach (var property in context.ActionDescriptor.Parameters)
             {
                 var (key, value) = context.ActionArguments.SingleOrDefault(x => x.Key == property.Name);
                 if (property.BindingInfo?.BindingSource == BindingSource.Body)
                 {
                     var validationFailures = _requestModelValidatorService.Validate(property.ParameterType, value);
-                    if (validationFailures != null)
-                    {
-                        context.ModelState.AddFluentValidationErrors(validationFailures);
-                    }
+                    context.ModelState.AddFluentValidationErrors(validationFailures);
                 }
 
-                if (value.Equals(GetDefaultValue(property.ParameterType)))
+                if (value != null && value.Equals(GetDefaultValue(property.ParameterType)))
+                {
                     context.ModelState.AddModelError(key, $"Please provide a valid {key}");
+                }
             }
 
             if (!context.ModelState.IsValid)
             {
                 var errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).ToList();
-                _logger.LogWarning($"Request Validation Failed: {string.Join("; ", errors)}");
+                var errorsString = string.Join("; ", errors);
+                _logger.LogWarning("Request Validation Failed: {Errors}", errorsString);
                 context.Result = new BadRequestObjectResult(context.ModelState);
             }
             else
