@@ -19,8 +19,7 @@ namespace TestApi.Middleware.Validation
             var validator = _validatorFactory.GetValidator(requestModel);
             if (validator == null)
             {
-                var failure = new ValidationFailure(modelValue.GetType().ToString(), "Validator not found for request");
-                return new List<ValidationFailure>{failure};
+                return new List<ValidationFailure>();
             }
             var context = new ValidationContext<object>(modelValue);
             var result = validator.Validate(context);
