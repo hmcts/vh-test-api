@@ -8,7 +8,7 @@ namespace TestApi.Common.Mappers
     {
         public static UserDto Map(User user)
         {
-            return new UserDto()
+            return new UserDto
             {
                 Application = user.Application.MapToContractEnum(),
                 ContactEmail = user.ContactEmail,
