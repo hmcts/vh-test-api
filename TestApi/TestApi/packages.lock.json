@@ -249,6 +249,14 @@
           "Selenium.WebDriver": "3.10.0"
         }
       },
+      "Faker.NETCore": {
+        "type": "Transitive",
+        "resolved": "1.0.2",
+        "contentHash": "teRWZFwtBSuMRo2jxB4/DfCo3nprjMtjb7tjBfhrnz+BPhQMivW9cVo06kLr4GAJjrCOvCNQ2sJckRwGvMmK0Q==",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        }
+      },
       "FluentAssertions": {
         "type": "Transitive",
         "resolved": "5.10.3",
@@ -2375,6 +2383,7 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
+          "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
