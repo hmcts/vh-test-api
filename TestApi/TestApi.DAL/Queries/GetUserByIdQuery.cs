@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Mappers;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 
 namespace TestApi.DAL.Queries
 {
@@ -16,7 +17,7 @@ namespace TestApi.DAL.Queries
         public Guid Id { get; set; }
     }
 
-    public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, User>
+    public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserDto>
     {
         private readonly TestApiDbContext _context;
 
@@ -25,11 +26,13 @@ namespace TestApi.DAL.Queries
             _context = context;
         }
 
-        public async Task<User> Handle(GetUserByIdQuery query)
+        public async Task<UserDto> Handle(GetUserByIdQuery query)
         {
-            return await _context.Users
+            var user = await _context.Users
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == query.Id);
+
+            return user == null ? null : UserToUserDtoMapper.Map(user);
         }
     }
 }

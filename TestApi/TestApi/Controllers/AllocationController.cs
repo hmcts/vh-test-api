@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Commands;
@@ -158,9 +159,9 @@ namespace TestApi.Controllers
             return Ok(responses);
         }
 
-        private async Task<User> GetUserByUsernameAsync(string username)
+        private async Task<UserDto> GetUserByUsernameAsync(string username)
         {
-            return await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+            return await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
         }
 
         private async Task<Allocation> GetAllocationByUsernameAsync(string username)
@@ -169,9 +170,9 @@ namespace TestApi.Controllers
                 new GetAllocationByUsernameQuery(username));
         }
 
-        private async Task<User> AllocateAsync(AllocateUserRequest request)
+        private async Task<UserDto> AllocateAsync(AllocateUserRequest request)
         {
-            return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, User>(
+            return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(
                 new GetAllocatedUserByUserTypeQuery(request));
         }
 

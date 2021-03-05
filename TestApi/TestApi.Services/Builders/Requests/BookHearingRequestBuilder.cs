@@ -5,8 +5,8 @@ using AcceptanceTests.Common.Data.Helpers;
 using Castle.Core.Internal;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
-using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Helpers;
 using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.Services.Builders.Requests

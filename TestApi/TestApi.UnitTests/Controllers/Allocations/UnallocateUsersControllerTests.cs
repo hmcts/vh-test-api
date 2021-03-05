@@ -5,11 +5,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -40,7 +41,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             };
 
             QueryHandler
-                .SetupSequence(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
+                .SetupSequence(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync(firstUser)
                 .ReturnsAsync(secondUser)
                 .ReturnsAsync(thirdUser);
@@ -94,7 +95,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             };
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
+                .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync(user);
 
             var response = await Controller.UnallocateUsersByUsernameAsync(request);

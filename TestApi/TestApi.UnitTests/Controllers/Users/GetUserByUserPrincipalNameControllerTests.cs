@@ -7,7 +7,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Controllers.Users
@@ -23,7 +23,7 @@ namespace TestApi.UnitTests.Controllers.Users
             var user = new UserBuilder(EMAIL_STEM, NUMBER)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var userProfile = new UserProfile()
             {

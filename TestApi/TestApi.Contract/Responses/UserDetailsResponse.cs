@@ -1,5 +1,5 @@
 ﻿using System;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Contract.Responses
 {

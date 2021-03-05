@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
@@ -50,7 +50,7 @@ namespace TestApi.Controllers
             {
                 const string username = "health";
                 var query = new GetUserByUsernameQuery(username);
-                await _queryHandler.Handle<GetUserByUsernameQuery, User>(query);
+                await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(query);
                 response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)

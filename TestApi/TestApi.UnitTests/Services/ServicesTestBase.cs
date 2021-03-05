@@ -9,11 +9,13 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
+using TestApi.Common.Extensions;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
 
@@ -83,41 +85,55 @@ namespace TestApi.UnitTests.Services
                 .Returns(EmailData.FAKE_EMAIL_STEM);
         }
 
-        protected User CreateNewUser(UserType userType, int number, bool isProdUser = false)
+        protected UserDto CreateNewUser(UserType userType, int number, bool isProdUser = false)
         {
             const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
             return new UserBuilder(EMAIL_STEM, number)
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)
                 .IsProdUser(isProdUser)
-                .BuildUser();
+                .BuildUserDto();
         }
 
-        protected User CreateNewUser(TestType testType, int number)
+        protected UserDto CreateNewUser(TestType testType, int number)
         {
             const string EMAIL_STEM = EmailData.FAKE_EMAIL_STEM;
             return new UserBuilder(EMAIL_STEM, number)
                 .WithUserType(UserType.Individual)
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
         }
 
-        protected Allocation CreateAllocation(User user)
+        protected Allocation CreateAllocation(UserDto userDto)
         {
+            var user = new User()
+            {
+                Application = userDto.Application.MapToContractEnum(),
+                ContactEmail = userDto.ContactEmail,
+                CreatedDate = userDto.CreatedDate,
+                DisplayName = userDto.DisplayName,
+                FirstName = userDto.FirstName,
+                IsProdUser = userDto.IsProdUser,
+                LastName = userDto.LastName,
+                Number = userDto.Number,
+                TestType = userDto.TestType.MapToContractEnum(),
+                Username = userDto.Username,
+                UserType = userDto.UserType.MapToContractEnum()
+            };
             return new Allocation(user);
         }
 
-        protected List<User> CreateListOfUsers(UserType userType, int size, bool isProdUser = false)
+        protected List<UserDto> CreateListOfUsers(UserType userType, int size, bool isProdUser = false)
         {
-            var users = new List<User>();
+            var users = new List<UserDto>();
 
             for (var i = 1; i <= size; i++) users.Add(CreateNewUser(userType, i, isProdUser));
 
             return users;
         }
 
-        protected List<Allocation> CreateAllocations(List<User> users)
+        protected List<Allocation> CreateAllocations(List<UserDto> users)
         {
             return users.Select(CreateAllocation).ToList();
         }

@@ -6,7 +6,7 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Responses;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
 

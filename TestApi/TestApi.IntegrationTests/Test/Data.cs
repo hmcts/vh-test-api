@@ -4,9 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Common.Extensions;
+using TestApi.Common.Mappers;
+using TestApi.Contract.Dtos;
 using TestApi.DAL;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.IntegrationTests.Test
 {
@@ -21,7 +24,7 @@ namespace TestApi.IntegrationTests.Test
             _dbContextOptions = dbContextOptions;
         }
 
-        public async Task<User> SeedUser(UserType userType = UserType.Judge, bool isProdUser = false)
+        public async Task<UserDto> SeedUser(UserType userType = UserType.Judge, bool isProdUser = false)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
@@ -37,10 +40,10 @@ namespace TestApi.IntegrationTests.Test
 
             await db.Users.AddAsync(user);
             await db.SaveChangesAsync();
-            return user;
+            return UserToUserDtoMapper.Map(user);
         }
 
-        public async Task<User> SeedUser(TestType testType, UserType userType = UserType.Judge)
+        public async Task<UserDto> SeedUser(TestType testType, UserType userType = UserType.Judge)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
@@ -57,7 +60,7 @@ namespace TestApi.IntegrationTests.Test
 
             await db.Users.AddAsync(user);
             await db.SaveChangesAsync();
-            return user;
+            return UserToUserDtoMapper.Map(user);
         }
 
         public async Task<Allocation> SeedAllocation(Guid userId)
@@ -85,7 +88,7 @@ namespace TestApi.IntegrationTests.Test
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             var users = await db.Users
-                .Where(x => x.UserType == userType && x.Application == application && x.IsProdUser == isProdUser)
+                .Where(x => x.UserType == userType.MapToContractEnum() && x.Application == application.MapToContractEnum() && x.IsProdUser == isProdUser)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -114,7 +117,7 @@ namespace TestApi.IntegrationTests.Test
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             var users = await db.Users
-                .Where(x => x.Application == Application.TestApi)
+                .Where(x => x.Application == Application.TestApi.MapToContractEnum())
                 .AsNoTracking()
                 .ToListAsync();
 

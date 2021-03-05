@@ -10,7 +10,7 @@ using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Tests.Common.Configuration;
 

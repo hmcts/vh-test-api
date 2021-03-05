@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.IntegrationTests.Database.Queries
 {
@@ -33,7 +32,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             var user = new UserBuilder(USERNAME_STEM, NUMBER)
                 .WithUserType(USER_TYPE)
                 .ForApplication(APPLICATION)
-                .BuildUser();
+                .BuildUserDto();
 
             var allocationRequest = new AllocateUserRequestBuilder().WithUserType(USER_TYPE).Build();
 

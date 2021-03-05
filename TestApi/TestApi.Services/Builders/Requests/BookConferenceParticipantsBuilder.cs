@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using TestApi.Common.Data;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.Services.Builders.Requests
@@ -12,10 +12,10 @@ namespace TestApi.Services.Builders.Requests
     public class BookConferenceParticipantsBuilder
     {
         private readonly List<ParticipantRequest> _participants;
-        private readonly List<User> _users;
+        private readonly List<UserDto> _users;
         private readonly bool _isCACDCaseType;
 
-        public BookConferenceParticipantsBuilder(List<User> users, bool isCACDCaseType)
+        public BookConferenceParticipantsBuilder(List<UserDto> users, bool isCACDCaseType)
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
@@ -108,7 +108,7 @@ namespace TestApi.Services.Builders.Requests
             return _participants;
         }
 
-        private static string ChooseToRepresentIndividualIfPossible(IReadOnlyList<User> individuals, int repIndex)
+        private static string ChooseToRepresentIndividualIfPossible(IReadOnlyList<UserDto> individuals, int repIndex)
         {
             return repIndex + 1 <= individuals.Count ? individuals[repIndex].DisplayName : HearingData.REPRESENTEE;
         }

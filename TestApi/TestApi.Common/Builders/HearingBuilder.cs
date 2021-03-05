@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Common.Builders
 {
@@ -11,7 +11,7 @@ namespace TestApi.Common.Builders
     {
         private readonly CreateHearingRequest _request;
 
-        public HearingBuilder(List<User> users)
+        public HearingBuilder(List<UserDto> users)
         {
             _request = new CreateHearingRequest
             {

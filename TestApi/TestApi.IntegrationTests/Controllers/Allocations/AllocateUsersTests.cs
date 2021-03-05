@@ -5,9 +5,9 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
 
@@ -54,7 +54,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             var individualUser = await Context.Data.SeedUser(UserType.Individual);
             var representativeUser = await Context.Data.SeedUser(UserType.Representative);
             var caseAdminUser = await Context.Data.SeedUser(UserType.CaseAdmin);
-            var users = new List<User>(){ judgeUser, individualUser, representativeUser, caseAdminUser};
+            var users = new List<UserDto>(){ judgeUser, individualUser, representativeUser, caseAdminUser};
 
             var userTypes = new List<UserType>()
             {

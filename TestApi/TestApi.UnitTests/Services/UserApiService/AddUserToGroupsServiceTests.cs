@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Services.UserApiService
@@ -77,13 +77,13 @@ namespace TestApi.UnitTests.Services.UserApiService
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
                 .IsProdUser(true)
-                .BuildUser();
+                .BuildUserDto();
 
             var nonProdJudge = new UserBuilder(EMAIL_STEM, 2)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
                 .IsProdUser(false)
-                .BuildUser();
+                .BuildUserDto();
 
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
@@ -102,12 +102,12 @@ namespace TestApi.UnitTests.Services.UserApiService
             var performanceTestUser = new UserBuilder(EMAIL_STEM, 1)
                 .ForTestType(TestType.Performance)
                 .WithUserType(UserType.Individual)
-                .BuildUser();
+                .BuildUserDto();
 
             var nonPerformanceTestUser = new UserBuilder(EMAIL_STEM, 2)
                 .ForTestType(TestType.Automated)
                 .WithUserType(UserType.Individual)
-                .BuildUser();
+                .BuildUserDto();
 
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
@@ -136,7 +136,7 @@ namespace TestApi.UnitTests.Services.UserApiService
             var user = new UserBuilder(EMAIL_STEM, 1)
                 .ForTestType(TestType.Automated)
                 .WithUserType(userType)
-                .BuildUser();
+                .BuildUserDto();
 
             UserApiClient.Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))
                 .Returns(Task.CompletedTask);
@@ -153,7 +153,7 @@ namespace TestApi.UnitTests.Services.UserApiService
             var user = new UserBuilder(EMAIL_STEM, 1)
                 .ForTestType(TestType.Automated)
                 .WithUserType(UserType.Individual)
-                .BuildUser();
+                .BuildUserDto();
 
             UserApiClient
                 .Setup(x => x.AddUserToGroupAsync(It.IsAny<AddUserToGroupRequest>()))

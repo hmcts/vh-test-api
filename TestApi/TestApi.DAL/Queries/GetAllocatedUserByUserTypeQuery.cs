@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.DAL.Queries
 {
@@ -27,7 +27,7 @@ namespace TestApi.DAL.Queries
         public string AllocatedBy { get; set; }
     }
 
-    public class GetAllocatedUserByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, User>
+    public class GetAllocatedUserByUserTypeQueryHandler : IQueryHandler<GetAllocatedUserByUserTypeQuery, UserDto>
     {
         private readonly TestApiDbContext _context;
         private readonly IAllocationService _service;
@@ -38,7 +38,7 @@ namespace TestApi.DAL.Queries
             _service = service;
         }
 
-        public async Task<User> Handle(GetAllocatedUserByUserTypeQuery query)
+        public async Task<UserDto> Handle(GetAllocatedUserByUserTypeQuery query)
         {
             var user = await _service.AllocateToService(query.UserType, query.Application,
                 query.TestType, query.IsProdUser, query.ExpiryInMinutes, query.AllocatedBy);

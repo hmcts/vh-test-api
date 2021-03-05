@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using AcceptanceTests.Common.Data.Helpers;
 using TestApi.Common.Data;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Helpers;
 using TestApi.Services.Clients.VideoApiClient;
 
 namespace TestApi.Services.Builders.Requests
@@ -13,11 +13,11 @@ namespace TestApi.Services.Builders.Requests
     {
         private readonly BookNewConferenceRequest _request;
         private readonly Random _randomNumber;
-        private readonly List<User> _users;
+        private readonly List<UserDto> _users;
         private readonly TestType _testType;
         private bool _isCACDCaseType;
 
-        public BookConferenceRequestBuilder(List<User> users, TestType testType)
+        public BookConferenceRequestBuilder(List<UserDto> users, TestType testType)
         {
             _request = new BookNewConferenceRequest();
             _randomNumber = new Random();

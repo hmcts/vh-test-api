@@ -2356,16 +2356,14 @@
         }
       },
       "testapi.contract": {
-        "type": "Project",
-        "dependencies": {
-          "TestApi.Domain": "1.0.0"
-        }
+        "type": "Project"
       },
       "testapi.dal": {
         "type": "Project",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "5.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Domain": "1.0.0",
           "TestApi.Services": "1.0.0"

@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Services.UserApiService

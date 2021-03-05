@@ -1695,10 +1695,7 @@
         }
       },
       "testapi.contract": {
-        "type": "Project",
-        "dependencies": {
-          "TestApi.Domain": "1.0.0"
-        }
+        "type": "Project"
       },
       "testapi.domain": {
         "type": "Project"

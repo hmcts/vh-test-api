@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.UnitTests.Domain
 {
@@ -18,7 +18,7 @@ namespace TestApi.UnitTests.Domain
             var user = new UserBuilder(emailStem, number)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             user.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(10));
         }

@@ -37,6 +37,18 @@
           "Microsoft.EntityFrameworkCore.Design": "5.0.1"
         }
       },
+      "Microsoft.Extensions.Logging.Abstractions": {
+        "type": "Direct",
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "NxP6ahFcBnnSfwNBi2KH2Oz8Xl5Sm2krjId/jRR3I7teFphwiUoUeZPwTNA21EX+5PtjqmyAvKaOeBXcJjcH/w=="
+      },
+      "SonarAnalyzer.CSharp": {
+        "type": "Direct",
+        "requested": "[8.14.0.22654, )",
+        "resolved": "8.14.0.22654",
+        "contentHash": "OxJIffzU1JtRTE+wL+zBpzZueA9N7iKjBgkFlxjm1QDymmDlAnLyjXAVyWph5Hbpz1gVvAG1rWYxpQA4w2FwVQ=="
+      },
       "Appium.WebDriver": {
         "type": "Transitive",
         "resolved": "4.2.1",
@@ -381,11 +393,6 @@
           "Microsoft.Extensions.Options": "5.0.0",
           "System.Diagnostics.DiagnosticSource": "5.0.0"
         }
-      },
-      "Microsoft.Extensions.Logging.Abstractions": {
-        "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "NxP6ahFcBnnSfwNBi2KH2Oz8Xl5Sm2krjId/jRR3I7teFphwiUoUeZPwTNA21EX+5PtjqmyAvKaOeBXcJjcH/w=="
       },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",
@@ -1695,10 +1702,7 @@
         }
       },
       "testapi.contract": {
-        "type": "Project",
-        "dependencies": {
-          "TestApi.Domain": "1.0.0"
-        }
+        "type": "Project"
       },
       "testapi.domain": {
         "type": "Project"

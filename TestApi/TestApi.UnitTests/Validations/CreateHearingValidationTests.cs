@@ -4,7 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.UnitTests.Controllers;
 using TestApi.Validations;
 
@@ -48,7 +48,7 @@ namespace TestApi.UnitTests.Validations
         public async Task Should_pass_validation_with_winger_in_CACD_hearing()
         {
             var request = CreateHearingRequest();
-            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddWinger().BuildUser());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddWinger().BuildUserDto());
             request.CaseType = HearingData.CACD_CASE_TYPE_NAME;
 
             var result = await _validator.ValidateAsync(request);
@@ -60,7 +60,7 @@ namespace TestApi.UnitTests.Validations
         public async Task Should_fail_validation_with_winger_in_non_CACD_hearing()
         {
             var request = CreateHearingRequest();
-            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddWinger().BuildUser());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddWinger().BuildUserDto());
 
             var result = await _validator.ValidateAsync(request);
 
@@ -75,8 +75,8 @@ namespace TestApi.UnitTests.Validations
         {
             var request = CreateHearingRequest();
             request.Users.Count(x => x.UserType == UserType.Individual).Should().Be(1);
-            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUser());
-            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 2).AddInterpreter().BuildUser());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUserDto());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 2).AddInterpreter().BuildUserDto());
 
             var result = await _validator.ValidateAsync(request);
 
@@ -91,7 +91,7 @@ namespace TestApi.UnitTests.Validations
         {
             var request = CreateHearingRequest();
             request.Users.Count(x => x.UserType == UserType.Individual).Should().Be(1);
-            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUser());
+            request.Users.Add(new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1).AddInterpreter().BuildUserDto());
 
             var result = await _validator.ValidateAsync(request);
 

@@ -8,7 +8,7 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.IntegrationTests.Controllers.Hearings;
 using TestApi.Mappings;
 using TestApi.Services.Builders.Requests;

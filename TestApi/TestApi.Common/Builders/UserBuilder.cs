@@ -1,8 +1,11 @@
-﻿using TestApi.Common.Data;
+﻿using System;
+using TestApi.Common.Data;
+using TestApi.Common.Extensions;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Helpers;
 using TestApi.Contract.Requests;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
 
 namespace TestApi.Common.Builders
 {
@@ -126,11 +129,31 @@ namespace TestApi.Common.Builders
             };
         }
 
+        public UserDto BuildUserDto()
+        {
+            var request = BuildRequest();
+
+            return new UserDto()
+            {
+                Application = request.Application,
+                ContactEmail = request.ContactEmail,
+                CreatedDate = DateTime.UtcNow,
+                DisplayName = request.DisplayName,
+                FirstName = request.FirstName,
+                IsProdUser = request.IsProdUser,
+                LastName = request.LastName,
+                Number = request.Number,
+                TestType = request.TestType,
+                Username = request.Username,
+                UserType = request.UserType
+            };
+        }
+
         public User BuildUser()
         {
             var request = BuildRequest();
             return new User(request.Username, request.ContactEmail, request.FirstName, request.LastName,
-                request.DisplayName, request.Number, request.TestType, request.UserType, request.Application, request.IsProdUser);
+                request.DisplayName, request.Number, request.TestType.MapToContractEnum(), request.UserType.MapToContractEnum(), request.Application.MapToContractEnum(), request.IsProdUser);
         }
 
         private string SetFirstName()

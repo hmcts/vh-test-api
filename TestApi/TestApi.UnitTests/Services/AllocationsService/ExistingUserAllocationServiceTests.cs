@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 
 namespace TestApi.UnitTests.Services.AllocationsService
@@ -23,7 +24,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             allocations.Count.Should().Be(NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
@@ -36,7 +37,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = users.First();
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -53,7 +54,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             const int NUMBER_OF_USER_GROUPS = 2;
 
             MockUserApiService
-                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
+                .Setup(x => x.AddGroupsToUser(It.IsAny<UserDto>(), It.IsAny<string>()))
                 .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
@@ -73,7 +74,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var users = CreateListOfUsers(UserType.Individual, NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             var allocations = CreateAllocations(users);
@@ -95,7 +96,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = users.First();
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -128,7 +129,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             allocations.Count.Should().Be(NUMBER_OF_USERS);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
@@ -141,7 +142,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = users.First();
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -162,7 +163,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             const int NUMBER_OF_USER_GROUPS = 2;
 
             MockUserApiService
-                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
+                .Setup(x => x.AddGroupsToUser(It.IsAny<UserDto>(), It.IsAny<string>()))
                 .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler

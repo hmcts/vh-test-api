@@ -8,8 +8,8 @@ using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Helpers;
 
@@ -39,7 +39,7 @@ namespace TestApi.Services.Services
         /// <param name="user">The test api user profile</param>
         /// <param name="adUserId">The AD user profile id</param>
         /// <returns>A count of the number of groups the user now has</returns>
-        Task<int> AddGroupsToUser(User user, string adUserId);
+        Task<int> AddGroupsToUser(UserDto user, string adUserId);
     }
 
     public class UserApiService : IUserApiService
@@ -116,7 +116,7 @@ namespace TestApi.Services.Services
             }
         }
 
-        public async Task<int> AddGroupsToUser(User user, string adUserId)
+        public async Task<int> AddGroupsToUser(UserDto user, string adUserId)
         {
             var requiredGroups = GetRequiredGroups(user);
 
@@ -128,7 +128,7 @@ namespace TestApi.Services.Services
             return requiredGroups.Count;
         }
 
-        private List<string> GetRequiredGroups(User user)
+        private List<string> GetRequiredGroups(UserDto user)
         {
             var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
             var groups = userGroupStrategies[user.UserType].GetGroups();

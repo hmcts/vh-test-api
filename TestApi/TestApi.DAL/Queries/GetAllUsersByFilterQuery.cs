@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Extensions;
+using TestApi.Common.Mappers;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.DAL.Queries
 {
@@ -24,7 +26,7 @@ namespace TestApi.DAL.Queries
         public bool IsProdUser { get; set; }
     }
 
-    public class GetAllUsersByFilterQueryHandler : IQueryHandler<GetAllUsersByFilterQuery, List<User>>
+    public class GetAllUsersByFilterQueryHandler : IQueryHandler<GetAllUsersByFilterQuery, List<UserDto>>
     {
         private readonly TestApiDbContext _context;
 
@@ -33,16 +35,18 @@ namespace TestApi.DAL.Queries
             _context = context;
         }
 
-        public async Task<List<User>> Handle(GetAllUsersByFilterQuery query)
+        public async Task<List<UserDto>> Handle(GetAllUsersByFilterQuery query)
         {
-            return await _context.Users
+            var  users = await _context.Users
                 .Where(x => 
-                    x.UserType == query.UserType && 
-                    x.TestType == query.TestType &&
-                    x.Application == query.Application && 
+                    x.UserType == query.UserType.MapToContractEnum() && 
+                    x.TestType == query.TestType.MapToContractEnum() &&
+                    x.Application == query.Application.MapToContractEnum() && 
                     x.IsProdUser == query.IsProdUser)
                 .AsNoTracking()
                 .ToListAsync();
+
+            return users.Select(UserToUserDtoMapper.Map).ToList();
         }
     }
 }

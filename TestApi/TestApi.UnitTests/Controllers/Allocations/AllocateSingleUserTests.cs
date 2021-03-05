@@ -5,10 +5,10 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -33,7 +33,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             QueryHandler
                 .Setup(
-                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
             var response = Controller.AllocateSingleUserAsync(request);
@@ -63,7 +63,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             QueryHandler
                 .Setup(
-                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
             var response = Controller.AllocateSingleUserAsync(request);
@@ -91,7 +91,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             QueryHandler
                 .Setup(
-                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
             var response = Controller.AllocateSingleUserAsync(request);
@@ -121,7 +121,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             QueryHandler
                 .Setup(
-                    x => x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
             var response = Controller.AllocateSingleUserAsync(request);

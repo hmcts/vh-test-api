@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TestApi.Common.Builders;
+using TestApi.Common.Extensions;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
 
@@ -29,7 +31,7 @@ namespace TestApi.DAL.Commands
         /// <param name="expiresInMinutes">Gives an expiry time in minutes. Default is 10 minutes</param>
         /// <param name="allocatedBy">Allocated By a particular user</param>
         /// <returns>An allocated user</returns>
-        Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null);
+        Task<UserDto> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null);
     }
 
     public class AllocationService : IAllocationService
@@ -51,7 +53,7 @@ namespace TestApi.DAL.Commands
             _userApiService = userApiService;
         }
 
-        public async Task<User> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null)
+        public async Task<UserDto> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null)
         {
             var users = await GetAllUsers(userType, testType, application, isProdUser);
             _logger.LogDebug($"Found {users.Count} user(s) of type '{userType}', test type '{testType}' and application '{application}'");
@@ -137,13 +139,13 @@ namespace TestApi.DAL.Commands
             return false;
         }
 
-        private async Task<List<User>> GetAllUsers(UserType userType, TestType testType, Application application, bool isProdUser)
+        private async Task<List<UserDto>> GetAllUsers(UserType userType, TestType testType, Application application, bool isProdUser)
         {
             var query = new GetAllUsersByFilterQuery(userType, testType, application, isProdUser);
-            return await _queryHandler.Handle<GetAllUsersByFilterQuery, List<User>>(query);
+            return await _queryHandler.Handle<GetAllUsersByFilterQuery, List<UserDto>>(query);
         }
 
-        private async Task<List<Allocation>> CreateAllocationsForUsersIfRequired(IReadOnlyCollection<User> users)
+        private async Task<List<Allocation>> CreateAllocationsForUsersIfRequired(IReadOnlyCollection<UserDto> users)
         {
             var allocations = new List<Allocation>();
 
@@ -195,10 +197,10 @@ namespace TestApi.DAL.Commands
             return await _queryHandler.Handle<GetNextUserNumberByUserTypeQuery, Integer>(query);
         }
 
-        private async Task<User> GetUserById(Guid userId)
+        private async Task<UserDto> GetUserById(Guid userId)
         {
             var getUserByIdQuery = new GetUserByIdQuery(userId);
-            return await _queryHandler.Handle<GetUserByIdQuery, User>(getUserByIdQuery);
+            return await _queryHandler.Handle<GetUserByIdQuery, UserDto>(getUserByIdQuery);
         }
 
         private async Task CreateNewUserInTestApi(UserType userType, Application application, TestType testType, bool isProdUser, int newNumber)
@@ -222,11 +224,11 @@ namespace TestApi.DAL.Commands
             await _commandHandler.Handle(createNewUserCommand);
         }
 
-        private async Task<User> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application,
+        private async Task<UserDto> GetUserIdByUserTypeApplicationAndNumber(UserType userType, Application application,
             int number, bool isProdUser)
         {
             var query = new GetUserByUserTypeAppAndNumberQuery(userType, application, number, isProdUser);
-            return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, User>(query);
+            return await _queryHandler.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(query);
         }
 
         private async Task<bool> UserDoesNotExistInAAD(string username)
@@ -234,12 +236,12 @@ namespace TestApi.DAL.Commands
             return !await _userApiService.CheckUserExistsInAAD(username);
         }
 
-        private async Task<NewUserResponse> CreateUserInAAD(User user)
+        private async Task<NewUserResponse> CreateUserInAAD(UserDto user)
         {
             return await _userApiService.CreateNewUserInAAD(user.FirstName, user.LastName, user.ContactEmail, user.IsProdUser);
         }
 
-        private async Task<int> AddGroupsToUser(User user, string adUserId)
+        private async Task<int> AddGroupsToUser(UserDto user, string adUserId)
         {
             return await _userApiService.AddGroupsToUser(user, adUserId);
         }

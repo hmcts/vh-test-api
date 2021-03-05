@@ -7,9 +7,9 @@ using AcceptanceTests.Common.Data.Questions;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 
@@ -41,21 +41,21 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
-                .BuildUser();
+                .BuildUserDto();
 
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
-                .BuildUser();
+                .BuildUserDto();
 
             var winger = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddWinger()
-                .BuildUser();
+                .BuildUserDto();
 
-            var users = new List<User>() { judge, individual, caseAdmin, winger };
+            var users = new List<UserDto>() { judge, individual, caseAdmin, winger };
 
             return new HearingBuilder(users).CACDHearing().Build();
         }
@@ -81,75 +81,75 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             return response;
         }
 
-        private List<User> CreateDefaultUsers(TestType testType)
+        private List<UserDto> CreateDefaultUsers(TestType testType)
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var observer = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddObserver()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var panelMember = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddPanelMember()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, individual, representative, observer, panelMember, caseAdmin };
+            return new List<UserDto>() { judge, individual, representative, observer, panelMember, caseAdmin };
         }
 
-        private List<User> CreateUsersWithJustIndividualAndJudge()
+        private List<UserDto> CreateUsersWithJustIndividualAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, individual };
+            return new List<UserDto>() { judge, individual };
         }
 
-        private List<User> CreateUsersWithJustRepAndJudge()
+        private List<UserDto> CreateUsersWithJustRepAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, representative };
+            return new List<UserDto>() { judge, representative };
         }
 
         protected List<SuitabilityAnswersRequest> CreateAnswersRequest()

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
-using TestApi.Domain;
 
 namespace TestApi.Mappings
 {
     public static class UserDetailsResponseToUserMapper
     {
-        public static List<User> Map(List<UserDetailsResponse> users)
+        public static List<UserDto> Map(List<UserDetailsResponse> users)
         {
-            return users.Select(user => new User
+            return users.Select(user => new UserDto
                 {
                     Application = user.Application,
                     ContactEmail = user.ContactEmail,

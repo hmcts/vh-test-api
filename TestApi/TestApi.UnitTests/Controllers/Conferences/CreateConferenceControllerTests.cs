@@ -5,8 +5,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
 using TestApi.Services.Clients.VideoApiClient;
@@ -27,7 +27,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<UserDto> { firstUser, secondUser, thirdUser, fourthUser };
 
             var request = new BookConferenceRequestBuilder(users, testType).BuildRequest();
 
@@ -55,7 +55,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<UserDto> { firstUser, secondUser, thirdUser, fourthUser };
 
             var request = new BookConferenceRequestBuilder(users, TestType.Automated).BuildRequest();
 

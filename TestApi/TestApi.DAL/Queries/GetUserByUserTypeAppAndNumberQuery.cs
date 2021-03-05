@@ -1,9 +1,10 @@
-﻿#nullable enable
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Extensions;
+using TestApi.Common.Mappers;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.DAL.Queries
 {
@@ -23,7 +24,7 @@ namespace TestApi.DAL.Queries
         public bool IsProdUser { get; set; }
     }
 
-    public class GetUserByUserTypeAppAndNumberQueryHandler : IQueryHandler<GetUserByUserTypeAppAndNumberQuery, User>
+    public class GetUserByUserTypeAppAndNumberQueryHandler : IQueryHandler<GetUserByUserTypeAppAndNumberQuery, UserDto>
     {
         private readonly TestApiDbContext _context;
 
@@ -32,14 +33,16 @@ namespace TestApi.DAL.Queries
             _context = context;
         }
 
-        public async Task<User> Handle(GetUserByUserTypeAppAndNumberQuery query)
+        public async Task<UserDto> Handle(GetUserByUserTypeAppAndNumberQuery query)
         {
-            return await _context.Users
+            var user = await _context.Users
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.UserType == query.UserType &&
-                                           x.Application == query.Application &&
+                .SingleOrDefaultAsync(x => x.UserType == query.UserType.MapToContractEnum() &&
+                                           x.Application == query.Application.MapToContractEnum() &&
                                            x.Number == query.Number &&
                                            x.IsProdUser == query.IsProdUser);
+
+            return user == null ? null : UserToUserDtoMapper.Map(user);
         }
     }
 }

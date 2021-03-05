@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApi.Common.Configuration;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Services.Helpers
 {

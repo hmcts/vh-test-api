@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApi.Contract.Requests;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Common.Builders
 {

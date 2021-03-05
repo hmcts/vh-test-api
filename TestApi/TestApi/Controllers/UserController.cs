@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 using TestApi.Mappings;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
@@ -46,7 +46,7 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"GetUserDetailsByUsernameAsync {username}");
 
-            var user = await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+            var user = await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
 
             if (user == null)
             {

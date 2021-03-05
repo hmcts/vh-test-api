@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Clients.VideoApiClient;
@@ -29,7 +29,7 @@ namespace TestApi.Tests.Common
             response.Username.Should().Contain(userType.ToString().ToLowerInvariant());
         }
 
-        public static void UserDetailsResponse(UserDetailsResponse response, User user)
+        public static void UserDetailsResponse(UserDetailsResponse response, UserDto user)
         {
             response.Should().BeEquivalentTo(user);
         }
@@ -45,7 +45,7 @@ namespace TestApi.Tests.Common
             }
         }
 
-        public static void UsersDetailsResponse(List<UserDetailsResponse> responses, List<User> users)
+        public static void UsersDetailsResponse(List<UserDetailsResponse> responses, List<UserDto> users)
         {
             responses.Count.Should().Be(users.Count);
             foreach (var user in users)
@@ -97,12 +97,12 @@ namespace TestApi.Tests.Common
                     : UserData.DEFAULT_CREATED_BY_USER);
         }
 
-        private static bool UsersIncludeCaseAdminOrVho(IEnumerable<User> users)
+        private static bool UsersIncludeCaseAdminOrVho(IEnumerable<UserDto> users)
         {
             return users.Any(x => x.UserType == UserType.CaseAdmin || x.UserType == UserType.VideoHearingsOfficer);
         }
 
-        private static void VerifyHearingParticipants(IEnumerable<ParticipantResponse> participants, IReadOnlyCollection<User> users)
+        private static void VerifyHearingParticipants(IEnumerable<ParticipantResponse> participants, IReadOnlyCollection<UserDto> users)
         {
             foreach (var participant in participants)
             {
@@ -211,7 +211,7 @@ namespace TestApi.Tests.Common
             response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
-        public static void UserProfileResponse(UserProfile response, User user)
+        public static void UserProfileResponse(UserProfile response, UserDto user)
         {
             response.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
         }
