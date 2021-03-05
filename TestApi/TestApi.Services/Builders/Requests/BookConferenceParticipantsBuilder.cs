@@ -91,6 +91,9 @@ namespace TestApi.Services.Builders.Requests
                     request.Hearing_role = AddSpacesToUserType(user.UserType);
                 }
 
+                user.FirstName = $"{user.FirstName}_{Faker.Name.First()}";
+                user.LastName = $"{Faker.Name.Last()}_{user.LastName}";
+
                 request.Contact_email = user.ContactEmail;
                 request.Contact_telephone = UserData.TELEPHONE_NUMBER;
                 request.Display_name = user.DisplayName;
