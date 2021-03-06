@@ -32,6 +32,7 @@ namespace TestApi.Controllers
         /// <param name="conferenceId">Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         [HttpGet("{conferenceId}", Name = nameof(GetConferenceByIdAsync))]
+        [OpenApiOperation("GetConferenceByIdAsync")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -56,6 +57,7 @@ namespace TestApi.Controllers
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         [HttpGet("hearings/{hearingRefId}", Name = nameof(GetConferenceByHearingRefIdAsync))]
+        [OpenApiOperation("GetConferenceByHearingRefIdAsync")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -80,7 +82,7 @@ namespace TestApi.Controllers
         /// <param name="request">Details of a conference</param>
         /// <returns>Details of the new conference</returns>
         [HttpPost]
-        [OpenApiOperation("BookNewConference")]
+        [OpenApiOperation("BookNewConferenceAsync")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> BookNewConferenceAsync(BookNewConferenceRequest request)
@@ -105,6 +107,7 @@ namespace TestApi.Controllers
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns></returns>
         [HttpDelete("{hearingRefId}/{conferenceId}")]
+        [OpenApiOperation("DeleteConferenceAsync")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -143,6 +146,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/judge", Name = nameof(GetConferencesForTodayJudgeAsync))]
+        [OpenApiOperation("GetConferencesForTodayJudgeAsync")]
         [ProducesResponseType(typeof(List<ConferenceForJudgeResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -166,6 +170,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/vho", Name = nameof(GetConferencesForTodayVhoAsync))]
+        [OpenApiOperation("GetConferencesForTodayVhoAsync")]
         [ProducesResponseType(typeof(List<ConferenceForAdminResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -190,6 +195,7 @@ namespace TestApi.Controllers
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of audio recording links for a conference</returns>
         [HttpGet("audio/{hearingId}", Name = nameof(GetAudioRecordingLinksByHearingIdAsync))]
+        [OpenApiOperation("GetAudioRecordingLinksByHearingIdAsync")]
         [ProducesResponseType(typeof(AudioRecordingResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -214,6 +220,7 @@ namespace TestApi.Controllers
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         [HttpGet("tasks/{conferenceId}", Name = nameof(GetTasksByConferenceIdAsync))]
+        [OpenApiOperation("GetTasksByConferenceIdAsync")]
         [ProducesResponseType(typeof(List<TaskResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -238,6 +245,7 @@ namespace TestApi.Controllers
         /// <param name="request">Conference event request</param>
         /// <returns></returns>
         [HttpPost("events", Name = nameof(CreateEventAsync))]
+        [OpenApiOperation("CreateEventAsync")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -263,6 +271,7 @@ namespace TestApi.Controllers
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns>Self test score</returns>
         [HttpGet("{conferenceId}/participants/{participantId}/score", Name = nameof(GetSelfTestScoreAsync))]
+        [OpenApiOperation("GetSelfTestScoreAsync")]
         [ProducesResponseType(typeof(TestCallScoreResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -288,6 +297,7 @@ namespace TestApi.Controllers
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns></returns>/returns>
         [HttpDelete("{conferenceId}/participants/{participantId}", Name = nameof(DeleteParticipantAsync))]
+        [OpenApiOperation("DeleteParticipantAsync")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

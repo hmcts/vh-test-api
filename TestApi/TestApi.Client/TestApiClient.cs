@@ -32,79 +32,79 @@ namespace TestApi.Client
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserDetailsResponse> Allocation_AllocateSingleUserAsync(AllocateUserRequest request);
+        System.Threading.Tasks.Task<UserDetailsResponse> AllocateSingleUserAsync(AllocateUserRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Allocate single user</summary>
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserDetailsResponse> Allocation_AllocateSingleUserAsync(AllocateUserRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UserDetailsResponse> AllocateSingleUserAsync(AllocateUserRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Allocate multiple users</summary>
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> Allocation_AllocateUsersAsync(AllocateUsersRequest request);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> AllocateMultipleUsersAsync(AllocateUsersRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Allocate multiple users</summary>
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> Allocation_AllocateUsersAsync(AllocateUsersRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> AllocateMultipleUsersAsync(AllocateUsersRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Unallocate users by username</summary>
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_UnallocateUsersByUsernameAsync(UnallocateUsersRequest request);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> UnallocateUsersAsync(UnallocateUsersRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Unallocate users by username</summary>
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_UnallocateUsersByUsernameAsync(UnallocateUsersRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> UnallocateUsersAsync(UnallocateUsersRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get allocated users by allocatedBy</summary>
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_GetAllocatedUsersAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> GetAllocateUsersByAllocatedByAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get allocated users by allocatedBy</summary>
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_GetAllocatedUsersAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> GetAllocateUsersByAllocatedByAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get the details of a conference by id</summary>
         /// <param name="conferenceId">Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByIdAsync(System.Guid conferenceId);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByIdAsync(System.Guid conferenceId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get the details of a conference by id</summary>
         /// <param name="conferenceId">Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get the details of a conference by hearing ref id</summary>
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByHearingRefIdAsync(System.Guid hearingRefId);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByHearingRefIdAsync(System.Guid hearingRefId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get the details of a conference by hearing ref id</summary>
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByHearingRefIdAsync(System.Guid hearingRefId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByHearingRefIdAsync(System.Guid hearingRefId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Request to book a conference</summary>
         /// <param name="request">Details of a conference</param>
@@ -123,82 +123,82 @@ namespace TestApi.Client
         /// <param name="hearingRefId">Hearing Ref Id of the conference</param>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId);
+        System.Threading.Tasks.Task DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete a conference by conference id</summary>
         /// <param name="hearingRefId">Hearing Ref Id of the conference</param>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get conferences for today Judge</summary>
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> Conferences_GetConferencesForTodayJudgeAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get conferences for today Judge</summary>
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> Conferences_GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get conferences for today VHO</summary>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> Conferences_GetConferencesForTodayVhoAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> GetConferencesForTodayVhoAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get conferences for today VHO</summary>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> Conferences_GetConferencesForTodayVhoAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> GetConferencesForTodayVhoAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get audio recording links</summary>
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of audio recording links for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AudioRecordingResponse> Conferences_GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId);
+        System.Threading.Tasks.Task<AudioRecordingResponse> GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get audio recording links</summary>
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of audio recording links for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AudioRecordingResponse> Conferences_GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AudioRecordingResponse> GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get tasks for a conference</summary>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> Conferences_GetTasksByConferenceIdAsync(System.Guid conferenceId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> GetTasksByConferenceIdAsync(System.Guid conferenceId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get tasks for a conference</summary>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> Conferences_GetTasksByConferenceIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> GetTasksByConferenceIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Create event</summary>
         /// <param name="request">Conference event request</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_CreateEventAsync(ConferenceEventRequest request);
+        System.Threading.Tasks.Task CreateEventAsync(ConferenceEventRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create event</summary>
         /// <param name="request">Conference event request</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_CreateEventAsync(ConferenceEventRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task CreateEventAsync(ConferenceEventRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get the test call result for a participant</summary>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns>Self test score</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TestCallScoreResponse> Conferences_GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId);
+        System.Threading.Tasks.Task<TestCallScoreResponse> GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get the test call result for a participant</summary>
@@ -206,20 +206,20 @@ namespace TestApi.Client
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns>Self test score</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TestCallScoreResponse> Conferences_GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<TestCallScoreResponse> GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Delete a participant</summary>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <param name="participantId">Participant Id of the participant</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId);
+        System.Threading.Tasks.Task DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete a participant</summary>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <param name="participantId">Participant Id of the participant</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Conferences_DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
@@ -236,21 +236,21 @@ namespace TestApi.Client
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_GetHearingByIdAsync(System.Guid hearingId);
+        System.Threading.Tasks.Task<HearingDetailsResponse> GetHearingByIdAsync(System.Guid hearingId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get the details of a hearing by id</summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_GetHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HearingDetailsResponse> GetHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Confirm hearing by id</summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Hearings_ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Confirm hearing by id</summary>
@@ -258,46 +258,46 @@ namespace TestApi.Client
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ConferenceDetailsResponse> Hearings_ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ConferenceDetailsResponse> ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Delete hearing by id</summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Hearings_DeleteHearingByIdAsync(System.Guid hearingId);
+        System.Threading.Tasks.Task DeleteHearingByIdAsync(System.Guid hearingId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete hearing by id</summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Hearings_DeleteHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task DeleteHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get list of all hearings for a given username</summary>
         /// <param name="username">Username of the participant</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> Hearings_GetHearingsByUsernameAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> GetHearingsByUsernameAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get list of all hearings for a given username</summary>
         /// <param name="username">Username of the participant</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> Hearings_GetHearingsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> GetHearingsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Create a hearing</summary>
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_CreateHearingAsync(CreateHearingRequest request);
+        System.Threading.Tasks.Task<HearingDetailsResponse> CreateHearingAsync(CreateHearingRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create a hearing</summary>
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_CreateHearingAsync(CreateHearingRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HearingDetailsResponse> CreateHearingAsync(CreateHearingRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Updates suitability answers for the participant</summary>
         /// <param name="hearingId">Id of hearing</param>
@@ -305,7 +305,7 @@ namespace TestApi.Client
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Hearings_UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers);
+        System.Threading.Tasks.Task UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Updates suitability answers for the participant</summary>
@@ -314,129 +314,129 @@ namespace TestApi.Client
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Hearings_UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get suitability answers for the person</summary>
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> Hearings_GetSuitabilityAnswersAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> GetSuitabilityAnswersAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get suitability answers for the person</summary>
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> Hearings_GetSuitabilityAnswersAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> GetSuitabilityAnswersAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get person by username</summary>
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Hearings_GetPersonByUsernameAsync(string username);
+        System.Threading.Tasks.Task<PersonResponse> GetPersonByUsernameAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get person by username</summary>
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonResponse> Hearings_GetPersonByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PersonResponse> GetPersonByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get all hearings by default case type</summary>
         /// <returns>List of hearings by default type</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> Hearings_GetAllHearingsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> GetAllHearingsAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all hearings by default case type</summary>
         /// <returns>List of hearings by default type</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> Hearings_GetAllHearingsAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> GetAllHearingsAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get test api user by username</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserDetailsResponse> User_GetUserDetailsByUsernameAsync(string username);
+        System.Threading.Tasks.Task<UserDetailsResponse> GetUserDetailsByUsernameAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get test api user by username</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserDetailsResponse> User_GetUserDetailsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UserDetailsResponse> GetUserDetailsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get user by user principal name</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserProfile> User_GetUserByUserPrincipleNameAsync(string username);
+        System.Threading.Tasks.Task<UserProfile> GetUserByUserPrincipleNameAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get user by user principal name</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserProfile> User_GetUserByUserPrincipleNameAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UserProfile> GetUserByUserPrincipleNameAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Check if user exists in AAD by username</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> User_GetUserExistsInAdAsync(string username);
+        System.Threading.Tasks.Task<bool> GetUserExistsInAdAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Check if user exists in AAD by username</summary>
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> User_GetUserExistsInAdAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<bool> GetUserExistsInAdAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Delete AAD user</summary>
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task User_DeleteADUserAsync(string contactEmail);
+        System.Threading.Tasks.Task DeleteADUserAsync(string contactEmail);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete AAD user</summary>
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task User_DeleteADUserAsync(string contactEmail, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task DeleteADUserAsync(string contactEmail, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Refresh Judges Cache</summary>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task User_RefreshJudgesCacheAsync();
+        System.Threading.Tasks.Task RefreshJudgesCacheAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Refresh Judges Cache</summary>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task User_RefreshJudgesCacheAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task RefreshJudgesCacheAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Reset user password</summary>
         /// <param name="request">Details of the required user</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateUserResponse> User_ResetUserPasswordAsync(ResetUserPasswordRequest request);
+        System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(ResetUserPasswordRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Reset user password</summary>
         /// <param name="request">Details of the required user</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateUserResponse> User_ResetUserPasswordAsync(ResetUserPasswordRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(ResetUserPasswordRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Delete hearings by partial case name or number</summary>
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DeletedResponse> Utilities_DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request);
+        System.Threading.Tasks.Task<DeletedResponse> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete hearings by partial case name or number</summary>
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DeletedResponse> Utilities_DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<DeletedResponse> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -479,9 +479,9 @@ namespace TestApi.Client
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UserDetailsResponse> Allocation_AllocateSingleUserAsync(AllocateUserRequest request)
+        public System.Threading.Tasks.Task<UserDetailsResponse> AllocateSingleUserAsync(AllocateUserRequest request)
         {
-            return Allocation_AllocateSingleUserAsync(request, System.Threading.CancellationToken.None);
+            return AllocateSingleUserAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -489,7 +489,7 @@ namespace TestApi.Client
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UserDetailsResponse> Allocation_AllocateSingleUserAsync(AllocateUserRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UserDetailsResponse> AllocateSingleUserAsync(AllocateUserRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -573,9 +573,9 @@ namespace TestApi.Client
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> Allocation_AllocateUsersAsync(AllocateUsersRequest request)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> AllocateMultipleUsersAsync(AllocateUsersRequest request)
         {
-            return Allocation_AllocateUsersAsync(request, System.Threading.CancellationToken.None);
+            return AllocateMultipleUsersAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -583,7 +583,7 @@ namespace TestApi.Client
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> Allocation_AllocateUsersAsync(AllocateUsersRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserDetailsResponse>> AllocateMultipleUsersAsync(AllocateUsersRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -667,9 +667,9 @@ namespace TestApi.Client
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_UnallocateUsersByUsernameAsync(UnallocateUsersRequest request)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> UnallocateUsersAsync(UnallocateUsersRequest request)
         {
-            return Allocation_UnallocateUsersByUsernameAsync(request, System.Threading.CancellationToken.None);
+            return UnallocateUsersAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -677,7 +677,7 @@ namespace TestApi.Client
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_UnallocateUsersByUsernameAsync(UnallocateUsersRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> UnallocateUsersAsync(UnallocateUsersRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -771,9 +771,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_GetAllocatedUsersAsync(string username)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> GetAllocateUsersByAllocatedByAsync(string username)
         {
-            return Allocation_GetAllocatedUsersAsync(username, System.Threading.CancellationToken.None);
+            return GetAllocateUsersByAllocatedByAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -781,7 +781,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> Allocation_GetAllocatedUsersAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AllocationDetailsResponse>> GetAllocateUsersByAllocatedByAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/allocations/allocatedUsers/{username}");
@@ -860,9 +860,9 @@ namespace TestApi.Client
         /// <param name="conferenceId">Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByIdAsync(System.Guid conferenceId)
+        public System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByIdAsync(System.Guid conferenceId)
         {
-            return Conferences_GetConferenceByIdAsync(conferenceId, System.Threading.CancellationToken.None);
+            return GetConferenceByIdAsync(conferenceId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -870,7 +870,7 @@ namespace TestApi.Client
         /// <param name="conferenceId">Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
         {
             if (conferenceId == null)
                 throw new System.ArgumentNullException("conferenceId");
@@ -962,9 +962,9 @@ namespace TestApi.Client
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByHearingRefIdAsync(System.Guid hearingRefId)
+        public System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByHearingRefIdAsync(System.Guid hearingRefId)
         {
-            return Conferences_GetConferenceByHearingRefIdAsync(hearingRefId, System.Threading.CancellationToken.None);
+            return GetConferenceByHearingRefIdAsync(hearingRefId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -972,7 +972,7 @@ namespace TestApi.Client
         /// <param name="hearingRefId">Hearing ref Id of the conference</param>
         /// <returns>Full details of a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> Conferences_GetConferenceByHearingRefIdAsync(System.Guid hearingRefId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> GetConferenceByHearingRefIdAsync(System.Guid hearingRefId, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingRefId == null)
                 throw new System.ArgumentNullException("hearingRefId");
@@ -1158,9 +1158,9 @@ namespace TestApi.Client
         /// <param name="hearingRefId">Hearing Ref Id of the conference</param>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Conferences_DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId)
+        public System.Threading.Tasks.Task DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId)
         {
-            return Conferences_DeleteConferenceAsync(hearingRefId, conferenceId, System.Threading.CancellationToken.None);
+            return DeleteConferenceAsync(hearingRefId, conferenceId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1168,7 +1168,7 @@ namespace TestApi.Client
         /// <param name="hearingRefId">Hearing Ref Id of the conference</param>
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Conferences_DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteConferenceAsync(System.Guid hearingRefId, System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingRefId == null)
                 throw new System.ArgumentNullException("hearingRefId");
@@ -1258,9 +1258,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> Conferences_GetConferencesForTodayJudgeAsync(string username)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username)
         {
-            return Conferences_GetConferencesForTodayJudgeAsync(username, System.Threading.CancellationToken.None);
+            return GetConferencesForTodayJudgeAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1268,7 +1268,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> Conferences_GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/conferences/today/judge?");
@@ -1360,16 +1360,16 @@ namespace TestApi.Client
         /// <summary>Get conferences for today VHO</summary>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> Conferences_GetConferencesForTodayVhoAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> GetConferencesForTodayVhoAsync()
         {
-            return Conferences_GetConferencesForTodayVhoAsync(System.Threading.CancellationToken.None);
+            return GetConferencesForTodayVhoAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get conferences for today VHO</summary>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> Conferences_GetConferencesForTodayVhoAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForAdminResponse>> GetConferencesForTodayVhoAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/conferences/today/vho");
@@ -1457,9 +1457,9 @@ namespace TestApi.Client
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of audio recording links for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<AudioRecordingResponse> Conferences_GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId)
+        public System.Threading.Tasks.Task<AudioRecordingResponse> GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId)
         {
-            return Conferences_GetAudioRecordingLinksByHearingIdAsync(hearingId, System.Threading.CancellationToken.None);
+            return GetAudioRecordingLinksByHearingIdAsync(hearingId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1467,7 +1467,7 @@ namespace TestApi.Client
         /// <param name="hearingId">Hearing Id of the conference</param>
         /// <returns>A list of audio recording links for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<AudioRecordingResponse> Conferences_GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<AudioRecordingResponse> GetAudioRecordingLinksByHearingIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingId == null)
                 throw new System.ArgumentNullException("hearingId");
@@ -1559,9 +1559,9 @@ namespace TestApi.Client
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> Conferences_GetTasksByConferenceIdAsync(System.Guid conferenceId)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> GetTasksByConferenceIdAsync(System.Guid conferenceId)
         {
-            return Conferences_GetTasksByConferenceIdAsync(conferenceId, System.Threading.CancellationToken.None);
+            return GetTasksByConferenceIdAsync(conferenceId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1569,7 +1569,7 @@ namespace TestApi.Client
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <returns>A list of task details for a conference</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> Conferences_GetTasksByConferenceIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TaskResponse>> GetTasksByConferenceIdAsync(System.Guid conferenceId, System.Threading.CancellationToken cancellationToken)
         {
             if (conferenceId == null)
                 throw new System.ArgumentNullException("conferenceId");
@@ -1660,16 +1660,16 @@ namespace TestApi.Client
         /// <summary>Create event</summary>
         /// <param name="request">Conference event request</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Conferences_CreateEventAsync(ConferenceEventRequest request)
+        public System.Threading.Tasks.Task CreateEventAsync(ConferenceEventRequest request)
         {
-            return Conferences_CreateEventAsync(request, System.Threading.CancellationToken.None);
+            return CreateEventAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create event</summary>
         /// <param name="request">Conference event request</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Conferences_CreateEventAsync(ConferenceEventRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task CreateEventAsync(ConferenceEventRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1758,9 +1758,9 @@ namespace TestApi.Client
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns>Self test score</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TestCallScoreResponse> Conferences_GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId)
+        public System.Threading.Tasks.Task<TestCallScoreResponse> GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId)
         {
-            return Conferences_GetSelfTestScoreAsync(conferenceId, participantId, System.Threading.CancellationToken.None);
+            return GetSelfTestScoreAsync(conferenceId, participantId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1769,7 +1769,7 @@ namespace TestApi.Client
         /// <param name="participantId">Participant Id of the participant</param>
         /// <returns>Self test score</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TestCallScoreResponse> Conferences_GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<TestCallScoreResponse> GetSelfTestScoreAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken)
         {
             if (conferenceId == null)
                 throw new System.ArgumentNullException("conferenceId");
@@ -1865,9 +1865,9 @@ namespace TestApi.Client
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <param name="participantId">Participant Id of the participant</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Conferences_DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId)
+        public System.Threading.Tasks.Task DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId)
         {
-            return Conferences_DeleteParticipantAsync(conferenceId, participantId, System.Threading.CancellationToken.None);
+            return DeleteParticipantAsync(conferenceId, participantId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1875,7 +1875,7 @@ namespace TestApi.Client
         /// <param name="conferenceId">Conference Id of the conference</param>
         /// <param name="participantId">Participant Id of the participant</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Conferences_DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteParticipantAsync(System.Guid conferenceId, System.Guid participantId, System.Threading.CancellationToken cancellationToken)
         {
             if (conferenceId == null)
                 throw new System.ArgumentNullException("conferenceId");
@@ -2051,9 +2051,9 @@ namespace TestApi.Client
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_GetHearingByIdAsync(System.Guid hearingId)
+        public System.Threading.Tasks.Task<HearingDetailsResponse> GetHearingByIdAsync(System.Guid hearingId)
         {
-            return Hearings_GetHearingByIdAsync(hearingId, System.Threading.CancellationToken.None);
+            return GetHearingByIdAsync(hearingId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2061,7 +2061,7 @@ namespace TestApi.Client
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_GetHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<HearingDetailsResponse> GetHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingId == null)
                 throw new System.ArgumentNullException("hearingId");
@@ -2154,9 +2154,9 @@ namespace TestApi.Client
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<ConferenceDetailsResponse> Hearings_ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request)
+        public System.Threading.Tasks.Task<ConferenceDetailsResponse> ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request)
         {
-            return Hearings_ConfirmHearingByIdAsync(hearingId, request, System.Threading.CancellationToken.None);
+            return ConfirmHearingByIdAsync(hearingId, request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2165,7 +2165,7 @@ namespace TestApi.Client
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> Hearings_ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<ConferenceDetailsResponse> ConfirmHearingByIdAsync(System.Guid hearingId, UpdateBookingStatusRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingId == null)
                 throw new System.ArgumentNullException("hearingId");
@@ -2263,9 +2263,9 @@ namespace TestApi.Client
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Hearings_DeleteHearingByIdAsync(System.Guid hearingId)
+        public System.Threading.Tasks.Task DeleteHearingByIdAsync(System.Guid hearingId)
         {
-            return Hearings_DeleteHearingByIdAsync(hearingId, System.Threading.CancellationToken.None);
+            return DeleteHearingByIdAsync(hearingId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2273,7 +2273,7 @@ namespace TestApi.Client
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Hearings_DeleteHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteHearingByIdAsync(System.Guid hearingId, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingId == null)
                 throw new System.ArgumentNullException("hearingId");
@@ -2359,9 +2359,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the participant</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> Hearings_GetHearingsByUsernameAsync(string username)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> GetHearingsByUsernameAsync(string username)
         {
-            return Hearings_GetHearingsByUsernameAsync(username, System.Threading.CancellationToken.None);
+            return GetHearingsByUsernameAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2369,7 +2369,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the participant</param>
         /// <returns>Full details of a hearing</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> Hearings_GetHearingsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HearingDetailsResponse>> GetHearingsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/hearings/username/{username}");
@@ -2458,9 +2458,9 @@ namespace TestApi.Client
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_CreateHearingAsync(CreateHearingRequest request)
+        public System.Threading.Tasks.Task<HearingDetailsResponse> CreateHearingAsync(CreateHearingRequest request)
         {
-            return Hearings_CreateHearingAsync(request, System.Threading.CancellationToken.None);
+            return CreateHearingAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2468,7 +2468,7 @@ namespace TestApi.Client
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<HearingDetailsResponse> Hearings_CreateHearingAsync(CreateHearingRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<HearingDetailsResponse> CreateHearingAsync(CreateHearingRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -2554,9 +2554,9 @@ namespace TestApi.Client
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Hearings_UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers)
+        public System.Threading.Tasks.Task UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers)
         {
-            return Hearings_UpdateSuitabilityAnswersAsync(hearingId, participantId, answers, System.Threading.CancellationToken.None);
+            return UpdateSuitabilityAnswersAsync(hearingId, participantId, answers, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2566,7 +2566,7 @@ namespace TestApi.Client
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Hearings_UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateSuitabilityAnswersAsync(System.Guid hearingId, System.Guid participantId, System.Collections.Generic.IEnumerable<SuitabilityAnswersRequest> answers, System.Threading.CancellationToken cancellationToken)
         {
             if (hearingId == null)
                 throw new System.ArgumentNullException("hearingId");
@@ -2662,9 +2662,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> Hearings_GetSuitabilityAnswersAsync(string username)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> GetSuitabilityAnswersAsync(string username)
         {
-            return Hearings_GetSuitabilityAnswersAsync(username, System.Threading.CancellationToken.None);
+            return GetSuitabilityAnswersAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2672,7 +2672,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> Hearings_GetSuitabilityAnswersAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PersonSuitabilityAnswerResponse>> GetSuitabilityAnswersAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/hearings/get-suitability-answers/{username}");
@@ -2761,9 +2761,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<PersonResponse> Hearings_GetPersonByUsernameAsync(string username)
+        public System.Threading.Tasks.Task<PersonResponse> GetPersonByUsernameAsync(string username)
         {
-            return Hearings_GetPersonByUsernameAsync(username, System.Threading.CancellationToken.None);
+            return GetPersonByUsernameAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2771,7 +2771,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<PersonResponse> Hearings_GetPersonByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<PersonResponse> GetPersonByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/hearings/person/{username}");
@@ -2859,16 +2859,16 @@ namespace TestApi.Client
         /// <summary>Get all hearings by default case type</summary>
         /// <returns>List of hearings by default type</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> Hearings_GetAllHearingsAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> GetAllHearingsAsync()
         {
-            return Hearings_GetAllHearingsAsync(System.Threading.CancellationToken.None);
+            return GetAllHearingsAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all hearings by default case type</summary>
         /// <returns>List of hearings by default type</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> Hearings_GetAllHearingsAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BookingsHearingResponse>> GetAllHearingsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/hearings/all/hearings");
@@ -2946,9 +2946,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UserDetailsResponse> User_GetUserDetailsByUsernameAsync(string username)
+        public System.Threading.Tasks.Task<UserDetailsResponse> GetUserDetailsByUsernameAsync(string username)
         {
-            return User_GetUserDetailsByUsernameAsync(username, System.Threading.CancellationToken.None);
+            return GetUserDetailsByUsernameAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2956,7 +2956,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UserDetailsResponse> User_GetUserDetailsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UserDetailsResponse> GetUserDetailsByUsernameAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/username/{username}");
@@ -3045,9 +3045,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UserProfile> User_GetUserByUserPrincipleNameAsync(string username)
+        public System.Threading.Tasks.Task<UserProfile> GetUserByUserPrincipleNameAsync(string username)
         {
-            return User_GetUserByUserPrincipleNameAsync(username, System.Threading.CancellationToken.None);
+            return GetUserByUserPrincipleNameAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3055,7 +3055,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UserProfile> User_GetUserByUserPrincipleNameAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UserProfile> GetUserByUserPrincipleNameAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/userPrincipalName/{username}");
@@ -3144,9 +3144,9 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<bool> User_GetUserExistsInAdAsync(string username)
+        public System.Threading.Tasks.Task<bool> GetUserExistsInAdAsync(string username)
         {
-            return User_GetUserExistsInAdAsync(username, System.Threading.CancellationToken.None);
+            return GetUserExistsInAdAsync(username, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3154,7 +3154,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<bool> User_GetUserExistsInAdAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<bool> GetUserExistsInAdAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/aad/{username}");
@@ -3243,9 +3243,9 @@ namespace TestApi.Client
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task User_DeleteADUserAsync(string contactEmail)
+        public System.Threading.Tasks.Task DeleteADUserAsync(string contactEmail)
         {
-            return User_DeleteADUserAsync(contactEmail, System.Threading.CancellationToken.None);
+            return DeleteADUserAsync(contactEmail, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3253,7 +3253,7 @@ namespace TestApi.Client
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task User_DeleteADUserAsync(string contactEmail, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteADUserAsync(string contactEmail, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/aad/{contactEmail}");
@@ -3324,15 +3324,15 @@ namespace TestApi.Client
     
         /// <summary>Refresh Judges Cache</summary>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task User_RefreshJudgesCacheAsync()
+        public System.Threading.Tasks.Task RefreshJudgesCacheAsync()
         {
-            return User_RefreshJudgesCacheAsync(System.Threading.CancellationToken.None);
+            return RefreshJudgesCacheAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Refresh Judges Cache</summary>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task User_RefreshJudgesCacheAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task RefreshJudgesCacheAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/judges/cache");
@@ -3403,16 +3403,16 @@ namespace TestApi.Client
         /// <summary>Reset user password</summary>
         /// <param name="request">Details of the required user</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<UpdateUserResponse> User_ResetUserPasswordAsync(ResetUserPasswordRequest request)
+        public System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(ResetUserPasswordRequest request)
         {
-            return User_ResetUserPasswordAsync(request, System.Threading.CancellationToken.None);
+            return ResetUserPasswordAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Reset user password</summary>
         /// <param name="request">Details of the required user</param>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<UpdateUserResponse> User_ResetUserPasswordAsync(ResetUserPasswordRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<UpdateUserResponse> ResetUserPasswordAsync(ResetUserPasswordRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -3506,9 +3506,9 @@ namespace TestApi.Client
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<DeletedResponse> Utilities_DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
+        public System.Threading.Tasks.Task<DeletedResponse> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
         {
-            return Utilities_DeleteTestDataByPartialCaseTextAsync(request, System.Threading.CancellationToken.None);
+            return DeleteTestDataByPartialCaseTextAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -3516,7 +3516,7 @@ namespace TestApi.Client
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<DeletedResponse> Utilities_DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<DeletedResponse> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
