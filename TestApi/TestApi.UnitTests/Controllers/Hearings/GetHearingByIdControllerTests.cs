@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {

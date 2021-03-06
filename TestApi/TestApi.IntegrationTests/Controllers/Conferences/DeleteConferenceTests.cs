@@ -14,7 +14,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
 
-            await DeleteConference(conference.Hearing_id, conference.Id);
+            await DeleteConference(conference.HearingId, conference.Id);
 
             VerifyResponse(HttpStatusCode.NoContent, true);
             ConferencesToDelete.Remove(conference);

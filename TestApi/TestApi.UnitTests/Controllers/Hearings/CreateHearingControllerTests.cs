@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -11,7 +13,6 @@ using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {

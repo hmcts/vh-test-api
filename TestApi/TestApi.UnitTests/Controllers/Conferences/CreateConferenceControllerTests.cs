@@ -9,7 +9,8 @@ using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {

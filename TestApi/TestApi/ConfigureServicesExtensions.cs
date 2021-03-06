@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using BookingsApi.Client;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -14,12 +15,11 @@ using TestApi.Common.Security;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
 using TestApi.Swagger;
 using TestApi.Telemetry;
+using UserApi.Client;
+using VideoApi.Client;
 
 namespace TestApi
 {

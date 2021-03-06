@@ -6,8 +6,8 @@ using AcceptanceTests.Common.Api.Helpers;
 using AcceptanceTests.Common.AudioRecordings;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -34,16 +34,16 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
-            await CreateAudioFileInWowza(conference.Hearing_id);
+            await CreateAudioFileInWowza(conference.HearingId);
 
-            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinksByHearingId(conference.Hearing_id);
+            var uri = ApiUriFactory.ConferenceEndpoints.GetAudioRecordingLinksByHearingId(conference.HearingId);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<AudioRecordingResponse>(Json);
 
             response.Should().NotBeNull();
-            response.Audio_file_links.First().Should().Contain(conference.Hearing_id.ToString());
+            response.AudioFileLinks.First().Should().Contain(conference.HearingId.ToString());
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
             VerifyResponse(HttpStatusCode.OK, true);
             var response = RequestHelper.Deserialise<AudioRecordingResponse>(Json);
-            response.Audio_file_links.Count.Should().Be(0);
+            response.AudioFileLinks.Count.Should().Be(0);
         }
 
         [OneTimeTearDown]

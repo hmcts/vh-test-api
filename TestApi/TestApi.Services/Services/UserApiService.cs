@@ -10,8 +10,10 @@ using TestApi.Common.Configuration;
 using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Helpers;
+using UserApi.Client;
+using UserApi.Contract.Requests;
+using UserApi.Contract.Responses;
 
 namespace TestApi.Services.Services
 {
@@ -91,10 +93,10 @@ namespace TestApi.Services.Services
 
             var createUserRequest = new CreateUserRequest
             {
-                First_name = firstName.Replace(BLANK, string.Empty),
-                Last_name = lastName.Replace(BLANK, UNDERSCORE),
-                Recovery_email = contactEmail,
-                Is_test_user = true
+                FirstName = firstName.Replace(BLANK, string.Empty),
+                LastName = lastName.Replace(BLANK, UNDERSCORE),
+                RecoveryEmail = contactEmail,
+                IsTestUser = true
             };
 
            return await _userApiClient.CreateUserAsync(createUserRequest);
@@ -157,8 +159,8 @@ namespace TestApi.Services.Services
         {
             var request = new AddUserToGroupRequest
             {
-                User_id = adUserId,
-                Group_name = group
+                UserId = adUserId,
+                GroupName = group
             };
 
             await PollToAddUserToGroup(request);

@@ -1,5 +1,6 @@
-﻿using TestApi.Common.Data;
-using TestApi.Services.Clients.BookingsApiClient;
+﻿using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Requests.Enums;
+using TestApi.Common.Data;
 
 namespace TestApi.Services.Builders.Requests
 {
@@ -11,13 +12,13 @@ namespace TestApi.Services.Builders.Requests
         {
             _request = new UpdateBookingStatusRequest
             {
-                Status = UpdateBookingStatus.Created, Updated_by = UserData.DEFAULT_UPDATED_BY_USER
+                Status = UpdateBookingStatus.Created, UpdatedBy = UserData.DEFAULT_UPDATED_BY_USER
             };
         }
 
         public UpdateBookingRequestBuilder UpdatedBy(string username)
         {
-            _request.Updated_by = username;
+            _request.UpdatedBy = username;
             return this;
         }
 

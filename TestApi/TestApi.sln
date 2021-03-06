@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.IntegrationTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.UnitTests", "TestApi.UnitTests\TestApi.UnitTests.csproj", "{C45A3C8B-17D8-4171-93DD-14E0E09905E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.Services.Generator", "TestApi.Services.Generator\TestApi.Services.Generator.csproj", "{25215343-78B8-45EF-8483-5CA371B5C236}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.Tests.Common", "TestApi.Tests.Common\TestApi.Tests.Common.csproj", "{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}"
@@ -31,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.AcceptanceTests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C2A96616-8B48-4A39-BD68-D70713C0EAC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi.Client", "TestApi.Client\TestApi.Client.csproj", "{E14B7F20-B762-4207-B480-DDE621A4CCFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.Client", "TestApi.Client\TestApi.Client.csproj", "{E14B7F20-B762-4207-B480-DDE621A4CCFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +69,6 @@ Global
 		{C45A3C8B-17D8-4171-93DD-14E0E09905E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45A3C8B-17D8-4171-93DD-14E0E09905E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45A3C8B-17D8-4171-93DD-14E0E09905E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25215343-78B8-45EF-8483-5CA371B5C236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25215343-78B8-45EF-8483-5CA371B5C236}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25215343-78B8-45EF-8483-5CA371B5C236}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25215343-78B8-45EF-8483-5CA371B5C236}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Release|Any CPU.ActiveCfg = Release|Any CPU

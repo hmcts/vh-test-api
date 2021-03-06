@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Services.Mappings
 {
@@ -13,13 +14,13 @@ namespace TestApi.Services.Mappings
             {
                 new ConferenceForJudgeResponse()
                 {
-                    Case_name = response.Case_name,
-                    Case_number = response.Case_number,
-                    Case_type = response.Case_type,
+                    CaseName = response.CaseName,
+                    CaseNumber = response.CaseNumber,
+                    CaseType = response.CaseType,
                     Id = Guid.NewGuid(),
                     Participants = AddParticipants(response.Participants),
-                    Scheduled_date_time = response.Scheduled_date_time,
-                    Scheduled_duration = response.Scheduled_duration,
+                    ScheduledDateTime = response.ScheduledDateTime,
+                    ScheduledDuration = response.ScheduledDuration,
                     Status = ConferenceState.NotStarted
                 }
             };
@@ -27,7 +28,7 @@ namespace TestApi.Services.Mappings
 
         private static List<ParticipantForJudgeResponse> AddParticipants(IEnumerable<ParticipantDetailsResponse> requestParticipants)
         {
-            return requestParticipants.Select(participant => new ParticipantForJudgeResponse() {Case_type_group = participant.Case_type_group, Display_name = participant.Display_name, Representee = participant.Representee, Role = participant.User_role}).ToList();
+            return requestParticipants.Select(participant => new ParticipantForJudgeResponse() {CaseTypeGroup = participant.CaseTypeGroup, DisplayName = participant.DisplayName, Representee = participant.Representee, Role = participant.UserRole}).ToList();
         }
     }
 }

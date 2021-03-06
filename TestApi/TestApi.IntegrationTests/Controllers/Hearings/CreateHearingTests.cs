@@ -2,11 +2,11 @@
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
@@ -57,7 +57,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             response.Should().NotBeNull();
             Verify.HearingDetailsResponse(response, request);
             response.Endpoints.Count.Should().Be(ENDPOINTS_COUNT);
-            response.Endpoints.All(x => x.Display_name.StartsWith(HearingData.ENDPOINT_PREFIX)).Should().BeTrue();
+            response.Endpoints.All(x => x.DisplayName.StartsWith(HearingData.ENDPOINT_PREFIX)).Should().BeTrue();
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
 
             response.Should().NotBeNull();
             Verify.HearingDetailsResponse(response, request);
-            response.Participants.Single(x => x.Last_name.Contains("Representative")).Representee.Should()
+            response.Participants.Single(x => x.LastName.Contains("Representative")).Representee.Should()
                 .Be(HearingData.REPRESENTEE);
         }
 
@@ -116,7 +116,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             var response = RequestHelper.Deserialise<HearingDetailsResponse>(Json);
 
             response.Should().NotBeNull();
-            response.Created_by.Should().Be(CREATED_BY);
+            response.CreatedBy.Should().Be(CREATED_BY);
         }
     }
 }

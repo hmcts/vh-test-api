@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 new BookingsByDateResponse()
                 {
                     Hearings = bookingDetailsResponses,
-                    Scheduled_date = DateTime.UtcNow
+                    ScheduledDate = DateTime.UtcNow
                 }
             };
 
@@ -49,7 +49,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             var responses = (List<BookingsHearingResponse>) result.Value;
             responses.Should().NotBeEmpty();
-            responses.Any(x => x.Hearing_name.Equals(bookingDetailsResponse.Hearing_name)).Should().BeTrue();
+            responses.Any(x => x.HearingName.Equals(bookingDetailsResponse.HearingName)).Should().BeTrue();
         }
 
         [Test]

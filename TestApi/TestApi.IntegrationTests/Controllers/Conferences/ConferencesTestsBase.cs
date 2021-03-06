@@ -9,8 +9,10 @@ using TestApi.Common.Builders;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -185,7 +187,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             foreach (var conference in ConferencesToDelete)
             {
-                await DeleteConference(conference.Hearing_id, conference.Id);
+                await DeleteConference(conference.HearingId, conference.Id);
                 VerifyResponse(HttpStatusCode.NoContent, true);
             }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Client;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -12,11 +13,9 @@ using TestApi.Contract.Responses;
 using TestApi.Controllers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using UserApi.Client;
+using VideoApi.Client;
 
 namespace TestApi.UnitTests.Controllers
 {

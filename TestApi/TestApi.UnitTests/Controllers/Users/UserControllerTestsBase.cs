@@ -3,8 +3,8 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Controllers;
 using TestApi.DAL.Queries.Core;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
+using UserApi.Client;
 
 namespace TestApi.UnitTests.Controllers.Users
 {

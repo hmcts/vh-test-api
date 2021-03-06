@@ -1,14 +1,12 @@
-﻿using System;
-using System.Net;
-using System.Threading;
+﻿using System.Net;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.AcceptanceTests.Controllers
 {

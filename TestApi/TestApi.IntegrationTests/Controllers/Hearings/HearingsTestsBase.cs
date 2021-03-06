@@ -4,13 +4,14 @@ using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using AcceptanceTests.Common.Data.Questions;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
@@ -159,7 +160,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
                 new SuitabilityAnswersRequest()
                 {
                     Key = IndividualQuestionKeys.AboutYouQuestion,
-                    Extended_answer = null,
+                    ExtendedAnswer = null,
                     Answer = "Yes"
                 }
             };

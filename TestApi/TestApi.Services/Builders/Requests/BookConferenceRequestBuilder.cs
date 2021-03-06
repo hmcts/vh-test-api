@@ -5,7 +5,7 @@ using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
 using TestApi.Contract.Helpers;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Requests;
 
 namespace TestApi.Services.Builders.Requests
 {
@@ -23,27 +23,27 @@ namespace TestApi.Services.Builders.Requests
             _randomNumber = new Random();
             _users = users;
             _testType = testType;
-            _request.Case_type = HearingData.CASE_TYPE_NAME;
+            _request.CaseType = HearingData.CASE_TYPE_NAME;
         }
 
         public BookConferenceRequestBuilder WithCACDCaseType()
         {
-            _request.Case_type = HearingData.CACD_CASE_TYPE_NAME;
+            _request.CaseType = HearingData.CACD_CASE_TYPE_NAME;
             _isCACDCaseType = true;
             return this;
         }
 
         public BookNewConferenceRequest BuildRequest()
         {
-            _request.Audio_recording_required = HearingData.AUDIO_RECORDING_REQUIRED; 
-            _request.Case_name = $"{AppShortName.FromApplication(Application.TestApi)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
-            _request.Case_number = GenerateRandom.CaseNumber(_randomNumber);
+            _request.AudioRecordingRequired = HearingData.AUDIO_RECORDING_REQUIRED; 
+            _request.CaseName = $"{AppShortName.FromApplication(Application.TestApi)} {GetCaseNamePrefix()} {GenerateRandom.Letters(_randomNumber)}";
+            _request.CaseNumber = GenerateRandom.CaseNumber(_randomNumber);
             _request.Endpoints = new List<AddEndpointRequest>();
-            _request.Hearing_ref_id = Guid.NewGuid();
-            _request.Hearing_venue_name = HearingData.VENUE_NAME;
+            _request.HearingRefId = Guid.NewGuid();
+            _request.HearingVenueName = HearingData.VENUE_NAME;
             _request.Participants = new BookConferenceParticipantsBuilder(_users, _isCACDCaseType).Build();
-            _request.Scheduled_date_time = DateTime.UtcNow.AddMinutes(5);
-            _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
+            _request.ScheduledDateTime = DateTime.UtcNow.AddMinutes(5);
+            _request.ScheduledDuration = HearingData.SCHEDULED_DURATION;
             return _request;
         }
 

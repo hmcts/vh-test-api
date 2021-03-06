@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using RestSharp;
@@ -10,7 +11,6 @@ using TestApi.Common.Builders;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 using TestContext = TestApi.AcceptanceTests.Helpers.TestContext;
 

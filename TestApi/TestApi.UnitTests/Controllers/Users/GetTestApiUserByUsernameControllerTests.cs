@@ -10,9 +10,8 @@ using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
-using TestApi.Domain;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Users
 {

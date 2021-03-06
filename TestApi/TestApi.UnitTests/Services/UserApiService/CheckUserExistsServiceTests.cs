@@ -3,7 +3,8 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.UserApiClient;
+using UserApi.Client;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Services.UserApiService
 {

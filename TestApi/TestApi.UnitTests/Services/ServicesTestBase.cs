@@ -16,8 +16,8 @@ using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
+using UserApi.Client;
 
 namespace TestApi.UnitTests.Services
 {

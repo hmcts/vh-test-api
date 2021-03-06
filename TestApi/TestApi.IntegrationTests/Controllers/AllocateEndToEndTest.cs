@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
@@ -12,10 +13,9 @@ using TestApi.Contract.Enums;
 using TestApi.IntegrationTests.Controllers.Hearings;
 using TestApi.Mappings;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers
 {

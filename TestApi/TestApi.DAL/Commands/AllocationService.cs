@@ -12,8 +12,8 @@ using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
+using UserApi.Contract.Responses;
 
 namespace TestApi.DAL.Commands
 {
@@ -100,7 +100,7 @@ namespace TestApi.DAL.Commands
                     await AddNewUserToRecentlyCreatedList(user.Username);
                     _logger.LogDebug($"The ad user has been added to the list of recently created users with username {user.Username}");
 
-                    var groupsCount = await AddGroupsToUser(user, response.User_id);
+                    var groupsCount = await AddGroupsToUser(user, response.UserId);
                     _logger.LogDebug($"The ad user now has {groupsCount} groups");
                 }
             }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Services.Builders.Responses
 {
@@ -18,28 +20,28 @@ namespace TestApi.Services.Builders.Responses
 
         public ConferenceDetailsResponse BuildResponse()
         {
-            _response.Audio_recording_required = _request.Audio_recording_required;
-            _response.Case_name = _request.Case_name;
-            _response.Case_number = _request.Case_number;
-            _response.Case_type = _request.Case_type;
-            _response.Closed_date_time = null;
-            _response.Current_status = ConferenceState.NotStarted;
-            _response.Hearing_id = _request.Hearing_ref_id;
-            _response.Hearing_venue_name = _request.Hearing_venue_name;
+            _response.AudioRecordingRequired = _request.AudioRecordingRequired;
+            _response.CaseName = _request.CaseName;
+            _response.CaseNumber = _request.CaseNumber;
+            _response.CaseType = _request.CaseType;
+            _response.ClosedDateTime = null;
+            _response.CurrentStatus = ConferenceState.NotStarted;
+            _response.HearingId = _request.HearingRefId;
+            _response.HearingVenueName = _request.HearingVenueName;
             _response.Id = Guid.NewGuid();
 
-            _response.Meeting_room = new MeetingRoomResponse
+            _response.MeetingRoom = new MeetingRoomResponse
             {
-                Admin_uri = MeetingRoomData.MEETING_ROOM_ADMIN_URL,
-                Judge_uri = MeetingRoomData.MEETING_ROOM_JUDGE_URL,
-                Participant_uri = MeetingRoomData.MEETING_ROOM_PARTICIPANT_URL,
-                Pexip_node = MeetingRoomData.MEETING_ROOM_PEXIP_NODE,
-                Pexip_self_test_node = MeetingRoomData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
+                AdminUri = MeetingRoomData.MEETING_ROOM_ADMIN_URL,
+                JudgeUri = MeetingRoomData.MEETING_ROOM_JUDGE_URL,
+                ParticipantUri = MeetingRoomData.MEETING_ROOM_PARTICIPANT_URL,
+                PexipNode = MeetingRoomData.MEETING_ROOM_PEXIP_NODE,
+                PexipSelfTestNode = MeetingRoomData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
             };
 
-            _response.Scheduled_date_time = _request.Scheduled_date_time;
-            _response.Scheduled_duration = _request.Scheduled_duration;
-            _response.Started_date_time = null;
+            _response.ScheduledDateTime = _request.ScheduledDateTime;
+            _response.ScheduledDuration = _request.ScheduledDuration;
+            _response.StartedDateTime = null;
 
             _response.Participants = AddParticipants();
 
@@ -54,18 +56,18 @@ namespace TestApi.Services.Builders.Responses
             {
                 participants.Add(new ParticipantDetailsResponse()
                 {
-                    Case_type_group = participant.Case_type_group,
-                    Contact_email = participant.Contact_email,
-                    Contact_telephone = participant.Contact_telephone,
-                    Current_status = ParticipantState.NotSignedIn,
-                    Display_name = participant.Display_name,
-                    First_name = participant.First_name,
+                    CaseTypeGroup = participant.CaseTypeGroup,
+                    ContactEmail = participant.ContactEmail,
+                    ContactTelephone = participant.ContactTelephone,
+                    CurrentStatus = ParticipantState.NotSignedIn,
+                    DisplayName = participant.DisplayName,
+                    FirstName = participant.FirstName,
                     Id = Guid.NewGuid(),
-                    Last_name = participant.Last_name,
+                    LastName = participant.LastName,
                     Name = participant.Name,
-                    Ref_id = participant.Participant_ref_id,
+                    RefId = participant.ParticipantRefId,
                     Representee = participant.Representee,
-                    User_role = participant.User_role,
+                    UserRole = participant.UserRole,
                     Username = participant.Username
                 });
             }

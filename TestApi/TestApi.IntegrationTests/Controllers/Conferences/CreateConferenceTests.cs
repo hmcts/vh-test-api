@@ -6,8 +6,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -67,7 +67,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
 
             response.Should().NotBeNull();
             Verify.ConferenceDetailsResponse(response, request);
-            response.Participants.Single(x => x.Last_name.Contains("Representative")).Representee.Should()
+            response.Participants.Single(x => x.LastName.Contains("Representative")).Representee.Should()
                 .Be(HearingData.REPRESENTEE);
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BookingsApi.Contract.Requests;
 using FluentAssertions;
 using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.Services.Builders.Requests
 {
@@ -41,13 +41,13 @@ namespace TestApi.Services.Builders.Requests
                 {
                     if (_isCACDCaseType)
                     {
-                        request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
-                        request.Hearing_role_name = RoleData.APPELLANT_CASE_ROLE_NAME;
+                        request.CaseRoleName = RoleData.CACD_CASE_ROLE_NAME;
+                        request.HearingRoleName = RoleData.APPELLANT_CASE_ROLE_NAME;
                     }
                     else
                     {
-                        request.Case_role_name = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                        request.Hearing_role_name = RoleData.INDV_HEARING_ROLE_NAME;
+                        request.CaseRoleName = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.HearingRoleName = RoleData.INDV_HEARING_ROLE_NAME;
                         indIndex++;
                     }
                 }
@@ -56,30 +56,30 @@ namespace TestApi.Services.Builders.Requests
                 {
                     if (_isCACDCaseType)
                     {
-                        request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
-                        request.Hearing_role_name = RoleData.CACD_REP_HEARING_ROLE_NAME;
+                        request.CaseRoleName = RoleData.CACD_CASE_ROLE_NAME;
+                        request.HearingRoleName = RoleData.CACD_REP_HEARING_ROLE_NAME;
                     }
                     else
                     {
-                        request.Case_role_name = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                        request.Hearing_role_name = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                        request.CaseRoleName = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.HearingRoleName = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
                         request.Representee = ChooseToRepresentIndividualIfPossible(individuals, repIndex);
                         repIndex++;
                     }
 
-                    request.Organisation_name = UserData.ORGANISATION;
+                    request.OrganisationName = UserData.ORGANISATION;
                 }
 
                 if (user.UserType == UserType.Interpreter || user.UserType == UserType.Witness)
                 {
-                    request.Case_role_name = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
-                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                    request.CaseRoleName = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
+                    request.HearingRoleName = AddSpacesToUserType(user.UserType);
                 }
 
                 if (user.UserType == UserType.Winger)
                 {
-                    request.Case_role_name = RoleData.CACD_CASE_ROLE_NAME;
-                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                    request.CaseRoleName = RoleData.CACD_CASE_ROLE_NAME;
+                    request.HearingRoleName = AddSpacesToUserType(user.UserType);
                 }
 
                 if (user.UserType != UserType.Individual &&
@@ -88,16 +88,16 @@ namespace TestApi.Services.Builders.Requests
                     user.UserType != UserType.Witness &&
                     user.UserType != UserType.Interpreter)
                 {
-                    request.Case_role_name = AddSpacesToUserType(user.UserType);
-                    request.Hearing_role_name = AddSpacesToUserType(user.UserType);
+                    request.CaseRoleName = AddSpacesToUserType(user.UserType);
+                    request.HearingRoleName = AddSpacesToUserType(user.UserType);
                 }
 
-                request.Contact_email = user.ContactEmail;
-                request.Display_name = user.DisplayName;
-                request.First_name = user.FirstName;
-                request.Last_name = user.LastName;
-                request.Middle_names = UserData.MIDDLE_NAME;
-                request.Telephone_number = UserData.TELEPHONE_NUMBER;
+                request.ContactEmail = user.ContactEmail;
+                request.DisplayName = user.DisplayName;
+                request.FirstName = user.FirstName;
+                request.LastName = user.LastName;
+                request.MiddleNames = UserData.MIDDLE_NAME;
+                request.TelephoneNumber = UserData.TELEPHONE_NUMBER;
                 request.Title = UserData.TITLE;
                 request.Username = user.Username;
 

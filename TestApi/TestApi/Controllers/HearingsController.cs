@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Client;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
+using VideoApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Controllers
 {

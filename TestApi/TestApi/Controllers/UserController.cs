@@ -8,8 +8,9 @@ using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Mappings;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
+using UserApi.Client;
+using UserApi.Contract.Responses;
 
 namespace TestApi.Controllers
 {

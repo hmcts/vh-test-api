@@ -14,7 +14,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var hearingRequest = CreateHearingRequestWithQuestionnaireEnabled();
             var hearingResponse = await CreateHearing(hearingRequest);
-            var individual = hearingResponse.Participants.First(x => x.User_role_name == UserTypeName.Individual.Name);
+            var individual = hearingResponse.Participants.First(x => x.UserRoleName== UserTypeName.Individual.Name);
             var answersRequest = CreateAnswersRequest();
             await CreateSuitabilityAnswers(answersRequest, hearingResponse.Id, individual.Id);
 
@@ -26,7 +26,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var hearingRequest = CreateHearingRequestWithQuestionnaireEnabled();
             var hearingResponse = await CreateHearing(hearingRequest);
-            var individual = hearingResponse.Participants.First(x => x.User_role_name == UserTypeName.Individual.Name);
+            var individual = hearingResponse.Participants.First(x => x.UserRoleName == UserTypeName.Individual.Name);
             var answersRequest = CreateAnswersRequest();
 
             await CreateSuitabilityAnswers(answersRequest, Guid.NewGuid(), individual.Id);

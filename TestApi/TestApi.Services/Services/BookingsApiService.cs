@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookingsApi.Client;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.Services.Services
 {
@@ -94,9 +96,9 @@ namespace TestApi.Services.Services
             var deletedHearingIds = new List<Guid>();
             foreach (var hearing in hearings)
             {
-                if (!hearing.Hearing_name.ToLower().Contains(hearingName.ToLower())) continue;
-                await _bookingsApiClient.RemoveHearingAsync(hearing.Hearing_id);
-                deletedHearingIds.Add(hearing.Hearing_id);
+                if (!hearing.HearingName.ToLower().Contains(hearingName.ToLower())) continue;
+                await _bookingsApiClient.RemoveHearingAsync(hearing.HearingId);
+                deletedHearingIds.Add(hearing.HearingId);
             }
 
             return deletedHearingIds;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using BookingsApi.Client;
+using BookingsApi.Contract.Responses;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
@@ -8,8 +10,8 @@ using TestApi.Contract.Requests;
 using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers
 {

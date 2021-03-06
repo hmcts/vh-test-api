@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Services.Services
 {

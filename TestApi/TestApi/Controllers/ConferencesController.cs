@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Client;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Controllers
 {

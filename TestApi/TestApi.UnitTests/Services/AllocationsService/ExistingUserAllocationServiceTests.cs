@@ -9,7 +9,7 @@ using TestApi.DAL.Commands;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
 using TestApi.Contract.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Services.AllocationsService
 {
@@ -151,8 +151,8 @@ namespace TestApi.UnitTests.Services.AllocationsService
 
             var newUserResponse = new NewUserResponse
             {
-                One_time_password = "password",
-                User_id = "1234",
+                OneTimePassword = "password",
+                UserId = "1234",
                 Username = user.Username
             };
 

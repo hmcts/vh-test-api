@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -18,7 +18,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
 
-            var uri = ApiUriFactory.ConferenceEndpoints.GetConferenceByHearingRefId(conference.Hearing_id);
+            var uri = ApiUriFactory.ConferenceEndpoints.GetConferenceByHearingRefId(conference.HearingId);
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
