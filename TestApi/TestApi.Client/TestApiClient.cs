@@ -5,9 +5,14 @@
 //----------------------
 
 using Microsoft.AspNetCore.Mvc;
-using TestApi.Contract;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
+using UserApi.Contract.Requests;
+using UserApi.Contract.Responses;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."

@@ -65,7 +65,7 @@
       "disposeHttpClient": true,
       "protectedMethods": [],
       "generateExceptionClasses": true,
-      "exceptionClass": "BookingsApiException",
+      "exceptionClass": "TestApiException",
       "wrapDtoExceptions": true,
       "useHttpClientCreationMethod": false,
       "httpClientType": "System.Net.Http.HttpClient",
@@ -84,11 +84,21 @@
       "generateUpdateJsonSerializerSettingsMethod": true,
       "useRequestAndResponseSerializationSettings": false,
       "serializeTypeInformation": false,
-      "serviceHost": "https://vh-bookings-api-dev.azurewebsites.net",
+      "serviceHost": "https://vh-test-api-dev.azurewebsites.net",
       "queryNullValue": "null",
-      "className": "BookingsApiClient",
+      "className": "TestApiClient",
       "operationGenerationMode": "SingleClientFromOperationId",
-      "additionalNamespaceUsages": [],
+      "additionalNamespaceUsages": [
+        "Microsoft.AspNetCore.Mvc",
+        "TestApi.Contract.Requests",
+        "TestApi.Contract.Responses",
+        "BookingsApi.Contract.Requests",
+        "BookingsApi.Contract.Responses",
+        "VideoApi.Contract.Requests",
+        "VideoApi.Contract.Responses",
+        "UserApi.Contract.Requests",
+        "UserApi.Contract.Responses"
+      ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,
@@ -136,7 +146,7 @@
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,
       "serviceSchemes": null,
-      "output": "../TestApi.Client/BookingsApiClient.cs",
+      "output": "../TestApi.Client/TestApiClient.cs",
       "newLineBehavior": "Auto"
     }
   }
