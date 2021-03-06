@@ -17,8 +17,8 @@ namespace TestApi.Services.Helpers
             {
                 {UserType.Judge, new JudgeGroupsStrategy(configuration)},
                 {UserType.Individual, new IndividualGroupsStrategy(configuration)},
-                {UserType.PanelMember, new JOHGroupsStrategy(configuration)},
-                {UserType.Winger, new JOHGroupsStrategy(configuration)},
+                {UserType.PanelMember, new JohGroupsStrategy(configuration)},
+                {UserType.Winger, new JohGroupsStrategy(configuration)},
                 {UserType.Observer, new IndividualGroupsStrategy(configuration)},
                 {UserType.Representative, new RepresentativeGroupsStrategy(configuration)},
                 {UserType.CaseAdmin, new CaseAdminGroupsStrategy(configuration)},
@@ -112,11 +112,11 @@ namespace TestApi.Services.Helpers
         }
     }
 
-    public class JOHGroupsStrategy : IUserGroupsStrategy
+    public class JohGroupsStrategy : IUserGroupsStrategy
     {
         private readonly UserGroupsConfiguration _configuration;
 
-        public JOHGroupsStrategy(UserGroupsConfiguration configuration)
+        public JohGroupsStrategy(UserGroupsConfiguration configuration)
         {
             _configuration = configuration;
         }

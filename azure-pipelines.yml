@@ -8,6 +8,11 @@ parameters:
   displayName: Package Acceptance Tests
   type: boolean
   default: true
+  
+- name: PackageNuget
+  displayName: Package Nuget Project
+  type: boolean
+  default: true
 
 - name: RunUnitTests
   displayName: Run Unit Tests
@@ -229,6 +234,8 @@ extends:
     testParameters:
       baseAgent: windows-latest
       coreProjectPath: TestApi/TestApi
+      nugetProjectPath: TestApi/TestApi.Client
+      PackageNuget: ${{ parameters.PackageNuget }}
       unitTestProjectPath: TestApi/TestApi.UnitTests
       integTestProjectPath: TestApi/TestApi.IntegrationTests
       secrets_KeyVault: $(pr_Secret_KeyVault)
