@@ -21,7 +21,7 @@ using TestApi.Telemetry;
 using UserApi.Client;
 using VideoApi.Client;
 
-namespace TestApi
+namespace TestApi.Extensions
 {
     public static class ConfigureServicesExtensions
     {
@@ -138,20 +138,19 @@ namespace TestApi
         private static IBookingsApiClient BuildBookingsApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new BookingsApiClient(httpClient)
-                {BaseUrl = serviceSettings.BookingsApiUrl, ReadResponseAsString = true};
+            return BookingsApiClient.GetClient(serviceSettings.BookingsApiUrl, httpClient);
         }
 
         private static IUserApiClient BuildUserApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new UserApiClient(httpClient) {BaseUrl = serviceSettings.UserApiUrl, ReadResponseAsString = true};
+            return UserApiClient.GetClient(serviceSettings.UserApiUrl, httpClient);
         }
 
         private static IVideoApiClient BuildVideoApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new VideoApiClient(httpClient) {BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true};
+            return VideoApiClient.GetClient(serviceSettings.VideoApiUrl, httpClient);
         }
     }
 }
