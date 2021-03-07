@@ -16,7 +16,6 @@ using VideoApi.Client;
 namespace TestApi.Controllers
 {
     [Produces("application/json")]
-    [Route("health")]
     [AllowAnonymous]
     [ApiController]
     public class HealthController : ControllerBase
@@ -39,7 +38,8 @@ namespace TestApi.Controllers
         ///     Check Service Health
         /// </summary>
         /// <returns>Error if fails, otherwise OK status</returns>
-        [HttpGet("health")]
+        [HttpGet("health/health")]
+        [HttpGet("health/liveness")]
         [OpenApiOperation("CheckServiceHealth")]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.InternalServerError)]
