@@ -25,9 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.Services.Generator"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.Tests.Common", "TestApi.Tests.Common\TestApi.Tests.Common.csproj", "{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi.AcceptanceTests", "TestApi.AcceptanceTests\TestApi.AcceptanceTests.csproj", "{5003F694-3718-41B0-9342-CC08B1E8C288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApi.AcceptanceTests", "TestApi.AcceptanceTests\TestApi.AcceptanceTests.csproj", "{5003F694-3718-41B0-9342-CC08B1E8C288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +73,6 @@ Global
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C99E30CF-D9AB-4ECF-A0B1-59E29099A504}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63B5D468-4B99-4F6E-B3F3-0E5575D4364B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5003F694-3718-41B0-9342-CC08B1E8C288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5003F694-3718-41B0-9342-CC08B1E8C288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5003F694-3718-41B0-9342-CC08B1E8C288}.Release|Any CPU.ActiveCfg = Release|Any CPU
