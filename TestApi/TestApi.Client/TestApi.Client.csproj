@@ -23,7 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TestApi.Contract\TestApi.Contract.csproj">
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <IncludeAssets>NotificationApi.Contract.dll</IncludeAssets>
+      <IncludeAssets>TestApi.Contract.dll</IncludeAssets>
     </ProjectReference>
   </ItemGroup>
 
