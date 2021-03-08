@@ -10,9 +10,9 @@ using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Enums;
 using TestApi.Tests.Common.Configuration;
+using UserApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Users
 {
@@ -37,7 +37,7 @@ namespace TestApi.IntegrationTests.Controllers.Users
             var response = RequestHelper.Deserialise<UpdateUserResponse>(Json);
 
             response.Should().NotBeNull();
-            response.New_password.Should().NotBeNullOrEmpty();
+            response.NewPassword.Should().NotBeNullOrEmpty();
         }
 
         private async Task<string> AllocateUser()

@@ -2,11 +2,11 @@
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Domain.Helpers;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
@@ -18,7 +18,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var hearingRequest = CreateHearingRequest();
             var hearingResponse = await CreateHearing(hearingRequest);
-            var individual = hearingResponse.Participants.First(x => x.User_role_name == UserTypeName.Individual.Name);
+            var individual = hearingResponse.Participants.First(x => x.UserRoleName == UserTypeName.Individual.Name);
 
             var uri = ApiUriFactory.HearingEndpoints.GetPersonByUsername(individual.Username);
             await SendGetRequest(uri);

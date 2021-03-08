@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using TestApi.Common.Data;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.VideoApiClient;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
 
 namespace TestApi.Services.Builders.Requests
 {
     public class BookConferenceParticipantsBuilder
     {
         private readonly List<ParticipantRequest> _participants;
-        private readonly List<User> _users;
+        private readonly List<UserDto> _users;
         private readonly bool _isCACDCaseType;
 
-        public BookConferenceParticipantsBuilder(List<User> users, bool isCACDCaseType)
+        public BookConferenceParticipantsBuilder(List<UserDto> users, bool isCACDCaseType)
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
@@ -42,13 +43,13 @@ namespace TestApi.Services.Builders.Requests
                 {
                     if (_isCACDCaseType)
                     {
-                        request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
-                        request.Hearing_role = RoleData.APPELLANT_CASE_ROLE_NAME;
+                        request.CaseTypeGroup = RoleData.CACD_CASE_ROLE_NAME;
+                        request.HearingRole = RoleData.APPELLANT_CASE_ROLE_NAME;
                     }
                     else
                     {
-                        request.Case_type_group = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                        request.Hearing_role = RoleData.INDV_HEARING_ROLE_NAME;
+                        request.CaseTypeGroup = indIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.HearingRole = RoleData.INDV_HEARING_ROLE_NAME;
                         indIndex++;
                     }
                 }
@@ -57,13 +58,13 @@ namespace TestApi.Services.Builders.Requests
                 {
                     if (_isCACDCaseType)
                     {
-                        request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
-                        request.Hearing_role = RoleData.CACD_REP_HEARING_ROLE_NAME;
+                        request.CaseTypeGroup = RoleData.CACD_CASE_ROLE_NAME;
+                        request.HearingRole = RoleData.CACD_REP_HEARING_ROLE_NAME;
                     }
                     else
                     {
-                        request.Case_type_group = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
-                        request.Hearing_role = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
+                        request.CaseTypeGroup = repIndex == 0 ? RoleData.FIRST_CASE_ROLE_NAME : RoleData.SECOND_CASE_ROLE_NAME;
+                        request.HearingRole = RoleData.REPRESENTATIVE_HEARING_ROLE_NAME;
                         request.Representee = ChooseToRepresentIndividualIfPossible(individuals, repIndex);
                         repIndex++;
                     }
@@ -71,14 +72,14 @@ namespace TestApi.Services.Builders.Requests
 
                 if (user.UserType == UserType.Interpreter || user.UserType == UserType.Witness)
                 {
-                    request.Case_type_group = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
-                    request.Hearing_role = AddSpacesToUserType(user.UserType);
+                    request.CaseTypeGroup = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
+                    request.HearingRole = AddSpacesToUserType(user.UserType);
                 }
 
                 if (user.UserType == UserType.Winger)
                 {
-                    request.Case_type_group = RoleData.CACD_CASE_ROLE_NAME;
-                    request.Hearing_role = AddSpacesToUserType(user.UserType);
+                    request.CaseTypeGroup = RoleData.CACD_CASE_ROLE_NAME;
+                    request.HearingRole = AddSpacesToUserType(user.UserType);
                 }
 
                 if (user.UserType != UserType.Individual && 
@@ -87,22 +88,22 @@ namespace TestApi.Services.Builders.Requests
                     user.UserType != UserType.Witness &&
                     user.UserType != UserType.Interpreter)
                 {
-                    request.Case_type_group = AddSpacesToUserType(user.UserType);
-                    request.Hearing_role = AddSpacesToUserType(user.UserType);
+                    request.CaseTypeGroup = AddSpacesToUserType(user.UserType);
+                    request.HearingRole = AddSpacesToUserType(user.UserType);
                 }
 
                 user.FirstName = $"{user.FirstName}_{Faker.Name.First()}";
                 user.LastName = $"{Faker.Name.Last()}_{user.LastName}";
 
-                request.Contact_email = user.ContactEmail;
-                request.Contact_telephone = UserData.TELEPHONE_NUMBER;
-                request.Display_name = user.DisplayName;
-                request.First_name = user.FirstName;
-                request.Last_name = user.LastName;
-                request.Linked_participants = new List<LinkedParticipantRequest>();
+                request.ContactEmail = user.ContactEmail;
+                request.ContactTelephone = UserData.TELEPHONE_NUMBER;
+                request.DisplayName = user.DisplayName;
+                request.FirstName = user.FirstName;
+                request.LastName = user.LastName;
+                request.LinkedParticipants = new List<LinkedParticipantRequest>();
                 request.Name = $"{UserData.TITLE} {user.FirstName} {user.LastName}";
-                request.Participant_ref_id = Guid.NewGuid();
-                request.User_role = GetUserRoleFromUserType(user.UserType);
+                request.ParticipantRefId = Guid.NewGuid();
+                request.UserRole = GetUserRoleFromUserType(user.UserType);
                 request.Username = user.Username;
 
                 _participants.Add(request);
@@ -111,7 +112,7 @@ namespace TestApi.Services.Builders.Requests
             return _participants;
         }
 
-        private static string ChooseToRepresentIndividualIfPossible(IReadOnlyList<User> individuals, int repIndex)
+        private static string ChooseToRepresentIndividualIfPossible(IReadOnlyList<UserDto> individuals, int repIndex)
         {
             return repIndex + 1 <= individuals.Count ? individuals[repIndex].DisplayName : HearingData.REPRESENTEE;
         }

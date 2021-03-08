@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using BookingsApi.Contract.Responses;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Services.Builders.Responses
 {
@@ -19,45 +20,45 @@ namespace TestApi.Services.Builders.Responses
         {
             var participants = _hearingDetails.Participants.Select(participant => new ParticipantDetailsResponse
                 {
-                    Case_type_group = participant.Case_role_name,
-                    Current_status = ParticipantState.NotSignedIn,
-                    Display_name = participant.Display_name,
-                    First_name = participant.First_name,
+                    CaseTypeGroup = participant.CaseRoleName,
+                    CurrentStatus = ParticipantState.NotSignedIn,
+                    DisplayName = participant.DisplayName,
+                    FirstName = participant.FirstName,
                     Id = Guid.NewGuid(),
-                    Last_name = participant.Last_name,
-                    Name = $"{participant.Title} {participant.First_name} {participant.First_name}",
-                    Ref_id = participant.Id,
+                    LastName = participant.LastName,
+                    Name = $"{participant.Title} {participant.FirstName} {participant.FirstName}",
+                    RefId = participant.Id,
                     Representee = participant.Representee,
-                    User_role = GetUserRole(participant.Last_name),
+                    UserRole = GetUserRole(participant.LastName),
                     Username = participant.Username
                 })
                 .ToList();
 
             var meetingRoom = new MeetingRoomResponse
             {
-                Admin_uri = MeetingRoomData.MEETING_ROOM_ADMIN_URL,
-                Judge_uri = MeetingRoomData.MEETING_ROOM_JUDGE_URL,
-                Participant_uri = MeetingRoomData.MEETING_ROOM_PARTICIPANT_URL,
-                Pexip_node = MeetingRoomData.MEETING_ROOM_PEXIP_NODE,
-                Pexip_self_test_node = MeetingRoomData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
+                AdminUri = MeetingRoomData.MEETING_ROOM_ADMIN_URL,
+                JudgeUri = MeetingRoomData.MEETING_ROOM_JUDGE_URL,
+                ParticipantUri = MeetingRoomData.MEETING_ROOM_PARTICIPANT_URL,
+                PexipNode = MeetingRoomData.MEETING_ROOM_PEXIP_NODE,
+                PexipSelfTestNode = MeetingRoomData.MEETING_ROOM_PEXIP_SELF_TEST_NODE
             };
 
             return new ConferenceDetailsResponse
             {
-                Audio_recording_required = _hearingDetails.Audio_recording_required,
-                Case_name = _hearingDetails.Cases.First().Name,
-                Case_number = _hearingDetails.Cases.First().Number,
-                Case_type = _hearingDetails.Case_type_name,
-                Closed_date_time = null,
-                Current_status = ConferenceState.NotStarted,
-                Hearing_id = _hearingDetails.Id,
-                Hearing_venue_name = _hearingDetails.Hearing_venue_name,
+                AudioRecordingRequired = _hearingDetails.AudioRecordingRequired,
+                CaseName = _hearingDetails.Cases.First().Name,
+                CaseNumber = _hearingDetails.Cases.First().Number,
+                CaseType = _hearingDetails.CaseTypeName,
+                ClosedDateTime = null,
+                CurrentStatus = ConferenceState.NotStarted,
+                HearingId = _hearingDetails.Id,
+                HearingVenueName = _hearingDetails.HearingVenueName,
                 Id = Guid.NewGuid(),
-                Meeting_room = meetingRoom,
+                MeetingRoom = meetingRoom,
                 Participants = participants,
-                Scheduled_date_time = _hearingDetails.Scheduled_date_time,
-                Scheduled_duration = _hearingDetails.Scheduled_duration,
-                Started_date_time = null
+                ScheduledDateTime = _hearingDetails.ScheduledDateTime,
+                ScheduledDuration = _hearingDetails.ScheduledDuration,
+                StartedDateTime = null
             };
         }
 

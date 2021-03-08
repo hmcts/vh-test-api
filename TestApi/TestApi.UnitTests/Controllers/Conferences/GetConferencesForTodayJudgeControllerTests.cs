@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Mappings;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {
@@ -18,7 +19,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
         public async Task Should_get_conferences_for_today_judge()
         {
             var conferenceDetailsResponse = CreateConferenceDetailsResponse();
-            var judge = conferenceDetailsResponse.Participants.First(x => x.User_role == UserRole.Judge);
+            var judge = conferenceDetailsResponse.Participants.First(x => x.UserRole == UserRole.Judge);
             var judgeResponse = ConferenceRequestToJudgeTodayMapper.Map(conferenceDetailsResponse);
 
             VideoApiClient

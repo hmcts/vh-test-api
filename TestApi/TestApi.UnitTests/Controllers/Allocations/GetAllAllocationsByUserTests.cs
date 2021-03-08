@@ -9,7 +9,7 @@ using TestApi.Common.Data;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {

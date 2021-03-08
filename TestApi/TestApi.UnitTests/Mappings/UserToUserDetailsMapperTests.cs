@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Mappings;
 
 namespace TestApi.UnitTests.Mappings
@@ -15,7 +15,7 @@ namespace TestApi.UnitTests.Mappings
             var user = new UserBuilder(EmailData.FAKE_EMAIL_STEM, 1)
                 .WithUserType(UserType.Individual)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var response = UserToDetailsResponseMapper.MapToResponse(user);
             response.Should().BeEquivalentTo(user);

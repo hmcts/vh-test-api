@@ -4,11 +4,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -43,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             QueryHandler
                 .SetupSequence(x =>
-                    x.Handle<GetAllocatedUserByUserTypeQuery, User>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                    x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(judgeUser)
                 .ReturnsAsync(individualUser)
                 .ReturnsAsync(representativeUser)

@@ -8,10 +8,12 @@ using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
 using TestApi.Common.Data;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Helpers;
+using UserApi.Client;
+using UserApi.Contract.Requests;
+using UserApi.Contract.Responses;
 
 namespace TestApi.Services.Services
 {
@@ -39,7 +41,7 @@ namespace TestApi.Services.Services
         /// <param name="user">The test api user profile</param>
         /// <param name="adUserId">The AD user profile id</param>
         /// <returns>A count of the number of groups the user now has</returns>
-        Task<int> AddGroupsToUser(User user, string adUserId);
+        Task<int> AddGroupsToUser(UserDto user, string adUserId);
     }
 
     public class UserApiService : IUserApiService
@@ -91,10 +93,10 @@ namespace TestApi.Services.Services
 
             var createUserRequest = new CreateUserRequest
             {
-                First_name = firstName.Replace(BLANK, string.Empty),
-                Last_name = lastName.Replace(BLANK, UNDERSCORE),
-                Recovery_email = contactEmail,
-                Is_test_user = true
+                FirstName = firstName.Replace(BLANK, string.Empty),
+                LastName = lastName.Replace(BLANK, UNDERSCORE),
+                RecoveryEmail = contactEmail,
+                IsTestUser = true
             };
 
            return await _userApiClient.CreateUserAsync(createUserRequest);
@@ -116,7 +118,7 @@ namespace TestApi.Services.Services
             }
         }
 
-        public async Task<int> AddGroupsToUser(User user, string adUserId)
+        public async Task<int> AddGroupsToUser(UserDto user, string adUserId)
         {
             var requiredGroups = GetRequiredGroups(user);
 
@@ -128,7 +130,7 @@ namespace TestApi.Services.Services
             return requiredGroups.Count;
         }
 
-        private List<string> GetRequiredGroups(User user)
+        private List<string> GetRequiredGroups(UserDto user)
         {
             var userGroupStrategies = new UserGroups().GetStrategies(_userGroups);
             var groups = userGroupStrategies[user.UserType].GetGroups();
@@ -157,8 +159,8 @@ namespace TestApi.Services.Services
         {
             var request = new AddUserToGroupRequest
             {
-                User_id = adUserId,
-                Group_name = group
+                UserId = adUserId,
+                GroupName = group
             };
 
             await PollToAddUserToGroup(request);

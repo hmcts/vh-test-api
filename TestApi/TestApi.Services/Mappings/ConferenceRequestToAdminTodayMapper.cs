@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Services.Mappings
 {
@@ -12,18 +12,18 @@ namespace TestApi.Services.Mappings
             {
                 new ConferenceForAdminResponse()
                 {
-                    Case_name = response.Case_name,
-                    Case_number = response.Case_number,
-                    Case_type = response.Case_type,
-                    Closed_date_time =response.Closed_date_time,
-                    Hearing_venue_name = response.Hearing_venue_name,
-                    Hearing_ref_id = response.Hearing_id,
+                    CaseName = response.CaseName,
+                    CaseNumber = response.CaseNumber,
+                    CaseType = response.CaseType,
+                    ClosedDateTime = response.ClosedDateTime,
+                    HearingVenueName = response.HearingVenueName,
+                    HearingRefId = response.HearingId,
                     Id = response.Id,
                     Participants = AddParticipants(response.Participants),
-                    Scheduled_date_time = response.Scheduled_date_time,
-                    Scheduled_duration = response.Scheduled_duration,
-                    Started_date_time = response.Started_date_time,
-                    Status = response.Current_status
+                    ScheduledDateTime = response.ScheduledDateTime,
+                    ScheduledDuration = response.ScheduledDuration,
+                    StartedDateTime = response.StartedDateTime,
+                    Status = response.CurrentStatus
                 }
             };
         }
@@ -32,16 +32,17 @@ namespace TestApi.Services.Mappings
         {
             return requestParticipants.Select(participant => new ParticipantSummaryResponse()
                 {
-                    Case_group = participant.Case_type_group,
-                    Contact_email = participant.Contact_email,
-                    Contact_telephone = participant.Contact_telephone,
-                    Display_name = participant.Display_name,
-                    First_name = participant.First_name,
+                    CaseGroup = participant.CaseTypeGroup,
+                    ContactEmail = participant.ContactEmail,
+                    ContactTelephone = participant.ContactTelephone,
+                    DisplayName = participant.DisplayName,
+                    FirstName = participant.FirstName,
                     Id = participant.Id,
-                    Last_name = participant.Last_name,
+                    LastName = participant.LastName,
+                    LinkedParticipants = new List<LinkedParticipantResponse>(),
                     Representee = participant.Representee,
-                    Status = participant.Current_status,
-                    User_role = participant.User_role,
+                    Status = participant.CurrentStatus,
+                    UserRole = participant.UserRole,
                     Username = participant.Username
                 })
                 .ToList();

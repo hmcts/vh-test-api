@@ -2,9 +2,9 @@
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
 

@@ -2,8 +2,8 @@
 using Moq;
 using NUnit.Framework;
 using TestApi.Controllers;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
+using VideoApi.Client;
 
 namespace TestApi.UnitTests.Controllers.Utilities
 {

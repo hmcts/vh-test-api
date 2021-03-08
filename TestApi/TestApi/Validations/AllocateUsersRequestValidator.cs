@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentValidation;
 using TestApi.Contract.Requests;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Validations
 {

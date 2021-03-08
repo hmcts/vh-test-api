@@ -28,17 +28,19 @@ namespace TestApi.DAL
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes()
                 .Where(c => c.IsClass && !c.IsAbstract && !c.ContainsGenericParameters))
-            foreach (var iFace in type.GetInterfaces())
             {
-                if (!iFace.IsConstructedGenericType ||
-                    iFace.GetGenericTypeDefinition() != typeof(IEntityTypeConfiguration<>)) continue;
-                if (applyGenericMethod != null)
+                foreach (var iFace in type.GetInterfaces())
                 {
-                    var applyConcreteMethod = applyGenericMethod.MakeGenericMethod(iFace.GenericTypeArguments[0]);
-                    applyConcreteMethod.Invoke(modelBuilder, new[] {Activator.CreateInstance(type)});
-                }
+                    if (!iFace.IsConstructedGenericType ||
+                        iFace.GetGenericTypeDefinition() != typeof(IEntityTypeConfiguration<>)) continue;
+                    if (applyGenericMethod != null)
+                    {
+                        var applyConcreteMethod = applyGenericMethod.MakeGenericMethod(iFace.GenericTypeArguments[0]);
+                        applyConcreteMethod.Invoke(modelBuilder, new[] { Activator.CreateInstance(type) });
+                    }
 
-                break;
+                    break;
+                }
             }
         }
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Domain.Validations;
 
 namespace TestApi.UnitTests.Domain

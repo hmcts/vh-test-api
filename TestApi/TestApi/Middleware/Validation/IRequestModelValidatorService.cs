@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FluentValidation.Results;
 
-namespace TestApi.ValidationMiddleware
+namespace TestApi.Middleware.Validation
 {
     public interface IRequestModelValidatorService
     {

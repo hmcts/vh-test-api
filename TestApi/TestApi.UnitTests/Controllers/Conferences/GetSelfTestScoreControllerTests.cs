@@ -5,7 +5,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {

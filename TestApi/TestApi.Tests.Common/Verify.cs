@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookingsApi.Contract.Enums;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Contract.Responses;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.Tests.Common
 {
@@ -29,7 +32,7 @@ namespace TestApi.Tests.Common
             response.Username.Should().Contain(userType.ToString().ToLowerInvariant());
         }
 
-        public static void UserDetailsResponse(UserDetailsResponse response, User user)
+        public static void UserDetailsResponse(UserDetailsResponse response, UserDto user)
         {
             response.Should().BeEquivalentTo(user);
         }
@@ -45,7 +48,7 @@ namespace TestApi.Tests.Common
             }
         }
 
-        public static void UsersDetailsResponse(List<UserDetailsResponse> responses, List<User> users)
+        public static void UsersDetailsResponse(List<UserDetailsResponse> responses, List<UserDto> users)
         {
             responses.Count.Should().Be(users.Count);
             foreach (var user in users)
@@ -58,62 +61,62 @@ namespace TestApi.Tests.Common
 
         public static void HearingDetailsResponse(HearingDetailsResponse response, CreateHearingRequest request)
         {
-            response.Audio_recording_required.Should().Be(request.AudioRecordingRequired);
-            response.Cancel_reason.Should().BeNull();
-            response.Case_type_name.Should().Be(request.CaseType);
+            response.AudioRecordingRequired.Should().Be(request.AudioRecordingRequired);
+            response.CancelReason.Should().BeNull();
+            response.CaseTypeName.Should().Be(request.CaseType);
             response.Cases.First().Name.Should().Contain(request.TestType.ToString());
             response.Cases.First().Number.Should().NotBeNullOrWhiteSpace();
-            response.Cases.First().Is_lead_case.Should().Be(HearingData.IS_LEAD_CASE);
-            response.Confirmed_by.Should().BeNull();
-            response.Confirmed_date.Should().BeNull();
+            response.Cases.First().IsLeadCase.Should().Be(HearingData.IS_LEAD_CASE);
+            response.ConfirmedBy.Should().BeNull();
+            response.ConfirmedDate.Should().BeNull();
             VerifyCreatedBy(response, request);
-            response.Created_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
-            response.Hearing_room_name.Should().Be(HearingData.HEARING_ROOM_NAME);
+            response.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
+            response.HearingRoomName.Should().Be(HearingData.HEARING_ROOM_NAME);
 
-            response.Hearing_type_name.Should().Be(request.CaseType.Equals(HearingData.CASE_TYPE_NAME)
+            response.HearingTypeName.Should().Be(request.CaseType.Equals(HearingData.CASE_TYPE_NAME)
                 ? HearingData.HEARING_TYPE_NAME
                 : HearingData.CACD_HEARING_TYPE_NAME);
 
-            response.Hearing_venue_name.Should().Be(request.Venue);
+            response.HearingVenueName.Should().Be(request.Venue);
             response.Id.Should().NotBeEmpty();
-            response.Other_information.Should().Be(HearingData.OTHER_INFORMATION);
+            response.OtherInformation.Should().Be(HearingData.OTHER_INFORMATION);
             var expectedCount = UsersIncludeCaseAdminOrVho(request.Users) ? request.Users.Count - 1 : request.Users.Count;
             response.Participants.Count.Should().Be(expectedCount);
-            response.Questionnaire_not_required.Should().Be(request.QuestionnaireNotRequired);
-            response.Scheduled_date_time.Should().Be(request.ScheduledDateTime);
-            response.Scheduled_duration.Should().Be(HearingData.SCHEDULED_DURATION);
+            response.QuestionnaireNotRequired.Should().Be(request.QuestionnaireNotRequired);
+            response.ScheduledDateTime.Should().Be(request.ScheduledDateTime);
+            response.ScheduledDuration.Should().Be(HearingData.SCHEDULED_DURATION);
             response.Status.Should().Be(BookingStatus.Booked);
-            response.Updated_by.Should().BeNull();
-            response.Updated_date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
+            response.UpdatedBy.Should().BeNull();
+            response.UpdatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(30));
             VerifyHearingParticipants(response.Participants, request.Users);
         }
 
         private static void VerifyCreatedBy(HearingDetailsResponse response, CreateHearingRequest request)
         {
-            response.Created_by.Should().Be(
+            response.CreatedBy.Should().Be(
                 UsersIncludeCaseAdminOrVho(request.Users)
                     ? request.Users.First(x =>
                         x.UserType == UserType.CaseAdmin || x.UserType == UserType.VideoHearingsOfficer).Username
                     : UserData.DEFAULT_CREATED_BY_USER);
         }
 
-        private static bool UsersIncludeCaseAdminOrVho(IEnumerable<User> users)
+        private static bool UsersIncludeCaseAdminOrVho(IEnumerable<UserDto> users)
         {
             return users.Any(x => x.UserType == UserType.CaseAdmin || x.UserType == UserType.VideoHearingsOfficer);
         }
 
-        private static void VerifyHearingParticipants(IEnumerable<ParticipantResponse> participants, IReadOnlyCollection<User> users)
+        private static void VerifyHearingParticipants(IEnumerable<ParticipantResponse> participants, IReadOnlyCollection<UserDto> users)
         {
             foreach (var participant in participants)
             {
-                var user = users.First(x => x.LastName.Equals(participant.Last_name));
-                participant.Case_role_name.Should().NotBeNullOrWhiteSpace();
-                participant.Contact_email.Should().Be(user.ContactEmail);
-                participant.Display_name.Should().Be(user.DisplayName);
-                participant.First_name.Should().Be(user.FirstName);
-                participant.Hearing_role_name.Should().NotBeNullOrWhiteSpace();
-                participant.Middle_names.Should().Be(UserData.MIDDLE_NAME);
-                participant.Last_name.Should().Be(user.LastName);
+                var user = users.First(x => x.LastName.Equals(participant.LastName));
+                participant.CaseRoleName.Should().NotBeNullOrWhiteSpace();
+                participant.ContactEmail.Should().Be(user.ContactEmail);
+                participant.DisplayName.Should().Be(user.DisplayName);
+                participant.FirstName.Should().Be(user.FirstName);
+                participant.HearingRoleName.Should().NotBeNullOrWhiteSpace();
+                participant.MiddleNames.Should().Be(UserData.MIDDLE_NAME);
+                participant.LastName.Should().Be(user.LastName);
                 participant.Id.Should().NotBeEmpty();
 
                 if (user.UserType == UserType.Representative)
@@ -122,7 +125,7 @@ namespace TestApi.Tests.Common
                     participant.Representee.Should().NotBeNullOrWhiteSpace();
                 }
 
-                participant.Telephone_number.Should().Be(UserData.TELEPHONE_NUMBER);
+                participant.TelephoneNumber.Should().Be(UserData.TELEPHONE_NUMBER);
                 participant.Title.Should().Be(UserData.TITLE);
                 participant.Username.Should().Be(user.Username);
             }
@@ -130,18 +133,18 @@ namespace TestApi.Tests.Common
 
         public static void ConferenceDetailsResponse(ConferenceDetailsResponse response, HearingDetailsResponse hearing)
         {
-            response.Audio_recording_required.Should().Be(hearing.Audio_recording_required);
-            response.Case_name.Should().Be(hearing.Cases.First().Name);
-            response.Case_number.Should().Be(hearing.Cases.First().Number);
-            response.Case_type.Should().Be(hearing.Case_type_name);
-            response.Closed_date_time.Should().BeNull();
-            response.Current_status.Should().Be(ConferenceState.NotStarted);
-            response.Hearing_id.Should().Be(hearing.Id);
-            response.Hearing_venue_name.Should().Be(hearing.Hearing_venue_name);
+            response.AudioRecordingRequired.Should().Be(hearing.AudioRecordingRequired);
+            response.CaseName.Should().Be(hearing.Cases.First().Name);
+            response.CaseNumber.Should().Be(hearing.Cases.First().Number);
+            response.CaseType.Should().Be(hearing.CaseTypeName);
+            response.ClosedDateTime.Should().BeNull();
+            response.CurrentStatus.Should().Be(ConferenceState.NotStarted);
+            response.HearingId.Should().Be(hearing.Id);
+            response.HearingVenueName.Should().Be(hearing.HearingVenueName);
             response.Id.Should().NotBeEmpty();
-            response.Scheduled_date_time.Should().Be(hearing.Scheduled_date_time);
-            response.Scheduled_duration.Should().Be(hearing.Scheduled_duration);
-            response.Started_date_time.Should().BeNull();
+            response.ScheduledDateTime.Should().Be(hearing.ScheduledDateTime);
+            response.ScheduledDuration.Should().Be(hearing.ScheduledDuration);
+            response.StartedDateTime.Should().BeNull();
             VerifyConferenceParticipants(response.Participants, hearing.Participants);
         }
 
@@ -157,23 +160,23 @@ namespace TestApi.Tests.Common
             foreach (var hearingParticipant in hearingParticipants)
             {
                 var conferenceParticipant =
-                    conferenceParticipants.First(x => x.Last_name.Equals(hearingParticipant.Last_name));
+                    conferenceParticipants.First(x => x.LastName.Equals(hearingParticipant.LastName));
 
-                conferenceParticipant.Case_role_name.Should().NotBeNullOrWhiteSpace();
-                conferenceParticipant.Contact_email.Should().Be(hearingParticipant.Contact_email);
-                conferenceParticipant.Display_name.Should().Be(hearingParticipant.Display_name);
-                conferenceParticipant.First_name.Should().Be(hearingParticipant.First_name);
-                conferenceParticipant.Hearing_role_name.Should().NotBeNullOrWhiteSpace();
+                conferenceParticipant.CaseRoleName.Should().NotBeNullOrWhiteSpace();
+                conferenceParticipant.ContactEmail.Should().Be(hearingParticipant.ContactEmail);
+                conferenceParticipant.DisplayName.Should().Be(hearingParticipant.DisplayName);
+                conferenceParticipant.FirstName.Should().Be(hearingParticipant.FirstName);
+                conferenceParticipant.HearingRoleName.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Id.Should().NotBeEmpty();
-                conferenceParticipant.Middle_names.Should().BeNullOrWhiteSpace();
-                conferenceParticipant.Last_name.Should().Be(hearingParticipant.Last_name);
-                conferenceParticipant.Telephone_number.Should().NotBeNullOrWhiteSpace();
+                conferenceParticipant.MiddleNames.Should().BeNullOrWhiteSpace();
+                conferenceParticipant.LastName.Should().Be(hearingParticipant.LastName);
+                conferenceParticipant.TelephoneNumber.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Title.Should().NotBeNullOrWhiteSpace();
                 conferenceParticipant.Username.Should().Be(hearingParticipant.Username);
 
-                if (!conferenceParticipant.User_role_name.Equals("Representative")) continue;
+                if (!conferenceParticipant.UserRoleName.Equals("Representative")) continue;
                 conferenceParticipant.Organisation.Should().NotBeNullOrWhiteSpace();
-                if (conferenceParticipant.Hearing_role_name != RoleData.CACD_REP_HEARING_ROLE_NAME)
+                if (conferenceParticipant.HearingRoleName != RoleData.CACD_REP_HEARING_ROLE_NAME)
                 {
                     conferenceParticipant.Representee.Should().NotBeNullOrWhiteSpace();
                 }
@@ -195,14 +198,14 @@ namespace TestApi.Tests.Common
         public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)
         {
             response.Count.Should().BeGreaterThan(0);
-            var conference = response.First(x => x.Case_name.Equals(request.Case_name));
+            var conference = response.First(x => x.CaseName.Equals(request.CaseName));
             conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
         public static void ConferencesForVhoResponses(List<ConferenceForAdminResponse> response, BookNewConferenceRequest request)
         {
             response.Count.Should().BeGreaterThan(0);
-            var conference = response.First(x => x.Hearing_ref_id.Equals(request.Hearing_ref_id));
+            var conference = response.First(x => x.HearingRefId.Equals(request.HearingRefId));
             conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
@@ -211,7 +214,7 @@ namespace TestApi.Tests.Common
             response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
-        public static void UserProfileResponse(UserProfile response, User user)
+        public static void UserProfileResponse(UserProfile response, UserDto user)
         {
             response.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
         }

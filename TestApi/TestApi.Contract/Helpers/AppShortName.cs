@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
-namespace TestApi.Domain.Helpers
+namespace TestApi.Contract.Helpers
 {
     public class AppShortName
     {

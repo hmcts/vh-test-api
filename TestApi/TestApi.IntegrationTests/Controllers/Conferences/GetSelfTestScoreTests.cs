@@ -2,8 +2,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Enums;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -14,7 +14,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
-            var participant = conference.Participants.First(x => x.User_role == UserRole.Individual);
+            var participant = conference.Participants.First(x => x.UserRole == UserRole.Individual);
 
             var uri = ApiUriFactory.ConferenceEndpoints.GetSelfTestScore(conference.Id, participant.Id);
             await SendGetRequest(uri);

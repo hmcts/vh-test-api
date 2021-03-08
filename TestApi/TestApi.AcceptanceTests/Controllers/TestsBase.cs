@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Net;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
 using RestSharp;
 using TestApi.AcceptanceTests.Helpers;
 using TestApi.Common.Builders;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Contract.Enums;
 using TestApi.Tests.Common.Configuration;
 using TestContext = TestApi.AcceptanceTests.Helpers.TestContext;
 
@@ -79,19 +79,19 @@ namespace TestApi.AcceptanceTests.Controllers
             return response;
         }
 
-        private List<User> CreateUsers()
+        private List<UserDto> CreateUsers()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>{ judge, individual };
+            return new List<UserDto>{ judge, individual };
         }
     }
 }

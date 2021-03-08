@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -32,19 +33,19 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             const EventType EVENT_TYPE = EventType.None;
             const int EVENT_TYPE_ID = (int)EVENT_TYPE;
 
-            var participant = conference.Participants.First(x => x.User_role == UserRole.Individual);
+            var participant = conference.Participants.First(x => x.UserRole == UserRole.Individual);
 
             var request = new ConferenceEventRequest()
             {
-                Conference_id = conference.Id.ToString(),
-                Event_id = EVENT_TYPE_ID.ToString(),
-                Event_type = EVENT_TYPE,
-                Participant_id = participant.Id.ToString(),
+                ConferenceId = conference.Id.ToString(),
+                EventId = EVENT_TYPE_ID.ToString(),
+                EventType = EVENT_TYPE,
+                ParticipantId = participant.Id.ToString(),
                 Phone = string.Empty,
                 Reason = HearingData.VIDEO_EVENT_REASON,
-                Time_stamp_utc = DateTime.UtcNow,
-                Transfer_from = null,
-                Transfer_to = null
+                TimeStampUtc = DateTime.UtcNow,
+                TransferFrom = null,
+                TransferTo = null
             };
 
             var uri = ApiUriFactory.ConferenceEndpoints.CreateVideoEvent;

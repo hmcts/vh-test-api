@@ -2,16 +2,16 @@
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using BookingsApi.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
+using NSwag.Annotations;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using UserApi.Client;
+using VideoApi.Client;
 
 namespace TestApi.Controllers
 {
@@ -40,7 +40,7 @@ namespace TestApi.Controllers
         /// <returns>Error if fails, otherwise OK status</returns>
         [HttpGet("health/health")]
         [HttpGet("health/liveness")]
-        [SwaggerOperation(OperationId = "CheckServiceHealth")]
+        [OpenApiOperation("CheckServiceHealth")]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> HealthAsync()
@@ -50,7 +50,7 @@ namespace TestApi.Controllers
             {
                 const string username = "health";
                 var query = new GetUserByUsernameQuery(username);
-                await _queryHandler.Handle<GetUserByUsernameQuery, User>(query);
+                await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(query);
                 response.TestApiHealth.Successful = true;
             }
             catch (Exception ex)

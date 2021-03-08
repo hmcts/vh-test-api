@@ -6,7 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {
@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
         {
             var audioLinkResponse = new AudioRecordingResponse()
             {
-                Audio_file_links = new List<string>(){ "http://link-to-file" }
+                AudioFileLinks = new List<string>(){ "http://link-to-file" }
             };
                 
             VideoApiClient

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
@@ -25,7 +26,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users).Build();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
@@ -53,7 +54,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users).Build();
 
@@ -75,7 +76,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .AudioRecordingRequired()
@@ -106,7 +107,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .QuestionnairesRequired()
@@ -137,7 +138,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .HearingVenue("Manchester Civil and Family Justice Centre")
@@ -168,7 +169,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .ScheduledDateTime(DateTime.UtcNow.AddMinutes(1))
@@ -203,7 +204,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> {firstUser, secondUser, thirdUser, fourthUser};
+            var users = new List<UserDto> {firstUser, secondUser, thirdUser, fourthUser};
 
             var createHearingRequest = new HearingBuilder(users)
                 .TypeOfTest(testType)
@@ -232,7 +233,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var judge = CreateUser(UserType.Judge);
             var individual = CreateUser(UserType.Individual);
 
-            var users = new List<User> {judge, individual};
+            var users = new List<UserDto> {judge, individual};
 
             var createHearingRequest = new HearingBuilder(users).WithoutACaseType().Build();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();
@@ -258,7 +259,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var judge = CreateUser(UserType.Judge);
             var individual = CreateUser(UserType.Individual);
 
-            var users = new List<User> {judge, individual};
+            var users = new List<UserDto> {judge, individual};
 
             var createHearingRequest = new HearingBuilder(users)
                 .TypeOfTest(TestType.Automated)
@@ -292,7 +293,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var vho = CreateUser(UserType.VideoHearingsOfficer);
             var individual = CreateUser(UserType.Individual);
 
-            var users = new List<User> { judge, observer, panelMember, caseAdmin, vho, individual };
+            var users = new List<UserDto> { judge, observer, panelMember, caseAdmin, vho, individual };
 
             var createHearingRequest = new HearingBuilder(users).Build();
             var bookHearingRequest = new BookHearingRequestBuilder(createHearingRequest).Build();

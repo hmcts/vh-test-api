@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Extensions;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Exceptions;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.DAL.Commands
 {
@@ -51,12 +52,12 @@ namespace TestApi.DAL.Commands
         public async Task Handle(CreateNewUserCommand command)
         {
             var userWithNumberExistsAlready = await _context.Users
-                .Where(x => x.UserType == command.UserType && x.Application == command.Application && x.Number == command.Number)
+                .Where(x => x.UserType == command.UserType.MapToContractEnum() && x.Application == command.Application.MapToContractEnum() && x.Number == command.Number)
                 .AsNoTracking()
                 .AnyAsync();
 
             if (userWithNumberExistsAlready)
-                throw new MatchingUserWithNumberExistsException(command.UserType, command.Number);
+                throw new MatchingUserWithNumberExistsException(command.UserType.MapToContractEnum(), command.Number);
 
             var user = new User(
                 command.Username,
@@ -65,9 +66,9 @@ namespace TestApi.DAL.Commands
                 command.LastName,
                 command.DisplayName,
                 command.Number,
-                command.TestType,
-                command.UserType,
-                command.Application,
+                command.TestType.MapToContractEnum(),
+                command.UserType.MapToContractEnum(),
+                command.Application.MapToContractEnum(),
                 command.IsProdUser
             );
 

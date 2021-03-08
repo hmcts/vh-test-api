@@ -2,14 +2,16 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 using TestApi.Mappings;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Services.Services;
+using UserApi.Client;
+using UserApi.Contract.Responses;
 
 namespace TestApi.Controllers
 {
@@ -39,6 +41,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         [HttpGet("username/{username}")]
+        [OpenApiOperation("GetUserDetailsByUsernameAsync")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -46,7 +49,7 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"GetUserDetailsByUsernameAsync {username}");
 
-            var user = await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+            var user = await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
 
             if (user == null)
             {
@@ -63,6 +66,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         [HttpGet("userPrincipalName/{username}")]
+        [OpenApiOperation("GetUserByUserPrincipleNameAsync")]
         [ProducesResponseType(typeof(UserProfile), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -87,6 +91,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         [HttpGet("aad/{username}")]
+        [OpenApiOperation("GetUserExistsInAdAsync")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -110,6 +115,7 @@ namespace TestApi.Controllers
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         [HttpDelete("aad/{contactEmail}")]
+        [OpenApiOperation("DeleteADUserAsync")]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteADUserAsync(string contactEmail)
@@ -130,6 +136,7 @@ namespace TestApi.Controllers
         ///     Refresh Judges Cache
         /// </summary>
         [HttpGet("judges/cache")]
+        [OpenApiOperation("RefreshJudgesCacheAsync")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RefreshJudgesCacheAsync()
@@ -152,6 +159,7 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="request">Details of the required user</param>
         [HttpPatch("aad/password")]
+        [OpenApiOperation("ResetUserPasswordAsync")]
         [ProducesResponseType(typeof(UpdateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

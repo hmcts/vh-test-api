@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Commands;
@@ -40,6 +42,7 @@ namespace TestApi.Controllers
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         [HttpPatch("allocateUser")]
+        [OpenApiOperation("AllocateSingleUserAsync")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public IActionResult AllocateSingleUserAsync(AllocateUserRequest request)
@@ -62,6 +65,7 @@ namespace TestApi.Controllers
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         [HttpPatch("allocateUsers")]
+        [OpenApiOperation("AllocateMultipleUsersAsync")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public IActionResult AllocateUsersAsync(AllocateUsersRequest request)
@@ -102,6 +106,7 @@ namespace TestApi.Controllers
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         [HttpPatch("unallocateUsers")]
+        [OpenApiOperation("UnallocateUsersAsync")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -142,6 +147,7 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         [HttpGet("allocatedUsers/{username}")]
+        [OpenApiOperation("GetAllocateUsersByAllocatedByAsync")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllocatedUsersAsync(string username)
@@ -158,9 +164,9 @@ namespace TestApi.Controllers
             return Ok(responses);
         }
 
-        private async Task<User> GetUserByUsernameAsync(string username)
+        private async Task<UserDto> GetUserByUsernameAsync(string username)
         {
-            return await _queryHandler.Handle<GetUserByUsernameQuery, User>(new GetUserByUsernameQuery(username));
+            return await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
         }
 
         private async Task<Allocation> GetAllocationByUsernameAsync(string username)
@@ -169,9 +175,9 @@ namespace TestApi.Controllers
                 new GetAllocationByUsernameQuery(username));
         }
 
-        private async Task<User> AllocateAsync(AllocateUserRequest request)
+        private async Task<UserDto> AllocateAsync(AllocateUserRequest request)
         {
-            return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, User>(
+            return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(
                 new GetAllocatedUserByUserTypeQuery(request));
         }
 

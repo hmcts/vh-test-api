@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {
@@ -20,7 +20,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferenceByHearingRefIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
-            var response = await Controller.GetConferenceByHearingRefIdAsync(conferenceDetailsResponse.Hearing_id);
+            var response = await Controller.GetConferenceByHearingRefIdAsync(conferenceDetailsResponse.HearingId);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;

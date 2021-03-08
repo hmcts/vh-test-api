@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Tests.Common;
 
 namespace TestApi.AcceptanceTests.Controllers

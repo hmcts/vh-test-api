@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookingsApi.Contract.Enums;
+using BookingsApi.Contract.Requests;
+using BookingsApi.Contract.Responses;
 using TestApi.Domain.Helpers;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.Services.Builders.Responses
 {
@@ -21,55 +23,55 @@ namespace TestApi.Services.Builders.Responses
             {
                 new CaseResponse
                 {
-                    Is_lead_case = _request.Cases.First().Is_lead_case,
+                    IsLeadCase = _request.Cases.First().IsLeadCase,
                     Name = _request.Cases.First().Name,
                     Number = _request.Cases.First().Number
                 }
             };
 
             var participants = (from participant in _request.Participants
-                let userType = GetUserType.FromUserLastName(participant.Last_name)
+                let userType = GetUserType.FromUserLastName(participant.LastName)
                 let userRoleName = UserTypeName.FromUserType(userType)
                 select new ParticipantResponse
                 {
-                    Case_role_name = participant.Case_role_name,
-                    Contact_email = participant.Contact_email,
-                    Display_name = participant.Display_name,
-                    First_name = participant.First_name,
-                    Hearing_role_name = participant.Hearing_role_name,
+                    CaseRoleName = participant.CaseRoleName,
+                    ContactEmail = participant.ContactEmail,
+                    DisplayName = participant.DisplayName,
+                    FirstName = participant.FirstName,
+                    HearingRoleName = participant.HearingRoleName,
                     Id = Guid.NewGuid(),
-                    Last_name = participant.Last_name,
-                    Middle_names = participant.Middle_names,
-                    Organisation = participant.Organisation_name,
+                    LastName = participant.LastName,
+                    MiddleNames = participant.MiddleNames,
+                    Organisation = participant.OrganisationName,
                     Representee = participant.Representee,
-                    Telephone_number = participant.Telephone_number,
+                    TelephoneNumber = participant.TelephoneNumber,
                     Title = participant.Title,
-                    User_role_name = userRoleName,
+                    UserRoleName = userRoleName,
                     Username = participant.Username
                 }).ToList();
 
             return new HearingDetailsResponse
             {
-                Audio_recording_required = _request.Audio_recording_required,
-                Cancel_reason = null,
-                Case_type_name = _request.Case_type_name,
+                AudioRecordingRequired = _request.AudioRecordingRequired,
+                CancelReason = null,
+                CaseTypeName = _request.CaseTypeName,
                 Cases = cases,
-                Confirmed_by = null,
-                Confirmed_date = null,
-                Created_by = _request.Created_by,
-                Created_date = DateTime.UtcNow,
-                Hearing_room_name = _request.Hearing_room_name,
-                Hearing_type_name = _request.Hearing_type_name,
-                Hearing_venue_name = _request.Hearing_venue_name,
+                ConfirmedBy = null,
+                ConfirmedDate = null,
+                CreatedBy = _request.CreatedBy,
+                CreatedDate = DateTime.UtcNow,
+                HearingRoomName = _request.HearingRoomName,
+                HearingTypeName = _request.HearingTypeName,
+                HearingVenueName = _request.HearingVenueName,
                 Id = Guid.NewGuid(),
-                Other_information = _request.Other_information,
+                OtherInformation = _request.OtherInformation,
                 Participants = participants,
-                Questionnaire_not_required = _request.Questionnaire_not_required,
-                Scheduled_date_time = _request.Scheduled_date_time,
-                Scheduled_duration = _request.Scheduled_duration,
+                QuestionnaireNotRequired = _request.QuestionnaireNotRequired,
+                ScheduledDateTime = _request.ScheduledDateTime,
+                ScheduledDuration = _request.ScheduledDuration,
                 Status = BookingStatus.Booked,
-                Updated_by = _request.Created_by,
-                Updated_date = DateTime.UtcNow
+                UpdatedBy = _request.CreatedBy,
+                UpdatedDate = DateTime.UtcNow
             };
         }
     }

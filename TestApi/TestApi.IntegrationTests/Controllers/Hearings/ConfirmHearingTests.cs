@@ -6,11 +6,11 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
 {

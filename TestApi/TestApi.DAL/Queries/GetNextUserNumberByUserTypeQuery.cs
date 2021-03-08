@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Extensions;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.DAL.Queries
 {
@@ -33,7 +34,7 @@ namespace TestApi.DAL.Queries
         public async Task<Integer> Handle(GetNextUserNumberByUserTypeQuery query)
         {
             var users = await _context.Users
-                .Where(x => x.UserType == query.UserType && x.Application == query.Application && x.IsProdUser == query.IsProdUser)
+                .Where(x => x.UserType == query.UserType.MapToContractEnum() && x.Application == query.Application.MapToContractEnum() && x.IsProdUser == query.IsProdUser)
                 .AsNoTracking()
                 .ToListAsync();
 

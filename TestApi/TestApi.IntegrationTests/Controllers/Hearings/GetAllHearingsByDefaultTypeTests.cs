@@ -3,9 +3,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Services.Clients.BookingsApiClient;
 using TestApi.Tests.Common.Configuration;
 
 namespace TestApi.IntegrationTests.Controllers.Hearings
@@ -27,7 +27,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
             response.Should().NotBeNull();
             response.Count.Should().BeGreaterThan(0);
 
-            response.Any(x => x.Hearing_name.Equals(hearingResponse.Cases.Single().Name)).Should().BeTrue();
+            response.Any(x => x.HearingName.Equals(hearingResponse.Cases.Single().Name)).Should().BeTrue();
         }
     }
 }

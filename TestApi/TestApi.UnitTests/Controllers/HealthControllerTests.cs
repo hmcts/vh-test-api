@@ -1,21 +1,21 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Client;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.Controllers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Client;
+using VideoApi.Client;
 
 namespace TestApi.UnitTests.Controllers
 {
@@ -46,13 +46,13 @@ namespace TestApi.UnitTests.Controllers
             var user = new UserBuilder(emailStem, userNumber)
                 .WithUserType(UserType.Judge)
                 .ForApplication(application)
-                .BuildUser();
+                .BuildUserDto();
 
             var query = new GetUserByUsernameQuery(user.Username);
 
             _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
-            _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, User>(query))
+            _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(query))
                 .Returns(Task.FromResult(user));
 
             var result = await _controller.HealthAsync();
@@ -68,7 +68,7 @@ namespace TestApi.UnitTests.Controllers
             _controller = new HealthController(_mockQueryHandler.Object, _mockBookingsApiClient.Object,
                 _mockUserApiClient.Object, _mockVideoApiClient.Object);
             _mockQueryHandler
-                .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
+                .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ThrowsAsync(exception);
 
             var result = await _controller.HealthAsync();

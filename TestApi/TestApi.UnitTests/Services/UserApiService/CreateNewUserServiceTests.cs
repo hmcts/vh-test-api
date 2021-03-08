@@ -4,8 +4,9 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Contract.Requests;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Services.UserApiService
 {
@@ -33,8 +34,8 @@ namespace TestApi.UnitTests.Services.UserApiService
 
             var newUserResponse = new NewUserResponse
             {
-                One_time_password = "password",
-                User_id = "1234",
+                OneTimePassword = "password",
+                UserId = "1234",
                 Username = userRequest.Username
             };
 
@@ -43,8 +44,8 @@ namespace TestApi.UnitTests.Services.UserApiService
                 .Returns(Task.CompletedTask);
 
             var userDetails = await UserApiService.CreateNewUserInAAD(userRequest.FirstName, userRequest.LastName, userRequest.ContactEmail, userRequest.IsProdUser);
-            userDetails.One_time_password.Should().Be(newUserResponse.One_time_password);
-            userDetails.User_id.Should().Be(newUserResponse.User_id);
+            userDetails.OneTimePassword.Should().Be(newUserResponse.OneTimePassword);
+            userDetails.UserId.Should().Be(newUserResponse.UserId);
             userDetails.Username.Should().Be(newUserResponse.Username);
         }
     }

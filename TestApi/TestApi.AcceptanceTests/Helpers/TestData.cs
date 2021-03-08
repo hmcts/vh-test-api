@@ -1,5 +1,5 @@
-﻿using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+﻿using BookingsApi.Contract.Responses;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.AcceptanceTests.Helpers
 {

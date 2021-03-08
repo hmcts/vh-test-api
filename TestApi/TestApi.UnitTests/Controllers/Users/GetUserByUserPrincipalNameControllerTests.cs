@@ -7,8 +7,8 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
@@ -23,18 +23,18 @@ namespace TestApi.UnitTests.Controllers.Users
             var user = new UserBuilder(EMAIL_STEM, NUMBER)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var userProfile = new UserProfile()
             {
-                Case_type = new List<string>(),
-                Display_name = user.DisplayName,
+                CaseType = new List<string>(),
+                DisplayName = user.DisplayName,
                 Email = user.ContactEmail,
-                First_name = user.FirstName,
-                Last_name = user.LastName,
-                User_id = user.Id.ToString(),
-                User_name = user.Username,
-                User_role = user.UserType.ToString()
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserId = user.Id.ToString(),
+                UserName = user.Username,
+                UserRole = user.UserType.ToString()
             };
 
             UserApiClient

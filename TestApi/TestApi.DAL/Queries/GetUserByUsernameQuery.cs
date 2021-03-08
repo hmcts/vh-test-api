@@ -1,8 +1,8 @@
-﻿#nullable enable
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TestApi.Common.Mappers;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Queries.Core;
-using TestApi.Domain;
 
 namespace TestApi.DAL.Queries
 {
@@ -16,7 +16,7 @@ namespace TestApi.DAL.Queries
         public string Username { get; set; }
     }
 
-    public class GetUserByUsernameQueryHandler : IQueryHandler<GetUserByUsernameQuery, User>
+    public class GetUserByUsernameQueryHandler : IQueryHandler<GetUserByUsernameQuery, UserDto>
     {
         private readonly TestApiDbContext _context;
 
@@ -25,11 +25,12 @@ namespace TestApi.DAL.Queries
             _context = context;
         }
 
-        public async Task<User> Handle(GetUserByUsernameQuery query)
+        public async Task<UserDto> Handle(GetUserByUsernameQuery query)
         {
-            return await _context.Users
+            var user = await _context.Users
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Username.ToLower() == query.Username.ToLower());
+            return user == null ? null : UserToUserDtoMapper.Map(user);
         }
     }
 }

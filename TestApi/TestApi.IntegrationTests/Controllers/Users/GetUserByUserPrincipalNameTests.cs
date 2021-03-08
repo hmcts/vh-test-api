@@ -4,9 +4,9 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.UserApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using UserApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Users
 {

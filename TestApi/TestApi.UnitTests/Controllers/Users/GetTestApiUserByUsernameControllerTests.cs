@@ -7,11 +7,11 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
 using TestApi.DAL.Queries;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
@@ -26,10 +26,10 @@ namespace TestApi.UnitTests.Controllers.Users
             var user = new UserBuilder(EMAIL_STEM, NUMBER)
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
+                .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync(user);
 
             var result = await Controller.GetUserDetailsByUsernameAsync(user.Username);
@@ -48,8 +48,8 @@ namespace TestApi.UnitTests.Controllers.Users
             const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUsernameQuery, User>(It.IsAny<GetUserByUsernameQuery>()))
-                .ReturnsAsync((User)null);
+                .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
+                .ReturnsAsync((UserDto)null);
 
             var result = await Controller.GetUserDetailsByUsernameAsync(USERNAME);
 

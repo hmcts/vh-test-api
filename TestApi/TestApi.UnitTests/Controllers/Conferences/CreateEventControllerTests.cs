@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {

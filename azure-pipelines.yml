@@ -8,6 +8,11 @@ parameters:
   displayName: Package Acceptance Tests
   type: boolean
   default: true
+  
+- name: PackageNuget
+  displayName: Package Nuget Project
+  type: boolean
+  default: true
 
 - name: RunUnitTests
   displayName: Run Unit Tests
@@ -223,6 +228,8 @@ extends:
   template: stages\dotnet-package.yml@templates
   parameters:
     coreProjectPath: TestApi/TestApi
+    nugetProjectPath: TestApi/TestApi.Client
+    PackageNuget: ${{ parameters.PackageNuget }}
     PackageApp: ${{ parameters.PackageApp }}
     PackageAcceptanceTests: ${{ parameters.PackageACTests }}
     Test: ${{ or(parameters.RunUnitTests, parameters.RunIntegTests, parameters.RunMutationTests) }}

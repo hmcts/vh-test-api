@@ -6,11 +6,13 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Builders;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Requests;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -57,96 +59,96 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             return response;
         }
 
-        private List<User> CreateDefaultUsers(TestType testType, bool isCACDCaseType)
+        private List<UserDto> CreateDefaultUsers(TestType testType, bool isCACDCaseType)
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var observer = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddObserver()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var panelMember = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddPanelMember()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var witness = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddWitness()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var interpreter = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddInterpreter()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddCaseAdmin()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
             if (!isCACDCaseType)
-                return new List<User>() {judge, individual, representative, observer, panelMember, witness, interpreter, caseAdmin };
+                return new List<UserDto>() {judge, individual, representative, observer, panelMember, witness, interpreter, caseAdmin };
             
             var winger = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddWinger()
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
+            return new List<UserDto>() { judge, individual, representative, observer, panelMember, winger, caseAdmin };
         }
 
-        private List<User> CreateJustIndividualUserAndJudge()
+        private List<UserDto> CreateJustIndividualUserAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var individual = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddIndividual()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, individual };
+            return new List<UserDto>() { judge, individual };
         }
 
-        private List<User> CreateJustRepUserAndJudge()
+        private List<UserDto> CreateJustRepUserAndJudge()
         {
             var judge = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddJudge()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
             var representative = new UserBuilder(Context.Config.UsernameStem, 1)
                 .AddRepresentative()
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
 
-            return new List<User>() { judge, representative };
+            return new List<UserDto>() { judge, representative };
         }
 
         protected ConferenceEventRequest CreateVideoEventRequest(ConferenceDetailsResponse conference)
@@ -185,7 +187,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             foreach (var conference in ConferencesToDelete)
             {
-                await DeleteConference(conference.Hearing_id, conference.Id);
+                await DeleteConference(conference.HearingId, conference.Id);
                 VerifyResponse(HttpStatusCode.NoContent, true);
             }
 

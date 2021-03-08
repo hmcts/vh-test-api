@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
@@ -17,17 +17,17 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_get_person()
         {
             var hearingDetailsResponse = CreateHearingDetailsResponse();
-            var individual = hearingDetailsResponse.Participants.First(x => x.User_role_name.Equals("Individual"));
+            var individual = hearingDetailsResponse.Participants.First(x => x.UserRoleName.Equals("Individual"));
 
             var personResponse = new PersonResponse()
             {
-                Contact_email = individual.Contact_email,
-                First_name = individual.First_name,
+                ContactEmail = individual.ContactEmail,
+                FirstName = individual.FirstName,
                 Id = Guid.NewGuid(),
-                Last_name = individual.Last_name,
-                Middle_names = individual.Middle_names,
+                LastName = individual.LastName,
+                MiddleNames = individual.MiddleNames,
                 Organisation = individual.Organisation,
-                Telephone_number = individual.Telephone_number,
+                TelephoneNumber = individual.TelephoneNumber,
                 Title = individual.Title,
                 Username = individual.Username
             };

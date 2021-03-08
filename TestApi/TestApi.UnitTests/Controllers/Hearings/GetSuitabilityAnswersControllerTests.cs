@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.BookingsApiClient;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
@@ -28,14 +28,14 @@ namespace TestApi.UnitTests.Controllers.Hearings
                         {
                             Answer =  "Answer",
                             Key = "Key",
-                            Extended_answer = "ExtendedAnswer"
+                            ExtendedAnswer = "ExtendedAnswer"
                         }
                     },
-                    Hearing_id = Guid.NewGuid(),
-                    Questionnaire_not_required = false,
-                    Participant_id = Guid.NewGuid(),
-                    Scheduled_at = DateTime.UtcNow,
-                    Updated_at = DateTime.UtcNow
+                    HearingId = Guid.NewGuid(),
+                    QuestionnaireNotRequired = false,
+                    ParticipantId = Guid.NewGuid(),
+                    ScheduledAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 }
             };
 

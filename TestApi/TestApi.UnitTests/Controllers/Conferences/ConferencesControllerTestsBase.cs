@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Client;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {

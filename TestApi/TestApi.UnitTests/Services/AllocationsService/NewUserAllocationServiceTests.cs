@@ -4,12 +4,13 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
-using TestApi.Services.Clients.UserApiClient;
+using TestApi.Contract.Enums;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Services.AllocationsService
 {
@@ -20,10 +21,10 @@ namespace TestApi.UnitTests.Services.AllocationsService
         {
             const string ALLOCATED_BY = EmailData.TEST_WEB_MANUAL_USER;
 
-            var users = new List<User>();
+            var users = new List<UserDto>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -40,7 +41,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = CreateNewUser(UserType.Individual, NUMBER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(
                     It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
@@ -52,7 +53,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
                 .Returns(Task.FromResult(allocation));
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -80,7 +81,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             AllocateAllUsers(allocations);
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             QueryHandler
@@ -104,7 +105,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = CreateNewUser(USER_TYPE, number);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(
                     It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
@@ -115,7 +116,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
                 .Returns(Task.FromResult(allocation));
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -135,10 +136,10 @@ namespace TestApi.UnitTests.Services.AllocationsService
         [Test]
         public async Task Should_allocate_new_user_no_users_exist_does_not_exist_in_aad()
         {
-            var users = new List<User>();
+            var users = new List<UserDto>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -155,7 +156,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = CreateNewUser(UserType.Individual, NUMBER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(
                     It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
@@ -166,7 +167,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
                 .Returns(Task.FromResult(allocation));
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -175,8 +176,8 @@ namespace TestApi.UnitTests.Services.AllocationsService
 
             var newUserResponse = new NewUserResponse
             {
-                One_time_password = "password",
-                User_id = "1234",
+                OneTimePassword = "password",
+                UserId = "1234",
                 Username = user.Username
             };
 
@@ -187,7 +188,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             const int NUMBER_OF_USER_GROUPS = 2;
 
             MockUserApiService
-                .Setup(x => x.AddGroupsToUser(It.IsAny<User>(), It.IsAny<string>()))
+                .Setup(x => x.AddGroupsToUser(It.IsAny<UserDto>(), It.IsAny<string>()))
                 .ReturnsAsync(NUMBER_OF_USER_GROUPS);
 
             CommandHandler
@@ -206,10 +207,10 @@ namespace TestApi.UnitTests.Services.AllocationsService
         [TestCase(TestType.Performance)]
         public async Task Should_allocate_new_user_for_test_type(TestType testType)
         {
-            var users = new List<User>();
+            var users = new List<UserDto>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -226,7 +227,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = CreateNewUser(testType, NUMBER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(
                     It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
@@ -237,7 +238,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
                 .Returns(Task.FromResult(allocation));
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService
@@ -258,10 +259,10 @@ namespace TestApi.UnitTests.Services.AllocationsService
         public async Task Should_allocate_new_prod_user()
         {
             const bool IS_PROD_USER = UserData.IS_PROD_USER;
-            var users = new List<User>();
+            var users = new List<UserDto>();
 
             QueryHandler
-                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<User>>(It.IsAny<GetAllUsersByFilterQuery>()))
+                .Setup(x => x.Handle<GetAllUsersByFilterQuery, List<UserDto>>(It.IsAny<GetAllUsersByFilterQuery>()))
                 .ReturnsAsync(users);
 
             const int NUMBER = 1;
@@ -278,7 +279,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
             var user = CreateNewUser(UserType.Individual, NUMBER, IS_PROD_USER);
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, User>(
+                .Setup(x => x.Handle<GetUserByUserTypeAppAndNumberQuery, UserDto>(
                     It.IsAny<GetUserByUserTypeAppAndNumberQuery>()))
                 .ReturnsAsync(user);
 
@@ -289,7 +290,7 @@ namespace TestApi.UnitTests.Services.AllocationsService
                 .Returns(Task.FromResult(allocation));
 
             QueryHandler
-                .Setup(x => x.Handle<GetUserByIdQuery, User>(It.IsAny<GetUserByIdQuery>()))
+                .Setup(x => x.Handle<GetUserByIdQuery, UserDto>(It.IsAny<GetUserByIdQuery>()))
                 .ReturnsAsync(user);
 
             MockUserApiService

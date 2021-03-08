@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NSwag.Annotations;
 using TestApi.Contract.Requests;
 using TestApi.Contract.Responses;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
+using VideoApi.Client;
 
 namespace TestApi.Controllers
 {
@@ -36,6 +37,7 @@ namespace TestApi.Controllers
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         [HttpPost("removeTestData")]
+        [OpenApiOperation("DeleteTestDataByPartialCaseTextAsync")]
         [ProducesResponseType(typeof(DeletedResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)

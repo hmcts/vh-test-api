@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 
 namespace TestApi.Contract.Requests
 {
@@ -36,7 +36,7 @@ namespace TestApi.Contract.Requests
         public TestType TestType { get; set; }
 
         /// <summary>List of users to include as participants</summary>
-        public List<User> Users { get; set; }
+        public List<UserDto> Users { get; set; }
 
         /// <summary>Hearing venue name</summary>
         public string Venue { get; set; }

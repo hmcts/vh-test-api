@@ -1,11 +1,11 @@
-﻿using TestApi.Contract.Responses;
-using TestApi.Domain;
+﻿using TestApi.Contract.Dtos;
+using TestApi.Contract.Responses;
 
 namespace TestApi.Mappings
 {
     public static class UserToDetailsResponseMapper
     {
-        public static UserDetailsResponse MapToResponse(User user)
+        public static UserDetailsResponse MapToResponse(UserDto user)
         {
             return new UserDetailsResponse
             {

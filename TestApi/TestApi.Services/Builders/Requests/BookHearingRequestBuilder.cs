@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
+using BookingsApi.Contract.Enums;
+using BookingsApi.Contract.Requests;
 using Castle.Core.Internal;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
-using TestApi.Domain.Enums;
-using TestApi.Domain.Helpers;
-using TestApi.Services.Clients.BookingsApiClient;
+using TestApi.Contract.Enums;
+using TestApi.Contract.Helpers;
 
 namespace TestApi.Services.Builders.Requests
 {
@@ -21,7 +22,7 @@ namespace TestApi.Services.Builders.Requests
         {
             _request = new BookNewHearingRequest
             {
-                Case_type_name = createHearingRequest.CaseType,
+                CaseTypeName = createHearingRequest.CaseType,
                 Cases = new List<CaseRequest>(),
                 Participants = new List<ParticipantRequest>()
             };
@@ -35,7 +36,7 @@ namespace TestApi.Services.Builders.Requests
             {
                 Name = GenerateRandomCaseName(),
                 Number = GenerateRandom.CaseNumber(_randomNumber),
-                Is_lead_case = HearingData.IS_LEAD_CASE
+                IsLeadCase = HearingData.IS_LEAD_CASE
             };
             _request.Cases.Add(caseRequest);
         }
@@ -78,7 +79,7 @@ namespace TestApi.Services.Builders.Requests
             {
                 _request.Endpoints.Add(new EndpointRequest()
                 {
-                    Display_name = $"{HearingData.ENDPOINT_PREFIX}{i}"
+                    DisplayName = $"{HearingData.ENDPOINT_PREFIX}{i}"
                 });
             }
         }
@@ -87,7 +88,7 @@ namespace TestApi.Services.Builders.Requests
         {
             if (!_createHearingRequest.CreatedBy.IsNullOrEmpty())
             {
-                _request.Created_by = _createHearingRequest.CreatedBy;
+                _request.CreatedBy = _createHearingRequest.CreatedBy;
                 return;
             }
 
@@ -96,30 +97,30 @@ namespace TestApi.Services.Builders.Requests
             
             if (caseAdminsCount + videoHearingsOfficerCount == 0)
             {
-                _request.Created_by = UserData.DEFAULT_CREATED_BY_USER;
+                _request.CreatedBy = UserData.DEFAULT_CREATED_BY_USER;
             }
 
             if (caseAdminsCount > 0)
             {
-                _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
+                _request.CreatedBy = _createHearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin).Username;
             }
 
             if (videoHearingsOfficerCount > 0)
             {
-                _request.Created_by = _createHearingRequest.Users.First(x => x.UserType == UserType.VideoHearingsOfficer).Username;
+                _request.CreatedBy = _createHearingRequest.Users.First(x => x.UserType == UserType.VideoHearingsOfficer).Username;
             }
         }
 
         private void SetCaseTypeAndHearingTypeNames()
         {
-            if (_request.Case_type_name.IsNullOrEmpty())
+            if (_request.CaseTypeName.IsNullOrEmpty())
             {
-                _request.Case_type_name = HearingData.CASE_TYPE_NAME;
-                _request.Hearing_type_name = HearingData.HEARING_TYPE_NAME;
+                _request.CaseTypeName = HearingData.CASE_TYPE_NAME;
+                _request.HearingTypeName = HearingData.HEARING_TYPE_NAME;
             }
             else
             {
-                _request.Hearing_type_name = IsCACDCaseType() ? HearingData.CACD_HEARING_TYPE_NAME : HearingData.HEARING_TYPE_NAME;
+                _request.HearingTypeName = IsCACDCaseType() ? HearingData.CACD_HEARING_TYPE_NAME : HearingData.HEARING_TYPE_NAME;
             }
         }
 
@@ -129,31 +130,31 @@ namespace TestApi.Services.Builders.Requests
             SetCreatedBy();
             SetCaseTypeAndHearingTypeNames();
             AddEndpoints();
-            _request.Audio_recording_required = _createHearingRequest.AudioRecordingRequired;
-            _request.Hearing_room_name = HearingData.HEARING_ROOM_NAME;
-            _request.Hearing_venue_name = _createHearingRequest.Venue;
-            _request.Other_information = HearingData.OTHER_INFORMATION;
-            _request.Questionnaire_not_required = _createHearingRequest.QuestionnaireNotRequired;
+            _request.AudioRecordingRequired = _createHearingRequest.AudioRecordingRequired;
+            _request.HearingRoomName = HearingData.HEARING_ROOM_NAME;
+            _request.HearingVenueName = _createHearingRequest.Venue;
+            _request.OtherInformation = HearingData.OTHER_INFORMATION;
+            _request.QuestionnaireNotRequired = _createHearingRequest.QuestionnaireNotRequired;
             _request.Participants = new BookHearingParticipantsBuilder(_createHearingRequest.Users, IsCACDCaseType()).Build();
-            _request.Scheduled_date_time = _createHearingRequest.ScheduledDateTime;
-            _request.Scheduled_duration = HearingData.SCHEDULED_DURATION;
+            _request.ScheduledDateTime = _createHearingRequest.ScheduledDateTime;
+            _request.ScheduledDuration = HearingData.SCHEDULED_DURATION;
             AddLinkedParticipants();
             return _request;
         }
 
         private void AddLinkedParticipants()
         {
-            _request.Linked_participants = new List<LinkedParticipantRequest>();
+            _request.LinkedParticipants = new List<LinkedParticipantRequest>();
 
             var interpreters = _createHearingRequest.Users.Where(x => x.UserType == UserType.Interpreter).ToList();
             var individuals = _createHearingRequest.Users.Where(x => x.UserType == UserType.Individual).ToList();
 
             for (var i = 0; i < interpreters.Count; i++)
             {
-                _request.Linked_participants.Add(new LinkedParticipantRequest()
+                _request.LinkedParticipants.Add(new LinkedParticipantRequest()
                 {
-                    Participant_contact_email = interpreters[i].ContactEmail,
-                    Linked_participant_contact_email = individuals[i].ContactEmail,
+                    ParticipantContactEmail = interpreters[i].ContactEmail,
+                    LinkedParticipantContactEmail = individuals[i].ContactEmail,
                     Type = LinkedParticipantType.Interpreter
                 });
             }
@@ -161,7 +162,7 @@ namespace TestApi.Services.Builders.Requests
 
         private bool IsCACDCaseType()
         {
-            return _request.Case_type_name.Equals(HearingData.CACD_CASE_TYPE_NAME);
+            return _request.CaseTypeName.Equals(HearingData.CACD_CASE_TYPE_NAME);
         }
     }
 }

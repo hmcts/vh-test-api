@@ -13,19 +13,19 @@ namespace TestApi
 
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        private static IHostBuilder CreateWebHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
             const string vhInfraCore = "/mnt/secrets/vh-infra-core";
-            const string vhTestApi = "/mnt/secrets/vh-test-api";
+            const string vhNotificationApi = "/mnt/secrets/vh-test-api";
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
                     configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                    configBuilder.AddAksKeyVaultSecretProvider(vhTestApi);
+                    configBuilder.AddAksKeyVaultSecretProvider(vhNotificationApi);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

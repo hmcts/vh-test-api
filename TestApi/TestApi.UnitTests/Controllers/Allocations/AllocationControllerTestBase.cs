@@ -3,11 +3,13 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
+using TestApi.UnitTests.Helpers;
 
 namespace TestApi.UnitTests.Controllers.Allocations
 {
@@ -27,7 +29,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             Controller = new AllocationController(CommandHandler.Object, QueryHandler.Object, Logger.Object);
         }
 
-        protected static User CreateUser(UserType userType, bool isProdUser = false)
+        protected static UserDto CreateUser(UserType userType, bool isProdUser = false)
         {
             const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int number = 1;
@@ -35,10 +37,10 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)
                 .IsProdUser(isProdUser)
-                .BuildUser();
+                .BuildUserDto();
         }
 
-        protected static User CreateUser(TestType testType)
+        protected static UserDto CreateUser(TestType testType)
         {
             const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int number = 1;
@@ -46,11 +48,12 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .WithUserType(UserType.Judge)
                 .ForApplication(Application.TestApi)
                 .ForTestType(testType)
-                .BuildUser();
+                .BuildUserDto();
         }
 
-        protected static Allocation CreateAllocation(User user)
+        protected static Allocation CreateAllocation(UserDto userDto)
         {
+            var user = UserDtoToUserMapper.Map(userDto);
             return new Allocation(user);
         }
 

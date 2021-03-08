@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using BookingsApi.Client;
+using BookingsApi.Contract.Responses;
 using TestApi.Common.Builders;
 using TestApi.Common.Data;
+using TestApi.Contract.Dtos;
 using TestApi.Contract.Requests;
-using TestApi.Domain;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Services.Builders.Responses;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Client;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers
 {
     public class ControllerTestsBase
     {
-        protected static User CreateUser(UserType userType)
+        protected static UserDto CreateUser(UserType userType)
         {
             const string emailStem = EmailData.FAKE_EMAIL_STEM;
             const int number = 1;
             return new UserBuilder(emailStem, number)
                 .WithUserType(userType)
                 .ForApplication(Application.TestApi)
-                .BuildUser();
+                .BuildUserDto();
         }
 
         protected CreateHearingRequest CreateHearingRequest()
@@ -32,7 +34,7 @@ namespace TestApi.UnitTests.Controllers
             var thirdUser = CreateUser(UserType.Representative);
             var fourthUser = CreateUser(UserType.CaseAdmin);
 
-            var users = new List<User> { firstUser, secondUser, thirdUser, fourthUser };
+            var users = new List<UserDto> { firstUser, secondUser, thirdUser, fourthUser };
 
             return new HearingBuilder(users).Build();
         }

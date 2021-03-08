@@ -6,7 +6,7 @@ using TestApi.Common.Builders;
 using TestApi.Common.Data;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Exceptions;
-using TestApi.Domain.Enums;
+using TestApi.Contract.Enums;
 
 namespace TestApi.IntegrationTests.Database.Commands
 {

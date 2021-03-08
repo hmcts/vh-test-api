@@ -6,8 +6,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Services.Clients.VideoApiClient;
-using TaskStatus = TestApi.Services.Clients.VideoApiClient.TaskStatus;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
+using TaskStatus = VideoApi.Contract.Enums.TaskStatus;
 
 namespace TestApi.UnitTests.Controllers.Conferences
 {
@@ -23,11 +24,11 @@ namespace TestApi.UnitTests.Controllers.Conferences
                     Body = "Body",
                     Created = DateTime.UtcNow,
                     Id = new long(),
-                    Origin_id = Guid.NewGuid(),
+                    OriginId = Guid.NewGuid(),
                     Status = TaskStatus.ToDo,
                     Type = TaskType.Participant,
                     Updated = null,
-                    Updated_by = null
+                    UpdatedBy = null
                 }
             };
 

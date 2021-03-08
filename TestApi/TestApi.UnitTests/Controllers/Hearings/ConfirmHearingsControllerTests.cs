@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Services.Builders.Requests;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {

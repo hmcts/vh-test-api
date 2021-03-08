@@ -6,9 +6,10 @@ using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 using TestApi.Common.Data;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
+using VideoApi.Contract.Enums;
+using VideoApi.Contract.Responses;
 
 namespace TestApi.IntegrationTests.Controllers.Conferences
 {
@@ -19,7 +20,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
         {
             var request = CreateConferenceRequest();
             var conference = await CreateConference(request);
-            var judge = conference.Participants.First(x => x.User_role == UserRole.Judge);
+            var judge = conference.Participants.First(x => x.UserRole == UserRole.Judge);
 
             var uri = ApiUriFactory.ConferenceEndpoints.GetConferencesForJudge(judge.Username);
             await SendGetRequest(uri);

@@ -15,8 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using TestApi.Common.Configuration;
 using TestApi.DAL;
 using TestApi.Extensions;
+using TestApi.Middleware.Validation;
 using TestApi.Telemetry;
-using TestApi.ValidationMiddleware;
 using TestApi.Validations;
 
 namespace TestApi
@@ -66,14 +66,12 @@ namespace TestApi
 
             services.AddAuthorization(AddPolicies);
             services.AddMvc(AddMvcPolicies);
+            services.AddMvc(opt => opt.Filters.Add(typeof(LoggingMiddleware))).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter))).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AllocateUserRequestValidator>());
 
             services.AddTransient<IRequestModelValidatorService, RequestModelValidatorService>();
             services.AddTransient<IValidatorFactory, RequestModelValidatorFactory>();
-
-            services.AddMvc(opt => opt.Filters.Add(typeof(RequestModelValidatorFilter)))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddFluentValidation(fv =>
-                    fv.RegisterValidatorsFromAssemblyContaining<AllocateUsersRequestValidator>());
         }
 
         private void RegisterAuth(IServiceCollection services)
@@ -105,6 +103,12 @@ namespace TestApi
         {
             app.RunLatestMigrations();
 
+            app.UseOpenApi();
+            app.UseSwaggerUi3(c =>
+            {
+                c.DocumentTitle = "Test Api";
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -115,22 +119,15 @@ namespace TestApi
                 app.UseHttpsRedirection();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                const string url = "/swagger/v1/swagger.json";
-                c.SwaggerEndpoint(url, "Test API V1");
-            });
-
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseAuthentication();
 
-            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
-
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }
 
         private static void AddPolicies(AuthorizationOptions options)

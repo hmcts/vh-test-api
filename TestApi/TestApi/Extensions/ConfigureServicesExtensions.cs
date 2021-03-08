@@ -1,83 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Reflection;
+using BookingsApi.Client;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using TestApi.Common.Configuration;
+using TestApi.Common.Configuration.Helpers;
 using TestApi.Common.Security;
 using TestApi.DAL.Commands;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.UserApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
 using TestApi.Swagger;
 using TestApi.Telemetry;
-using CreateUserRequest = TestApi.Contract.Requests.CreateUserRequest;
+using UserApi.Client;
+using VideoApi.Client;
 
-namespace TestApi
+namespace TestApi.Extensions
 {
     public static class ConfigureServicesExtensions
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-            var contractsXmlFile = $"{typeof(CreateUserRequest).Assembly.GetName().Name}.xml";
-            var contractsXmlPath = Path.Combine(AppContext.BaseDirectory, contractsXmlFile);
-
-            services.AddSwaggerGen(c =>
+            services.AddOpenApiDocument((document, serviceProvider) =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
-                c.AddFluentValidationRules();
-                c.IncludeXmlComments(xmlPath);
-                c.IncludeXmlComments(contractsXmlPath);
-                c.EnableAnnotations();
-                c.CustomSchemaIds(x => x.FullName);
-
-                c.AddSecurityDefinition("Bearer",
+                document.AddSecurity("JWT", Enumerable.Empty<string>(),
                     new OpenApiSecurityScheme
                     {
-                        Description = "JWT Authorization header using the Bearer scheme.",
-                        Type = SecuritySchemeType.Http,
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "Type into the textfield: Bearer {your JWT token}.",
                         Scheme = "bearer"
                     });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Id = "Bearer",
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },
-                        new List<string>()
-                    }
-                });
-                c.OperationFilter<AuthResponsesOperationFilter>();
+                document.Title = "Test Api";
+                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                document.OperationProcessors.Add(new AuthResponseOperationProcessor());
             });
-            services.AddSwaggerGenNewtonsoftSupport();
-
             return services;
         }
 
         public static IServiceCollection AddCustomTypes(this IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddScoped<ILoggingDataExtractor, LoggingDataExtractor>();
 
             services.AddScoped<ITokenProvider, AzureTokenProvider>();
             services.AddSingleton<ITelemetryInitializer, BadRequestTelemetry>();
@@ -167,20 +138,19 @@ namespace TestApi
         private static IBookingsApiClient BuildBookingsApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new BookingsApiClient(httpClient)
-                {BaseUrl = serviceSettings.BookingsApiUrl, ReadResponseAsString = true};
+            return BookingsApiClient.GetClient(serviceSettings.BookingsApiUrl, httpClient);
         }
 
         private static IUserApiClient BuildUserApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new UserApiClient(httpClient) {BaseUrl = serviceSettings.UserApiUrl, ReadResponseAsString = true};
+            return UserApiClient.GetClient(serviceSettings.UserApiUrl, httpClient);
         }
 
         private static IVideoApiClient BuildVideoApiClient(HttpClient httpClient,
             ServicesConfiguration serviceSettings)
         {
-            return new VideoApiClient(httpClient) {BaseUrl = serviceSettings.VideoApiUrl, ReadResponseAsString = true};
+            return VideoApiClient.GetClient(serviceSettings.VideoApiUrl, httpClient);
         }
     }
 }

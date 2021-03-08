@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using TestApi.Common.Data;
 using TestApi.Contract.Requests;
-using TestApi.Services.Clients.UserApiClient;
+using UserApi.Contract.Responses;
 
 namespace TestApi.UnitTests.Controllers.Users
 {
@@ -25,7 +25,7 @@ namespace TestApi.UnitTests.Controllers.Users
 
             var response = new UpdateUserResponse()
             {
-                New_password = NEW_PASSWORD
+                NewPassword = NEW_PASSWORD
             };
 
             UserApiClient
@@ -39,7 +39,7 @@ namespace TestApi.UnitTests.Controllers.Users
             objectResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
             var passwordResponse = (UpdateUserResponse)objectResult.Value;
-            passwordResponse.New_password.Should().Be(response.New_password);
+            passwordResponse.NewPassword.Should().Be(response.NewPassword);
         }
 
         [Test]

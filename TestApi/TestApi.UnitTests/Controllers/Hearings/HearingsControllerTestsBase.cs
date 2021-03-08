@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BookingsApi.Client;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TestApi.Controllers;
 using TestApi.DAL.Commands.Core;
 using TestApi.DAL.Queries.Core;
-using TestApi.Services.Clients.BookingsApiClient;
-using TestApi.Services.Clients.VideoApiClient;
 using TestApi.Services.Services;
+using VideoApi.Client;
 
 namespace TestApi.UnitTests.Controllers.Hearings
 {
