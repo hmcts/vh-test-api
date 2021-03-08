@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace TestApi.Client
 {
-    public class TestApiClientFactory
+    public partial class TestApiClient
     {
         public static TestApiClient GetClient(HttpClient httpClient)
         {
