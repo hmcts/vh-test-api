@@ -60,7 +60,7 @@ namespace TestApi.Controllers
                 foreach (var hearingId in hearingIds)
                 {
                     await _videoApiClient.DeleteAudioApplicationAsync(hearingId);
-                    _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingId}");
+                    _logger.LogInformation("Successfully deleted audio application with hearing id {hearingId}", hearingId);
                 }
             }
             catch (VideoApiException e)

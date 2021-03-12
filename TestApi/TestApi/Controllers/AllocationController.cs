@@ -47,12 +47,12 @@ namespace TestApi.Controllers
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public IActionResult AllocateSingleUserAsync(AllocateUserRequest request)
         {
-            _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
+            _logger.LogDebug("AllocateSingleUserAsync {userType} {application}", request.UserType, request.Application);
 
             lock (AllocationLock)
             {
                 var user = AllocateAsync(request);
-                _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
+                _logger.LogDebug("User '{username}' successfully allocated", user.Result.Username);
 
                 var response = UserToDetailsResponseMapper.MapToResponse(user.Result);
                 return Ok(response);
@@ -71,7 +71,7 @@ namespace TestApi.Controllers
         public IActionResult AllocateUsersAsync(AllocateUsersRequest request)
         {
             _logger.LogDebug(
-                $"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
+                "AllocateUsersAsync No. of UserTypes: {count} Application: {application}", request.UserTypes.Count, request.Application);
 
             lock (AllocationLock)
             {
@@ -90,11 +90,11 @@ namespace TestApi.Controllers
                     };
 
                     var user = AllocateAsync(allocateRequest);
-                    _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
+                    _logger.LogDebug("User '{username}' successfully allocated", user.Result.Username);
                     responses.Add(UserToDetailsResponseMapper.MapToResponse(user.Result));
                 }
 
-                _logger.LogInformation($"Allocated {responses.Count} user(s)");
+                _logger.LogInformation("Allocated {count} user(s)", responses.Count);
 
                 return Ok(responses);
             }
@@ -125,7 +125,10 @@ namespace TestApi.Controllers
                 var allocation = await GetAllocationByUsernameAsync(user.Username);
 
                 if (allocation == null)
+                {
+                    _logger.LogError("No allocation exists for user with username {username}", user.Username);
                     return BadRequest($"No allocation exists for user with username {user.Username}");
+                }
 
                 await UnallocateAsync(username);
 
@@ -152,14 +155,14 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllocatedUsersAsync(string username)
         {
-            _logger.LogDebug($"GetAllocatedUsersAsync {username}");
+            _logger.LogDebug("GetAllocatedUsersAsync {username}", username);
 
             var allocations = await GetAllAllocatedByUsers(username);
-            _logger.LogDebug($"Allocations for '{username}' successfully retrieved");
+            _logger.LogDebug("Allocations for '{username}' successfully retrieved", username);
 
             var responses = allocations.Select(AllocationToDetailsResponseMapper.MapToResponse).ToList();
 
-            _logger.LogInformation($"{responses.Count} user(s) found");
+            _logger.LogInformation("{count} user(s) found", responses.Count);
 
             return Ok(responses);
         }

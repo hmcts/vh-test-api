@@ -56,7 +56,7 @@ namespace TestApi.Services.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Encountered error '{e.Message}' after {RETRIES ^ 2} seconds.");
+                _logger.LogError("Encountered error '{message}' after {timeout} seconds.", e.Message, RETRIES ^ 2);
                 throw;
             }
         }
@@ -81,7 +81,7 @@ namespace TestApi.Services.Services
             }
             catch (BookingsApiException e)
             {
-                _logger.LogError($"Encountered error '{e.Message}'");
+                _logger.LogError("Encountered error '{message}'", e.Message);
                 throw;
             }
         }
@@ -99,6 +99,7 @@ namespace TestApi.Services.Services
                 if (!hearing.HearingName.ToLower().Contains(hearingName.ToLower())) continue;
                 await _bookingsApiClient.RemoveHearingAsync(hearing.HearingId);
                 deletedHearingIds.Add(hearing.HearingId);
+                _logger.LogInformation("Deleted hearing with id {id}", hearing.HearingId);
             }
 
             return deletedHearingIds;

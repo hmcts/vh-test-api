@@ -51,7 +51,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHearingByIdAsync(Guid hearingId)
         {
-            _logger.LogDebug($"GetHearingByIdAsync {hearingId}");
+            _logger.LogDebug("GetHearingByIdAsync {hearingId}", hearingId);
 
             try
             {
@@ -76,7 +76,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHearingsByUsernameAsync(string username)
         {
-            _logger.LogDebug($"GetHearingsByUsernameAsync {username}");
+            _logger.LogDebug("GetHearingsByUsernameAsync {username}", username);
 
             try
             {
@@ -108,7 +108,7 @@ namespace TestApi.Controllers
             {
                 var response = await _bookingsApiClient.BookNewHearingAsync(bookHearingRequest);
 
-                _logger.LogDebug($"New Hearing Created with id {response.Id}");
+                _logger.LogDebug("New Hearing Created with id {id}", response.Id);
 
                 return CreatedAtAction(nameof(CreateHearingAsync), new {hearingId = response.Id}, response);
             }
@@ -131,7 +131,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, UpdateBookingStatusRequest request) 
         {
-            _logger.LogDebug($"ConfirmHearingByIdAsync {hearingId}");
+            _logger.LogDebug("ConfirmHearingByIdAsync {hearingId}", hearingId);
 
             try
             {
@@ -142,7 +142,7 @@ namespace TestApi.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
 
-            _logger.LogDebug($"Hearing with id {hearingId} retrieved");
+            _logger.LogDebug("Hearing with id {hearingId} retrieved", hearingId);
 
             try
             {
@@ -153,7 +153,7 @@ namespace TestApi.Controllers
                 return StatusCode(e.StatusCode, e.Response);
             }
 
-            _logger.LogInformation($"Successfully confirmed hearing with id {hearingId}");
+            _logger.LogInformation("Successfully confirmed hearing with id {hearingId}", hearingId);
 
             try
             {
@@ -178,13 +178,13 @@ namespace TestApi.Controllers
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteHearingByIdAsync(Guid hearingId)
         {
-            _logger.LogDebug($"DeleteHearingByIdAsync {hearingId}");
+            _logger.LogDebug("DeleteHearingByIdAsync {hearingId}", hearingId);
 
             try
             {
                 await _bookingsApiClient.RemoveHearingAsync(hearingId);
 
-                _logger.LogInformation($"Successfully deleted hearing with id {hearingId}");
+                _logger.LogInformation("Successfully deleted hearing with id {hearingId}", hearingId);
             }
             catch (BookingsApiException e)
             {
@@ -195,13 +195,13 @@ namespace TestApi.Controllers
             {
                 await _videoApiClient.DeleteAudioApplicationAsync(hearingId);
 
-                _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingId}");
+                _logger.LogInformation("Successfully deleted audio application with hearing id {hearingId}", hearingId);
             }
             catch (VideoApiException e)
             {
                 if (e.StatusCode != (int) HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
 
-                _logger.LogInformation($"No audio application found to delete with hearing id {hearingId}");
+                _logger.LogInformation("No audio application found to delete with hearing id {hearingId}", hearingId);
             }
 
             return NoContent();

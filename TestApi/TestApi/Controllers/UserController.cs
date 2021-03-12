@@ -47,7 +47,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetUserDetailsByUsernameAsync(string username)
         {
-            _logger.LogDebug($"GetUserDetailsByUsernameAsync {username}");
+            _logger.LogDebug("GetUserDetailsByUsernameAsync {username}", username);
 
             var user = await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
 
@@ -72,7 +72,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetUserByUserPrincipleNameAsync(string username)
         {
-            _logger.LogDebug($"GetUserByUserPrincipleNameAsync {username}");
+            _logger.LogDebug("GetUserByUserPrincipleNameAsync {username}", username);
 
             try
             {
@@ -97,7 +97,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetUserExistsInAdAsync(string username)
         {
-            _logger.LogDebug($"GetUserExistsInAdAsync {username}");
+            _logger.LogDebug("GetUserExistsInAdAsync {username}", username);
 
             var exists = await _userApiService.CheckUserExistsInAAD(username);
 
@@ -127,7 +127,7 @@ namespace TestApi.Controllers
             else
                 return NotFound(contactEmail);
 
-            _logger.LogDebug($"User with contact email {contactEmail} deleted");
+            _logger.LogDebug("User with contact email {contactEmail} deleted", contactEmail);
 
             return NoContent();
         }

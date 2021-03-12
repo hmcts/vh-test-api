@@ -38,7 +38,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferenceByIdAsync(Guid conferenceId)
         {
-            _logger.LogDebug($"GetConferenceByIdAsync {conferenceId}");
+            _logger.LogDebug("GetConferenceByIdAsync {conferenceId}", conferenceId);
 
             try
             {
@@ -63,7 +63,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferenceByHearingRefIdAsync(Guid hearingRefId)
         {
-            _logger.LogDebug($"GetConferenceByHearingRefIdAsync {hearingRefId}");
+            _logger.LogDebug("GetConferenceByHearingRefIdAsync {hearingRefId}", hearingRefId);
 
             try
             {
@@ -113,7 +113,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteConferenceAsync(Guid hearingRefId, Guid conferenceId)
         {
-            _logger.LogDebug($"DeleteConferenceAsync {conferenceId}");
+            _logger.LogDebug("DeleteConferenceAsync {conferenceId}", conferenceId);
 
             try
             {
@@ -128,13 +128,13 @@ namespace TestApi.Controllers
             {
                 await _videoApiClient.DeleteAudioApplicationAsync(hearingRefId);
 
-                _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingRefId}");
+                _logger.LogInformation("Successfully deleted audio application with hearing id {hearingRefId}", hearingRefId);
             }
             catch (VideoApiException e)
             {
                 if (e.StatusCode != (int)HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
 
-                _logger.LogInformation($"No audio application found to delete with hearing id {hearingRefId}");
+                _logger.LogInformation("No audio application found to delete with hearing id {hearingRefId}", hearingRefId);
             }
 
             return NoContent();
@@ -152,7 +152,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayJudgeAsync(string username)
         {
-            _logger.LogDebug($"GetConferencesForTodayJudgeAsync {username}");
+            _logger.LogDebug("GetConferencesForTodayJudgeAsync {username}", username);
 
             try
             {
@@ -201,7 +201,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAudioRecordingLinksByHearingIdAsync(Guid hearingId)
         {
-            _logger.LogDebug($"GetAudioRecordingLinksByHearingIdAsync {hearingId}");
+            _logger.LogDebug("GetAudioRecordingLinksByHearingIdAsync {hearingId}", hearingId);
 
             try
             {
@@ -226,7 +226,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetTasksByConferenceIdAsync(Guid conferenceId)
         {
-            _logger.LogDebug($"GetTasksByConferenceIdAsync {conferenceId}");
+            _logger.LogDebug("GetTasksByConferenceIdAsync {conferenceId}", conferenceId);
 
             try
             {
@@ -277,7 +277,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSelfTestScoreAsync(Guid conferenceId, Guid participantId)
         {
-            _logger.LogDebug($"GetSelfTestScoreAsync {conferenceId} {participantId}");
+            _logger.LogDebug("GetSelfTestScoreAsync {conferenceId} {participantId}", conferenceId, participantId);
 
             try
             {
@@ -303,7 +303,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteParticipantAsync(Guid conferenceId, Guid participantId)
         {
-            _logger.LogDebug($"DeleteParticipantAsync {conferenceId} {participantId}");
+            _logger.LogDebug("DeleteParticipantAsync {conferenceId} {participantId}", conferenceId, participantId);
 
             try
             {

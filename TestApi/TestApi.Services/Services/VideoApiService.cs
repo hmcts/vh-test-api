@@ -42,7 +42,7 @@ namespace TestApi.Services.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Encountered error '{e.Message}' after {RETRIES^2} seconds.");
+                _logger.LogError("Encountered error '{message}' after {timeout} seconds whilst polling for conference by hearing ref id {hearingRefId}.", e.Message, RETRIES ^ 2, hearingRefId);
                 throw;
             }
         }
