@@ -65,7 +65,11 @@ namespace TestApi.Controllers
             }
             catch (VideoApiException e)
             {
-                if (e.StatusCode != (int)HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
+                if (e.StatusCode != (int) HttpStatusCode.NotFound)
+                {
+                    _logger.LogError(e, "Failed to delete audio application with error {message}", e.Message);
+                    return StatusCode(e.StatusCode, e.Response);
+                }
             }
 
             var response = new DeletedResponse()
