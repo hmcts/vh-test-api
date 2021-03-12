@@ -147,8 +147,8 @@
       },
       "BookingsApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.17",
-        "contentHash": "oFYSJJL+qsGv7ZZkc5PVfR/0FrumeI98aTIPhw9ohr4Skj6OdTHivYSkYUaW4lelwb145fyPTaCVqaUBTVKBpw==",
+        "resolved": "1.24.18",
+        "contentHash": "mTZxpli5KVznr/JknJA4nF420SnmY0dQlK5r08mU/ymRKwFnviaalrWl8SoTxqojmuEHkzfxXe8R/Ygc3R1wWw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -1921,8 +1921,8 @@
       },
       "UserApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.2",
-        "contentHash": "/vmNd/GVa2ikLwyiwJQprWomXW9aat5rH+nRaiQPM3Vn97DW9YZ3HQMDxOKemorA/y3hwtAUKglWOuY3wEyzmg==",
+        "resolved": "1.24.3",
+        "contentHash": "CbbYvdREAv1x4P2FBXJn9DkUOAyPn6yZcfOvWaT19wAjsziabV6qfITbUYiVGOWpwdqdB2H7lyOH/V//AC66fg==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -1941,8 +1941,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.23.47",
-        "contentHash": "NaBi3WkBiEGhdmaeE6UzgvRLTK43Sfd5VqCMsHSNGK+xisy0GCfG175MgWAak99NK7t9+GA+DpSDhocLw1xPEA==",
+        "resolved": "1.23.54",
+        "contentHash": "1OLCs5UIv+A6365JlSPfhsFepwrABEAcwpsjLz/xHXUdnl1U4Xgh9tQa82lLUDT/GXaWxSJ75WeLB3B7W+Hy/g==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -1968,14 +1968,14 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.24.17",
+          "BookingsApi.Client": "1.24.18",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.24.2",
-          "VideoApi.Client": "1.23.47"
+          "UserApi.Client": "1.24.3",
+          "VideoApi.Client": "1.23.54"
         }
       },
       "testapi.tests.common": {
