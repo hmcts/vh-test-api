@@ -33,7 +33,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                         It.IsAny<GetAllAllocationsForAUserQuery>()))
                 .ReturnsAsync(allocations);
 
-            var response = await Controller.GetAllocatedUsersAsync(ALLOCATED_BY);
+            var response = await Controller.GetAllocatedUsers(ALLOCATED_BY);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -54,7 +54,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                         It.IsAny<GetAllAllocationsForAUserQuery>()))
                 .ReturnsAsync(new List<Allocation>());
 
-            var response = await Controller.GetAllocatedUsersAsync(ALLOCATED_BY);
+            var response = await Controller.GetAllocatedUsers(ALLOCATED_BY);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;

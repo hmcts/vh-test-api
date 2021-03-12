@@ -44,14 +44,14 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Full details of a hearing</returns>
-        [HttpGet("{hearingId}", Name = nameof(GetHearingByIdAsync))]
-        [OpenApiOperation("GetHearingByIdAsync")]
+        [HttpGet("{hearingId}", Name = nameof(GetHearingById))]
+        [OpenApiOperation("GetHearingById")]
         [ProducesResponseType(typeof(HearingDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetHearingByIdAsync(Guid hearingId)
+        public async Task<IActionResult> GetHearingById(Guid hearingId)
         {
-            _logger.LogDebug("GetHearingByIdAsync {hearingId}", hearingId);
+            _logger.LogDebug("GetHearingById {hearingId}", hearingId);
 
             try
             {
@@ -69,14 +69,14 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="username">Username of the participant</param>
         /// <returns>Full details of a hearing</returns>
-        [HttpGet("username/{username}", Name = nameof(GetHearingsByUsernameAsync))]
-        [OpenApiOperation("GetHearingsByUsernameAsync")]
+        [HttpGet("username/{username}", Name = nameof(GetHearingsByUsername))]
+        [OpenApiOperation("GetHearingsByUsername")]
         [ProducesResponseType(typeof(List<HearingDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetHearingsByUsernameAsync(string username)
+        public async Task<IActionResult> GetHearingsByUsername(string username)
         {
-            _logger.LogDebug("GetHearingsByUsernameAsync {username}", username);
+            _logger.LogDebug("GetHearingsByUsername {username}", username);
 
             try
             {
@@ -95,12 +95,12 @@ namespace TestApi.Controllers
         /// <param name="request">Details of the new user</param>
         /// <returns>Full details of an allocated user</returns>
         [HttpPost]
-        [OpenApiOperation("CreateHearingAsync")]
+        [OpenApiOperation("CreateHearing")]
         [ProducesResponseType(typeof(HearingDetailsResponse), (int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateHearingAsync(CreateHearingRequest request)
+        public async Task<IActionResult> CreateHearing(CreateHearingRequest request)
         {
-            _logger.LogDebug("CreateHearingAsync");
+            _logger.LogDebug("CreateHearing");
 
             var bookHearingRequest = new BookHearingRequestBuilder(request).Build();
 
@@ -110,7 +110,7 @@ namespace TestApi.Controllers
 
                 _logger.LogDebug("New Hearing Created with id {id}", response.Id);
 
-                return CreatedAtAction(nameof(CreateHearingAsync), new {hearingId = response.Id}, response);
+                return CreatedAtAction(nameof(CreateHearing), new {hearingId = response.Id}, response);
             }
             catch (BookingsApiException e)
             {
@@ -124,14 +124,14 @@ namespace TestApi.Controllers
         /// <param name="hearingId">Id of the hearing</param>
         /// <param name="request">Update the booking status details</param>
         /// <returns>Confirm a hearing</returns>
-        [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingByIdAsync))]
-        [OpenApiOperation("ConfirmHearingByIdAsync")]
+        [HttpPatch("{hearingId}", Name = nameof(ConfirmHearingById))]
+        [OpenApiOperation("ConfirmHearingById")]
         [ProducesResponseType(typeof(ConferenceDetailsResponse), (int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ConfirmHearingByIdAsync(Guid hearingId, UpdateBookingStatusRequest request) 
+        public async Task<IActionResult> ConfirmHearingById(Guid hearingId, UpdateBookingStatusRequest request) 
         {
-            _logger.LogDebug("ConfirmHearingByIdAsync {hearingId}", hearingId);
+            _logger.LogDebug("ConfirmHearingById {hearingId}", hearingId);
 
             try
             {
@@ -146,7 +146,7 @@ namespace TestApi.Controllers
 
             try
             {
-                await _bookingsApiService.UpdateBookingStatusPollingAsync(hearingId, request);
+                await _bookingsApiService.UpdateBookingStatusPolling(hearingId, request);
             }
             catch (BookingsApiException e)
             {
@@ -157,8 +157,8 @@ namespace TestApi.Controllers
 
             try
             {
-                var response = await _videoApiService.GetConferenceByHearingIdPollingAsync(hearingId);
-                return Created(nameof(ConfirmHearingByIdAsync), response);
+                var response = await _videoApiService.GetConferenceByHearingIdPolling(hearingId);
+                return Created(nameof(ConfirmHearingById), response);
             }
             catch (VideoApiException e)
             {
@@ -171,14 +171,14 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="hearingId">Id of the hearing</param>
         /// <returns>Delete a hearing</returns>
-        [HttpDelete("{hearingId}", Name = nameof(DeleteHearingByIdAsync))]
-        [OpenApiOperation("DeleteHearingByIdAsync")]
+        [HttpDelete("{hearingId}", Name = nameof(DeleteHearingById))]
+        [OpenApiOperation("DeleteHearingById")]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteHearingByIdAsync(Guid hearingId)
+        public async Task<IActionResult> DeleteHearingById(Guid hearingId)
         {
-            _logger.LogDebug("DeleteHearingByIdAsync {hearingId}", hearingId);
+            _logger.LogDebug("DeleteHearingById {hearingId}", hearingId);
 
             try
             {
@@ -215,13 +215,13 @@ namespace TestApi.Controllers
         /// <param name="answers">A list of suitability answers to update</param>
         /// <returns>Http status</returns>
         [HttpPut("{hearingId}/participants/{participantId}/update-suitability-answers")]
-        [OpenApiOperation("UpdateSuitabilityAnswersAsync")]
+        [OpenApiOperation("UpdateSuitabilityAnswers")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateSuitabilityAnswersAsync(Guid hearingId, Guid participantId, [FromBody] List<SuitabilityAnswersRequest> answers)
+        public async Task<IActionResult> UpdateSuitabilityAnswers(Guid hearingId, Guid participantId, [FromBody] List<SuitabilityAnswersRequest> answers)
         {
-            _logger.LogDebug("UpdateSuitabilityAnswersAsync");
+            _logger.LogDebug("UpdateSuitabilityAnswers");
 
             try
             {
@@ -241,13 +241,13 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         [HttpGet("get-suitability-answers/{username}")]
-        [OpenApiOperation("GetSuitabilityAnswersAsync")]
+        [OpenApiOperation("GetSuitabilityAnswers")]
         [ProducesResponseType(typeof(List<PersonSuitabilityAnswerResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetSuitabilityAnswersAsync(string username)
+        public async Task<IActionResult> GetSuitabilityAnswers(string username)
         {
-            _logger.LogDebug("GetSuitabilityAnswersAsync");
+            _logger.LogDebug("GetSuitabilityAnswers");
 
             try
             {
@@ -267,13 +267,13 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the person</param>
         /// <returns>List of suitability answer responses</returns>
         [HttpGet("person/{username}")]
-        [OpenApiOperation("GetPersonByUsernameAsync")]
+        [OpenApiOperation("GetPersonByUsername")]
         [ProducesResponseType(typeof(PersonResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetPersonByUsernameAsync(string username)
+        public async Task<IActionResult> GetPersonByUsername(string username)
         {
-            _logger.LogDebug($"GetPersonByUsernameAsync {username}");
+            _logger.LogDebug($"GetPersonByUsername {username}");
 
             try
             {
@@ -292,12 +292,12 @@ namespace TestApi.Controllers
         /// </summary>
         /// <returns>List of hearings by default type</returns>
         [HttpGet("all/hearings")]
-        [OpenApiOperation("GetAllHearingsAsync")]
+        [OpenApiOperation("GetAllHearings")]
         [ProducesResponseType(typeof(List<BookingsHearingResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllHearingsAsync()
+        public async Task<IActionResult> GetAllHearings()
         {
-            _logger.LogDebug($"GetAllHearingsAsync");
+            _logger.LogDebug($"GetAllHearings");
 
             try
             {

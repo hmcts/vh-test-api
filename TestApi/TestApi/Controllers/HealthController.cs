@@ -43,7 +43,7 @@ namespace TestApi.Controllers
         [OpenApiOperation("CheckServiceHealth")]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(HealthResponse), (int) HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> HealthAsync()
+        public async Task<IActionResult> Health()
         {
             var response = new HealthResponse {Version = GetApplicationVersion()};
             try

@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.BookNewConferenceAsync(It.IsAny<BookNewConferenceRequest>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
-            var response = await Controller.BookNewConferenceAsync(request);
+            var response = await Controller.BookNewConference(request);
 
             var result = (ObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.Created);
@@ -64,7 +64,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.BookNewConferenceAsync(It.IsAny<BookNewConferenceRequest>()))
                 .ThrowsAsync(CreateVideoApiException("Conference details missing", HttpStatusCode.BadRequest));
 
-            var response = await Controller.BookNewConferenceAsync(request);
+            var response = await Controller.BookNewConference(request);
 
             var result = (ObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);

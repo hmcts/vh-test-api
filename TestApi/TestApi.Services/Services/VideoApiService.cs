@@ -11,7 +11,7 @@ namespace TestApi.Services.Services
     {
         /// <summary>Polls for the conference and retrieves the conference details</summary>
         /// <returns>Conference details</returns>
-        Task<ConferenceDetailsResponse> GetConferenceByHearingIdPollingAsync(Guid hearingRefId);
+        Task<ConferenceDetailsResponse> GetConferenceByHearingIdPolling(Guid hearingRefId);
     }
 
     public class VideoApiService : IVideoApiService
@@ -25,7 +25,7 @@ namespace TestApi.Services.Services
             _logger = logger;
         }
 
-        public async Task<ConferenceDetailsResponse> GetConferenceByHearingIdPollingAsync(Guid hearingRefId)
+        public async Task<ConferenceDetailsResponse> GetConferenceByHearingIdPolling(Guid hearingRefId)
         {
             // 4 retries ^2 will execute after 2 seconds, then 4, 8, then finally 16 (30 seconds in total)
             const int RETRIES = 4;
@@ -42,7 +42,7 @@ namespace TestApi.Services.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("Encountered error '{message}' after {timeout} seconds whilst polling for conference by hearing ref id {hearingRefId}.", e.Message, RETRIES ^ 2, hearingRefId);
+                _logger.LogError(e, "Encountered error '{message}' after {timeout} seconds whilst polling for conference by hearing ref id {hearingRefId}.", e.Message, RETRIES ^ 2, hearingRefId);
                 throw;
             }
         }

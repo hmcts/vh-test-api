@@ -22,7 +22,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.DeleteUserInAAD(It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
+            var response = await Controller.DeleteADUser(CONTACT_EMAIL);
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;
@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
-            var response = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
+            var response = await Controller.DeleteADUser(CONTACT_EMAIL);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

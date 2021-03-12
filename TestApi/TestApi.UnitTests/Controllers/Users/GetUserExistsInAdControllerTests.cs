@@ -19,7 +19,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var result = await Controller.GetUserExistsInAdAsync(CONTACT_EMAIL);
+            var result = await Controller.GetUserExistsInAd(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
             var objectResult = (OkObjectResult)result;
@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.CheckUserExistsInAAD(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
-            var result = await Controller.GetUserExistsInAdAsync(CONTACT_EMAIL);
+            var result = await Controller.GetUserExistsInAd(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
             var objectResult = (ObjectResult)result;

@@ -29,10 +29,10 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Returns(Task.CompletedTask);
 
             VideoApiService
-                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingIdPolling(It.IsAny<Guid>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
+            var response = await Controller.ConfirmHearingById(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -54,7 +54,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
                 .Throws(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
+            var response = await Controller.ConfirmHearingById(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -70,14 +70,14 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
 
             BookingsApiService
-                .Setup(x => x.UpdateBookingStatusPollingAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
+                .Setup(x => x.UpdateBookingStatusPolling(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
                 .Returns(Task.CompletedTask);
 
             VideoApiService
-                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingIdPolling(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
+            var response = await Controller.ConfirmHearingById(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -95,14 +95,14 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
 
             VideoApiService
-                .Setup(x => x.GetConferenceByHearingIdPollingAsync(It.IsAny<Guid>()))
+                .Setup(x => x.GetConferenceByHearingIdPolling(It.IsAny<Guid>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
             BookingsApiService
-                .Setup(x => x.UpdateBookingStatusPollingAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
+                .Setup(x => x.UpdateBookingStatusPolling(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.ConfirmHearingByIdAsync(hearingId, request);
+            var response = await Controller.ConfirmHearingById(hearingId, request);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

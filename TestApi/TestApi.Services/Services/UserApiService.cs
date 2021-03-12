@@ -82,7 +82,7 @@ namespace TestApi.Services.Services
             catch (UserApiException e)
             {
                 if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
-                _logger.LogError("{exceptionCode} exception occured with message '{message}' whilst trying to check if user exist in AAD with username '{username}'", e.StatusCode, e.Message, username);
+                _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to check if user exist in AAD with username '{username}'", e.StatusCode, e.Message, username);
                 throw;
             }
 
@@ -119,7 +119,7 @@ namespace TestApi.Services.Services
             {
                 if (e.StatusCode == (int) HttpStatusCode.InternalServerError)
                 {
-                    _logger.LogError("{exceptionCode} exception occured with message '{message}' whilst trying to delete a user in AAD with username '{username}'", e.StatusCode, e.Message, username);
+                    _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to delete a user in AAD with username '{username}'", e.StatusCode, e.Message, username);
                     throw;
                 }
             }
@@ -191,7 +191,7 @@ namespace TestApi.Services.Services
             {
                 if (e.StatusCode == (int)HttpStatusCode.InternalServerError)
                 {
-                    _logger.LogError("{exceptionCode} exception occured with message '{message}' whilst trying to add a group to a user in AAD with username '{userId}'", e.StatusCode, e.Message, request.UserId);
+                    _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to add a group to a user in AAD with username '{userId}'", e.StatusCode, e.Message, request.UserId);
                     throw;
                 };
             }

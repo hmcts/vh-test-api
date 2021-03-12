@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .ReturnsAsync(listOfHearingSResponse);
 
             var response =
-                await Controller.GetHearingsByUsernameAsync(hearingDetailsResponse.Participants.First().Username);
+                await Controller.GetHearingsByUsername(hearingDetailsResponse.Participants.First().Username);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -44,7 +44,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetHearingsByUsernameAsync(It.IsAny<string>()))
                 .ReturnsAsync(new List<HearingDetailsResponse>());
 
-            var response = await Controller.GetHearingsByUsernameAsync(USERNAME);
+            var response = await Controller.GetHearingsByUsername(USERNAME);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -61,7 +61,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetHearingsByUsernameAsync(string.Empty))
                 .ThrowsAsync(CreateBookingsApiException("Username cannot be empty", HttpStatusCode.BadRequest));
 
-            var response = await Controller.GetHearingsByUsernameAsync(string.Empty);
+            var response = await Controller.GetHearingsByUsername(string.Empty);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

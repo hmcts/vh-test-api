@@ -55,7 +55,7 @@ namespace TestApi.UnitTests.Controllers
             _mockQueryHandler.Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(query))
                 .Returns(Task.FromResult(user));
 
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (OkObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.OK);
         }
@@ -71,7 +71,7 @@ namespace TestApi.UnitTests.Controllers
                 .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ThrowsAsync(exception);
 
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
             var response = (HealthResponse) typedResult.Value;
@@ -82,7 +82,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_the_application_version_from_assembly()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthResponse) typedResult.Value;
             response.Version.FileVersion.Should().NotBeNullOrEmpty();
@@ -92,7 +92,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_the_bookings_api_health()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthResponse) typedResult.Value;
             response.BookingsApiHealth.Successful.Should().BeTrue();
@@ -103,7 +103,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_the_user_api_health()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthResponse) typedResult.Value;
             response.UserApiHealth.Successful.Should().BeTrue();
@@ -114,7 +114,7 @@ namespace TestApi.UnitTests.Controllers
         [Test]
         public async Task Should_return_the_video_api_health()
         {
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             var response = (HealthResponse) typedResult.Value;
             response.VideoApiHealth.Successful.Should().BeTrue();
@@ -134,7 +134,7 @@ namespace TestApi.UnitTests.Controllers
                 .Setup(x => x.CheckServiceHealthAsync())
                 .ThrowsAsync(exception);
 
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
             var response = (HealthResponse) typedResult.Value;
@@ -154,7 +154,7 @@ namespace TestApi.UnitTests.Controllers
                 .Setup(x => x.CheckServiceHealthAsync())
                 .ThrowsAsync(exception);
 
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
             var response = (HealthResponse) typedResult.Value;
@@ -174,7 +174,7 @@ namespace TestApi.UnitTests.Controllers
                 .Setup(x => x.CheckServiceHealthAsync())
                 .ThrowsAsync(exception);
 
-            var result = await _controller.HealthAsync();
+            var result = await _controller.Health();
             var typedResult = (ObjectResult) result;
             typedResult.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
             var response = (HealthResponse) typedResult.Value;

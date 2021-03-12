@@ -25,7 +25,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetTestCallResultForParticipantAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .ReturnsAsync(selfTestResponse);
 
-            var response = await Controller.GetSelfTestScoreAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.GetSelfTestScore(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -43,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetTestCallResultForParticipantAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetSelfTestScoreAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.GetSelfTestScore(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

@@ -26,7 +26,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferencesTodayForJudgeByUsernameAsync(It.IsAny<string>()))
                 .ReturnsAsync(judgeResponse);
 
-            var response = await Controller.GetConferencesForTodayJudgeAsync(judge.Username);
+            var response = await Controller.GetConferencesForTodayJudge(judge.Username);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -44,7 +44,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferencesTodayForJudgeByUsernameAsync(It.IsAny<string>()))
                 .ThrowsAsync(CreateVideoApiException("Judge does not exist", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetConferencesForTodayJudgeAsync(EmailData.NON_EXISTENT_USERNAME);
+            var response = await Controller.GetConferencesForTodayJudge(EmailData.NON_EXISTENT_USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

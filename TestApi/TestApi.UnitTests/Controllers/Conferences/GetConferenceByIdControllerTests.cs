@@ -20,7 +20,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferenceDetailsByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(conferenceDetailsResponse);
 
-            var response = await Controller.GetConferenceByIdAsync(conferenceDetailsResponse.Id);
+            var response = await Controller.GetConferenceById(conferenceDetailsResponse.Id);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -38,7 +38,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferenceDetailsByIdAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetConferenceByIdAsync(Guid.NewGuid());
+            var response = await Controller.GetConferenceById(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

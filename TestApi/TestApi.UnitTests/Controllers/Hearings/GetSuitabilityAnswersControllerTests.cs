@@ -43,7 +43,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetPersonSuitabilityAnswersAsync(It.IsAny<string>()))
                 .ReturnsAsync(answersResponse);
 
-            var response = await Controller.GetSuitabilityAnswersAsync(USERNAME);
+            var response = await Controller.GetSuitabilityAnswers(USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -63,7 +63,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetPersonSuitabilityAnswersAsync(It.IsAny<string>()))
                 .ReturnsAsync(new List<PersonSuitabilityAnswerResponse>());
 
-            var response = await Controller.GetSuitabilityAnswersAsync(USERNAME);
+            var response = await Controller.GetSuitabilityAnswers(USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -83,7 +83,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetPersonSuitabilityAnswersAsync(It.IsAny<string>()))
                 .ThrowsAsync(CreateBookingsApiException("Hearing error", HttpStatusCode.InternalServerError));
 
-            var response = await Controller.GetSuitabilityAnswersAsync(USERNAME);
+            var response = await Controller.GetSuitabilityAnswers(USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

@@ -18,12 +18,12 @@ namespace TestApi.Services.Services
         /// <param name="hearingId">Hearing id of the hearing</param>
         /// <param name="request">Update booking details</param>
         /// <returns></returns>
-        Task UpdateBookingStatusPollingAsync(Guid hearingId, UpdateBookingStatusRequest request);
+        Task UpdateBookingStatusPolling(Guid hearingId, UpdateBookingStatusRequest request);
 
         /// <summary>Delete all hearings by either case name or case number with partial text</summary>
         /// <param name="request">Partial case name or case number text for the hearing or conference</param>
         /// <returns>Number of hearings or conferences deleted</returns>
-        Task<List<Guid>> DeleteHearingsByPartialCaseTextAsync(DeleteTestHearingDataRequest request);
+        Task<List<Guid>> DeleteHearingsByPartialCaseText(DeleteTestHearingDataRequest request);
     }
 
     public class BookingsApiService : IBookingsApiService
@@ -48,7 +48,7 @@ namespace TestApi.Services.Services
                 .WaitAndRetryAsync(RETRIES, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
 
-        public async Task UpdateBookingStatusPollingAsync(Guid hearingId, UpdateBookingStatusRequest request)
+        public async Task UpdateBookingStatusPolling(Guid hearingId, UpdateBookingStatusRequest request)
         {
             try
             {
@@ -56,12 +56,12 @@ namespace TestApi.Services.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("Encountered error '{message}' after {timeout} seconds.", e.Message, RETRIES ^ 2);
+                _logger.LogError(e, "Encountered error '{message}' after {timeout} seconds.", e.Message, RETRIES ^ 2);
                 throw;
             }
         }
 
-        public async Task<List<Guid>> DeleteHearingsByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
+        public async Task<List<Guid>> DeleteHearingsByPartialCaseText(DeleteTestHearingDataRequest request)
         {
             request.Limit ??= DEFAULT_LIMIT;
 
@@ -81,7 +81,7 @@ namespace TestApi.Services.Services
             }
             catch (BookingsApiException e)
             {
-                _logger.LogError("Encountered error '{message}'", e.Message);
+                _logger.LogError(e, "Encountered error '{message}'", e.Message);
                 throw;
             }
         }

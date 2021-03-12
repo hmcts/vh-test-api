@@ -36,7 +36,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetPersonByUsernameAsync(It.IsAny<string>()))
                 .ReturnsAsync(personResponse);
 
-            var response = await Controller.GetPersonByUsernameAsync(individual.Username);
+            var response = await Controller.GetPersonByUsername(individual.Username);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -56,7 +56,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetPersonByUsernameAsync(It.IsAny<string>()))
                 .ThrowsAsync(CreateBookingsApiException("Person not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetPersonByUsernameAsync(USERNAME);
+            var response = await Controller.GetPersonByUsername(USERNAME);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

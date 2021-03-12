@@ -56,7 +56,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .ReturnsAsync(thirdAllocation)
                 .ReturnsAsync(thirdUnallocation);
 
-            var response = await Controller.UnallocateUsersByUsernameAsync(request);
+            var response = await Controller.UnallocateUsersByUsername(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -77,7 +77,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 Usernames = new List<string> {"does_not_exist@hmcts.net"}
             };
 
-            var response = await Controller.UnallocateUsersByUsernameAsync(request);
+            var response = await Controller.UnallocateUsersByUsername(request);
             response.Should().NotBeNull();
 
             var result = (NotFoundResult) response;
@@ -98,7 +98,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync(user);
 
-            var response = await Controller.UnallocateUsersByUsernameAsync(request);
+            var response = await Controller.UnallocateUsersByUsername(request);
             response.Should().NotBeNull();
 
             var result = (BadRequestObjectResult) response;

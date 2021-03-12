@@ -24,7 +24,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetAudioRecordingLinkAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(audioLinkResponse);
 
-            var response = await Controller.GetAudioRecordingLinksByHearingIdAsync(Guid.NewGuid());
+            var response = await Controller.GetAudioRecordingLinksByHearingId(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -42,7 +42,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetAudioRecordingLinkAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("No hearing found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetAudioRecordingLinksByHearingIdAsync(Guid.NewGuid());
+            var response = await Controller.GetAudioRecordingLinksByHearingId(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

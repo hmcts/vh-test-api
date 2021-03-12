@@ -23,7 +23,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RaiseVideoEventAsync(It.IsAny<ConferenceEventRequest>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.CreateEventAsync(request);
+            var response = await Controller.CreateEvent(request);
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;

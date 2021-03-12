@@ -41,13 +41,13 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         [HttpGet("username/{username}")]
-        [OpenApiOperation("GetUserDetailsByUsernameAsync")]
+        [OpenApiOperation("GetUserDetailsByUsername")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetUserDetailsByUsernameAsync(string username)
+        public async Task<IActionResult> GetUserDetailsByUsername(string username)
         {
-            _logger.LogDebug("GetUserDetailsByUsernameAsync {username}", username);
+            _logger.LogDebug("GetUserDetailsByUsername {username}", username);
 
             var user = await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
 
@@ -66,13 +66,13 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>Full details of a user</returns>
         [HttpGet("userPrincipalName/{username}")]
-        [OpenApiOperation("GetUserByUserPrincipleNameAsync")]
+        [OpenApiOperation("GetUserByUserPrincipleName")]
         [ProducesResponseType(typeof(UserProfile), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetUserByUserPrincipleNameAsync(string username)
+        public async Task<IActionResult> GetUserByUserPrincipleName(string username)
         {
-            _logger.LogDebug("GetUserByUserPrincipleNameAsync {username}", username);
+            _logger.LogDebug("GetUserByUserPrincipleName {username}", username);
 
             try
             {
@@ -91,13 +91,13 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user (case insensitive)</param>
         /// <returns>True if user exists, false if not</returns>
         [HttpGet("aad/{username}")]
-        [OpenApiOperation("GetUserExistsInAdAsync")]
+        [OpenApiOperation("GetUserExistsInAd")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetUserExistsInAdAsync(string username)
+        public async Task<IActionResult> GetUserExistsInAd(string username)
         {
-            _logger.LogDebug("GetUserExistsInAdAsync {username}", username);
+            _logger.LogDebug("GetUserExistsInAd {username}", username);
 
             var exists = await _userApiService.CheckUserExistsInAAD(username);
 
@@ -115,12 +115,12 @@ namespace TestApi.Controllers
         /// <param name="contactEmail">Email of the user to delete</param>
         /// <returns>Details of the user to delete</returns>
         [HttpDelete("aad/{contactEmail}")]
-        [OpenApiOperation("DeleteADUserAsync")]
+        [OpenApiOperation("DeleteADUser")]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteADUserAsync(string contactEmail)
+        public async Task<IActionResult> DeleteADUser(string contactEmail)
         {
-            _logger.LogDebug("DeleteADUserAsync");
+            _logger.LogDebug("DeleteADUser");
 
             if (await _userApiService.CheckUserExistsInAAD(contactEmail))
                 await _userApiService.DeleteUserInAAD(contactEmail);
@@ -136,12 +136,12 @@ namespace TestApi.Controllers
         ///     Refresh Judges Cache
         /// </summary>
         [HttpGet("judges/cache")]
-        [OpenApiOperation("RefreshJudgesCacheAsync")]
+        [OpenApiOperation("RefreshJudgesCache")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> RefreshJudgesCacheAsync()
+        public async Task<IActionResult> RefreshJudgesCache()
         {
-            _logger.LogDebug($"RefreshJudgesCacheAsync");
+            _logger.LogDebug($"RefreshJudgesCache");
 
             try
             {
@@ -159,13 +159,13 @@ namespace TestApi.Controllers
         /// </summary>
         /// <param name="request">Details of the required user</param>
         [HttpPatch("aad/password")]
-        [OpenApiOperation("ResetUserPasswordAsync")]
+        [OpenApiOperation("ResetUserPassword")]
         [ProducesResponseType(typeof(UpdateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> ResetUserPasswordAsync(ResetUserPasswordRequest request)
+        public async Task<IActionResult> ResetUserPassword(ResetUserPasswordRequest request)
         {
-            _logger.LogDebug($"ResetUserPasswordAsync");
+            _logger.LogDebug($"ResetUserPassword");
 
             try
             {
