@@ -41,7 +41,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.GetUserByAdUserNameAsync(It.IsAny<string>()))
                 .ReturnsAsync(userProfile);
 
-            var result = await Controller.GetUserByUserPrincipleNameAsync(user.ContactEmail);
+            var result = await Controller.GetUserByUserPrincipleName(user.ContactEmail);
 
             result.Should().NotBeNull();
             var objectResult = (OkObjectResult)result;
@@ -56,7 +56,7 @@ namespace TestApi.UnitTests.Controllers.Users
         {
             const string CONTACT_EMAIL = EmailData.NON_EXISTENT_CONTACT_EMAIL;
 
-            var result = await Controller.GetUserExistsInAdAsync(CONTACT_EMAIL);
+            var result = await Controller.GetUserExistsInAd(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
             var objectResult = (ObjectResult)result;

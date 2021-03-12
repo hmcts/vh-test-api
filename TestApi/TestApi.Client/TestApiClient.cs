@@ -224,24 +224,24 @@ namespace TestApi.Client
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HealthResponse> CheckApiHealthAsync();
+        System.Threading.Tasks.Task<HealthResponse> CheckServiceHealthAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HealthResponse> CheckApiHealthAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HealthResponse> CheckServiceHealthAsync(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HealthResponse> CheckApiHealth2Async();
+        System.Threading.Tasks.Task<HealthResponse> CheckServiceHealth2Async();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HealthResponse> CheckApiHealth2Async(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HealthResponse> CheckServiceHealth2Async(System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get the details of a hearing by id</summary>
         /// <param name="hearingId">Id of the hearing</param>
@@ -1975,16 +1975,16 @@ namespace TestApi.Client
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<HealthResponse> CheckApiHealthAsync()
+        public System.Threading.Tasks.Task<HealthResponse> CheckServiceHealthAsync()
         {
-            return CheckApiHealthAsync(System.Threading.CancellationToken.None);
+            return CheckServiceHealthAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<HealthResponse> CheckApiHealthAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<HealthResponse> CheckServiceHealthAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health/health");
@@ -2061,16 +2061,16 @@ namespace TestApi.Client
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<HealthResponse> CheckApiHealth2Async()
+        public System.Threading.Tasks.Task<HealthResponse> CheckServiceHealth2Async()
         {
-            return CheckApiHealth2Async(System.Threading.CancellationToken.None);
+            return CheckServiceHealth2Async(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Check Service Health</summary>
         /// <returns>Error if fails, otherwise OK status</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<HealthResponse> CheckApiHealth2Async(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<HealthResponse> CheckServiceHealth2Async(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health/liveness");

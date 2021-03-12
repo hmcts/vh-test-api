@@ -36,7 +36,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUser(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -66,7 +66,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUser(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -94,7 +94,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUser(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -124,7 +124,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                     x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
                 .ReturnsAsync(user);
 
-            var response = Controller.AllocateSingleUserAsync(request);
+            var response = Controller.AllocateSingleUser(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;

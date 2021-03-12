@@ -65,7 +65,7 @@ namespace TestApi.DAL.Commands
             {
                 _logger.LogDebug($"All {users.Count} users were already allocated");
 
-                var number = await IterateUserNumber(userType, application, isProdUser);
+                var number = await IterateUserNumber(userType, application, isProdUser, testType);
                 _logger.LogDebug($"Iterated user number to {number}");
 
                 await CreateNewUserInTestApi(userType, application, testType, isProdUser, number);
@@ -190,9 +190,9 @@ namespace TestApi.DAL.Commands
             return null;
         }
 
-        private async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser)
+        private async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser, TestType testType)
         {
-            var query = new GetNextUserNumberByUserTypeQuery(userType, application, isProdUser);
+            var query = new GetNextUserNumberByUserTypeQuery(userType, application, isProdUser, testType);
             return await _queryHandler.Handle<GetNextUserNumberByUserTypeQuery, Integer>(query);
         }
 

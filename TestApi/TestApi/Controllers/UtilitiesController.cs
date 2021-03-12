@@ -37,18 +37,18 @@ namespace TestApi.Controllers
         /// <param name="request">Partial case name or number text for the hearing</param>
         /// <returns>Number of deleted hearings or conferences</returns>
         [HttpPost("removeTestData")]
-        [OpenApiOperation("DeleteTestDataByPartialCaseTextAsync")]
+        [OpenApiOperation("DeleteTestDataByPartialCaseText")]
         [ProducesResponseType(typeof(DeletedResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteTestDataByPartialCaseTextAsync(DeleteTestHearingDataRequest request)
+        public async Task<IActionResult> DeleteTestDataByPartialCaseText(DeleteTestHearingDataRequest request)
         {
-            _logger.LogDebug($"DeleteHearingsByPartialCaseTextAsync");
+            _logger.LogDebug($"DeleteHearingsByPartialCaseText");
 
             List<Guid> hearingIds;
 
             try
             {
-                hearingIds = await _bookingsApiService.DeleteHearingsByPartialCaseTextAsync(request);
+                hearingIds = await _bookingsApiService.DeleteHearingsByPartialCaseText(request);
             }
             catch (BookingsApiException e)
             {
@@ -60,12 +60,16 @@ namespace TestApi.Controllers
                 foreach (var hearingId in hearingIds)
                 {
                     await _videoApiClient.DeleteAudioApplicationAsync(hearingId);
-                    _logger.LogInformation($"Successfully deleted audio application with hearing id {hearingId}");
+                    _logger.LogInformation("Successfully deleted audio application with hearing id {hearingId}", hearingId);
                 }
             }
             catch (VideoApiException e)
             {
-                if (e.StatusCode != (int)HttpStatusCode.NotFound) return StatusCode(e.StatusCode, e.Response);
+                if (e.StatusCode != (int) HttpStatusCode.NotFound)
+                {
+                    _logger.LogError(e, "Failed to delete audio application with error {message}", e.Message);
+                    return StatusCode(e.StatusCode, e.Response);
+                }
             }
 
             var response = new DeletedResponse()

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using TestApi.Common.Configuration;
@@ -49,11 +50,13 @@ namespace TestApi.Services.Services
         protected const int POLLY_RETRIES = 4;
         private readonly IUserApiClient _userApiClient;
         private readonly UserGroupsConfiguration _userGroups;
+        private readonly ILogger<UserApiService> _logger;
 
-        public UserApiService(IUserApiClient userApiClient, IOptions<UserGroupsConfiguration> userGroupsConfiguration)
+        public UserApiService(IUserApiClient userApiClient, IOptions<UserGroupsConfiguration> userGroupsConfiguration, ILogger<UserApiService> logger)
         {
             _userApiClient = userApiClient;
             _userGroups = userGroupsConfiguration.Value;
+            _logger = logger;
             ValidateGroupsAreSet(userGroupsConfiguration.Value);
         }
 
@@ -79,7 +82,7 @@ namespace TestApi.Services.Services
             catch (UserApiException e)
             {
                 if (e.StatusCode == (int) HttpStatusCode.NotFound) return false;
-
+                _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to check if user exist in AAD with username '{username}'", e.StatusCode, e.Message, username);
                 throw;
             }
 
@@ -114,7 +117,11 @@ namespace TestApi.Services.Services
             }
             catch (UserApiException e)
             {
-                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
+                if (e.StatusCode == (int) HttpStatusCode.InternalServerError)
+                {
+                    _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to delete a user in AAD with username '{username}'", e.StatusCode, e.Message, username);
+                    throw;
+                }
             }
         }
 
@@ -126,6 +133,8 @@ namespace TestApi.Services.Services
             {
                 await AddUserToGroup(adUserId, requiredGroup);
             }
+
+            _logger.LogInformation("{username} added to {count} groups", user.Username, requiredGroups.Count);
 
             return requiredGroups.Count;
         }
@@ -146,6 +155,8 @@ namespace TestApi.Services.Services
             }
 
             if (IsPerformanceTestUser(user.FirstName)) groups.AddRange(ConvertGroupsStringToList.Convert(_userGroups.PerformanceTestAccountGroups));
+
+            _logger.LogInformation("{count} groups are required for {username}", groups.Count, user.Username);
 
             return groups;
         }
@@ -178,7 +189,11 @@ namespace TestApi.Services.Services
             }
             catch (UserApiException e)
             {
-                if (e.StatusCode == (int)HttpStatusCode.InternalServerError) throw;
+                if (e.StatusCode == (int)HttpStatusCode.InternalServerError)
+                {
+                    _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to add a group to a user in AAD with username '{userId}'", e.StatusCode, e.Message, request.UserId);
+                    throw;
+                };
             }
         }
     }

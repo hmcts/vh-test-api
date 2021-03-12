@@ -15,7 +15,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.RefreshJudgeCacheAsync())
                 .Returns(Task.CompletedTask);
 
-            var result = await Controller.RefreshJudgesCacheAsync();
+            var result = await Controller.RefreshJudgesCache();
 
             result.Should().NotBeNull();
             var objectResult = (OkResult) result;

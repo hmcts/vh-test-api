@@ -42,17 +42,17 @@ namespace TestApi.Controllers
         /// <param name="request">Details of the required allocation</param>
         /// <returns>Full details of an allocated user</returns>
         [HttpPatch("allocateUser")]
-        [OpenApiOperation("AllocateSingleUserAsync")]
+        [OpenApiOperation("AllocateSingleUser")]
         [ProducesResponseType(typeof(UserDetailsResponse), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public IActionResult AllocateSingleUserAsync(AllocateUserRequest request)
+        public IActionResult AllocateSingleUser(AllocateUserRequest request)
         {
-            _logger.LogDebug($"AllocateSingleUserAsync {request.UserType} {request.Application}");
+            _logger.LogDebug("AllocateSingleUser {userType} {application}", request.UserType, request.Application);
 
             lock (AllocationLock)
             {
-                var user = AllocateAsync(request);
-                _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
+                var user = Allocate(request);
+                _logger.LogDebug("User '{username}' successfully allocated", user.Result.Username);
 
                 var response = UserToDetailsResponseMapper.MapToResponse(user.Result);
                 return Ok(response);
@@ -65,13 +65,13 @@ namespace TestApi.Controllers
         /// <param name="request">Allocate users request</param>
         /// <returns>Full details of an allocated users</returns>
         [HttpPatch("allocateUsers")]
-        [OpenApiOperation("AllocateMultipleUsersAsync")]
+        [OpenApiOperation("AllocateMultipleUsers")]
         [ProducesResponseType(typeof(List<UserDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public IActionResult AllocateUsersAsync(AllocateUsersRequest request)
+        public IActionResult AllocateUsers(AllocateUsersRequest request)
         {
             _logger.LogDebug(
-                $"AllocateUsersAsync No. of UserTypes: {request.UserTypes.Count} Application: {request.Application}");
+                "AllocateUsers No. of UserTypes: {count} Application: {application}", request.UserTypes.Count, request.Application);
 
             lock (AllocationLock)
             {
@@ -89,12 +89,12 @@ namespace TestApi.Controllers
                         UserType = userType
                     };
 
-                    var user = AllocateAsync(allocateRequest);
-                    _logger.LogDebug($"User '{user.Result.Username}' successfully allocated");
+                    var user = Allocate(allocateRequest);
+                    _logger.LogDebug("User '{username}' successfully allocated", user.Result.Username);
                     responses.Add(UserToDetailsResponseMapper.MapToResponse(user.Result));
                 }
 
-                _logger.LogInformation($"Allocated {responses.Count} user(s)");
+                _logger.LogInformation("Allocated {count} user(s)", responses.Count);
 
                 return Ok(responses);
             }
@@ -106,30 +106,32 @@ namespace TestApi.Controllers
         /// <param name="request">List of usernames to unallocate</param>
         /// <returns>Allocation details of the unallocated users</returns>
         [HttpPatch("unallocateUsers")]
-        [OpenApiOperation("UnallocateUsersAsync")]
+        [OpenApiOperation("UnallocateUsers")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UnallocateUsersByUsernameAsync(UnallocateUsersRequest request)
+        public async Task<IActionResult> UnallocateUsersByUsername(UnallocateUsersRequest request)
         {
-            _logger.LogDebug("UnallocateUsersByUsernameAsync");
+            _logger.LogDebug("UnallocateUsersByUsername");
 
             var allocations = new List<Allocation>();
 
             foreach (var username in request.Usernames)
             {
-                var user = await GetUserByUsernameAsync(username);
+                var user = await GetUserByUsername(username);
 
                 if (user == null) return NotFound();
 
-                var allocation = await GetAllocationByUsernameAsync(user.Username);
+                var allocation = await GetAllocationByUsername(user.Username);
 
                 if (allocation == null)
+                {
                     return BadRequest($"No allocation exists for user with username {user.Username}");
+                }
 
-                await UnallocateAsync(username);
+                await Unallocate(username);
 
-                allocation = await GetAllocationByUsernameAsync(user.Username);
+                allocation = await GetAllocationByUsername(user.Username);
 
                 allocations.Add(allocation);
             }
@@ -147,41 +149,41 @@ namespace TestApi.Controllers
         /// <param name="username">Username of the user that has allocated users</param>
         /// <returns>Full details of any allocated users</returns>
         [HttpGet("allocatedUsers/{username}")]
-        [OpenApiOperation("GetAllocateUsersByAllocatedByAsync")]
+        [OpenApiOperation("GetAllocateUsersByAllocatedBy")]
         [ProducesResponseType(typeof(List<AllocationDetailsResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllocatedUsersAsync(string username)
+        public async Task<IActionResult> GetAllocatedUsers(string username)
         {
-            _logger.LogDebug($"GetAllocatedUsersAsync {username}");
+            _logger.LogDebug("GetAllocatedUsers {username}", username);
 
             var allocations = await GetAllAllocatedByUsers(username);
-            _logger.LogDebug($"Allocations for '{username}' successfully retrieved");
+            _logger.LogDebug("Allocations for '{username}' successfully retrieved", username);
 
             var responses = allocations.Select(AllocationToDetailsResponseMapper.MapToResponse).ToList();
 
-            _logger.LogInformation($"{responses.Count} user(s) found");
+            _logger.LogInformation("{count} user(s) found", responses.Count);
 
             return Ok(responses);
         }
 
-        private async Task<UserDto> GetUserByUsernameAsync(string username)
+        private async Task<UserDto> GetUserByUsername(string username)
         {
             return await _queryHandler.Handle<GetUserByUsernameQuery, UserDto>(new GetUserByUsernameQuery(username));
         }
 
-        private async Task<Allocation> GetAllocationByUsernameAsync(string username)
+        private async Task<Allocation> GetAllocationByUsername(string username)
         {
             return await _queryHandler.Handle<GetAllocationByUsernameQuery, Allocation>(
                 new GetAllocationByUsernameQuery(username));
         }
 
-        private async Task<UserDto> AllocateAsync(AllocateUserRequest request)
+        private async Task<UserDto> Allocate(AllocateUserRequest request)
         {
             return await _queryHandler.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(
                 new GetAllocatedUserByUserTypeQuery(request));
         }
 
-        private async Task UnallocateAsync(string username)
+        private async Task Unallocate(string username)
         {
             var unallocateCommand = new UnallocateByUsernameCommand(username);
             await _commandHandler.Handle(unallocateCommand);

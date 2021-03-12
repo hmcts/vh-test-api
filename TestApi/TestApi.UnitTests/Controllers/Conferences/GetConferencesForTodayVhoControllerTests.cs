@@ -22,7 +22,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetConferencesTodayForAdminAsync(It.IsAny<List<string>>()))
                 .ReturnsAsync(vhoResponse);
 
-            var response = await Controller.GetConferencesForTodayVhoAsync();
+            var response = await Controller.GetConferencesForTodayVho();
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;

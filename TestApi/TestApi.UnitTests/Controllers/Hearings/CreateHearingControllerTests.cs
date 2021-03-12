@@ -36,7 +36,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -62,7 +62,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Hearing not created", HttpStatusCode.BadRequest));
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
@@ -89,7 +89,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -120,7 +120,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -151,7 +151,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -182,7 +182,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -217,7 +217,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -243,7 +243,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -273,7 +273,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);
@@ -303,7 +303,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.BookNewHearingAsync(It.IsAny<BookNewHearingRequest>()))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.CreateHearingAsync(createHearingRequest);
+            var response = await Controller.CreateHearing(createHearingRequest);
 
             var result = (ObjectResult) response;
             result.StatusCode.Should().Be((int) HttpStatusCode.Created);

@@ -19,7 +19,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.UpdateSuitabilityAnswersAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<List<SuitabilityAnswersRequest>>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.UpdateSuitabilityAnswersAsync(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
+            var response = await Controller.UpdateSuitabilityAnswers(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;
@@ -33,7 +33,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.UpdateSuitabilityAnswersAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<List<SuitabilityAnswersRequest>>()))
                 .ThrowsAsync(CreateBookingsApiException("Hearing id and participant id not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.UpdateSuitabilityAnswersAsync(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
+            var response = await Controller.UpdateSuitabilityAnswers(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -47,7 +47,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.UpdateSuitabilityAnswersAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<List<SuitabilityAnswersRequest>>()))
                 .ThrowsAsync(CreateBookingsApiException("Request invalid", HttpStatusCode.BadRequest));
 
-            var response = await Controller.UpdateSuitabilityAnswersAsync(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
+            var response = await Controller.UpdateSuitabilityAnswers(Guid.NewGuid(), Guid.NewGuid(), new List<SuitabilityAnswersRequest>());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

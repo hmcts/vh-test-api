@@ -36,7 +36,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetTasksForConferenceAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(taskResponse);
 
-            var response = await Controller.GetTasksByConferenceIdAsync(Guid.NewGuid());
+            var response = await Controller.GetTasksByConferenceId(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;
@@ -54,7 +54,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.GetTasksForConferenceAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(new List<TaskResponse>());
 
-            var response = await Controller.GetTasksByConferenceIdAsync(Guid.NewGuid());
+            var response = await Controller.GetTasksByConferenceId(Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (OkObjectResult)response;

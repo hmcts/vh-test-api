@@ -49,7 +49,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .ReturnsAsync(representativeUser)
                 .ReturnsAsync(caseAdminUser);
 
-            var response = Controller.AllocateUsersAsync(request);
+            var response = Controller.AllocateUsers(request);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;

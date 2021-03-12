@@ -32,7 +32,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync(user);
 
-            var result = await Controller.GetUserDetailsByUsernameAsync(user.Username);
+            var result = await Controller.GetUserDetailsByUsername(user.Username);
 
             result.Should().NotBeNull();
             var objectResult = (OkObjectResult) result;
@@ -51,7 +51,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.Handle<GetUserByUsernameQuery, UserDto>(It.IsAny<GetUserByUsernameQuery>()))
                 .ReturnsAsync((UserDto)null);
 
-            var result = await Controller.GetUserDetailsByUsernameAsync(USERNAME);
+            var result = await Controller.GetUserDetailsByUsername(USERNAME);
 
             result.Should().NotBeNull();
             var objectResult = (NotFoundResult) result;
@@ -69,7 +69,7 @@ namespace TestApi.UnitTests.Controllers.Users
             UserApiService.Setup(x => x.CheckUserExistsInAAD(CONTACT_EMAIL)).Returns(Task.FromResult(true));
             UserApiService.Setup(x => x.DeleteUserInAAD(CONTACT_EMAIL)).Returns(Task.CompletedTask);
 
-            var result = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
+            var result = await Controller.DeleteADUser(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
             var objectResult = (NoContentResult) result;
@@ -83,7 +83,7 @@ namespace TestApi.UnitTests.Controllers.Users
 
             UserApiService.Setup(x => x.CheckUserExistsInAAD(CONTACT_EMAIL)).Returns(Task.FromResult(false));
 
-            var result = await Controller.DeleteADUserAsync(CONTACT_EMAIL);
+            var result = await Controller.DeleteADUser(CONTACT_EMAIL);
 
             result.Should().NotBeNull();
             var objectResult = (NotFoundObjectResult) result;

@@ -23,7 +23,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
                 .Returns(Task.CompletedTask);
                 
-            var response = await Controller.DeleteHearingByIdAsync(hearingId);
+            var response = await Controller.DeleteHearingById(hearingId);
             response.Should().NotBeNull();
 
             var result = (NoContentResult) response;
@@ -39,7 +39,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.DeleteHearingByIdAsync(hearingId);
+            var response = await Controller.DeleteHearingById(hearingId);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;
@@ -55,7 +55,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.RemoveHearingAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateBookingsApiException("Delete error", HttpStatusCode.InternalServerError));
 
-            var response = await Controller.DeleteHearingByIdAsync(hearingId);
+            var response = await Controller.DeleteHearingById(hearingId);
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -75,7 +75,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("No audio application found", HttpStatusCode.NotFound));
 
-            var response = await Controller.DeleteHearingByIdAsync(hearingId);
+            var response = await Controller.DeleteHearingById(hearingId);
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;

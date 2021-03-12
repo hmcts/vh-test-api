@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RemoveParticipantFromConferenceAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.DeleteParticipantAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.DeleteParticipant(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;
@@ -31,7 +31,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RemoveParticipantFromConferenceAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.DeleteParticipantAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.DeleteParticipant(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;

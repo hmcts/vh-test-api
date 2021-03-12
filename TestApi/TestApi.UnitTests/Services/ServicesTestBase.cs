@@ -27,7 +27,8 @@ namespace TestApi.UnitTests.Services
         protected Mock<ICommandHandler> CommandHandler;
         protected Mock<IConfiguration> Configuration;
         protected Mock<IOptions<UserGroupsConfiguration>> GroupsConfig;
-        protected Mock<ILogger<AllocationService>> Logger;
+        protected Mock<ILogger<AllocationService>> AllocationLogger;
+        protected Mock<ILogger<TestApi.Services.Services.UserApiService>> UserApiLogger;
         protected Mock<IUserApiService> MockUserApiService;
         protected Mock<IQueryHandler> QueryHandler;
         protected Mock<IUserApiClient> UserApiClient;
@@ -42,15 +43,16 @@ namespace TestApi.UnitTests.Services
         {
             CommandHandler = new Mock<ICommandHandler>();
             QueryHandler = new Mock<IQueryHandler>();
-            Logger = new Mock<ILogger<AllocationService>>();
+            AllocationLogger = new Mock<ILogger<AllocationService>>();
             Configuration = new Mock<IConfiguration>();
             GroupsConfig = new Mock<IOptions<UserGroupsConfiguration>>();
             SetMockGroups();
             SetMockConfig();
             MockUserApiService = new Mock<IUserApiService>();
             UserApiClient = new Mock<IUserApiClient>();
-            UserApiService = new TestApi.Services.Services.UserApiService(UserApiClient.Object, GroupsConfig.Object);
-            AllocationService = new AllocationService(CommandHandler.Object, QueryHandler.Object, Logger.Object,
+            UserApiLogger = new Mock<ILogger<TestApi.Services.Services.UserApiService>>();
+            UserApiService = new TestApi.Services.Services.UserApiService(UserApiClient.Object, GroupsConfig.Object, UserApiLogger.Object);
+            AllocationService = new AllocationService(CommandHandler.Object, QueryHandler.Object, AllocationLogger.Object,
                 Configuration.Object, MockUserApiService.Object);
         }
 

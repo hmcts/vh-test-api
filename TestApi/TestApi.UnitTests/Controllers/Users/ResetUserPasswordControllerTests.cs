@@ -32,7 +32,7 @@ namespace TestApi.UnitTests.Controllers.Users
                 .Setup(x => x.ResetUserPasswordAsync(USERNAME))
                 .ReturnsAsync(response);
 
-            var result = await Controller.ResetUserPasswordAsync(request);
+            var result = await Controller.ResetUserPassword(request);
 
             result.Should().NotBeNull();
             var objectResult = (OkObjectResult)result;
@@ -47,7 +47,7 @@ namespace TestApi.UnitTests.Controllers.Users
         {
             const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
 
-            var result = await Controller.GetUserDetailsByUsernameAsync(USERNAME);
+            var result = await Controller.GetUserDetailsByUsername(USERNAME);
 
             result.Should().NotBeNull();
             var objectResult = (NotFoundResult)result;

@@ -20,7 +20,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetHearingDetailsByIdAsync(hearingDetailsResponse.Id))
                 .ReturnsAsync(hearingDetailsResponse);
 
-            var response = await Controller.GetHearingByIdAsync(hearingDetailsResponse.Id);
+            var response = await Controller.GetHearingById(hearingDetailsResponse.Id);
             response.Should().NotBeNull();
 
             var result = (OkObjectResult) response;
@@ -40,7 +40,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
                 .Setup(x => x.GetHearingDetailsByIdAsync(nonExistentHearingId))
                 .ThrowsAsync(CreateBookingsApiException("Hearing not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.GetHearingByIdAsync(nonExistentHearingId);
+            var response = await Controller.GetHearingById(nonExistentHearingId);
             response.Should().NotBeNull();
 
             var result = (ObjectResult) response;

@@ -17,7 +17,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RemoveConferenceAsync(It.IsAny<Guid>()))
                 .Returns(Task.CompletedTask);
 
-            var response = await Controller.DeleteConferenceAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.DeleteConference(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;
@@ -31,7 +31,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.RemoveConferenceAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException("Conference not found", HttpStatusCode.NotFound));
 
-            var response = await Controller.DeleteConferenceAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.DeleteConference(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (ObjectResult)response;
@@ -49,7 +49,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
                 .Setup(x => x.DeleteAudioApplicationAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(CreateVideoApiException($"No audio application found to delete with hearing id ", HttpStatusCode.NotFound));
 
-            var response = await Controller.DeleteConferenceAsync(Guid.NewGuid(), Guid.NewGuid());
+            var response = await Controller.DeleteConference(Guid.NewGuid(), Guid.NewGuid());
             response.Should().NotBeNull();
 
             var result = (NoContentResult)response;
