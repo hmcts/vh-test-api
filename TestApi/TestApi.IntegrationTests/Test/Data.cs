@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,9 @@ namespace TestApi.IntegrationTests.Test
             await using var db = new TestApiDbContext(_dbContextOptions);
 
             const Application application = Application.TestApi;
+            const TestType testType = TestType.Automated;
 
-            var number = await IterateUserNumber(userType, application, isProdUser);
+            var number = await IterateUserNumber(userType, application, isProdUser, testType);
 
             var user = new UserBuilder(_context.Config.UsernameStem, number)
                 .WithUserType(userType)
@@ -50,7 +52,7 @@ namespace TestApi.IntegrationTests.Test
             const Application APPLICATION = Application.TestApi;
             const bool IS_PROD_USER = false;
 
-            var number = await IterateUserNumber(userType, APPLICATION, IS_PROD_USER);
+            var number = await IterateUserNumber(userType, APPLICATION, IS_PROD_USER, testType);
 
             var user = new UserBuilder(_context.Config.UsernameStem, number)
                 .WithUserType(userType)
@@ -83,14 +85,26 @@ namespace TestApi.IntegrationTests.Test
             return recentUser;
         }
 
-        public async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser)
+        public async Task<int> IterateUserNumber(UserType userType, Application application, bool isProdUser, TestType testType)
         {
             await using var db = new TestApiDbContext(_dbContextOptions);
 
-            var users = await db.Users
-                .Where(x => x.UserType == userType.MapToContractEnum() && x.Application == application.MapToContractEnum() && x.IsProdUser == isProdUser)
-                .AsNoTracking()
-                .ToListAsync();
+            List<User> users;
+
+            if (testType == TestType.Automated)
+            {
+                users = await db.Users
+                    .Where(x => x.UserType == userType.MapToContractEnum() && x.Application == application.MapToContractEnum() && x.IsProdUser == isProdUser)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+            else
+            {
+                users = await db.Users
+                    .Where(x => x.UserType == userType.MapToContractEnum() && x.IsProdUser == isProdUser)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
 
             if (users.Count.Equals(0)) return 1;
 

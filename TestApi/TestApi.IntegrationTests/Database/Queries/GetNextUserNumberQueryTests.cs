@@ -20,7 +20,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             var user = await Context.Data.SeedUser();
 
-            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(user.UserType, user.Application, user.IsProdUser));
+            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(user.UserType, user.Application, user.IsProdUser, user.TestType));
             nextNumber.Value.Should().Be(2);
         }
 
@@ -28,7 +28,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         public async Task Should_return_one_if_no_applicable_users_exist()
         {
             var nextNumber =
-                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi, false));
+                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi, false, TestType.Automated));
             nextNumber.Value.Should().Be(1);
         }
 
@@ -37,7 +37,7 @@ namespace TestApi.IntegrationTests.Database.Queries
         {
             await Context.Data.SeedUser();
             var nextNumber =
-                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi, false));
+                await _query.Handle(new GetNextUserNumberByUserTypeQuery(UserType.None, Application.TestApi, false, TestType.Automated));
             nextNumber.Value.Should().Be(1);
         }
 
@@ -49,7 +49,7 @@ namespace TestApi.IntegrationTests.Database.Queries
             await Context.Data.SeedUser(userType);
             await Context.Data.SeedUser(userType);
 
-            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(userType, Application.TestApi, false));
+            var nextNumber = await _query.Handle(new GetNextUserNumberByUserTypeQuery(userType, Application.TestApi, false, TestType.Automated));
             nextNumber.Value.Should().Be(4);
         }
     }
