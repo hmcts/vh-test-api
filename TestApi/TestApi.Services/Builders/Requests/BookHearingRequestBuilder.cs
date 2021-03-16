@@ -153,8 +153,8 @@ namespace TestApi.Services.Builders.Requests
             {
                 _request.LinkedParticipants.Add(new LinkedParticipantRequest()
                 {
-                    ParticipantContactEmail = interpreters[i].ContactEmail,
-                    LinkedParticipantContactEmail = individuals[i].ContactEmail,
+                    ParticipantContactEmail = individuals[i].ContactEmail,
+                    LinkedParticipantContactEmail = interpreters[i].ContactEmail,
                     Type = LinkedParticipantType.Interpreter
                 });
             }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AcceptanceTests.Common.Data.Helpers;
 using TestApi.Common.Data;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Enums;
 using TestApi.Contract.Helpers;
+using VideoApi.Contract.Enums;
 using VideoApi.Contract.Requests;
 
 namespace TestApi.Services.Builders.Requests
@@ -44,6 +46,7 @@ namespace TestApi.Services.Builders.Requests
             _request.Participants = new BookConferenceParticipantsBuilder(_users, _isCACDCaseType).Build();
             _request.ScheduledDateTime = DateTime.UtcNow.AddMinutes(5);
             _request.ScheduledDuration = HearingData.SCHEDULED_DURATION;
+            AddLinkedParticipants();
             return _request;
         }
 
@@ -58,6 +61,25 @@ namespace TestApi.Services.Builders.Requests
                 TestType.Performance => HearingData.PERFORMANCE_CASE_NAME_PREFIX,
                 _ => HearingData.AUTOMATED_CASE_NAME_PREFIX
             };
+        }
+
+        private void AddLinkedParticipants()
+        {
+            if (!_request.Participants.Any(x => x.HearingRole.Equals("Interpreter"))) return;
+            {
+                var interpreters = _request.Participants.Where(x => x.HearingRole.Equals("Interpreter")).ToList();
+                var individuals = _request.Participants.Where(x => (x.UserRole == UserRole.Individual)).ToList();
+
+                for (var i = 0; i < interpreters.Count; i++)
+                {
+                    _request.Participants.Single(x => x.ParticipantRefId.Equals(individuals[i].ParticipantRefId)).LinkedParticipants.Add(new LinkedParticipantRequest()
+                    {
+                        ParticipantRefId = individuals[i].ParticipantRefId,
+                        LinkedRefId = interpreters[i].ParticipantRefId,
+                        Type = LinkedParticipantType.Interpreter
+                    });
+                }
+            }
         }
     }
 }

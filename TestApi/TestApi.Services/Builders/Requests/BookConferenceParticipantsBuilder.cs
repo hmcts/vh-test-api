@@ -20,6 +20,7 @@ namespace TestApi.Services.Builders.Requests
         {
             _users = users;
             _participants = new List<ParticipantRequest>();
+
             _isCACDCaseType = isCACDCaseType;
         }
 
@@ -37,7 +38,7 @@ namespace TestApi.Services.Builders.Requests
             {
                 if (user.UserType == UserType.CaseAdmin) continue;
 
-                var request = new ParticipantRequest();
+                var request = new ParticipantRequest {LinkedParticipants = new List<LinkedParticipantRequest>()};
 
                 if (user.UserType == UserType.Individual)
                 {
@@ -70,7 +71,13 @@ namespace TestApi.Services.Builders.Requests
                     }
                 }
 
-                if (user.UserType == UserType.Interpreter || user.UserType == UserType.Witness)
+                if (user.UserType == UserType.Interpreter)
+                {
+                    request.CaseTypeGroup = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
+                    request.HearingRole = AddSpacesToUserType(user.UserType);
+                }
+
+                if (user.UserType == UserType.Witness)
                 {
                     request.CaseTypeGroup = _isCACDCaseType ? RoleData.CACD_CASE_ROLE_NAME : RoleData.FIRST_CASE_ROLE_NAME;
                     request.HearingRole = AddSpacesToUserType(user.UserType);
@@ -92,15 +99,11 @@ namespace TestApi.Services.Builders.Requests
                     request.HearingRole = AddSpacesToUserType(user.UserType);
                 }
 
-                user.FirstName = $"{user.FirstName}_{Faker.Name.First()}";
-                user.LastName = $"{Faker.Name.Last()}_{user.LastName}";
-
                 request.ContactEmail = user.ContactEmail;
                 request.ContactTelephone = UserData.TELEPHONE_NUMBER;
                 request.DisplayName = user.DisplayName;
                 request.FirstName = user.FirstName;
                 request.LastName = user.LastName;
-                request.LinkedParticipants = new List<LinkedParticipantRequest>();
                 request.Name = $"{UserData.TITLE} {user.FirstName} {user.LastName}";
                 request.ParticipantRefId = Guid.NewGuid();
                 request.UserRole = GetUserRoleFromUserType(user.UserType);
