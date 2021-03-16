@@ -34,14 +34,5 @@ namespace TestApi.AcceptanceTests.Controllers
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
-
-        [Test]
-        public void DeleteHearingWithLinkedParticipants()
-        {
-            var hearing = CreateHearing();
-            var response = DeleteHearing(hearing.Id);
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
     }
 }
