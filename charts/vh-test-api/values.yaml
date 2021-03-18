@@ -53,5 +53,5 @@ java:
     USERGROUPS__PERFORMANCETESTACCOUNTGROUPS: "PerformanceTestAccount"
     USERGROUPS__TESTWEBGROUPS: "VHQA, Civil Money Claims"
     USERGROUPS__JUDICIALOFFICEGROUPS: "JudicialOfficeHolder, External"
-    WOWZACONFIGURATION__STORAGEACCOUNTNAME: vhwowza{{ .Values.global.environment }}
+    WOWZACONFIGURATION__STORAGEACCOUNTNAME: vhinfrawowza{{ .Values.global.environment }}
     WOWZACONFIGURATION__STORAGECONTAINERNAME: "recordings"
