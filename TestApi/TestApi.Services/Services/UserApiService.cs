@@ -193,7 +193,7 @@ namespace TestApi.Services.Services
                 {
                     _logger.LogError(e, "{exceptionCode} exception occured with message '{message}' whilst trying to add a group to a user in AAD with username '{userId}'", e.StatusCode, e.Message, request.UserId);
                     throw;
-                };
+                }
             }
         }
     }
