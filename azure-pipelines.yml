@@ -198,6 +198,7 @@ variables:
   - group: vh-apps-settings-generic
   - group: vh-wowza-dev
   - group: vh-preview
+  - group: vh-test-api
 
 trigger:
   branches:
