@@ -54,7 +54,9 @@ parameters:
   - name: AzureAd:TenantId
     value: tenantid
     secret: true
-
+  - name: ConnectionStrings:TestApi
+    value: TestApiDb-connection-str
+    secret: true
   - name: IsLive
     value: false
   - name: Services:BookingsApiResourceId
@@ -62,11 +64,11 @@ parameters:
     secret: true
   - name: Services:BookingsApiUrl
     value: $(bookings_api_url)
-  - name: Services:UserApiResourceId
-    value: vh-user-api-identifieruris
-    secret: true
   - name: Services:TestApiResourceId
     value: vh-test-api-identifieruris
+    secret: true
+  - name: Services:UserApiResourceId
+    value: vh-user-api-identifieruris
     secret: true
   - name: Services:UserApiUrl
     value: $(user_api_url)
@@ -139,11 +141,11 @@ parameters:
     secret: true
   - name: Services:BookingsApiUrl
     value: $(bookings_api_url)
-  - name: Services:UserApiResourceId
-    value: vh-user-api-identifieruris
-    secret: true
   - name: Services:TestApiResourceId
     value: vh-test-api-identifieruris
+    secret: true
+  - name: Services:UserApiResourceId
+    value: vh-user-api-identifieruris
     secret: true
   - name: Services:UserApiUrl
     value: $(user_api_url)
@@ -265,7 +267,6 @@ extends:
     ACTest: ${{ parameters.RunACTests }}
     releaseParameters:
       environment: Preview
-
       subscription: $(pr_Subscription)
       secrets_KeyVault: $(pr_Secret_KeyVault)
       secrets_Subscription: $(pr_Secret_Subscription)
