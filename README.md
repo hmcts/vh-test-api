@@ -65,5 +65,5 @@ Update following configuration under appsettings.json under TestApi.IntegrationT
 - "ZapConfiguration:ZapScan": true
 - "ConnectionStrings:TestApi": "Server=localhost,1433;Database=TestApi;User=sa;Password=VeryStrongPassword!;" (TestApi\appsettings.development.json)
 
-Note: Ensure you have Docker desktop engine installed and setup
+Note- Ensure you have Docker desktop engine installed and setup
 
