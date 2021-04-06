@@ -59,11 +59,11 @@ resources:
       ref: refs/heads/master
       endpoint: hmcts_shaed
   pipelines:
-  - pipeline: CI
-    source: hmcts.vh-test-api
-    trigger:
-      enabled: true
-      branches:
+    - pipeline: CI
+      source: hmcts.vh-test-api
+      trigger:
+        enabled: true
+        branches:
         - master
         - hotfix/*
         - release/*
