@@ -54,7 +54,9 @@ parameters:
   - name: AzureAd:TenantId
     value: tenantid
     secret: true
-
+  - name: ConnectionStrings:TestApi
+    value: TestApiDb-connection-str
+    secret: true
   - name: IsLive
     value: false
   - name: Services:BookingsApiResourceId
@@ -196,6 +198,7 @@ variables:
   - group: vh-apps-settings-generic
   - group: vh-wowza-dev
   - group: vh-preview
+  - group: vh-test-api
 
 trigger:
   branches:
@@ -265,7 +268,6 @@ extends:
     ACTest: ${{ parameters.RunACTests }}
     releaseParameters:
       environment: Preview
-
       subscription: $(pr_Subscription)
       secrets_KeyVault: $(pr_Secret_KeyVault)
       secrets_Subscription: $(pr_Secret_Subscription)
