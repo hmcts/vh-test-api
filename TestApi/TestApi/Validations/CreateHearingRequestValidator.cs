@@ -24,12 +24,9 @@ namespace TestApi.Validations
                     .WithMessage(WINGERS_CAN_ONLY_BE_IN_CACD_HEARINGS);
             });
 
-            When(x => x.Users.Any(u => u.UserType == UserType.Interpreter), () =>
-            {
-                RuleFor(x => x.Users.Count(x => x.UserType == UserType.Interpreter))
-                    .LessThanOrEqualTo(y => y.Users.Count(z => z.UserType == UserType.Individual))
-                    .WithMessage(INTERPRETERS_COUNT_SHOULD_BE_LESS_THAN_INDIVIDUALS_COUNT_ERROR_MESSAGE);
-            });
+            RuleFor(x => x.Users.Count(z => z.UserType == UserType.Interpreter))
+                .LessThanOrEqualTo(y => y.Users.Count(z => z.UserType == UserType.Individual))
+                .WithMessage(INTERPRETERS_COUNT_SHOULD_BE_LESS_THAN_INDIVIDUALS_COUNT_ERROR_MESSAGE);
         }
     }
 }

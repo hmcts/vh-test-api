@@ -273,7 +273,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetPersonByUsername(string username)
         {
-            _logger.LogDebug($"GetPersonByUsername {username}");
+            _logger.LogDebug("GetPersonByUsername {username}", username);
 
             try
             {
@@ -297,7 +297,7 @@ namespace TestApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllHearings()
         {
-            _logger.LogDebug($"GetAllHearings");
+            _logger.LogDebug("GetAllHearings");
 
             try
             {
