@@ -6,7 +6,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using TestApi.Common.Data;
 using TestApi.Services.Builders.Requests;
 using VideoApi.Contract.Responses;
 
@@ -20,9 +19,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
             var hearingId = Guid.NewGuid();
             var conferenceDetailsResponse = CreateConferenceDetailsResponse();
 
-            const string UPDATED_BY = UserData.DEFAULT_UPDATED_BY_USER;
-
-            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             BookingsApiClient
                 .Setup(x => x.UpdateBookingStatusAsync(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
@@ -46,9 +43,8 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_for_non_existent_hearing_id()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = UserData.DEFAULT_UPDATED_BY_USER;
 
-            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             BookingsApiClient
                 .Setup(x => x.GetHearingDetailsByIdAsync(It.IsAny<Guid>()))
@@ -65,9 +61,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_not_found_if_conference_not_created()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = UserData.DEFAULT_UPDATED_BY_USER;
-
-            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             BookingsApiService
                 .Setup(x => x.UpdateBookingStatusPolling(It.IsAny<Guid>(), It.IsAny<UpdateBookingStatusRequest>()))
@@ -88,11 +82,9 @@ namespace TestApi.UnitTests.Controllers.Hearings
         public async Task Should_throw_error_if_update_booking_status_failed()
         {
             var hearingId = Guid.NewGuid();
-            const string UPDATED_BY = UserData.DEFAULT_UPDATED_BY_USER;
-
             var conferenceDetailsResponse = CreateConferenceDetailsResponse();
 
-            var request = new UpdateBookingRequestBuilder().UpdatedBy(UPDATED_BY).Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             VideoApiService
                 .Setup(x => x.GetConferenceByHearingIdPolling(It.IsAny<Guid>()))

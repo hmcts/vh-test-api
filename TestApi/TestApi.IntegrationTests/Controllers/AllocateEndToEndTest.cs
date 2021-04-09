@@ -71,9 +71,7 @@ namespace TestApi.IntegrationTests.Controllers
 
             var caseAdmin = hearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin);
 
-            var request = new UpdateBookingRequestBuilder()
-                .UpdatedBy(caseAdmin.Username)
-                .Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(hearing.Id);
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -137,11 +135,7 @@ namespace TestApi.IntegrationTests.Controllers
             hearing.Should().NotBeNull();
             HearingsToDelete.Add(hearing);
 
-            var vho = hearingRequest.Users.First(x => x.UserType == UserType.VideoHearingsOfficer);
-
-            var request = new UpdateBookingRequestBuilder()
-                .UpdatedBy(vho.Username)
-                .Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(hearing.Id);
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

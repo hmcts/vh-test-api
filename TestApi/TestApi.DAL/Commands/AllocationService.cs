@@ -124,7 +124,7 @@ namespace TestApi.DAL.Commands
 
         public async Task<UserDto> AllocateJudicialOfficerHolderToService(TestType testType, int expiresInMinutes = 10, string allocatedBy = null)
         {
-            var users = await GetAllUsers(UserType.Judge, testType, Application.Any, false);
+            var users = await GetAllUsers(UserType.Judge, testType, Application.EJud, false);
             _logger.LogDebug($"Found {users.Count} JOH user(s) with test type '{testType}'");
 
             var allocations = await GetAllocationsForUsers(users);

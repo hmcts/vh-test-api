@@ -47,6 +47,7 @@ namespace TestApi.DAL.Queries
             if (query.IsEjud && (query.UserType == UserType.Judge || query.UserType == UserType.PanelMember || query.UserType == UserType.Winger))
             {
                 user = await _service.AllocateJudicialOfficerHolderToService(query.TestType, query.ExpiryInMinutes, query.AllocatedBy);
+                user.UserType = query.UserType;
             }
             else
             {

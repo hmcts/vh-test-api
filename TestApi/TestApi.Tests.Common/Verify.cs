@@ -109,14 +109,25 @@ namespace TestApi.Tests.Common
         {
             foreach (var participant in participants)
             {
-                var user = users.First(x => x.LastName.Equals(participant.LastName));
+                var user = users.First(x => x.DisplayName.Equals(participant.DisplayName));
                 participant.CaseRoleName.Should().NotBeNullOrWhiteSpace();
-                participant.ContactEmail.Should().Be(user.ContactEmail);
+
+                if (user.UserType == UserType.Judge)
+                {
+                    participant.ContactEmail.Should().BeOneOf(user.ContactEmail, user.Username);
+                }
+                else
+                {
+                    participant.ContactEmail.Should().Be(user.ContactEmail);
+                    participant.LastName.Should().Be(user.LastName);
+                    participant.TelephoneNumber.Should().Be(UserData.TELEPHONE_NUMBER);
+                    participant.Title.Should().Be(UserData.TITLE);
+                }
+
                 participant.DisplayName.Should().Be(user.DisplayName);
                 participant.FirstName.Should().Be(user.FirstName);
                 participant.HearingRoleName.Should().NotBeNullOrWhiteSpace();
                 participant.MiddleNames.Should().Be(UserData.MIDDLE_NAME);
-                participant.LastName.Should().Be(user.LastName);
                 participant.Id.Should().NotBeEmpty();
 
                 if (user.UserType == UserType.Representative)
@@ -125,8 +136,6 @@ namespace TestApi.Tests.Common
                     participant.Representee.Should().NotBeNullOrWhiteSpace();
                 }
 
-                participant.TelephoneNumber.Should().Be(UserData.TELEPHONE_NUMBER);
-                participant.Title.Should().Be(UserData.TITLE);
                 participant.Username.Should().Be(user.Username);
             }
         }

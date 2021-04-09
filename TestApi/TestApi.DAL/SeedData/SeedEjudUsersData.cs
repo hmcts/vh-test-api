@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore.Migrations;
 using TestApi.DAL.Helpers;
 using TestApi.Domain;
@@ -17,27 +16,27 @@ namespace TestApi.DAL.SeedData
         private const string DOMAIN = "@judiciarystaging.onmicrosoft.com";
         private readonly object[,] _userAutomationRowData;
         private readonly object[,] _userManualRowData;
-        private readonly object[] _allocationRowData;
-        private readonly List<User> _automationUsers;
-        private readonly List<User> _manualUsers;
+        private readonly object[,] _allocationAutomationData;
+        private readonly object[,] _allocationManualData;
 
-        private static string[] _userColumns =
+        private static readonly string[] _userColumns =
         {
             "Id", "Username", "ContactEmail", "FirstName", "LastName", "DisplayName", "Number", "TestType", "UserType",
             "Application", "IsProdUser", "CreatedDate"
         };
 
+        private static readonly string[] _allocationColumns = {"Id", "UserId", "Username", "ExpiresAt", "Allocated", "AllocatedBy"};
+
         public SeedEjudUsersData()
         {
-            _automationUsers = CreateUsers(MAX_AUTOMATION_USERS, AUTOMATION_FIRSTNAME, TestType.Automated);
-            _manualUsers = CreateUsers(MAX_MANUAL_USERS, MANUAL_FIRSTNAME, TestType.Manual);
+            var automationUsers = CreateUsers(MAX_AUTOMATION_USERS, AUTOMATION_FIRSTNAME, TestType.Automated);
+            var manualUsers = CreateUsers(MAX_MANUAL_USERS, MANUAL_FIRSTNAME, TestType.Manual);
 
-            _userAutomationRowData = CreateUserRowData(_automationUsers);
-            _userManualRowData = CreateUserRowData(_manualUsers);
+            _userAutomationRowData = CreateUserRowData(automationUsers);
+            _userManualRowData = CreateUserRowData(manualUsers);
 
-            var allocationAutomationRowData = CreateAllocationRowData(_automationUsers);
-            var allocationManualRowData = CreateAllocationRowData(_manualUsers);
-            _allocationRowData = allocationAutomationRowData.Concat(allocationManualRowData).ToArray();
+            _allocationAutomationData = CreateAllocationRowData(automationUsers);
+            _allocationManualData = CreateAllocationRowData(manualUsers);
         }
 
         private static List<User> CreateUsers(int amountOfUsers, string firstName, TestType testType)
@@ -52,7 +51,7 @@ namespace TestApi.DAL.SeedData
                 var username = $"{firstName}_{TextHelpers.ReplaceSpacesWithUnderscores(lastName)}{DOMAIN}";
                 var contactEmail = $"{firstName}_{TextHelpers.ReplaceSpacesWithUnderscores(lastName)}{DOMAIN}";
 
-                users.Add(new User()
+                users.Add(new User
                 {
                     Application = Application.Any,
                     ContactEmail = contactEmail,
@@ -89,23 +88,26 @@ namespace TestApi.DAL.SeedData
                 rows[i, 9] = (int) users[i].Application;
                 rows[i, 10] = users[i].IsProdUser;
                 rows[i, 11] = users[i].CreatedDate;
-
-                //{ users[i].Id, users[i].Username, users[i].ContactEmail, users[i].FirstName, users[i].LastName, users[i].DisplayName, users[i].Number, (int) users[i].TestType, (int) users[i].UserType, (int) users[i].Application, users[i].IsProdUser, users[i].CreatedDate };
             }
 
             return rows;
         }
 
-        private static IEnumerable<object> CreateAllocationRowData(IReadOnlyList<User> users)
+        private static object[,] CreateAllocationRowData(IReadOnlyList<User> users)
         {
-            var allocations = new object[users.Count];
+            var rows = new object[users.Count, _allocationColumns.Length];
 
             for (var i = 0; i < users.Count; i++)
             {
-                allocations[i] = new object[] { Guid.NewGuid(), users[i].Id, users[i].Username, null, false, null };
+                rows[i, 0] = Guid.NewGuid();
+                rows[i, 1] = users[i].Id;
+                rows[i, 2] = users[i].Username;
+                rows[i, 3] = null;
+                rows[i, 4] = false;
+                rows[i, 5] = null;
             }
 
-            return allocations;
+            return rows;
         }
 
         public void Up(MigrationBuilder migrationBuilder)
@@ -118,13 +120,13 @@ namespace TestApi.DAL.SeedData
         {
             migrationBuilder.InsertData(
                 table: nameof(User),
-                columns: new[] { "Id", "Username", "ContactEmail", "FirstName", "LastName", "DisplayName", "Number", "TestType", "UserType", "Application", "IsProdUser", "CreatedDate" },
+                columns: _userColumns,
                 values: _userAutomationRowData
             );
 
             migrationBuilder.InsertData(
                 table: nameof(User),
-                columns: new[] { "Id", "Username", "ContactEmail", "FirstName", "LastName", "DisplayName", "Number", "TestType", "UserType", "Application", "IsProdUser", "CreatedDate" },
+                columns: _userColumns,
                 values: _userManualRowData
             );
         }
@@ -133,8 +135,14 @@ namespace TestApi.DAL.SeedData
         {
             migrationBuilder.InsertData(
                 table: nameof(Allocation),
-                columns: new[] { "Id", "UserId", "Username", "ExpiresAt", "Allocated", "AllocatedBy" },
-                values: _allocationRowData
+                columns: _allocationColumns,
+                values: _allocationAutomationData
+            );
+
+            migrationBuilder.InsertData(
+                table: nameof(Allocation),
+                columns: _allocationColumns,
+                values: _allocationManualData
             );
         }
 
