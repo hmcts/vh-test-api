@@ -114,13 +114,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
                 .ForTestType(testType)
                 .BuildUserDto();
 
-            var caseAdmin = new UserBuilder(Context.Config.UsernameStem, 1)
-                .AddCaseAdmin()
-                .ForApplication(Application.TestApi)
-                .ForTestType(testType)
-                .BuildUserDto();
-
-            return new List<UserDto>() { judge, individual, representative, observer, panelMember, caseAdmin };
+            return new List<UserDto>() { judge, individual, representative, observer, panelMember };
         }
 
         private List<UserDto> CreateUsersWithJustIndividualAndJudge()
