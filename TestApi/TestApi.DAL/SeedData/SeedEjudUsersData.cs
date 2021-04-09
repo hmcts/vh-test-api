@@ -15,11 +15,17 @@ namespace TestApi.DAL.SeedData
         private const string AUTOMATION_FIRSTNAME = "Auto";
         private const string MANUAL_FIRSTNAME = "Manual";
         private const string DOMAIN = "@judiciarystaging.onmicrosoft.com";
-        private readonly object[] _userAutomationRowData;
-        private readonly object[] _userManualRowData;
+        private readonly object[,] _userAutomationRowData;
+        private readonly object[,] _userManualRowData;
         private readonly object[] _allocationRowData;
         private readonly List<User> _automationUsers;
         private readonly List<User> _manualUsers;
+
+        private static string[] _userColumns =
+        {
+            "Id", "Username", "ContactEmail", "FirstName", "LastName", "DisplayName", "Number", "TestType", "UserType",
+            "Application", "IsProdUser", "CreatedDate"
+        };
 
         public SeedEjudUsersData()
         {
@@ -65,13 +71,26 @@ namespace TestApi.DAL.SeedData
             return users;
         }
 
-        private static object[] CreateUserRowData(IReadOnlyList<User> users)
+        private static object[,] CreateUserRowData(IReadOnlyList<User> users)
         {
-            var rows = new object[users.Count];
+            var rows = new object[users.Count, _userColumns.Length];
             
             for (var i = 0; i < users.Count; i++)
             {
-                rows[i] = new object[] { users[i].Id, users[i].Username, users[i].ContactEmail, users[i].FirstName, users[i].LastName, users[i].DisplayName, users[i].Number, (int) users[i].TestType, (int) users[i].UserType, (int) users[i].Application, users[i].IsProdUser, users[i].CreatedDate };
+                rows[i, 0] = users[i].Id;
+                rows[i, 1] = users[i].Username;
+                rows[i, 2] = users[i].ContactEmail;
+                rows[i, 3] = users[i].FirstName;
+                rows[i, 4] = users[i].LastName;
+                rows[i, 5] = users[i].DisplayName;
+                rows[i, 6] = users[i].Number;
+                rows[i, 7] = (int) users[i].TestType;
+                rows[i, 8] = (int) users[i].UserType;
+                rows[i, 9] = (int) users[i].Application;
+                rows[i, 10] = users[i].IsProdUser;
+                rows[i, 11] = users[i].CreatedDate;
+
+                //{ users[i].Id, users[i].Username, users[i].ContactEmail, users[i].FirstName, users[i].LastName, users[i].DisplayName, users[i].Number, (int) users[i].TestType, (int) users[i].UserType, (int) users[i].Application, users[i].IsProdUser, users[i].CreatedDate };
             }
 
             return rows;
