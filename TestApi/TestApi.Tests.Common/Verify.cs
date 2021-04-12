@@ -59,6 +59,20 @@ namespace TestApi.Tests.Common
             }
         }
 
+        public static void EjudUserDetailsResponse(UserDetailsResponse response, UserType userType)
+        {
+            response.Application.Should().Be(Application.Ejud);
+            response.ContactEmail.Should().Contain(UserType.Judge.ToString());
+            response.CreatedDate.Should().NotBe(DateTime.MinValue);
+            response.DisplayName.Should().Contain(UserType.Judge.ToString());
+            response.FirstName.Should().NotBeNullOrWhiteSpace();
+            response.Id.Should().NotBeEmpty();
+            response.LastName.Should().Contain(UserType.Judge.ToString());
+            response.Number.Should().BeGreaterThan(0);
+            response.UserType.Should().Be(userType);
+            response.Username.Should().Contain(UserType.Judge.ToString());
+        }
+
         public static void HearingDetailsResponse(HearingDetailsResponse response, CreateHearingRequest request)
         {
             response.AudioRecordingRequired.Should().Be(request.AudioRecordingRequired);

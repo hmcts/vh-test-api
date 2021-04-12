@@ -15,6 +15,7 @@ namespace TestApi.Common.Builders
                 AllocatedBy = EmailData.TEST_WEB_MANUAL_USER,
                 Application = Application.TestApi,
                 ExpiryInMinutes = 1,
+                IsEjud = false,
                 IsProdUser = false,
                 TestType = TestType.Automated,
                 UserType = UserType.Individual
@@ -36,6 +37,18 @@ namespace TestApi.Common.Builders
         public AllocateUserRequestBuilder WithExpiryInMinutes(int expiresInMinutes)
         {
             _request.ExpiryInMinutes = expiresInMinutes;
+            return this;
+        }
+
+        public AllocateUserRequestBuilder IsEjud()
+        {
+            _request.IsEjud = true;
+            return this;
+        }
+
+        public AllocateUserRequestBuilder IsEjud(bool isEjud)
+        {
+            _request.IsEjud = isEjud;
             return this;
         }
 

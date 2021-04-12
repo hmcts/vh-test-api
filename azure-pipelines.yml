@@ -81,6 +81,8 @@ parameters:
     value: $(TestDefaultPassword)
   - name: UsernameStem
     value: $(UsernameStem)
+  - name: EjudUsernameStem
+    value: $(EjudUsernameStem)
   - name: UserGroups:JudgeGroups
     value: $(UserGroups:JudgeGroups)
   - name: UserGroups:IndividualGroups
@@ -158,6 +160,8 @@ parameters:
     value: $(TestDefaultPassword)
   - name: UsernameStem
     value: $(UsernameStem)
+  - name: EjudUsernameStem
+    value: $(EjudUsernameStem)
   - name: UserGroups:JudgeGroups
     value: $(UserGroups:JudgeGroups)
   - name: UserGroups:IndividualGroups
@@ -262,7 +266,7 @@ extends:
         - "[TestApi.Testing.Common]*"
       sonarCloud_ExtraProperties: |
         sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/Coverage/coverage.opencover.xml
-        sonar.coverage.exclusions="**/TestApi/Swagger/**, **/Program.cs, **/Startup.cs,  **/TestApi/Helper/**, **/TestApi/ConfigureServicesExtensions.cs, **/TestApi/Extensions/**, **/TestApi.DAL/Migrations/*, **/TestApi.IntegrationTests/**/*,**/TestApi.UnitTests/**/*"
+        sonar.coverage.exclusions="**/TestApi/Swagger/**, **/Program.cs, **/Startup.cs,  **/TestApi/Helper/**, **/TestApi/ConfigureServicesExtensions.cs, **/TestApi/Extensions/**, **/TestApi.DAL/Migrations/*, **/TestApi.Domain/Ddd/**"
         sonar.cpd.exclusions="**/Program.cs, **/Startup.cs, **/TestApi/Swagger/**"
       StrykerBreak: 75
     ACTest: ${{ parameters.RunACTests }}

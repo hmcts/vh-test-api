@@ -12,6 +12,6 @@
         VideoWeb = 7,
         QueueSubscriber = 8,
         TestWeb = 9,
-        Any = 10
+        Ejud = 10
     }
 }

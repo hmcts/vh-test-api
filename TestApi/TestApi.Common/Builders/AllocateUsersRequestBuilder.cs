@@ -15,7 +15,7 @@ namespace TestApi.Common.Builders
 
         public AllocateUsersRequestBuilder()
         {
-            _request = new AllocateUsersRequest {ExpiryInMinutes = 1, TestType = TestType.Automated};
+            _request = new AllocateUsersRequest {ExpiryInMinutes = 1, TestType = TestType.Automated, IsEjud = false};
         }
 
         public AllocateUsersRequestBuilder WithUserTypes(List<UserType> userTypes)
@@ -68,6 +68,12 @@ namespace TestApi.Common.Builders
         public AllocateUsersRequestBuilder WithExpiryInMinutes(int expiryInMinutes)
         {
             _request.ExpiryInMinutes = expiryInMinutes;
+            return this;
+        }
+
+        public AllocateUsersRequestBuilder IsEjud()
+        {
+            _request.IsEjud = true;
             return this;
         }
 

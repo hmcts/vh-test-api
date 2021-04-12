@@ -54,6 +54,7 @@ namespace TestApi.AcceptanceTests.Helpers
         private void RegisterUsernameStem()
         {
             _context.Config.UsernameStem = _configRoot.GetValue<string>("UsernameStem");
+            _context.Config.EjudUsernameStem = _configRoot.GetValue<string>("EjudUsernameStem");
         }
 
         private void GenerateBearerToken(IOptions<AzureAdConfiguration> azureOptions)

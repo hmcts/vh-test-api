@@ -67,6 +67,7 @@ namespace TestApi.IntegrationTests.Test
         private void RegisterUsernameStem()
         {
             _context.Config.UsernameStem = _configRoot.GetValue<string>("UsernameStem");
+            _context.Config.EjudUsernameStem = _configRoot.GetValue<string>("EjudUsernameStem");
         }
 
         private void RegisterServer()

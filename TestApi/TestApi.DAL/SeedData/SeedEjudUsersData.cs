@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
-using TestApi.DAL.Helpers;
+using Microsoft.Extensions.Configuration;
+using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
 
@@ -11,9 +12,6 @@ namespace TestApi.DAL.SeedData
     {
         private const int MAX_AUTOMATION_USERS = 25;
         private const int MAX_MANUAL_USERS = 10;
-        private const string AUTOMATION_FIRSTNAME = "Auto";
-        private const string MANUAL_FIRSTNAME = "Manual";
-        private const string DOMAIN = "@judiciarystaging.onmicrosoft.com";
         private readonly object[,] _userAutomationRowData;
         private readonly object[,] _userManualRowData;
         private readonly object[,] _allocationAutomationData;
@@ -27,10 +25,15 @@ namespace TestApi.DAL.SeedData
 
         private static readonly string[] _allocationColumns = {"Id", "UserId", "Username", "ExpiresAt", "Allocated", "AllocatedBy"};
 
+        private static string DOMAIN => new ConfigurationBuilder()
+            .AddUserSecrets("04df59fe-66aa-4fb2-8ac5-b87656f7675a")
+            .Build()
+            .GetValue<string>("EjudUsernameStem");
+
         public SeedEjudUsersData()
         {
-            var automationUsers = CreateUsers(MAX_AUTOMATION_USERS, AUTOMATION_FIRSTNAME, TestType.Automated);
-            var manualUsers = CreateUsers(MAX_MANUAL_USERS, MANUAL_FIRSTNAME, TestType.Manual);
+            var automationUsers = CreateUsers(MAX_AUTOMATION_USERS, EjudUserData.AUTOMATED_FIRST_NAME_PREFIX, TestType.Automated);
+            var manualUsers = CreateUsers(MAX_MANUAL_USERS, EjudUserData.MANUAL_FIRST_NAME_PREFIX, TestType.Manual);
 
             _userAutomationRowData = CreateUserRowData(automationUsers);
             _userManualRowData = CreateUserRowData(manualUsers);
@@ -46,14 +49,14 @@ namespace TestApi.DAL.SeedData
             for (var i = 0; i < amountOfUsers; i++)
             {
                 var number = i + 1;
-                var lastName = $"Judge {number}";
-                var displayName = $"{firstName} {lastName}";
-                var username = $"{firstName}_{TextHelpers.ReplaceSpacesWithUnderscores(lastName)}{DOMAIN}";
-                var contactEmail = $"{firstName}_{TextHelpers.ReplaceSpacesWithUnderscores(lastName)}{DOMAIN}";
+                var lastName = EjudUserData.LAST_NAME(number);
+                var displayName = EjudUserData.DISPLAY_NAME(firstName, lastName);
+                var username = EjudUserData.USERNAME(firstName, lastName, DOMAIN);
+                var contactEmail = EjudUserData.CONTACT_EMAIL(firstName, lastName, DOMAIN);
 
                 users.Add(new User
                 {
-                    Application = Application.Any,
+                    Application = Application.Ejud,
                     ContactEmail = contactEmail,
                     CreatedDate = DateTime.UtcNow,
                     DisplayName = displayName,

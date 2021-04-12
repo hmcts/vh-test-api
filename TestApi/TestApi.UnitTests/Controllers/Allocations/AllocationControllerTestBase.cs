@@ -40,6 +40,15 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .BuildUserDto();
         }
 
+        protected static UserDto CreateEjudUser(UserType userType)
+        {
+            const string emailStem = EmailData.FAKE_EMAIL_STEM;
+            const int number = 1;
+            return new EjudUserBuilder(emailStem, number)
+                .WithUserType(userType)
+                .BuildUserDto();
+        }
+
         protected static UserDto CreateUser(TestType testType)
         {
             const string emailStem = EmailData.FAKE_EMAIL_STEM;

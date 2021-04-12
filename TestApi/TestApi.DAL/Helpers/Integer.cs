@@ -18,10 +18,5 @@
         {
             return x.Value;
         }
-
-        public override string ToString()
-        {
-            return $"Integer({Value})";
-        }
     }
 }

@@ -46,7 +46,7 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
         [Test]
         public async Task Should_not_return_error_with_an_empty_list()
         {
-            const string ALLOCATED_BY = EmailData.TEST_WEB_MANUAL_USER;
+            const string ALLOCATED_BY = "USER_THAT_HAS_NEVER_ALLOCATED_ANOTHER_USER@email.com";
 
             var uri = ApiUriFactory.AllocationEndpoints.GetAllocatedUsers(ALLOCATED_BY);
             await SendGetRequest(uri);

@@ -124,8 +124,13 @@ namespace TestApi.DAL.Commands
 
         public async Task<UserDto> AllocateJudicialOfficerHolderToService(TestType testType, int expiresInMinutes = 10, string allocatedBy = null)
         {
-            var users = await GetAllUsers(UserType.Judge, testType, Application.EJud, false);
+            var users = await GetAllUsers(UserType.Judge, testType, Application.Ejud, false);
             _logger.LogDebug($"Found {users.Count} JOH user(s) with test type '{testType}'");
+
+            if (users.Count.Equals(0))
+            {
+                throw new NoEjudUsersExistException();
+            }
 
             var allocations = await GetAllocationsForUsers(users);
 
@@ -202,7 +207,7 @@ namespace TestApi.DAL.Commands
             return allocations;
         }
 
-        private async Task<List<Allocation>> GetAllocationsForUsers(IReadOnlyCollection<UserDto> users)
+        private async Task<List<Allocation>> GetAllocationsForUsers(IEnumerable<UserDto> users)
         {
             var allocations = new List<Allocation>();
 
