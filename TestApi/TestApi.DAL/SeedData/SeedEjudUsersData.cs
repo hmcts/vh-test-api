@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Configuration;
 using TestApi.Common.Data;
 using TestApi.Domain;
 using TestApi.Domain.Enums;
@@ -12,6 +11,7 @@ namespace TestApi.DAL.SeedData
     {
         private const int MAX_AUTOMATION_USERS = 25;
         private const int MAX_MANUAL_USERS = 10;
+        private const string DOMAIN = "judiciarystaging.onmicrosoft.com";
         private readonly object[,] _userAutomationRowData;
         private readonly object[,] _userManualRowData;
         private readonly object[,] _allocationAutomationData;
@@ -24,12 +24,6 @@ namespace TestApi.DAL.SeedData
         };
 
         private static readonly string[] _allocationColumns = {"Id", "UserId", "Username", "ExpiresAt", "Allocated", "AllocatedBy"};
-
-        private static string DOMAIN => new ConfigurationBuilder()
-            .AddUserSecrets("04df59fe-66aa-4fb2-8ac5-b87656f7675a")
-            .AddJsonFile("appsettings.json")
-            .Build()
-            .GetValue<string>("EjudUsernameStem");
 
         public SeedEjudUsersData()
         {
