@@ -9,6 +9,7 @@ namespace TestApi.Tests.Common.Configuration
         public ServicesConfiguration Services { get; set; }
         public string UsernameStem { get; set; }
         public string EjudUsernameStem { get; set; }
+        public string TestDefaultPassword { get; set; }
         public WowzaConfiguration Wowza { get; set; }
     }
 }

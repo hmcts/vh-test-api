@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Configuration;
+using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -43,15 +44,53 @@ namespace TestApi.UnitTests.Controllers.Users
         }
 
         [Test]
-        public async Task Should_return_not_found_for_unknown_username()
+        public async Task Should_return_test_password_for_ejud_users()
         {
-            const string USERNAME = EmailData.NON_EXISTENT_USERNAME;
+            var username = EjudUserData.USERNAME(EjudUserData.AUTOMATED_FIRST_NAME_PREFIX, EjudUserData.LAST_NAME(1), EjudUserData.FAKE_EJUD_DOMAIN);
+            var request = new ResetUserPasswordRequest()
+            {
+                Username = username
+            };
 
-            var result = await Controller.GetUserDetailsByUsername(USERNAME);
+            var result = await Controller.ResetUserPassword(request);
+            var objectResult = (OkObjectResult)result;
+            objectResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            result.Should().NotBeNull();
-            var objectResult = (NotFoundResult)result;
-            objectResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            var passwordResponse = (UpdateUserResponse)objectResult.Value;
+            passwordResponse.NewPassword.Should().Be(EjudUserData.FAKE_PASSWORD);
+        }
+
+        [Test]
+        public void Should_throw_error_if_ejud_domain_not_found()
+        {
+            var username = EjudUserData.USERNAME(EjudUserData.AUTOMATED_FIRST_NAME_PREFIX, EjudUserData.LAST_NAME(1), EjudUserData.FAKE_EJUD_DOMAIN);
+            var request = new ResetUserPasswordRequest()
+            {
+                Username = username
+            };
+
+            Configuration
+                .Setup(x => x.GetSection("EjudUsernameStem").Value)
+                .Returns(() => null);
+
+            Assert.ThrowsAsync<ConfigurationErrorsException>(async () => await Controller.ResetUserPassword(request));
+        }
+
+
+        [Test]
+        public void Should_throw_error_if_test_default_password_not_found()
+        {
+            var username = EjudUserData.USERNAME(EjudUserData.AUTOMATED_FIRST_NAME_PREFIX, EjudUserData.LAST_NAME(1), EjudUserData.FAKE_EJUD_DOMAIN);
+            var request = new ResetUserPasswordRequest()
+            {
+                Username = username
+            };
+
+            Configuration
+                .Setup(x => x.GetSection("TestDefaultPassword").Value)
+                .Returns(() => null);
+
+            Assert.ThrowsAsync<ConfigurationErrorsException>(async () => await Controller.ResetUserPassword(request));
         }
     }
 }

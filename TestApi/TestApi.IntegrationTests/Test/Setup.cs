@@ -31,6 +31,7 @@ namespace TestApi.IntegrationTests.Test
             var azureOptions = RegisterAzureSecrets();
             RegisterDatabaseSettings();
             RegisterUsernameStem();
+            RegisterDefaultPassword();
             RegisterServer();
             RegisterServices();
             RegisterWowzaSettings();
@@ -67,7 +68,15 @@ namespace TestApi.IntegrationTests.Test
         private void RegisterUsernameStem()
         {
             _context.Config.UsernameStem = _configRoot.GetValue<string>("UsernameStem");
+            _context.Config.UsernameStem.Should().NotBeNullOrEmpty();
             _context.Config.EjudUsernameStem = _configRoot.GetValue<string>("EjudUsernameStem");
+            _context.Config.EjudUsernameStem.Should().NotBeNullOrEmpty();
+        }
+
+        private void RegisterDefaultPassword()
+        {
+            _context.Config.TestDefaultPassword = _configRoot.GetValue<string>("TestDefaultPassword");
+            _context.Config.TestDefaultPassword.Should().NotBeNullOrEmpty();
         }
 
         private void RegisterServer()

@@ -1,6 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Configuration;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
 using TestApi.Contract.Dtos;
@@ -25,14 +28,16 @@ namespace TestApi.Controllers
         private readonly IQueryHandler _queryHandler;
         private readonly IUserApiClient _userApiClient;
         private readonly IUserApiService _userApiService;
+        private readonly IConfiguration _config;
 
         public UserController(IQueryHandler queryHandler, ILogger<UserController> logger,
-            IUserApiService userApiService, IUserApiClient userApiClient)
+            IUserApiService userApiService, IUserApiClient userApiClient, IConfiguration config)
         {
             _queryHandler = queryHandler;
             _logger = logger;
             _userApiService = userApiService;
             _userApiClient = userApiClient;
+            _config = config;
         }
 
         /// <summary>
@@ -167,6 +172,11 @@ namespace TestApi.Controllers
         {
             _logger.LogDebug($"ResetUserPassword");
 
+            if (request.Username.EndsWith(GetEjudDomain(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                return Ok(new UpdateUserResponse{ NewPassword = GetDefaultPassword() });
+            }
+
             try
             {
                 var response = await _userApiClient.ResetUserPasswordAsync(request.Username);
@@ -176,6 +186,24 @@ namespace TestApi.Controllers
             {
                 return StatusCode(e.StatusCode, e.Response);
             }
+        }
+
+        private string GetEjudDomain()
+        {
+            var emailStem = _config.GetValue<string>("EjudUsernameStem");
+
+            if (emailStem == null) throw new ConfigurationErrorsException("Email stem could not be retrieved");
+
+            return emailStem;
+        }
+
+        private string GetDefaultPassword()
+        {
+            var password = _config.GetValue<string>("TestDefaultPassword");
+
+            if (password == null) throw new ConfigurationErrorsException("Default password could not be retrieved");
+
+            return password;
         }
     }
 }
