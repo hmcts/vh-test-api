@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TestApi.Common.Configuration
+﻿namespace TestApi.Common.Configuration
 {
     public class SettingsConfiguration
     {

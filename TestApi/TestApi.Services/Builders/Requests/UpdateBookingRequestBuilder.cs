@@ -15,13 +15,6 @@ namespace TestApi.Services.Builders.Requests
                 Status = UpdateBookingStatus.Created, UpdatedBy = UserData.DEFAULT_UPDATED_BY_USER
             };
         }
-
-        public UpdateBookingRequestBuilder UpdatedBy(string username)
-        {
-            _request.UpdatedBy = username;
-            return this;
-        }
-
         public UpdateBookingStatusRequest Build()
         {
             return _request;

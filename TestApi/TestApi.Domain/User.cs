@@ -9,6 +9,7 @@ namespace TestApi.Domain
         public User()
         {
             CreatedDate = DateTime.UtcNow;
+            Id = Guid.NewGuid();
         }
 
         public User(string username, string contactEmail, string firstName, string lastName, string displayName, 

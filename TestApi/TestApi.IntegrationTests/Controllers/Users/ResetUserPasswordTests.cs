@@ -40,9 +40,13 @@ namespace TestApi.IntegrationTests.Controllers.Users
             response.NewPassword.Should().NotBeNullOrEmpty();
         }
 
-        private async Task<string> AllocateUser()
+        private async Task<string> AllocateUser(bool isEjud = false)
         {
-            var request = new AllocateUserRequestBuilder().ForTestType(TestType.Manual).Build();
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(UserType.Judge)
+                .ForTestType(TestType.Manual)
+                .IsEjud(isEjud)
+                .Build();
 
             var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -118,6 +122,26 @@ namespace TestApi.IntegrationTests.Controllers.Users
             var uri = ApiUriFactory.UserEndpoints.ResetUserPassword();
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
             VerifyResponse(HttpStatusCode.BadRequest, false);
+        }
+
+        [Test]
+        public async Task Should_return_default_password_for_ejud_user()
+        {
+            var username = await AllocateUser(true);
+
+            var request = new ResetUserPasswordRequest()
+            {
+                Username = username
+            };
+
+            var uri = ApiUriFactory.UserEndpoints.ResetUserPassword();
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+            VerifyResponse(HttpStatusCode.OK, true);
+
+            var response = RequestHelper.Deserialise<UpdateUserResponse>(Json);
+
+            response.Should().NotBeNull();
+            response.NewPassword.Should().Be(Context.Config.TestDefaultPassword);
         }
     }
 }

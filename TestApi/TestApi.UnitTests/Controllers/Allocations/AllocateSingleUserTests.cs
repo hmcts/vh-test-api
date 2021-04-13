@@ -137,5 +137,33 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 ? UserData.AUTOMATED_FIRST_NAME_PREFIX.ToLower()
                 : testType.ToString().ToLower());
         }
+
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
+        public void Should_allocate_ejud_user(UserType userType)
+        {
+            var user = CreateEjudUser(userType);
+            CreateAllocation(user);
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(userType)
+                .IsEjud()
+                .Build();
+
+            QueryHandler
+                .Setup(
+                    x => x.Handle<GetAllocatedUserByUserTypeQuery, UserDto>(It.IsAny<GetAllocatedUserByUserTypeQuery>()))
+                .ReturnsAsync(user);
+
+            var response = Controller.AllocateSingleUser(request);
+            response.Should().NotBeNull();
+
+            var result = (OkObjectResult)response;
+            result.StatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            var userDetailsResponse = (UserDetailsResponse)result.Value;
+            userDetailsResponse.Should().BeEquivalentTo(user);
+        }
     }
 }

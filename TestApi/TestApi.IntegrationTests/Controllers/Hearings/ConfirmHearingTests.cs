@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AcceptanceTests.Common.Api.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
-using TestApi.Common.Data;
-using TestApi.Contract.Enums;
 using TestApi.Services.Builders.Requests;
 using TestApi.Tests.Common;
 using TestApi.Tests.Common.Configuration;
@@ -21,9 +18,8 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         {
             var hearingRequest = CreateHearingRequest();
             var hearingResponse = await CreateHearing(hearingRequest);
-            var caseAdmin = hearingRequest.Users.First(x => x.UserType == UserType.CaseAdmin);
 
-            var request = new UpdateBookingRequestBuilder().UpdatedBy(caseAdmin.Username).Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(hearingResponse.Id);
             await SendPatchRequest(uri, RequestHelper.Serialise(request));
@@ -38,11 +34,7 @@ namespace TestApi.IntegrationTests.Controllers.Hearings
         [Test]
         public async Task Should_return_not_found_for_non_existent_hearing_id()
         {
-            const string CASE_ADMIN_USERNAME = EmailData.NON_EXISTENT_USERNAME;
-
-            var request = new UpdateBookingRequestBuilder()
-                .UpdatedBy(CASE_ADMIN_USERNAME)
-                .Build();
+            var request = new UpdateBookingRequestBuilder().Build();
 
             var uri = ApiUriFactory.HearingEndpoints.ConfirmHearing(Guid.NewGuid());
             await SendPatchRequest(uri, RequestHelper.Serialise(request));

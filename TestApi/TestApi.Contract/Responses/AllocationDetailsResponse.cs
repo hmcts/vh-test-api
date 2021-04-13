@@ -7,34 +7,22 @@ namespace TestApi.Contract.Responses
     /// </summary>
     public class AllocationDetailsResponse
     {
-        /// <summary>
-        ///     Id
-        /// </summary>
+        /// <summary>Id</summary>
         public Guid Id { get; set; }
 
-        /// <summary>
-        ///     User Id
-        /// </summary>
+        /// <summary>User Id</summary>
         public Guid UserId { get; set; }
 
-        /// <summary>
-        ///     Username
-        /// </summary>
+        /// <summary>Username</summary>
         public string Username { get; set; }
 
-        /// <summary>
-        ///     ExpiresAt
-        /// </summary>
+        /// <summary>ExpiresAt</summary>
         public DateTime? ExpiresAt { get; set; }
 
-        /// <summary>
-        ///     Allocated
-        /// </summary>
+        /// <summary>Allocated</summary>
         public bool Allocated { get; set; }
 
-        /// <summary>
-        ///     Allocated By
-        /// </summary>
+        /// <summary>Allocated By</summary>
         public string AllocatedBy { get; set; }
     }
 }

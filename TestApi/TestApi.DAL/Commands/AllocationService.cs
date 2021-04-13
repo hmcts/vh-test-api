@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using TestApi.Common.Builders;
 using TestApi.Contract.Dtos;
+using TestApi.Contract.Enums;
 using TestApi.DAL.Commands.Core;
+using TestApi.DAL.Exceptions;
 using TestApi.DAL.Helpers;
 using TestApi.DAL.Queries;
 using TestApi.DAL.Queries.Core;
 using TestApi.Domain;
-using TestApi.Contract.Enums;
 using TestApi.Services.Services;
 using UserApi.Contract.Responses;
 
@@ -31,6 +32,16 @@ namespace TestApi.DAL.Commands
         /// <param name="allocatedBy">Allocated By a particular user</param>
         /// <returns>An allocated user</returns>
         Task<UserDto> AllocateToService(UserType userType, Application application, TestType testType, bool isProdUser, int expiresInMinutes = 10, string allocatedBy = null);
+
+        /// <summary>
+        ///     Allocate eJudicial Judges, Panel Members and Wingers from the pool of available users
+        /// </summary>
+        /// <param name="userType">Type of user to allocate (e.g. Judge)</param>
+        /// <param name="testType">Type of test user is required for. Default is Automation test</param>
+        /// <param name="expiresInMinutes">Gives an expiry time in minutes. Default is 10 minutes</param>
+        /// <param name="allocatedBy">Allocated By a particular user</param>
+        /// <returns>An allocated user</returns>
+        Task<UserDto> AllocateJudicialOfficerHolderToService(TestType testType, int expiresInMinutes = 10, string allocatedBy = null);
     }
 
     public class AllocationService : IAllocationService
@@ -111,6 +122,33 @@ namespace TestApi.DAL.Commands
             return user;
         }
 
+        public async Task<UserDto> AllocateJudicialOfficerHolderToService(TestType testType, int expiresInMinutes = 10, string allocatedBy = null)
+        {
+            var users = await GetAllUsers(UserType.Judge, testType, Application.Ejud, false);
+            _logger.LogDebug($"Found {users.Count} JOH user(s) with test type '{testType}'");
+
+            if (users.Count.Equals(0))
+            {
+                throw new NoEjudUsersExistException();
+            }
+
+            var allocations = await GetAllocationsForUsers(users);
+
+            var userId = GetUnallocatedUserId(allocations);
+
+            if (userId == null)
+            {
+                throw new AllUsersAreAllocatedException();
+            }
+
+            var user = await GetUserById(userId.Value);
+
+            await AllocateUser(user.Id, expiresInMinutes, allocatedBy);
+            _logger.LogDebug($"User with username '{user.Username}' has been allocated");
+
+            return user;
+        }
+
         private async Task AddNewUserToRecentlyCreatedList(string username)
         {
             var command = new CreateNewRecentUserByUsernameCommand(username);
@@ -165,6 +203,25 @@ namespace TestApi.DAL.Commands
             }
 
             _logger.LogDebug($"All {users.Count} users now have allocations");
+
+            return allocations;
+        }
+
+        private async Task<List<Allocation>> GetAllocationsForUsers(IEnumerable<UserDto> users)
+        {
+            var allocations = new List<Allocation>();
+
+            foreach (var user in users)
+            {
+                var allocation = await GetAllocationByUserId(user.Id);
+
+                if (allocation != null)
+                {
+                    allocations.Add(allocation);
+                }
+            }
+
+            _logger.LogDebug($"{allocations.Count} allocations found");
 
             return allocations;
         }

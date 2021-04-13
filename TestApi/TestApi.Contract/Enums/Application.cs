@@ -11,6 +11,7 @@
         VideoApi = 6,
         VideoWeb = 7,
         QueueSubscriber = 8,
-        TestWeb = 9
+        TestWeb = 9,
+        Ejud = 10
     }
 }

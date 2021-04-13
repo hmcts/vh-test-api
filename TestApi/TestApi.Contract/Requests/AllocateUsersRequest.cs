@@ -23,5 +23,8 @@ namespace TestApi.Contract.Requests
 
         /// <summary>The user that allocated the user</summary>
         public string AllocatedBy { get; set; }
+
+        /// <summary>Should the Judge, Panel Member or Winger users come from the eJud AAD?</summary>
+        public bool IsEjud { get; set; }
     }
 }

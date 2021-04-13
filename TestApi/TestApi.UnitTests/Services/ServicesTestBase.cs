@@ -85,6 +85,10 @@ namespace TestApi.UnitTests.Services
             Configuration
                 .Setup(x => x.GetSection("UsernameStem").Value)
                 .Returns(EmailData.FAKE_EMAIL_STEM);
+
+            Configuration
+                .Setup(x => x.GetSection("EjudUsernameStem").Value)
+                .Returns(EmailData.FAKE_EMAIL_STEM);
         }
 
         protected UserDto CreateNewUser(UserType userType, int number, bool isProdUser = false)

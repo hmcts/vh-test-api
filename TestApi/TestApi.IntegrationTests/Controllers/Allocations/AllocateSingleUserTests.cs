@@ -183,5 +183,52 @@ namespace TestApi.IntegrationTests.Controllers.Allocations
             response.Should().NotBeNull();
             Verify.UserDetailsResponse(response, user);
         }
+
+        [TestCase(UserType.Judge)]
+        [TestCase(UserType.PanelMember)]
+        [TestCase(UserType.Winger)]
+        public async Task Should_allocate_single_ejud_user(UserType userType)
+        {
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(userType)
+                .IsEjud()
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.EjudUserDetailsResponse(response, userType);
+            response.ContactEmail.Should().EndWith(Context.Config.EjudUsernameStem);
+            response.ContactEmail.Should().NotEndWith(Context.Config.UsernameStem);
+            response.Username.Should().EndWith(Context.Config.EjudUsernameStem);
+            response.Username.Should().NotEndWith(Context.Config.UsernameStem);
+        }
+
+        [Test]
+        public async Task Should_allocate_none_joh_user_with_ejud_true()
+        {
+            const UserType USER_TYPE = UserType.Individual;
+
+            var request = new AllocateUserRequestBuilder()
+                .WithUserType(USER_TYPE)
+                .IsEjud()
+                .Build();
+
+            var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
+            await SendPatchRequest(uri, RequestHelper.Serialise(request));
+
+            VerifyResponse(HttpStatusCode.OK, true);
+            var response = RequestHelper.Deserialise<UserDetailsResponse>(Json);
+
+            response.Should().NotBeNull();
+            Verify.UserDetailsResponse(response, USER_TYPE);
+            response.ContactEmail.Should().NotEndWith(Context.Config.EjudUsernameStem);
+            response.Username.Should().EndWith(Context.Config.UsernameStem);
+            response.Username.Should().NotEndWith(Context.Config.EjudUsernameStem);
+        }
     }
 }

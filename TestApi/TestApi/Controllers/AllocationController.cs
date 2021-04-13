@@ -84,6 +84,7 @@ namespace TestApi.Controllers
                         AllocatedBy = request.AllocatedBy,
                         Application = request.Application,
                         ExpiryInMinutes = request.ExpiryInMinutes,
+                        IsEjud = request.IsEjud,
                         IsProdUser = request.IsProdUser,
                         TestType = request.TestType,
                         UserType = userType

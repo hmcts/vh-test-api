@@ -145,6 +145,8 @@ extends:
           value: $(TestDefaultPassword)
         - name: UsernameStem
           value: $(UsernameStem)
+        - name: EjudUsernameStem
+          value: $(EjudUsernameStem)
         - name: UserGroups:JudgeGroups
           value: $(UserGroups:JudgeGroups)
         - name: UserGroups:IndividualGroups
@@ -218,6 +220,8 @@ extends:
           value: $(TestDefaultPassword)
         - name: UsernameStem
           value: $(UsernameStem)
+        - name: EjudUsernameStem
+          value: $(EjudUsernameStem)
         - name: UserGroups:JudgeGroups
           value: $(UserGroups:JudgeGroups)
         - name: UserGroups:IndividualGroups

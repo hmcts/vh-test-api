@@ -43,9 +43,9 @@ namespace TestApi.AcceptanceTests.Controllers
             return RequestHandler.Client().Execute(request);
         }
 
-        protected UserDetailsResponse AllocateUser(UserType userType)
+        protected UserDetailsResponse AllocateUser(UserType userType, bool isEjud = false)
         {
-            var body = new AllocateUserRequestBuilder().WithUserType(userType).Build();
+            var body = new AllocateUserRequestBuilder().WithUserType(userType).IsEjud(isEjud).Build();
             var uri = ApiUriFactory.AllocationEndpoints.AllocateSingleUser;
             var request = RequestHandler.Patch(uri, body);
             var response = SendRequest(request);
