@@ -27,6 +27,7 @@ namespace TestApi.DAL.SeedData
 
         private static string DOMAIN => new ConfigurationBuilder()
             .AddUserSecrets("04df59fe-66aa-4fb2-8ac5-b87656f7675a")
+            .AddJsonFile("appsettings.json")
             .Build()
             .GetValue<string>("EjudUsernameStem");
 
