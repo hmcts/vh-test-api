@@ -19,7 +19,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var vhoResponse = ConferenceRequestToAdminTodayMapper.Map(conferenceDetailsResponse);
 
             VideoApiClient
-                .Setup(x => x.GetConferencesTodayForAdminAsync(It.IsAny<List<string>>()))
+                .Setup(x => x.GetConferencesTodayForAdminByHearingVenueNameAsync(It.IsAny<List<string>>()))
                 .ReturnsAsync(vhoResponse);
 
             var response = await Controller.GetConferencesForTodayVho();

@@ -180,7 +180,7 @@ namespace TestApi.Controllers
 
             try
             {
-                var response = await _videoApiClient.GetConferencesTodayForAdminAsync(new List<string>());
+                var response = await _videoApiClient.GetConferencesTodayForAdminByHearingVenueNameAsync(new List<string>());
                 return Ok(response);
             }
             catch (VideoApiException e)
