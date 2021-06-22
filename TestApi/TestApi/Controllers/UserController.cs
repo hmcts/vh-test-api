@@ -82,6 +82,7 @@ namespace TestApi.Controllers
             try
             {
                 var response = await _userApiClient.GetUserByAdUserNameAsync(username);
+                Console.Write("Test");
                 return Ok(response);
             }
             catch (UserApiException e)
