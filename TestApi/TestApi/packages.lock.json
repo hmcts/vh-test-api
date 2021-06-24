@@ -2309,8 +2309,8 @@
       },
       "UserApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.3",
-        "contentHash": "CbbYvdREAv1x4P2FBXJn9DkUOAyPn6yZcfOvWaT19wAjsziabV6qfITbUYiVGOWpwdqdB2H7lyOH/V//AC66fg==",
+        "resolved": "1.25.0",
+        "contentHash": "SqKZ3RkqoxSzp4E4ygdEkUL4At9NGLD2LshKdOKJVBn8TFu++/wNAEKIiBQUi3tOSVi4Y7UIvcKPWTTzCB4mkQ==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2401,7 +2401,8 @@
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "TestApi.Services": "1.0.0"
+          "TestApi.Services": "1.0.0",
+          "UserApi.Client": "1.25.0"
         }
       },
       "testapi.domain": {
@@ -2416,7 +2417,7 @@
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.24.3",
+          "UserApi.Client": "1.25.0",
           "VideoApi.Client": "1.23.57"
         }
       }
