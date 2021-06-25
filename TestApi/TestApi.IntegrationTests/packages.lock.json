@@ -2688,7 +2688,8 @@
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "TestApi.Services": "1.0.0"
+          "TestApi.Services": "1.0.0",
+          "UserApi.Client": "1.25.0"
         }
       },
       "testapi.domain": {
