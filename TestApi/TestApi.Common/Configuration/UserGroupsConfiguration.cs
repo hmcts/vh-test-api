@@ -3,6 +3,7 @@
     public class UserGroupsConfiguration
     {
         public string JudgeGroups { get; set; }
+        public string StaffMemberGroups { get; set; }
         public string IndividualGroups { get; set; }
         public string InterpreterGroups { get; set; }
         public string RepresentativeGroups { get; set; }

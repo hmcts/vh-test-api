@@ -18,6 +18,7 @@ namespace TestApi.Services.Helpers
                 {UserType.Judge, new JudgeGroupsStrategy(configuration)},
                 {UserType.Individual, new IndividualGroupsStrategy(configuration)},
                 {UserType.PanelMember, new JohGroupsStrategy(configuration)},
+                {UserType.StaffMember, new StaffMemberGroupsStrategy(configuration)},
                 {UserType.Winger, new JohGroupsStrategy(configuration)},
                 {UserType.Observer, new IndividualGroupsStrategy(configuration)},
                 {UserType.Representative, new RepresentativeGroupsStrategy(configuration)},
@@ -124,6 +125,21 @@ namespace TestApi.Services.Helpers
         public List<string> GetGroups()
         {
             return ConvertGroupsStringToList.Convert(_configuration.JudicialOfficeGroups);
+        }
+    }
+    
+    public class StaffMemberGroupsStrategy : IUserGroupsStrategy
+    {
+        private readonly UserGroupsConfiguration _configuration;
+
+        public StaffMemberGroupsStrategy(UserGroupsConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public List<string> GetGroups()
+        {
+            return ConvertGroupsStringToList.Convert(_configuration.StaffMemberGroups);
         }
     }
 
