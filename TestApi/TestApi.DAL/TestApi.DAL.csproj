@@ -50,7 +50,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="UserApi.Client" Version="1.25.0" />
+    <PackageReference Include="UserApi.Client" Version="1.27.0" />
   </ItemGroup>
 
   <ItemGroup>

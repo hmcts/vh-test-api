@@ -218,7 +218,7 @@ namespace TestApi.Tests.Common
             }
         }
 
-        public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)
+        public static void ConferencesForJudgeResponses(List<ConferenceForHostResponse> response, BookNewConferenceRequest request)
         {
             response.Count.Should().BeGreaterThan(0);
             var conference = response.First(x => x.CaseName.Equals(request.CaseName));

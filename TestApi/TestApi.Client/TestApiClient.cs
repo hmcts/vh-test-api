@@ -136,14 +136,14 @@ namespace TestApi.Client
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForHostResponse>> GetConferencesForTodayJudgeAsync(string username);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get conferences for today Judge</summary>
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForHostResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get conferences for today VHO</summary>
         /// <returns>Full details of all conferences</returns>
@@ -1269,7 +1269,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForHostResponse>> GetConferencesForTodayJudgeAsync(string username)
         {
             return GetConferencesForTodayJudgeAsync(username, System.Threading.CancellationToken.None);
         }
@@ -1279,7 +1279,7 @@ namespace TestApi.Client
         /// <param name="username">Username of the Judge</param>
         /// <returns>Full details of all conferences</returns>
         /// <exception cref="TestApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ConferenceForHostResponse>> GetConferencesForTodayJudgeAsync(string username, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/conferences/today/judge?");
@@ -1321,7 +1321,7 @@ namespace TestApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ConferenceForJudgeResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ConferenceForHostResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new TestApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
