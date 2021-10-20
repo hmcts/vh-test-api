@@ -21,6 +21,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             const UserType INDIVIDUAL_USER_TYPE = UserType.Individual;
             const UserType REPRESENTATIVE_USER_TYPE = UserType.Representative;
             const UserType CASE_ADMIN_USER_TYPE = UserType.CaseAdmin;
+            const UserType STAFF_MEMBER_TYPE = UserType.StaffMember;
 
             var judgeUser = CreateUser(JUDGE_USER_TYPE);
             CreateAllocation(judgeUser);
@@ -34,11 +35,14 @@ namespace TestApi.UnitTests.Controllers.Allocations
             var caseAdminUser = CreateUser(CASE_ADMIN_USER_TYPE);
             CreateAllocation(caseAdminUser);
 
+            var staffMember = CreateUser(STAFF_MEMBER_TYPE);
+            CreateAllocation(staffMember);
+
             var request = new AllocateUsersRequest
             {
                 Application = Application.TestApi,
                 UserTypes = new List<UserType>
-                    {JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE, CASE_ADMIN_USER_TYPE}
+                    {JUDGE_USER_TYPE, INDIVIDUAL_USER_TYPE, REPRESENTATIVE_USER_TYPE, CASE_ADMIN_USER_TYPE, STAFF_MEMBER_TYPE}
             };
 
             QueryHandler
@@ -47,7 +51,8 @@ namespace TestApi.UnitTests.Controllers.Allocations
                 .ReturnsAsync(judgeUser)
                 .ReturnsAsync(individualUser)
                 .ReturnsAsync(representativeUser)
-                .ReturnsAsync(caseAdminUser);
+                .ReturnsAsync(caseAdminUser)
+                .ReturnsAsync(staffMember);
 
             var response = Controller.AllocateUsers(request);
             response.Should().NotBeNull();
@@ -56,7 +61,7 @@ namespace TestApi.UnitTests.Controllers.Allocations
             result.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
             var userDetailsResponse = (List<UserDetailsResponse>) result.Value;
-            userDetailsResponse.Count.Should().Be(4);
+            userDetailsResponse.Count.Should().Be(5);
 
             userDetailsResponse[0].UserType.Should().Be(JUDGE_USER_TYPE);
             userDetailsResponse[0].Should().BeEquivalentTo(judgeUser);
@@ -69,6 +74,9 @@ namespace TestApi.UnitTests.Controllers.Allocations
 
             userDetailsResponse[3].UserType.Should().Be(CASE_ADMIN_USER_TYPE);
             userDetailsResponse[3].Should().BeEquivalentTo(caseAdminUser);
+
+            userDetailsResponse[4].UserType.Should().Be(STAFF_MEMBER_TYPE);
+            userDetailsResponse[4].Should().BeEquivalentTo(staffMember);
         }
     }
 }
