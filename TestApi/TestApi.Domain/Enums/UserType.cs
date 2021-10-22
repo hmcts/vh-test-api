@@ -13,6 +13,7 @@
         PanelMember = 8,
         Winger = 9,
         Tester = 10,
-        Interpreter = 11
+        Interpreter = 11,
+        StaffMember = 12
     }
 }

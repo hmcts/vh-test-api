@@ -26,7 +26,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
-            var response = RequestHelper.Deserialise<List<ConferenceForJudgeResponse>>(Json);
+            var response = RequestHelper.Deserialise<List<ConferenceForHostResponse>>(Json);
 
             response.Should().NotBeNull();
             Verify.ConferencesForJudgeResponses(response, request);
@@ -40,7 +40,7 @@ namespace TestApi.IntegrationTests.Controllers.Conferences
             await SendGetRequest(uri);
 
             VerifyResponse(HttpStatusCode.OK, true);
-            var response = RequestHelper.Deserialise<List<ConferenceForJudgeResponse>>(Json);
+            var response = RequestHelper.Deserialise<List<ConferenceForHostResponse>>(Json);
             response.Should().NotBeNull();
             response.Count.Should().Be(0);
         }

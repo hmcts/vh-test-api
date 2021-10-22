@@ -125,8 +125,8 @@
       },
       "BookingsApi.Client": {
         "type": "Transitive",
-        "resolved": "1.24.26",
-        "contentHash": "Ify+XcJoCVPr0p8H0OSbUJCJFnfqDTM4pwVHfj1Q1XQh98xUyRQn9jCn1jfSYDmp350nz6h5bv5LPRRFU3BLTw==",
+        "resolved": "1.27.12",
+        "contentHash": "yqGpvcnUUukgTSzqahqM6zsAx7EANDY5uSzWIknk9yH7+tp09/QkTHrW8GiGIYpnhLgUkiuKVGfDnNoDnzfHIw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2552,8 +2552,8 @@
       },
       "UserApi.Client": {
         "type": "Transitive",
-        "resolved": "1.25.0",
-        "contentHash": "SqKZ3RkqoxSzp4E4ygdEkUL4At9NGLD2LshKdOKJVBn8TFu++/wNAEKIiBQUi3tOSVi4Y7UIvcKPWTTzCB4mkQ==",
+        "resolved": "1.27.0",
+        "contentHash": "yweSY3MRExJF/WaBMdn4AgpxHtVQzmvku/AkURww8kAJug8bMPqPgXuPcIu5BOs9aSgSX+BmQKusofwtRsGLJA==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2617,8 +2617,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.25.13",
-        "contentHash": "lOTy+w/YhgLIs5g9EQThGm9NObkw2h6VSGmA7uJyV8PL6DNBolkM0HzjF3kl70gmuC7OebeQWNYJkEVsaqApgA==",
+        "resolved": "1.28.0",
+        "contentHash": "xTFugTvOffBJ96vy2kbiaMO894YQGSV5sniKtW5+B1oL8OSCuhzT+xGMkZV5s8euWmtx6SydvzzxkwQ7Sortfg==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2687,9 +2687,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.1",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
+          "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
           "TestApi.Services": "1.0.0",
-          "UserApi.Client": "1.25.0"
+          "UserApi.Client": "1.27.0"
         }
       },
       "testapi.domain": {
@@ -2698,14 +2699,14 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.24.26",
+          "BookingsApi.Client": "1.27.12",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.25.0",
-          "VideoApi.Client": "1.25.13"
+          "UserApi.Client": "1.27.0",
+          "VideoApi.Client": "1.28.0"
         }
       },
       "testapi.tests.common": {
