@@ -54,7 +54,7 @@ namespace TestApi.DAL.Queries
                 user = await _service.AllocateToService(query.UserType, query.Application, query.TestType, query.IsProdUser, query.ExpiryInMinutes, query.AllocatedBy);
             }
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return user;
         }
     }

@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestApi.Common\TestApi.Common.csproj" />
+    <ProjectReference Include="..\TestApi.Contract\TestApi.Contract.csproj" />
     <ProjectReference Include="..\TestApi.Domain\TestApi.Domain.csproj" />
     <ProjectReference Include="..\TestApi.Services\TestApi.Services.csproj" />
   </ItemGroup>

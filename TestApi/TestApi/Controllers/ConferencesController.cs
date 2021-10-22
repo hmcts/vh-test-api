@@ -147,7 +147,7 @@ namespace TestApi.Controllers
         /// <returns>Full details of all conferences</returns>
         [HttpGet("today/judge", Name = nameof(GetConferencesForTodayJudge))]
         [OpenApiOperation("GetConferencesForTodayJudge")]
-        [ProducesResponseType(typeof(List<ConferenceForJudgeResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<ConferenceForHostResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetConferencesForTodayJudge(string username)

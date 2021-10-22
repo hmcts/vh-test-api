@@ -173,6 +173,7 @@ namespace TestApi.Tests.Common
 
         public static void ConferenceDetailsResponse(ConferenceDetailsResponse response, BookNewConferenceRequest request)
         {
+            AssignParticipantResponseIdsToRequest(response.Participants, request);
             response.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
@@ -218,17 +219,23 @@ namespace TestApi.Tests.Common
             }
         }
 
-        public static void ConferencesForJudgeResponses(List<ConferenceForJudgeResponse> response, BookNewConferenceRequest request)
+        public static void ConferencesForJudgeResponses(List<ConferenceForHostResponse> responses, BookNewConferenceRequest request)
         {
-            response.Count.Should().BeGreaterThan(0);
-            var conference = response.First(x => x.CaseName.Equals(request.CaseName));
+            foreach (var response in responses)
+                AssignParticipantResponseIdsToRequest(response.Participants, request);
+
+            responses.Count.Should().BeGreaterThan(0);
+            var conference = responses.First(x => x.CaseName.Equals(request.CaseName));
             conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
-        public static void ConferencesForVhoResponses(List<ConferenceForAdminResponse> response, BookNewConferenceRequest request)
+        public static void ConferencesForVhoResponses(List<ConferenceForAdminResponse> responses, BookNewConferenceRequest request)
         {
-            response.Count.Should().BeGreaterThan(0);
-            var conference = response.First(x => x.HearingRefId.Equals(request.HearingRefId));
+            foreach (var response in responses)
+                AssignParticipantResponseIdsToRequest(response.Participants, request);
+
+            responses.Count.Should().BeGreaterThan(0);
+            var conference = responses.First(x => x.HearingRefId.Equals(request.HearingRefId));
             conference.Should().BeEquivalentTo(request, options => options.ExcludingMissingMembers());
         }
 
@@ -240,6 +247,19 @@ namespace TestApi.Tests.Common
         public static void UserProfileResponse(UserProfile response, UserDto user)
         {
             response.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
+        }
+
+        private static void AssignParticipantResponseIdsToRequest<T>(List<T> participants, BookNewConferenceRequest request)
+        {
+            foreach (dynamic participant in participants)
+            {
+                var foundParticipant = request.Participants.FirstOrDefault(req => req.DisplayName == participant.DisplayName);
+
+                if (foundParticipant != null)
+                {
+                    foundParticipant.Id = participant.Id;
+                }
+            }
         }
     }
 }

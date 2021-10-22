@@ -32,7 +32,7 @@ namespace TestApi.UnitTests.Controllers.Conferences
             var result = (OkObjectResult)response;
             result.StatusCode.Should().Be((int)HttpStatusCode.OK);
 
-            var conferenceDetails = (List<ConferenceForJudgeResponse>)result.Value;
+            var conferenceDetails = (List<ConferenceForHostResponse>)result.Value;
             conferenceDetails.Should().NotBeNull();
             conferenceDetails.Should().BeEquivalentTo(judgeResponse);
         }
