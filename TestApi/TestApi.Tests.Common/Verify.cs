@@ -141,7 +141,6 @@ namespace TestApi.Tests.Common
                 participant.DisplayName.Should().Be(user.DisplayName);
                 participant.FirstName.Should().Be(user.FirstName);
                 participant.HearingRoleName.Should().NotBeNullOrWhiteSpace();
-                participant.MiddleNames.Should().Be(UserData.MIDDLE_NAME);
                 participant.Id.Should().NotBeEmpty();
 
                 if (user.UserType == UserType.Representative)

@@ -68,7 +68,7 @@ namespace TestApi.Services.Services
             try
             {
                 var caseTypes = new List<int>{ HearingData.CACD_CASE_TYPE_ID_FROM_BOOKINGS_API, HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API };
-                var response = await _bookingsApiClient.GetHearingsByTypesAsync(caseTypes, CURSOR, DEFAULT_LIMIT);
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(caseTypes, CURSOR, DEFAULT_LIMIT, null);
 
                 var hearings = new List<BookingsHearingResponse>();
 
