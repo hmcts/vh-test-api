@@ -303,7 +303,7 @@ namespace TestApi.Controllers
             {
                 const int LIMIT = HearingData.GET_HEARINGS_LIMIT;
                 var types = new List<int> { HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API };
-                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT);
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(types, null, LIMIT, null);
 
                 var hearings = new List<BookingsHearingResponse>();
                 foreach (var day in response.Hearings)

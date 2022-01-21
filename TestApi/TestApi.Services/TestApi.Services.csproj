@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BookingsApi.Client" Version="1.27.12" />
+    <PackageReference Include="BookingsApi.Client" Version="1.29.1" />
     <PackageReference Include="Faker.NETCore" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="UserApi.Client" Version="1.27.0" />
-    <PackageReference Include="VideoApi.Client" Version="1.28.8" />
+    <PackageReference Include="UserApi.Client" Version="1.27.1" />
+    <PackageReference Include="VideoApi.Client" Version="1.28.11" />
   </ItemGroup>
 
 </Project>
