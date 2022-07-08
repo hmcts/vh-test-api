@@ -39,7 +39,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(new GetHearingRequest()))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ReturnsAsync(bookingResponse);
 
             var response = await Controller.GetAllHearings();
@@ -58,7 +58,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         {
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(new GetHearingRequest()))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.InternalServerError));
 
             var response = await Controller.GetAllHearings();
@@ -73,7 +73,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         {
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(new GetHearingRequest()))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.NotFound));
 
             var response = await Controller.GetAllHearings();
