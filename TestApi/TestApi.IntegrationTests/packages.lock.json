@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v3.1": {
       "BookingsApi.Client": {
         "type": "Direct",
-        "requested": "[1.36.12, )",
-        "resolved": "1.36.12",
-        "contentHash": "8uROZdBuM81P6UafBera0Fw1l/Znxra2k2UTClJQCIwatnx15Rs5yhOf1Bt2bxyiNmEXtJbx7SZO/zkc+K8upg==",
+        "requested": "[1.36.10, )",
+        "resolved": "1.36.10",
+        "contentHash": "GGsYhq61juW0yCwdqVHNR3B3vDPkenIlYEl3hJKoPxvItBkdtc8YOlUBYD8trrNAAUU8UDdUOvoIS5YI2H4+gw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -86,9 +86,9 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Direct",
-        "requested": "[1.21.65, )",
-        "resolved": "1.21.65",
-        "contentHash": "sorCGws7VUYkz5+4yaWrBJefXgiIGfGvpwRRxY45+nBqT8/AoarJyrSw642CrpylmzdkTC05Cmch+3Y0APGgXQ==",
+        "requested": "[1.21.69, )",
+        "resolved": "1.21.69",
+        "contentHash": "C/bsf3gpsuOfLysVh+V0Ks1nXiqIXgPHM12SPT3yZJLk2KN2dn9XGQkN4gcajK+Y9ufj8hoKZtrvKaaO4xc+mw==",
         "dependencies": {
           "Appium.WebDriver": "4.3.1",
           "Azure.Storage.Blobs": "12.8.0",
@@ -117,7 +117,7 @@
           "Selenium.Firefox.WebDriver": "0.27.0",
           "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "99.0.4844.5100",
+          "Selenium.WebDriver.ChromeDriver": "103.0.5060.5300",
           "Selenium.WebDriver.IEDriver": "3.150.1.2",
           "Selenium.WebDriver.MicrosoftDriver": "17.17134.0",
           "SpecFlow": "3.9.40",
@@ -1437,8 +1437,8 @@
       },
       "Selenium.WebDriver.ChromeDriver": {
         "type": "Transitive",
-        "resolved": "99.0.4844.5100",
-        "contentHash": "021uEuHHgaZ9X2oSCaClBun+azybXg5lw/Pq79fc3D98X0oEpHPuXRTRthxzmqTwH6CGnRNfTvHMZ9xdvHDLzQ=="
+        "resolved": "103.0.5060.5300",
+        "contentHash": "UwIFn3QINPCwFrQwJUoV7yyAcuvIrRtleLitw8dx+a6db/Lizc0oBxuMyXttQolEVhS8Jf05IhvG+vLKZzBhjg=="
       },
       "Selenium.WebDriver.IEDriver": {
         "type": "Transitive",
