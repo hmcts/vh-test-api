@@ -153,7 +153,7 @@ stages:
           - template: templates\dotnet\package-nuget-packages.yml@azTemplates
             parameters:
               nugetProjectPath: "TestApi/${{ variables.nuget_package_name }}"
-              vstsFeed: "${{ variables.nuget_org_name }}/${{ variables.nuget_feed_name }}"
+              nugetConfigPath: "${{ variables.app_path }}/nuget.config"
               gitVersionConfigPath: ${{ variables.git_version_config_path }}
 
       - ${{ if eq(variables.run_acceptance_tests, true) }}:
