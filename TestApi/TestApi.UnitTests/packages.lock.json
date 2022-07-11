@@ -123,8 +123,8 @@
       },
       "BookingsApi.Client": {
         "type": "Transitive",
-        "resolved": "1.35.17",
-        "contentHash": "OQV+RwilX6mogUhxy5983nLXjhkilShinHWIi/U+tFR9bAN8Kw6FPfpV1rBvfsr8Ve2ukDbggSk2wzl3/izHkw==",
+        "resolved": "1.36.12",
+        "contentHash": "8uROZdBuM81P6UafBera0Fw1l/Znxra2k2UTClJQCIwatnx15Rs5yhOf1Bt2bxyiNmEXtJbx7SZO/zkc+K8upg==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2745,7 +2745,7 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.35.17",
+          "BookingsApi.Client": "1.36.12",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "NUnit": "3.13.2",
