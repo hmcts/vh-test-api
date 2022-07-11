@@ -71,7 +71,7 @@ stages:
               command: build
               projects: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests/*.UnitTests.csproj"
               feedsToUse: select
-              vstsFeed: vh-packages
+              vstsFeed: Video Hearings/vh-packages
             
           - template: templates/sonarCloud/runAnalysis.yml@azTemplates
 
