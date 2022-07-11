@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BookingsApi.Contract.Requests;
 using BookingsApi.Contract.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
 
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(It.IsAny<IEnumerable<int>>(), It.IsAny<string>(), It.IsAny<int>(), null))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ReturnsAsync(bookingResponse);
 
             var response = await Controller.GetAllHearings();
@@ -57,7 +58,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         {
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(It.IsAny<IEnumerable<int>>(), It.IsAny<string>(), It.IsAny<int>(), null))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.InternalServerError));
 
             var response = await Controller.GetAllHearings();
@@ -72,7 +73,7 @@ namespace TestApi.UnitTests.Controllers.Hearings
         {
             BookingsApiClient
                 .Setup(
-                    x => x.GetHearingsByTypesAsync(It.IsAny<IEnumerable<int>>(), It.IsAny<string>(), It.IsAny<int>(), null))
+                    x => x.GetHearingsByTypesAsync(It.IsAny<GetHearingRequest>()))
                 .ThrowsAsync(CreateBookingsApiException("Failed", HttpStatusCode.NotFound));
 
             var response = await Controller.GetAllHearings();

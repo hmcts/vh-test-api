@@ -20,6 +20,19 @@
           "Microsoft.Extensions.Primitives": "5.0.0"
         }
       },
+      "Microsoft.Extensions.Caching.Memory": {
+        "type": "Direct",
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "/1qPCleFOkJe0O+xmFqCNLFYQZTJz965sVw8CUB/BQgsApBwzAUsL2BUkDvQW+geRUVTXUS9zLa0pBjC2VJ1gA==",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Options": "5.0.0",
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        }
+      },
       "Microsoft.IdentityModel.Clients.ActiveDirectory": {
         "type": "Direct",
         "requested": "[5.2.8, )",
@@ -43,9 +56,9 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Direct",
-        "requested": "[1.21.65, )",
-        "resolved": "1.21.65",
-        "contentHash": "sorCGws7VUYkz5+4yaWrBJefXgiIGfGvpwRRxY45+nBqT8/AoarJyrSw642CrpylmzdkTC05Cmch+3Y0APGgXQ==",
+        "requested": "[1.21.69, )",
+        "resolved": "1.21.69",
+        "contentHash": "C/bsf3gpsuOfLysVh+V0Ks1nXiqIXgPHM12SPT3yZJLk2KN2dn9XGQkN4gcajK+Y9ufj8hoKZtrvKaaO4xc+mw==",
         "dependencies": {
           "Appium.WebDriver": "4.3.1",
           "Azure.Storage.Blobs": "12.8.0",
@@ -74,7 +87,7 @@
           "Selenium.Firefox.WebDriver": "0.27.0",
           "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "99.0.4844.5100",
+          "Selenium.WebDriver.ChromeDriver": "103.0.5060.5300",
           "Selenium.WebDriver.IEDriver": "3.150.1.2",
           "Selenium.WebDriver.MicrosoftDriver": "17.17134.0",
           "SpecFlow": "3.9.40",
@@ -443,8 +456,8 @@
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Transitive",
-        "resolved": "3.1.8",
-        "contentHash": "LxQPR/KE4P9nx304VcFipWPcW8ZOZOGHuiYlG0ncAQJItogDzR9nyYUNvziLObx2MfX2Z9iCTdAqEtoImaQOYg=="
+        "resolved": "5.0.0",
+        "contentHash": "NxP6ahFcBnnSfwNBi2KH2Oz8Xl5Sm2krjId/jRR3I7teFphwiUoUeZPwTNA21EX+5PtjqmyAvKaOeBXcJjcH/w=="
       },
       "Microsoft.Extensions.Logging.Configuration": {
         "type": "Transitive",
@@ -780,8 +793,8 @@
       },
       "Selenium.WebDriver.ChromeDriver": {
         "type": "Transitive",
-        "resolved": "99.0.4844.5100",
-        "contentHash": "021uEuHHgaZ9X2oSCaClBun+azybXg5lw/Pq79fc3D98X0oEpHPuXRTRthxzmqTwH6CGnRNfTvHMZ9xdvHDLzQ=="
+        "resolved": "103.0.5060.5300",
+        "contentHash": "UwIFn3QINPCwFrQwJUoV7yyAcuvIrRtleLitw8dx+a6db/Lizc0oBxuMyXttQolEVhS8Jf05IhvG+vLKZzBhjg=="
       },
       "Selenium.WebDriver.IEDriver": {
         "type": "Transitive",

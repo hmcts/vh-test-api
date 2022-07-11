@@ -491,6 +491,18 @@
           "Microsoft.Extensions.Primitives": "5.0.0"
         }
       },
+      "Microsoft.Extensions.Caching.Memory": {
+        "type": "Transitive",
+        "resolved": "5.0.0",
+        "contentHash": "/1qPCleFOkJe0O+xmFqCNLFYQZTJz965sVw8CUB/BQgsApBwzAUsL2BUkDvQW+geRUVTXUS9zLa0pBjC2VJ1gA==",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Options": "5.0.0",
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        }
+      },
       "Microsoft.Extensions.Configuration": {
         "type": "Transitive",
         "resolved": "5.0.0",
@@ -2081,8 +2093,8 @@
       },
       "UserApi.Client": {
         "type": "Transitive",
-        "resolved": "1.30.0",
-        "contentHash": "65MdRZU304Cop1semlHHi0IhTxkrgJL8h8c0KmsnqEBevVWYo8fGI2P2nZ9wmIbax/E8KLzjvsnali+vRgkOiw==",
+        "resolved": "1.30.4",
+        "contentHash": "AEK04e5JU2+eX9esbmjTLKMz0PEeJgTivLyJ7JJLQz1mNWzVQWm+gstu5YdYHRCnxOgVs5bRd3qNqqVjdJ5qzg==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2090,8 +2102,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.29.11",
-        "contentHash": "DGWQijHEz5XniQJOeQcyV6IXlrhIyKLouB+OSmyhp6pLUGkoAO2+IhmzQOL7EKL8UcTNQoiFxwa9BXIZLtZHHg==",
+        "resolved": "1.35.3",
+        "contentHash": "CenFFPsHySmV0WosJnLrc5H7mfFfm5BssC/KsIlor4qie8JNdG8cjL1EDmSvppiX5feHcjQE2sK+gYH3yhXSRA==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2102,10 +2114,11 @@
         "dependencies": {
           "FluentAssertions": "5.10.3",
           "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Caching.Memory": "5.0.0",
           "Microsoft.IdentityModel.Clients.ActiveDirectory": "5.2.8",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.21.65"
+          "VH.AcceptanceTests.Common": "1.21.69"
         }
       },
       "testapi.contract": {
@@ -2117,15 +2130,15 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.36.12",
+          "BookingsApi.Client": "1.36.10",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "NUnit": "3.13.2",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.30.0",
-          "VideoApi.Client": "1.29.11"
+          "UserApi.Client": "1.30.4",
+          "VideoApi.Client": "1.35.3"
         }
       },
       "testapi.tests.common": {
