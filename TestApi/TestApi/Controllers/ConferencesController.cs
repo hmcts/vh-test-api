@@ -49,6 +49,11 @@ namespace TestApi.Controllers
             {
                 return StatusCode(e.StatusCode, e.Response);
             }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e.StackTrace);
+                return StatusCode(500, e.Message);
+            }
         }
 
         /// <summary>
@@ -73,6 +78,11 @@ namespace TestApi.Controllers
             catch (VideoApiException e)
             {
                 return StatusCode(e.StatusCode, e.Response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e.StackTrace);
+                return StatusCode(500, e.Message);
             }
         }
 
