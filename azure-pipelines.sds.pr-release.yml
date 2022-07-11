@@ -70,8 +70,8 @@ stages:
             inputs:
               command: restore
               projects: "${{ variables.app_path }}/${{ variables.app_path }}.UnitTests/*.UnitTests.csproj"
-              feedstoUse: select
-              restoreFeed: 'Video Hearings/vh-packages'
+              feedsToUse: select
+              vstsFeed: 'Video Hearings/vh-packages'
 
           - task: DotNetCoreCLI@2
             displayName: Build .NET Project(s)
