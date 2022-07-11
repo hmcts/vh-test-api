@@ -67,8 +67,13 @@ namespace TestApi.Services.Services
 
             try
             {
-                var caseTypes = new List<int>{ HearingData.CACD_CASE_TYPE_ID_FROM_BOOKINGS_API, HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API };
-                var response = await _bookingsApiClient.GetHearingsByTypesAsync(caseTypes, CURSOR, DEFAULT_LIMIT, null);
+                var hearingRequest = new GetHearingRequest
+                {
+                    Types = new List<int>{ HearingData.CACD_CASE_TYPE_ID_FROM_BOOKINGS_API, HearingData.GENERIC_CASE_TYPE_ID_FROM_BOOKINGS_API },
+                    Cursor = CURSOR,
+                    Limit = DEFAULT_LIMIT
+                };
+                var response = await _bookingsApiClient.GetHearingsByTypesAsync(hearingRequest);
 
                 var hearings = new List<BookingsHearingResponse>();
 

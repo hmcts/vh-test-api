@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v3.1": {
       "BookingsApi.Client": {
         "type": "Direct",
-        "requested": "[1.30.19, )",
-        "resolved": "1.30.19",
-        "contentHash": "QX6JjmPAo5+e1tlR8XLAdEvtguieskYRkmZ9uGQmMJeZXa3US+r6vv8x0kJ1AWcTqJzke/eGnNOi50l4novMAg==",
+        "requested": "[1.36.10, )",
+        "resolved": "1.36.10",
+        "contentHash": "GGsYhq61juW0yCwdqVHNR3B3vDPkenIlYEl3hJKoPxvItBkdtc8YOlUBYD8trrNAAUU8UDdUOvoIS5YI2H4+gw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -74,9 +74,9 @@
       },
       "VH.AcceptanceTests.Common": {
         "type": "Direct",
-        "requested": "[1.21.65, )",
-        "resolved": "1.21.65",
-        "contentHash": "sorCGws7VUYkz5+4yaWrBJefXgiIGfGvpwRRxY45+nBqT8/AoarJyrSw642CrpylmzdkTC05Cmch+3Y0APGgXQ==",
+        "requested": "[1.21.69, )",
+        "resolved": "1.21.69",
+        "contentHash": "C/bsf3gpsuOfLysVh+V0Ks1nXiqIXgPHM12SPT3yZJLk2KN2dn9XGQkN4gcajK+Y9ufj8hoKZtrvKaaO4xc+mw==",
         "dependencies": {
           "Appium.WebDriver": "4.3.1",
           "Azure.Storage.Blobs": "12.8.0",
@@ -105,7 +105,7 @@
           "Selenium.Firefox.WebDriver": "0.27.0",
           "Selenium.Support": "3.141.0",
           "Selenium.WebDriver": "3.141.0",
-          "Selenium.WebDriver.ChromeDriver": "99.0.4844.5100",
+          "Selenium.WebDriver.ChromeDriver": "103.0.5060.5300",
           "Selenium.WebDriver.IEDriver": "3.150.1.2",
           "Selenium.WebDriver.MicrosoftDriver": "17.17134.0",
           "SpecFlow": "3.9.40",
@@ -488,6 +488,18 @@
         "resolved": "5.0.0",
         "contentHash": "bu8As90/SBAouMZ6fJ+qRNo1X+KgHGrVueFhhYi+E5WqEhcnp2HoWRFnMzXQ6g4RdZbvPowFerSbKNH4Dtg5yg==",
         "dependencies": {
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        }
+      },
+      "Microsoft.Extensions.Caching.Memory": {
+        "type": "Transitive",
+        "resolved": "5.0.0",
+        "contentHash": "/1qPCleFOkJe0O+xmFqCNLFYQZTJz965sVw8CUB/BQgsApBwzAUsL2BUkDvQW+geRUVTXUS9zLa0pBjC2VJ1gA==",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Options": "5.0.0",
           "Microsoft.Extensions.Primitives": "5.0.0"
         }
       },
@@ -972,8 +984,8 @@
       },
       "Selenium.WebDriver.ChromeDriver": {
         "type": "Transitive",
-        "resolved": "99.0.4844.5100",
-        "contentHash": "021uEuHHgaZ9X2oSCaClBun+azybXg5lw/Pq79fc3D98X0oEpHPuXRTRthxzmqTwH6CGnRNfTvHMZ9xdvHDLzQ=="
+        "resolved": "103.0.5060.5300",
+        "contentHash": "UwIFn3QINPCwFrQwJUoV7yyAcuvIrRtleLitw8dx+a6db/Lizc0oBxuMyXttQolEVhS8Jf05IhvG+vLKZzBhjg=="
       },
       "Selenium.WebDriver.IEDriver": {
         "type": "Transitive",
@@ -2081,8 +2093,8 @@
       },
       "UserApi.Client": {
         "type": "Transitive",
-        "resolved": "1.30.0",
-        "contentHash": "65MdRZU304Cop1semlHHi0IhTxkrgJL8h8c0KmsnqEBevVWYo8fGI2P2nZ9wmIbax/E8KLzjvsnali+vRgkOiw==",
+        "resolved": "1.30.4",
+        "contentHash": "AEK04e5JU2+eX9esbmjTLKMz0PEeJgTivLyJ7JJLQz1mNWzVQWm+gstu5YdYHRCnxOgVs5bRd3qNqqVjdJ5qzg==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2090,8 +2102,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.29.11",
-        "contentHash": "DGWQijHEz5XniQJOeQcyV6IXlrhIyKLouB+OSmyhp6pLUGkoAO2+IhmzQOL7EKL8UcTNQoiFxwa9BXIZLtZHHg==",
+        "resolved": "1.35.3",
+        "contentHash": "CenFFPsHySmV0WosJnLrc5H7mfFfm5BssC/KsIlor4qie8JNdG8cjL1EDmSvppiX5feHcjQE2sK+gYH3yhXSRA==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2102,10 +2114,11 @@
         "dependencies": {
           "FluentAssertions": "5.10.3",
           "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Caching.Memory": "5.0.0",
           "Microsoft.IdentityModel.Clients.ActiveDirectory": "5.2.8",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.21.65"
+          "VH.AcceptanceTests.Common": "1.21.69"
         }
       },
       "testapi.contract": {
@@ -2117,15 +2130,15 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.30.19",
+          "BookingsApi.Client": "1.36.10",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "NUnit": "3.13.2",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.30.0",
-          "VideoApi.Client": "1.29.11"
+          "UserApi.Client": "1.30.4",
+          "VideoApi.Client": "1.35.3"
         }
       },
       "testapi.tests.common": {
