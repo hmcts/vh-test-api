@@ -30,6 +30,13 @@ java:
     AZUREAD__TENANTID: "fb6e0e22-0da3-4c35-972a-9d61eb256508"
     DISABLEHTTPSREDIRECTION: true
     SERVICES__TESTAPIRESOURCEID: http://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__BOOKINGSAPIRESOURCEID: http://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIRESOURCEID: http://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIRESOURCEID: http://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__TESTAPIURL: http://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__BOOKINGSAPIURL: http://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__USERAPIURL: http://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES__VIDEOAPIURL: http://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
     TESTING__TESTUSERNAMESTEM: "@hearings.reform.hmcts.net"
     Logging__LogLevel__Default: debug
     Logging__LogLevel__System: debug
