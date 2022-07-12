@@ -4,4 +4,4 @@ java:
   ingressHost: ${SERVICE_FQDN}
   releaseNameOverride: ${RELEASE_NAME}
   environment:
-    SERVICES__NOTIFICATIONAPIRESOURCEID: http://vh-test-api.demo.platform.hmcts.net 
+    SERVICES__TESTAPIRESOURCEID: http://vh-test-api.dev.platform.hmcts.net 
