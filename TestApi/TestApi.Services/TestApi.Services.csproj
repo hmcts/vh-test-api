@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectGuid>4911FCC6-0DEB-4BC8-98B1-764DE7120786</ProjectGuid>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BookingsApi.Client" Version="1.36.10" />
+    <PackageReference Include="BookingsApi.Client" Version="1.36.18" />
     <PackageReference Include="Faker.NETCore" Version="1.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="UserApi.Client" Version="1.30.4" />
-    <PackageReference Include="VideoApi.Client" Version="1.35.3" />
+    <PackageReference Include="UserApi.Client" Version="1.30.6" />
+    <PackageReference Include="VideoApi.Client" Version="1.37.0" />
   </ItemGroup>
 
 </Project>
