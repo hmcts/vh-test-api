@@ -42,9 +42,9 @@
       },
       "UserApi.Client": {
         "type": "Direct",
-        "requested": "[1.30.4, )",
-        "resolved": "1.30.4",
-        "contentHash": "AEK04e5JU2+eX9esbmjTLKMz0PEeJgTivLyJ7JJLQz1mNWzVQWm+gstu5YdYHRCnxOgVs5bRd3qNqqVjdJ5qzg==",
+        "requested": "[1.30.6, )",
+        "resolved": "1.30.6",
+        "contentHash": "OUnsGghKbQeRvC+4cW2nB7KIUW+CJBJ26B3BtCt45cW/lDCGDaf60NPNTKZLOI3YJZB1V5oZARL8szEiBQ7WGw==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -101,8 +101,8 @@
       },
       "BookingsApi.Client": {
         "type": "Transitive",
-        "resolved": "1.36.10",
-        "contentHash": "GGsYhq61juW0yCwdqVHNR3B3vDPkenIlYEl3hJKoPxvItBkdtc8YOlUBYD8trrNAAUU8UDdUOvoIS5YI2H4+gw==",
+        "resolved": "1.36.18",
+        "contentHash": "UP99WMtkRvoHxDLtB8u7vdsQf8oeu4I46R/s0XILe/BNsgG9+Z2nyZDul16YaG5dk56XuNexGTnYbaJNEVu/ZA==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2255,8 +2255,8 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.35.3",
-        "contentHash": "CenFFPsHySmV0WosJnLrc5H7mfFfm5BssC/KsIlor4qie8JNdG8cjL1EDmSvppiX5feHcjQE2sK+gYH3yhXSRA==",
+        "resolved": "1.37.1",
+        "contentHash": "j8fWNs/OBTvE7DmBu8WlubcdUOdUAQOyIFoqoEzM+HiCdzQ+dUF9j4a2/w1gTX1nO5E7P+w0Sw2Zi+EMTaZ2CQ==",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Newtonsoft.Json": "12.0.3"
@@ -2283,15 +2283,15 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.36.10",
+          "BookingsApi.Client": "1.36.18",
           "Faker.NETCore": "1.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "NUnit": "3.13.2",
           "TestApi.Common": "1.0.0",
           "TestApi.Contract": "1.0.0",
           "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.30.4",
-          "VideoApi.Client": "1.35.3"
+          "UserApi.Client": "1.30.6",
+          "VideoApi.Client": "1.37.1"
         }
       }
     }
