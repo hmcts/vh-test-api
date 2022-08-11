@@ -92,7 +92,7 @@ namespace TestApi.Controllers
             catch (Exception ex)
             {
                 response.VideoApiHealth.Successful = false;
-                response.VideoApiHealth.ErrorMessage = ex.Message;
+                response.VideoApiHealth.ErrorMessage = ex.Message + Environment.NewLine + ex.InnerException;
                 response.VideoApiHealth.Data = ex.Data;
             }
 
