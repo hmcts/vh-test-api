@@ -55,21 +55,21 @@ java:
       usePodIdentity: true
       secrets:
         - name: azuread--identifieruri
-          alias: VhServices--BookingsApiResourceId
+          alias: Services--BookingsApiResourceId
     vh-video-api:
       excludeEnvironmentSuffix: false
       resourceGroup: vh-infra-core-{{ .Values.global.environment }}
       usePodIdentity: true
       secrets:
         - name: azuread--identifieruri
-          alias: VhServices--VideoApiResourceId
+          alias: Services--VideoApiResourceId
     vh-user-api:
       excludeEnvironmentSuffix: false
       resourceGroup: vh-infra-core-{{ .Values.global.environment }}
       usePodIdentity: true
       secrets:
         - name: azuread--identifieruri
-          alias: VhServices--UserApiResourceId
+          alias: Services--UserApiResourceId
   environment:
     ASPNETCORE_URLS: http://+:8080
     DISABLEHTTPSREDIRECTION: true
