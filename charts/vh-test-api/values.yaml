@@ -18,6 +18,15 @@ java:
       secrets:
         - connectionstrings--testapi
         - applicationinsights--instrumentationkey
+        - azuread--tenantid
+        - name: azuread--identifieruri
+          alias: SERVICES--TESTAPIRESOURCEID
+        - name: wowzaconfiguration--storage-account
+          alias: wowzaconfiguration--StorageAccountName
+        - name: wowzaconfiguration--storageaccountkey
+          alias: wowzaconfiguration--StorageAccountKey
+        - name: wowzaconfiguration--storage-account-container
+          alias: wowzaconfiguration--StorageContainerName
     vh-test-api:
       excludeEnvironmentSuffix: false
       resourceGroup: vh-infra-core-{{ .Values.global.environment }}
@@ -25,19 +34,50 @@ java:
       secrets:
         - azuread--clientsecret
         - azuread--clientid
+        - UsernameStem
+        - EjudUsernameStem
+        - UserGroups--CaseAdminGroups
+        - UserGroups--IndividualGroups
+        - UserGroups--InterpreterGroups
+        - UserGroups--JudgeGroups
+        - UserGroups--JudicialOfficeGroups
+        - UserGroups--KinlyGroups
+        - UserGroups--KinlyProdGroups
+        - UserGroups--PerformanceTestAccountGroups
+        - UserGroups--RepresentativeGroups
+        - UserGroups--TestAccountGroups
+        - UserGroups--TestWebGroups
+        - UserGroups--VideoHearingsOfficerGroups
+        - UserGroups--WitnessGroups
+    vh-bookings-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: VhServices--BookingsApiResourceId
+    vh-video-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: VhServices--VideoApiResourceId
+    vh-user-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: VhServices--UserApiResourceId
   environment:
     ASPNETCORE_URLS: http://+:8080
-    AZUREAD__TENANTID: "fb6e0e22-0da3-4c35-972a-9d61eb256508"
     DISABLEHTTPSREDIRECTION: true
-    SERVICES__TESTAPIRESOURCEID: https:/vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__BOOKINGSAPIRESOURCEID: https://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__USERAPIRESOURCEID: https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net
-    SERVICES__VIDEOAPIRESOURCEID: https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net
     SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/
     SERVICES__BOOKINGSAPIURL: https://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net/
     SERVICES__USERAPIURL: https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net/
     SERVICES__VIDEOAPIURL: https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net/
-    TESTING__TESTUSERNAMESTEM: "@hearings.reform.hmcts.net"
+    AzureAd__ValidAudience: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/
     Logging__LogLevel__Default: debug
     Logging__LogLevel__System: debug
     Logging__LogLevel__Microsoft: debug
