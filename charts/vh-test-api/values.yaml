@@ -19,8 +19,6 @@ java:
         - connectionstrings--testapi
         - applicationinsights--instrumentationkey
         - azuread--tenantid
-        - name: azuread--identifieruri
-          alias: SERVICES--TESTAPIRESOURCEID
         - name: wowzaconfiguration--storage-account
           alias: wowzaconfiguration--StorageAccountName
         - name: wowzaconfiguration--storageaccountkey
@@ -34,6 +32,8 @@ java:
       secrets:
         - azuread--clientsecret
         - azuread--clientid
+        - name: azuread--identifieruri
+          alias: SERVICES--TESTAPIRESOURCEID
         - UsernameStem
         - EjudUsernameStem
         - UserGroups--CaseAdminGroups
