@@ -20,8 +20,8 @@ namespace TestApi
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             var keyVaults=new List<string> (){
-                "vh-infra-core",,
-                "vh-test-api"
+                "vh-infra-core",
+                "vh-test-api",
                 "vh-bookings-api",
                 "vh-video-api",
                 "vh-user-api"
