@@ -229,6 +229,7 @@ stages:
               aksResourceGroupName: "$(aksCluster.resourceGroup)"
               aksClusterName: "$(aksCluster.name)"
       - job: aks_push
+        dependsOn: helm_uninstall
         displayName: Deploy To Dev AKS
         steps:
 
