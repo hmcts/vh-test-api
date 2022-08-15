@@ -2,7 +2,7 @@
 apiVersion: v2
 name: vh-test-api
 home: https://github.com/hmcts/vh-test-api
-version: 0.0.3
+version: 0.0.4
 description: Helm Chart for VH Test API
 maintainers:
   - name: VH Devops
