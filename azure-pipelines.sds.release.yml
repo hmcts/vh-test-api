@@ -45,13 +45,6 @@ stages:
             workingPath: $(System.DefaultWorkingDirectory)/TestApi/TestApi 
             projectName: ${{ variables.efProjectName }}
 
-        - task: PublishPipelineArtifact@1
-          displayName: Publish Artifacts
-          inputs:
-            targetPath: $(Build.StagingDirectory)
-            publishLocation: Pipeline
-            artifact: ${{ variables.efContextName }}-$(Build.BuildId)
-
       - job: package_nuget
         displayName: "Package Nuget Packages"
         steps:
