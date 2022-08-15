@@ -2,6 +2,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using VH.Core.Configuration;
+using System.Collections.Generic;
 
 namespace TestApi
 {
@@ -18,14 +19,21 @@ namespace TestApi
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            const string vhInfraCore = "/mnt/secrets/vh-infra-core";
-            const string vhNotificationApi = "/mnt/secrets/vh-test-api";
+            var keyVaults=new List<string> (){
+                "vh-infra-core",
+                "vh-test-api",
+                "vh-bookings-api",
+                "vh-video-api",
+                "vh-user-api"
+            };
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((configBuilder) =>
                 {
-                    configBuilder.AddAksKeyVaultSecretProvider(vhInfraCore);
-                    configBuilder.AddAksKeyVaultSecretProvider(vhNotificationApi);
+                    foreach (var keyVault in keyVaults)
+                    {
+                        configBuilder.AddAksKeyVaultSecretProvider($"/mnt/secrets/{keyVault}");
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

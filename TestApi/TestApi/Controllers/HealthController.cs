@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookingsApi.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
 using TestApi.Contract.Dtos;
 using TestApi.Contract.Responses;
@@ -24,14 +25,16 @@ namespace TestApi.Controllers
         private readonly IQueryHandler _queryHandler;
         private readonly IUserApiClient _userApiClient;
         private readonly IVideoApiClient _videoApiClient;
+        private readonly ILogger<HealthController> _logger;
 
         public HealthController(IQueryHandler queryHandler, IBookingsApiClient bookingsApiClient,
-            IUserApiClient userApiClient, IVideoApiClient videoApiClient)
+            IUserApiClient userApiClient, IVideoApiClient videoApiClient, ILogger<HealthController> logger)
         {
             _queryHandler = queryHandler;
             _bookingsApiClient = bookingsApiClient;
             _userApiClient = userApiClient;
             _videoApiClient = videoApiClient;
+            _logger = logger;
         }
 
         /// <summary>
@@ -91,8 +94,9 @@ namespace TestApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogCritical(ex, "Error when performing health check in video api: \r\n" + ex.Message);
                 response.VideoApiHealth.Successful = false;
-                response.VideoApiHealth.ErrorMessage = ex.Message;
+                response.VideoApiHealth.ErrorMessage = ex.Message + Environment.NewLine + ex.InnerException;
                 response.VideoApiHealth.Data = ex.Data;
             }
 
@@ -107,7 +111,8 @@ namespace TestApi.Controllers
             var applicationVersion = new AppVersionResponse()
             {
                 FileVersion = GetExecutingAssemblyAttribute<AssemblyFileVersionAttribute>(a => a.Version),
-                InformationVersion = GetExecutingAssemblyAttribute<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion)
+                InformationVersion =
+                    GetExecutingAssemblyAttribute<AssemblyInformationalVersionAttribute>(a => a.InformationalVersion)
             };
             return applicationVersion;
         }

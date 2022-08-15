@@ -1,0 +1,83 @@
+---
+java:
+  image: 'sdshmctspublic.azurecr.io/vh/test-api:latest'
+  applicationPort: 8080
+  replicas: 2
+  ingressHost: vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net
+  releaseNameOverride: vh-test-api
+  readinessPath: /health/liveness
+  livenessPath: /health/liveness
+  livenessDelay: 360
+  livenessPeriod: 120
+  aadIdentityName: vh-aad-identity
+  keyVaults:
+    vh-infra-core:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - connectionstrings--testapi
+        - applicationinsights--instrumentationkey
+        - azuread--tenantid
+        - name: wowzaconfiguration--storage-account
+          alias: wowzaconfiguration--StorageAccountName
+        - name: wowzaconfiguration--storageaccountkey
+          alias: wowzaconfiguration--StorageAccountKey
+        - name: wowzaconfiguration--storage-account-container
+          alias: wowzaconfiguration--StorageContainerName
+    vh-test-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - azuread--clientsecret
+        - azuread--clientid
+        - name: azuread--identifieruri
+          alias: SERVICES--TESTAPIRESOURCEID
+        - UsernameStem
+        - EjudUsernameStem
+        - UserGroups--CaseAdminGroups
+        - UserGroups--IndividualGroups
+        - UserGroups--InterpreterGroups
+        - UserGroups--JudgeGroups
+        - UserGroups--JudicialOfficeGroups
+        - UserGroups--KinlyGroups
+        - UserGroups--KinlyProdGroups
+        - UserGroups--PerformanceTestAccountGroups
+        - UserGroups--RepresentativeGroups
+        - UserGroups--TestAccountGroups
+        - UserGroups--TestWebGroups
+        - UserGroups--VideoHearingsOfficerGroups
+        - UserGroups--WitnessGroups
+    vh-bookings-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: Services--BookingsApiResourceId
+    vh-video-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: Services--VideoApiResourceId
+    vh-user-api:
+      excludeEnvironmentSuffix: false
+      resourceGroup: vh-infra-core-{{ .Values.global.environment }}
+      usePodIdentity: true
+      secrets:
+        - name: azuread--identifieruri
+          alias: Services--UserApiResourceId
+  environment:
+    ASPNETCORE_URLS: http://+:8080
+    DISABLEHTTPSREDIRECTION: true
+    SERVICES__TESTAPIURL: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    SERVICES__BOOKINGSAPIURL: https://vh-bookings-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    SERVICES__USERAPIURL: https://vh-user-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    SERVICES__VIDEOAPIURL: https://vh-video-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    AzureAd__ValidAudience: https://vh-test-api.{{ .Values.global.environment }}.platform.hmcts.net/
+    Logging__LogLevel__Default: debug
+    Logging__LogLevel__System: debug
+    Logging__LogLevel__Microsoft: debug

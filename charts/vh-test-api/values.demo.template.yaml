@@ -1,0 +1,9 @@
+---
+java:
+  image: '${IMAGE_NAME}'
+  ingressHost: ${SERVICE_FQDN}
+  releaseNameOverride: ${RELEASE_NAME}
+  ingressClass: traefik-private
+  disableTraefikTls: false
+  environment:
+    SERVICES__TESTAPIRESOURCEID: http://vh-test-api.demo.platform.hmcts.net 
