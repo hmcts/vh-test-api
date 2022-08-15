@@ -5,5 +5,3 @@ java:
   releaseNameOverride: ${RELEASE_NAME}
   ingressClass: traefik-private
   disableTraefikTls: false
-  environment:
-    SERVICES__TESTAPIRESOURCEID: http://vh-test-api.demo.platform.hmcts.net 
