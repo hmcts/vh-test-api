@@ -82,9 +82,9 @@ stages:
   - ${{ each env in parameters.environment }}:
     - stage: Run_Entity_Framework_${{ env }}
       ${{ if eq(env, 'Prod') }}:
-        condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'))
+        condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/release'), eq(lower(dependencies.pre_run_tasks.outputs['Generate_Entity_Framework_Script.git.hasChanged']), 'true'))
       ${{ else }}:
-        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'), eq(lower(dependencies.pre_run_tasks.outputs['Generate_Entity_Framework_Script.git.hasChanged']), 'true'))
       ${{ if contains(variables['Build.SourceBranch'], 'refs/heads/release') }}:
         dependsOn: Approve_Entity_Framework
       ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
