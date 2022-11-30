@@ -149,6 +149,7 @@ stages:
             contextName: ${{ variables.efContextName }}
             workingPath: $(System.DefaultWorkingDirectory)/TestApi/TestApi
             projectName: ${{ variables.efProjectName }}
+            migrationsPath: ${{ variables.appName }}/${{ variables.appName }}.DAL/Migrations
 
       - job: package_nuget
         displayName: "Package NuGet Packages"
