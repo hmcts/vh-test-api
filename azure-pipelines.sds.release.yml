@@ -1,7 +1,6 @@
-name: $(Date:yyyyMMddhhmm)-$(Rev:r)
+name: $(Date:yyyyMMddHHmm)-$(Rev:r)
 
-trigger:
-  - 'master'
+trigger: none
 
 pr: none
 
@@ -46,6 +45,7 @@ stages:
             contextName: ${{ variables.efContextName }}
             workingPath: $(System.DefaultWorkingDirectory)/TestApi/TestApi 
             projectName: ${{ variables.efProjectName }}
+            migrationsPath: ${{ variables.appName }}/${{ variables.appName }}.DAL/Migrations
 
       - job: package_nuget
         displayName: "Package Nuget Packages"
