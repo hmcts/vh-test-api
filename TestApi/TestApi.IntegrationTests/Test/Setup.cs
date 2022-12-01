@@ -1,5 +1,4 @@
 ﻿using AcceptanceTests.Common.Api;
-using AcceptanceTests.Common.Configuration;
 using FluentAssertions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +10,7 @@ using TestApi.Common.Configuration;
 using TestApi.Common.Security;
 using TestApi.DAL;
 using TestApi.Tests.Common.Configuration;
+using ConfigurationManager = AcceptanceTests.Common.Configuration.ConfigurationManager;
 
 namespace TestApi.IntegrationTests.Test
 {

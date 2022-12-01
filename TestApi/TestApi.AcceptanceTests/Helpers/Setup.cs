@@ -1,10 +1,10 @@
-﻿using AcceptanceTests.Common.Configuration;
-using AcceptanceTests.Common.Exceptions;
+﻿using AcceptanceTests.Common.Exceptions;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using TestApi.Common.Configuration;
 using TestApi.Common.Security;
+using ConfigurationManager = AcceptanceTests.Common.Configuration.ConfigurationManager;
 
 namespace TestApi.AcceptanceTests.Helpers
 {

@@ -42,7 +42,7 @@ namespace TestApi.IntegrationTests.Database.Commands
 
             var user = await Context.Data.GetUserById(userId);
 
-            user.Application.Should().Be(request.Application);
+            user.Application.Should().Be((Domain.Enums.Application) request.Application);
             user.ContactEmail.Should().Be(request.ContactEmail);
             user.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
             user.DisplayName.Should().Be(request.DisplayName);
@@ -50,7 +50,7 @@ namespace TestApi.IntegrationTests.Database.Commands
             user.LastName.Should().Be(request.LastName);
             user.Number.Should().Be(NUMBER);
             user.Username.Should().Be(request.Username);
-            user.UserType.Should().Be(request.UserType);
+            user.UserType.Should().Be((Domain.Enums.UserType) request.UserType);
         }
 
         [Test]
