@@ -12,7 +12,6 @@ resources:
       ref: master
       endpoint: hmcts
 
-
 pool: 
   vmImage: ubuntu-22.04
 
