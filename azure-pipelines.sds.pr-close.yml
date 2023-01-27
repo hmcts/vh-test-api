@@ -23,11 +23,11 @@ parameters:
     type: string
 
 stages:
-  - stage: uninstall_dev
-    displayName: Uninstall Dev Helm and DNS
+  - stage: uninstall_demo
+    displayName: Uninstall Demo Helm and DNS
     dependsOn: []
     variables:
-      - template: variables/dev.yaml
+      - template: variables/demo.yaml
       - template: variables/shared.yaml
         parameters:
           env: ${{ variables.env }}

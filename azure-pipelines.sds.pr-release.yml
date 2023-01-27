@@ -95,7 +95,7 @@ stages:
     displayName: Build Test API
     variables: 
       - group: aks-cluster-info
-      - template: variables/dev.yaml
+      - template: variables/demo.yaml
       - template: variables/shared.yaml
         parameters:
           env: ${{ variables.env }}
@@ -173,18 +173,18 @@ stages:
               nugetProjectPath: $(projectPath)
           
 #####################################################
-# Run Entity Framework Dev. #########################
-  - stage: Run_Entity_Framework_Dev
+# Run Entity Framework Demo. #########################
+  - stage: Run_Entity_Framework_Demo
     dependsOn: Dock
     condition: eq(lower(dependencies.Dock.outputs['Generate_Entity_Framework_Script.git.hasChanged']), 'true')
     displayName: Run Entity Framework Dev
     variables:
-      - template: variables/dev.yaml
+      - template: variables/demo.yaml
       - template: variables/shared.yaml
         parameters:
           env: ${{ variables.env }}
     jobs:
-      - job: Run_Entity_Framework_Dev
+      - job: Run_Entity_Framework_Demo
         pool:
           vmImage: 'windows-latest' # This Job Must be Run on Windows
         displayName: Run Entity Framework Dev
@@ -205,13 +205,13 @@ stages:
               kvSqlUsernameSecret: ${{ variables.vhSqlUsernameSecret }}
 
 #####################################################
-# Deploy Helm Chart to Dev. ######################### 
+# Deploy Helm Chart to Demo. ######################### 
   - stage: Install
-    dependsOn: Run_Entity_Framework_Dev
-    condition: in(dependencies.Run_Entity_Framework_Dev.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
+    dependsOn: Run_Entity_Framework_Demo
+    condition: in(dependencies.Run_Entity_Framework_Demo.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
     displayName: Deploy Helm Chart Dev AKS
     variables:
-      - template: variables/dev.yaml
+      - template: variables/demo.yaml
       - template: variables/shared.yaml
         parameters:
           env: ${{ variables.env }}
@@ -307,7 +307,7 @@ stages:
     condition: in(dependencies.Install.result, 'Succeeded', 'SucceededWithIssues', 'Skipped')
     displayName: Deploy NuGet Packages
     variables:
-      - template: variables/dev.yaml
+      - template: variables/demo.yaml
       - template: variables/shared.yaml
         parameters:
           env: ${{ variables.env }}
