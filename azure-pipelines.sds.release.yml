@@ -72,7 +72,7 @@ stages:
               onTimeout: 'reject'
 
 #####################################################
-# Run Entity Framework Staging. #####################
+# Run Entity Framework. #####################
 
   - ${{ each env in parameters.environment }}:
     - stage: Run_Entity_Framework_${{ env }}
