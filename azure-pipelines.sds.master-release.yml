@@ -17,8 +17,7 @@ parameters:
 - name: environment
   type: object
   default:
-  - Dev
-  - Staging
+  - Demo
 
 pool: 
   vmImage: ubuntu-22.04
@@ -107,12 +106,11 @@ stages:
 - stage: Docker_Build_Push
   displayName: Docker Build & Push Image
   dependsOn:
-    - Run_Entity_Framework_Dev
-    - Run_Entity_Framework_Staging
+    - Run_Entity_Framework_Demo
     - Pre_Run_Tasks
   condition: and(not(failed()), not(canceled()))
   variables:
-    - template: variables/staging.yaml
+    - template: variables/demo.yaml
     - template: variables/shared.yaml
   jobs:
   - job: Docker_Build
@@ -145,8 +143,7 @@ stages:
 - stage: Push_Nuget
   displayName: Deploy Nuget Packages
   dependsOn:
-    - Run_Entity_Framework_Dev
-    - Run_Entity_Framework_Staging
+    - Run_Entity_Framework_Demo
     - Pre_Run_Tasks
   condition: and(not(failed()), not(canceled()))
   variables:
@@ -168,7 +165,7 @@ stages:
   dependsOn: Docker_Build_Push
   condition: succeeded('Docker_Build_Push')
   variables:
-  - template: variables/staging.yaml
+  - template: variables/demo.yaml
   - template: variables/shared.yaml
   - group: vh-github-app-credentials
   jobs:
