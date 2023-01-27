@@ -19,7 +19,7 @@ parameters:
 - name: environment
   type: object
   default:
-  - De
+  - Demo
   - Prod
 
 #####################################################
