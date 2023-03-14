@@ -2287,7 +2287,7 @@
           "TestApi.Common": "[1.0.0, )",
           "TestApi.Contract": "[1.0.0, )",
           "TestApi.Domain": "[1.0.0, )",
-          "UserApi.Client": "[1.30.4, )",
+          "UserApi.Client": "[1.43.7, )",
           "VideoApi.Client": "[1.43.7, )"
         }
       }
