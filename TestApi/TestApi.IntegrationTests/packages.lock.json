@@ -13,9 +13,9 @@
       },
       "coverlet.msbuild": {
         "type": "Direct",
-        "requested": "[3.0.1, )",
-        "resolved": "3.0.1",
-        "contentHash": "qSS2jZAFd3cPCbH4HESrvekg/zjmU+y5mfqwCfSFdnjL38/6rI1ov6QHGVsSKSlQCcEdqdjBZvO4IL9cEnBh8Q=="
+        "requested": "[3.2.0, )",
+        "resolved": "3.2.0",
+        "contentHash": "lu/eJJpqJb4qy3BGPtDD/LI5RSOwXYYyRErTyaG0OTP69llzVK3FEe74hBQx0JtLUTLEVBfERV4uGYcE1Br2sg=="
       },
       "FluentAssertions": {
         "type": "Direct",
