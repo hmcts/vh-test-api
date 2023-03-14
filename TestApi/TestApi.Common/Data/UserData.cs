@@ -14,7 +14,7 @@
         public const bool IS_PROD_USER = true;
         public const string MIDDLE_NAME = "";
         public const string ORGANISATION = "MoJ";
-        public const string TELEPHONE_NUMBER = "+44(0)71234567891";
+        public const string TELEPHONE_NUMBER = "+44(0)7123456789";
         public const string TITLE = "Mrs";
     }
 }
