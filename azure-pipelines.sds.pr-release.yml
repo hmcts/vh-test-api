@@ -152,7 +152,7 @@ stages:
 
         - template: templates/Database/EntityFramework/generate-script.yaml@azTemplates
           parameters:
-            dotnetVersion: "3.1"
+            dotnetVersion: "3.1.32"
             outputPath: $(Build.StagingDirectory)
             contextName: ${{ variables.efContextName }}
             workingPath: $(System.DefaultWorkingDirectory)/TestApi/TestApi
