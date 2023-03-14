@@ -2693,11 +2693,10 @@
       },
       "VideoApi.Client": {
         "type": "Transitive",
-        "resolved": "1.35.3",
-        "contentHash": "CenFFPsHySmV0WosJnLrc5H7mfFfm5BssC/KsIlor4qie8JNdG8cjL1EDmSvppiX5feHcjQE2sK+gYH3yhXSRA==",
+        "resolved": "1.43.7",
+        "contentHash": "lhH8mgY9xVpca/xBKVjEjL2QeWR6CrTH1XlHpCrp7KRgaKU94nXqQB0Bq+7GR1DQpFgxM7I5q5mzUKgp5wiAkw==",
         "dependencies": {
-          "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
-          "Newtonsoft.Json": "12.0.3"
+          "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
         }
       },
       "YamlDotNet": {
@@ -2713,13 +2712,13 @@
       "testapi.common": {
         "type": "Project",
         "dependencies": {
-          "FluentAssertions": "5.10.3",
-          "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
-          "Microsoft.Extensions.Caching.Memory": "5.0.0",
-          "Microsoft.IdentityModel.Clients.ActiveDirectory": "5.2.8",
-          "TestApi.Contract": "1.0.0",
-          "TestApi.Domain": "1.0.0",
-          "VH.AcceptanceTests.Common": "1.21.69"
+          "FluentAssertions": "[5.10.3, )",
+          "Microsoft.Extensions.Caching.Abstractions": "[5.0.0, )",
+          "Microsoft.Extensions.Caching.Memory": "[5.0.0, )",
+          "Microsoft.IdentityModel.Clients.ActiveDirectory": "[5.2.8, )",
+          "TestApi.Contract": "[1.0.0, )",
+          "TestApi.Domain": "[1.0.0, )",
+          "VH.AcceptanceTests.Common": "[1.21.69, )"
         }
       },
       "testapi.contract": {
@@ -2728,14 +2727,14 @@
       "testapi.dal": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "5.0.17",
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.17",
-          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
-          "TestApi.Common": "1.0.0",
-          "TestApi.Contract": "1.0.0",
-          "TestApi.Domain": "1.0.0",
-          "TestApi.Services": "1.0.0",
-          "UserApi.Client": "1.30.4"
+          "Microsoft.EntityFrameworkCore": "[5.0.17, )",
+          "Microsoft.EntityFrameworkCore.SqlServer": "[5.0.17, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[5.0.0, )",
+          "TestApi.Common": "[1.0.0, )",
+          "TestApi.Contract": "[1.0.0, )",
+          "TestApi.Domain": "[1.0.0, )",
+          "TestApi.Services": "[1.0.0, )",
+          "UserApi.Client": "[1.30.4, )"
         }
       },
       "testapi.domain": {
@@ -2744,15 +2743,15 @@
       "testapi.services": {
         "type": "Project",
         "dependencies": {
-          "BookingsApi.Client": "1.36.10",
-          "Faker.NETCore": "1.0.2",
-          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
-          "NUnit": "3.13.2",
-          "TestApi.Common": "1.0.0",
-          "TestApi.Contract": "1.0.0",
-          "TestApi.Domain": "1.0.0",
-          "UserApi.Client": "1.30.4",
-          "VideoApi.Client": "1.35.3"
+          "BookingsApi.Client": "[1.36.10, )",
+          "Faker.NETCore": "[1.0.2, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[5.0.0, )",
+          "NUnit": "[3.13.2, )",
+          "TestApi.Common": "[1.0.0, )",
+          "TestApi.Contract": "[1.0.0, )",
+          "TestApi.Domain": "[1.0.0, )",
+          "UserApi.Client": "[1.30.4, )",
+          "VideoApi.Client": "[1.43.7, )"
         }
       }
     }
