@@ -143,15 +143,16 @@ stages:
         displayName: "Generate Entity Framework Script"
         steps:
 
-        - script: |
-            wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-            sudo chmod +x ./dotnet-install.sh
-            ./dotnet-install.sh --version 3.1.32 --runtime aspnetcore
-            export DOTNET_ROOT=$HOME/.dotnet
-            export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
+        # - script: |
+        #     wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+        #     sudo chmod +x ./dotnet-install.sh
+        #     ./dotnet-install.sh --version 3.1.32 --runtime aspnetcore
+        #     export DOTNET_ROOT=$HOME/.dotnet
+        #     export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
 
         - template: templates/Database/EntityFramework/generate-script.yaml@azTemplates
           parameters:
+            dotnetVersion: "3.1"
             outputPath: $(Build.StagingDirectory)
             contextName: ${{ variables.efContextName }}
             workingPath: $(System.DefaultWorkingDirectory)/TestApi/TestApi
