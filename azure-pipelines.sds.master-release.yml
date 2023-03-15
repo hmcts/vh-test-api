@@ -37,7 +37,7 @@ stages:
     steps:
     - template: templates/Database/EntityFramework/generate-script.yaml@azTemplates
       parameters:
-        donetVersion: 3.x.x
+        dotnetVersion: 3.x.x
         outputPath: $(Build.StagingDirectory)
         contextName: ${{ variables.efContextName }}
         workingPath: $(System.DefaultWorkingDirectory)/${{ variables.appName }}/${{ variables.appName }}
