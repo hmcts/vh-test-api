@@ -21,7 +21,7 @@ parameters:
   - Staging
 
 pool: 
-  vmImage: ubuntu-22.04
+  vmImage: ubuntu-20.04
 
 #####################################################
 # Pre Run Tasks. ####################################
@@ -35,6 +35,14 @@ stages:
   - job: Generate_Entity_Framework_Script
     displayName: "Generate Entity Framework Script"
     steps:
+
+    - script: |
+        wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+        sudo dpkg -i packages-microsoft-prod.deb
+        rm packages-microsoft-prod.deb
+        sudo apt update
+        sudo apt install -y dotnet-sdk-3.1
+
     - template: templates/Database/EntityFramework/generate-script.yaml@azTemplates
       parameters:
         outputPath: $(Build.StagingDirectory)
